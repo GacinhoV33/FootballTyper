@@ -14,4 +14,4 @@ const YourBets = () => {
   )
 }
 
-export default YourBets
+export default YourBets;

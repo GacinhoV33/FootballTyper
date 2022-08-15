@@ -1,4 +1,5 @@
 {
+  "proxy": "https://localhost:44302",
   "name": "football-typer",
   "version": "0.1.0",
   "private": true,
@@ -10,8 +11,11 @@
     "@types/node": "^16.11.45",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "axios": "^0.27.2",
+    "jquery": "^3.6.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.0",
+    "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
@@ -44,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.14",
     "@types/react-beautiful-dnd": "^13.1.2"
   }
 }

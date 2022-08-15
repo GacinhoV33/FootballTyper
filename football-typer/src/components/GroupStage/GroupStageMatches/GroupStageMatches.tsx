@@ -1,7 +1,13 @@
 import React from 'react'
 import './GroupStageMatches.scss';
 
-const GroupStageMatches = () => {
+import { GroupMatch } from '../GroupStage';
+
+interface GroupStageMatchesProps {
+  groupMatches: GroupMatch[] | null,
+}
+
+const GroupStageMatches = ({groupMatches} : GroupStageMatchesProps) => {
   return (
     <div className='dev-class-stage-matches'>
       GroupStageMatches
