@@ -7,6 +7,7 @@ import CountryFlags from '../CountryFlags/CountryFlags';
 import Layout from '../Layout/Layout';
 
 const Homepage = () => {
+  
   return (
     <div className='dev-class'>
         <Logo/>

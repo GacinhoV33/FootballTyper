@@ -20,39 +20,42 @@ import Schedule from './components/Schedule/Schedule';
 
 export const AppCtx = createContext<any>(null);
 
+export type AllMatches =  {
+
+}[]
 
 let dataContext = {
     AllMatches: null,
+    AllGroupMatches: null,
     GroupMatches: null,
-
+    
 };
 
-const getTeamsData = (setTeamsData: React.Dispatch<React.SetStateAction<Team[] | null>>) => {
+function getDataToContext(){
   // This function fetching data about teams, and create context for whole App
-  let data = [null];
-  fetch('/api/Teams/GetAll')
+  fetch('/api/Matches')
   .then(result => result.json())
   .then((output) => {
-      setTeamsData(output);
-      console.log('Output: ', output)
+    dataContext.AllMatches = output;
+    console.log('Output: ', output)
     }).catch(err => console.error(err))
 }
 
-const getContextData = () => {
-  fetch('/api/Teams/GetAll')
-  .then(result => result.json())
-  .then((output) => {
-      dataContext.AllMatches = output;
-    }).catch(err => console.error(err))
+// const getContextData = () => {
+//   fetch('/api/Teams/GetAll')
+//   .then(result => result.json())
+//   .then((output) => {
+//       dataContext.AllMatches = output;
+//     }).catch(err => console.error(err))
 
 
-  // This fetch get all matches in group stage
-  fetch('/api/Match/GetGroupMatches')
-  .then(result => result.json())
-  .then((output) => {
-      dataContext.GroupMatches = output;
-    }).catch(err => console.error(err))
-}
+//   // This fetch get all matches in group stage
+//   fetch('/api/Match/GetGroupMatches')
+//   .then(result => result.json())
+//   .then((output) => {
+//       dataContext.GroupMatches = output;
+//     }).catch(err => console.error(err))
+// }
 
 
 
@@ -60,8 +63,8 @@ function App() {
   const [teamsData, setTeamsData] = useState<Team[] | null>(null);
 
   useEffect(() => {
-    getTeamsData(setTeamsData)
-    getContextData()
+    getDataToContext();
+    // getContextData()
     console.log('It work')
   }
     , [])

@@ -10,6 +10,7 @@ export interface GroupTableItem {
     win: number,
     draw: number,
     loss: number,
+    group: string,
 }
 
 interface GropuTableProps {
@@ -35,15 +36,15 @@ const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
         <tbody>
           {dummyData.map(({countryName, points, win, draw, loss}, index) => (
             <tr key={index}>
-              <td>{index + 1}.</td>
+              <td><h5>{index + 1}.</h5></td>
               <td>
                   <CountryIcon size="lg" countryName={countryName} />             
                   {countryName}
               </td>
-              <td>{win}</td>
+              <td>{win}{win}</td>
               <td>{loss}</td>
               <td>{draw}</td>
-              <td>{points}</td>
+              <td><h5>{points}</h5></td>
             </tr>
         ))}
         </tbody>
@@ -63,6 +64,7 @@ const dummyData: GroupTableItem[]  = [{
   win: 1, 
   draw: 0, 
   loss: 1, 
+  group: 'A'
 },
 {
   countryName: 'Poland',
@@ -70,6 +72,7 @@ const dummyData: GroupTableItem[]  = [{
   win: 1, 
   draw: 0, 
   loss: 1, 
+  group: 'A'
 },
 {
   countryName: 'Poland',
@@ -77,6 +80,8 @@ const dummyData: GroupTableItem[]  = [{
   win: 1, 
   draw: 0, 
   loss: 1, 
+  group: 'A'
+
 },
 {
   countryName: 'Poland',
@@ -84,5 +89,7 @@ const dummyData: GroupTableItem[]  = [{
   win: 1, 
   draw: 0, 
   loss: 1, 
+  group: 'A'
+
 }
 ]

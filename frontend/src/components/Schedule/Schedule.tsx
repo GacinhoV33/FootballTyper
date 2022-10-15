@@ -3,6 +3,7 @@ import { AppCtx } from '../../App';
 
 import './Schedule.scss';
 import { Team } from '../../App';
+import Table from 'react-bootstrap/Table';
 
 // to fix -> some id are numbers some id's are strings
 
@@ -31,16 +32,14 @@ interface ScheduleItem {
 
 const Schedule = () => {
   const data = useContext(AppCtx);
-  const [scheduleData, setScheduleData] = useState<ScheduleItem[] | null>(data.GroupMatches);
+  const [scheduleData, setScheduleData] = useState<ScheduleItem[] | null>(data.AllMatches);
 
-  // useEffect(() => fetchSchedule(setScheduleData)
-  // ,[])
   console.log("Thats's Schedule Data", scheduleData);
   console.log("Thats context: ", data);
   return (
     <div className='body'>
       {scheduleData ? 
-      <table className='table-schedule'>
+      <Table className='table-schedule' striped>
         <thead>
           <th className='home-team'>Home Team</th>
           <th>Score</th>
@@ -65,7 +64,7 @@ const Schedule = () => {
           </tr>
         ))}
         </tbody>
-      </table>
+      </Table>
       : <h2> Data not loaded!!!</h2> }
       {/* If data not found - fetch data from component */}
     </div>

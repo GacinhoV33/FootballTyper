@@ -21,6 +21,7 @@
     "react-country-flag": "^3.0.2",
     "react-currency-flags": "^0.1.2",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.6.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "sass": "^1.54.3",

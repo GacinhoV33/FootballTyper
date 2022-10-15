@@ -15,9 +15,24 @@ import { groupTableData } from '../../helpers/structures';
 // Fetch: In this component we should use data from context that contains info about groups 
 
 export interface GroupMatch {
-
+  homeTeam: string,
+  awayTeam: string, 
+  homeTeamScore: number, 
+  awayTeamScore: number, 
+  date: string,
+  hour: string, 
+  stadium: string, 
+  referee: string, 
+  group: string,
 }
 
+export interface GroupTeamRank {
+  name: string,
+  win: number,
+  loss: number, 
+  draw: number, 
+  group: string,
+}
 
 const GroupStage = () => {
 
@@ -35,7 +50,6 @@ const GroupStage = () => {
     .then(output => {
       setCurrentGroupData(output.groupMatches);
     })
-
   }
 
   console.log("CurrentGroupMatches", currentGroupMatches);

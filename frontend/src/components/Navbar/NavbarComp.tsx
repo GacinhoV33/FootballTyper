@@ -20,6 +20,7 @@ const NavbarComp = () => {
   
   return (
     <Navbar bg='light' expand='lg'>
+        <div style={{paddingLeft: '1.5rem', display: 'flex', flexDirection: 'row'}}>
         <Navbar.Brand href="/">Cool Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Nav className="me-auto">
@@ -31,7 +32,8 @@ const NavbarComp = () => {
             <Nav.Link href="/statistics">Statistics</Nav.Link>
             <Nav.Link href="/rules">Rules</Nav.Link>
             <Nav.Link href="/login">Login</Nav.Link>
-          </Nav>
+        </Nav>
+        </div>
     </Navbar>
   )
 }

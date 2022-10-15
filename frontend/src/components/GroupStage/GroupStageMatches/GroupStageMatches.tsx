@@ -14,6 +14,8 @@ const dummyData = [{
     secondScore: 2,
     userID: 'hwsdys', // type? 
     date: '18-11-2022', // type DATE create! TODO 
+    hour: '18:00',
+
 },
 {
   firstName: 'Poland',
@@ -22,6 +24,8 @@ const dummyData = [{
   secondScore: 2,
   userID: 'hwsdys', // type? 
   date: '18-11-2022', // type DATE create! TODO 
+  hour: '18:00',
+
 },
 {
   firstName: 'Poland',
@@ -30,6 +34,8 @@ const dummyData = [{
   secondScore: 2,
   userID: 'hwsdys', // type? 
   date: '18-11-2022', // type DATE create! TODO 
+  hour: '18:00',
+
 },
 {
   firstName: 'Poland',
@@ -38,11 +44,13 @@ const dummyData = [{
   secondScore: 2,
   userID: 'hwsdys', // type? 
   date: '18-11-2022', // type DATE create! TODO 
+  hour: '18:00',
 }]
 
 const GroupStageMatches = ({groupMatches} : GroupStageMatchesProps) => {
   return (
-    <div className='dev-class-stage-matches'>
+    // <div className='dev-class-stage-matches'>
+    <div style={{width: '45%'}}>
       {dummyData.map((item, index) => (
         <Matchrow {...item}/>
       ))}
