@@ -29,7 +29,7 @@ const GroupStage = () => {
     /* This function changes current letter, and reloads data for specific group. In future it could be write more accurate*/
     // const data = findGroupByLetter(letter);
     setCurrentGroup(letter);
-
+    //  To out 
     fetch(`/api/Match/GetGroupData?group=${letter}`)
     .then(response => response.json())
     .then(output => {
@@ -40,7 +40,7 @@ const GroupStage = () => {
 
   console.log("CurrentGroupMatches", currentGroupMatches);
   return (
-    <div className='dev-class-group-stage'>
+    <div className='group-stage'>
       <GroupSwitch 
         groupLetters={groupLetters}
         currentGroup={currentGroup}

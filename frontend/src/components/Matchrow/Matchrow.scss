@@ -1,0 +1,32 @@
+.modal-title{
+    text-align: center;
+}
+
+.modal-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.input-score{
+    width: 4rem;
+    border-radius: 3px;
+    margin: 0.55rem;
+    text-align: center;
+}
+
+.correct-submit-alert{
+    position: absolute;
+    bottom: 0px;
+    width: 50%;
+    right: 25%;
+}
+
+.no-spin::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+.no-spin {
+    -moz-appearance:textfield !important;
+}

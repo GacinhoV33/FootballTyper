@@ -1,6 +1,5 @@
-.dev-class-group-stage{
-    border-right: 1px solid #101010;
-    background-color: #AA3322 !important;
-    text-align: center;
-    padding: 0 10px;
+.group-stage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

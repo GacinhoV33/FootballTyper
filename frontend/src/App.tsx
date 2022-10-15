@@ -62,6 +62,7 @@ function App() {
   useEffect(() => {
     getTeamsData(setTeamsData)
     getContextData()
+    console.log('It work')
   }
     , [])
 

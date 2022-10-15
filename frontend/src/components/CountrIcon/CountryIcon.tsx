@@ -35,15 +35,15 @@ const CountryIcon = ({size = 'lg', countryName = 'PL'} : CountryIconProps) => {
 }
 
 export let CountryDict = new Map<string , string>();
-CountryDict.set('Poland', 'PL')
-CountryDict.set('USA', 'US')
-CountryDict.set('Ecuador', 'EC')
-CountryDict.set('Netherland', 'NL')
-CountryDict.set('Qatar', 'QA')
-CountryDict.set('Senegal', 'SN')
-CountryDict.set('Greece', 'GR')
-CountryDict.set('Denmark', 'DK')
-CountryDict.set('Greece', 'GR')
+CountryDict.set('Poland', 'pl')
+CountryDict.set('USA', 'us')
+CountryDict.set('Ecuador', 'ec')
+CountryDict.set('Netherland', 'nl')
+CountryDict.set('Qatar', 'qa')
+CountryDict.set('Senegal', 'sn')
+CountryDict.set('Greece', 'gr')
+CountryDict.set('Denmark', 'dk')
+CountryDict.set('Greece', 'gr')
 
 
 

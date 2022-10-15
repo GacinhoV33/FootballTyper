@@ -1,11 +1,10 @@
-.group-table{
-    position: relative;
-    justify-content: center;
-    margin: 0 auto;
-    width: 66%;
-    // use flex there to create good spacing
-}
 
+.body-table{
+    display: flex;
+    align-items: center;
+    width: 50%;
+
+}
 .placeBroader{
     width: 50px;
     height: 50px;

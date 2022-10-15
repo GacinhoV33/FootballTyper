@@ -2,8 +2,8 @@ import React from 'react';
 import './GroupTable.scss';
 import CountryIcon  from "../../CountrIcon/CountryIcon";
 import { CountryDict } from '../../../helpers/structures';
-
-
+import Table from 'react-bootstrap/Table';
+import 'bootstrap/dist/css/bootstrap.min.css';
 export interface GroupTableItem {
     countryName: string,
     points: number,
@@ -17,11 +17,14 @@ interface GropuTableProps {
   groupTableName: string,
 }
 
+
+
 const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
   return (
-    <div className='body'>
-      <table className='group-table'>
-        <thead>
+
+    <div className='body-table'>
+      <Table striped>
+        <thead >
               <th></th>
               <th>Country</th>
               <th>Win</th>
@@ -30,27 +33,22 @@ const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
               <th>Points</th>
           </thead>
         <tbody>
-          {groupTableData? groupTableData.map(({countryName, points, win, draw, loss}, index) => (
+          {dummyData.map(({countryName, points, win, draw, loss}, index) => (
             <tr key={index}>
               <td>{index + 1}.</td>
-              <td className='icon-name-container'>
-                <div style={{flexGrow: 1}}>
-                  <CountryIcon size="lg" countryName={countryName} />
-                </div>
-                <div style={{flexGrow: 2}}>
+              <td>
+                  <CountryIcon size="lg" countryName={countryName} />             
                   {countryName}
-                </div>
               </td>
               <td>{win}</td>
               <td>{loss}</td>
               <td>{draw}</td>
               <td>{points}</td>
             </tr>
-        ))
-        : <h2>Data not loaded</h2>}
+        ))}
         </tbody>
         
-      </table>
+      </Table>
     </div>
   )
 }
@@ -59,3 +57,32 @@ export default GroupTable;
 
 // TODO : fix Icon 
 // better styling
+const dummyData: GroupTableItem[]  = [{
+  countryName: 'Poland',
+  points: 3,
+  win: 1, 
+  draw: 0, 
+  loss: 1, 
+},
+{
+  countryName: 'Poland',
+  points: 3,
+  win: 1, 
+  draw: 0, 
+  loss: 1, 
+},
+{
+  countryName: 'Poland',
+  points: 3,
+  win: 1, 
+  draw: 0, 
+  loss: 1, 
+},
+{
+  countryName: 'Poland',
+  points: 3,
+  win: 1, 
+  draw: 0, 
+  loss: 1, 
+}
+]
