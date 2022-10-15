@@ -9,7 +9,7 @@ interface CountryIconProps {
     countryName: string,
 }
 
-const CountryIcon = ({size = 'lg', countryName = 'US'} : CountryIconProps) => {
+const CountryIcon = ({size = 'lg', countryName = 'PL'} : CountryIconProps) => {
   return (
     <div>
         <ReactCountryFlag

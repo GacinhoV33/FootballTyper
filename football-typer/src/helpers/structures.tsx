@@ -79,3 +79,23 @@ export const groupTableData = {
   }
   ]
 }
+
+export const dummyRanking = {
+  data: [
+    {
+      userName: "TestUser",
+      points: 50, 
+      // TODO 
+    },
+    {
+      userName: "TestUser2",
+      points: 40, 
+      // TODO 
+    },
+    {
+      userName: "testUser3",
+      points: 30, 
+      // TODO 
+    }
+  ]
+}

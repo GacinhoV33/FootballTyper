@@ -2,9 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import { AppCtx } from '../../App';
 
 import './Schedule.scss';
-import SERVER_URL from '../../api/Api';
 import { Team } from '../../App';
-
 
 // to fix -> some id are numbers some id's are strings
 
@@ -24,26 +22,26 @@ interface ScheduleItem {
   town: string | null,
 }
 
-const fetchSchedule = (setScheduleData: React.Dispatch<React.SetStateAction<ScheduleItem[] | null>>) => {
-  fetch(`/api/Match/GetGroupMatches`)
-  .then(response => response.json()
-  .then(output => setScheduleData(output)))
-  .catch(err => console.log(err))
-}
+// const fetchSchedule = (setScheduleData: React.Dispatch<React.SetStateAction<ScheduleItem[] | null>>) => {
+//   fetch(`/api/Match/GetGroupMatches`)
+//   .then(response => response.json()
+//   .then(output => setScheduleData(output)))
+//   .catch(err => console.log(err))
+// }
 
 const Schedule = () => {
-  const [scheduleData, setScheduleData] = useState<ScheduleItem[] | null>(null);
-
-  useEffect(() => fetchSchedule(setScheduleData)
-  ,[])
-  console.log("Thats's Schedule Data", scheduleData);
   const data = useContext(AppCtx);
+  const [scheduleData, setScheduleData] = useState<ScheduleItem[] | null>(data.GroupMatches);
+
+  // useEffect(() => fetchSchedule(setScheduleData)
+  // ,[])
+  console.log("Thats's Schedule Data", scheduleData);
   console.log("Thats context: ", data);
   return (
     <div className='body'>
       {scheduleData ? 
       <table className='table-schedule'>
-        <tr>
+        <thead>
           <th className='home-team'>Home Team</th>
           <th>Score</th>
           <th className='away-team'>Away Team</th>
@@ -52,7 +50,7 @@ const Schedule = () => {
           <th>Location</th>
           <th>Referee</th>
           <th>Town</th>
-        </tr>
+        </thead>
         <tbody>
         {scheduleData.map(({awayTeam, awayTeamScore, homeTeamScore, homeTeam, date, location, referee, town, group}, index) => (
           <tr key={index}>
@@ -68,7 +66,8 @@ const Schedule = () => {
         ))}
         </tbody>
       </table>
-      : <h2> Data not loaded!!!</h2>}
+      : <h2> Data not loaded!!!</h2> }
+      {/* If data not found - fetch data from component */}
     </div>
   )
 }

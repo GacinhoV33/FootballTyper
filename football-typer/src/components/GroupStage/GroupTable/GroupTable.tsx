@@ -13,23 +13,24 @@ export interface GroupTableItem {
 }
 
 interface GropuTableProps {
-  groupTableData: GroupTableItem[],
+  groupTableData: GroupTableItem[]  | null,
+  groupTableName: string,
 }
 
-const GroupTable = ({groupTableData} : GropuTableProps) => {
+const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
   return (
     <div className='body'>
       <table className='group-table'>
+        <thead>
+              <th></th>
+              <th>Country</th>
+              <th>Win</th>
+              <th>Loss</th>
+              <th>Draw</th>
+              <th>Points</th>
+          </thead>
         <tbody>
-          <tr> 
-            <th></th>
-            <th>Country</th>
-            <th>Win</th>
-            <th>Loss</th>
-            <th>Draw</th>
-            <th>Points</th>
-          </tr>
-          {groupTableData.map(({countryName, points, win, draw, loss}, index) => (
+          {groupTableData? groupTableData.map(({countryName, points, win, draw, loss}, index) => (
             <tr key={index}>
               <td>{index + 1}.</td>
               <td className='icon-name-container'>
@@ -45,7 +46,8 @@ const GroupTable = ({groupTableData} : GropuTableProps) => {
               <td>{draw}</td>
               <td>{points}</td>
             </tr>
-        ))}
+        ))
+        : <h2>Data not loaded</h2>}
         </tbody>
         
       </table>

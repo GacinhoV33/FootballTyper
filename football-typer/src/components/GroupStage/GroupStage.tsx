@@ -20,23 +20,22 @@ export interface GroupMatch {
 
 
 const GroupStage = () => {
-  const findGroupByLetter = (groupName: string) =>{
-    const index = groupTableData.groups.find(group => group.name === groupName);
-    if(index !== undefined){
-      return index.data;
-    }
-    else{
-      return groupTableData.groups[0].data;
-    }
-  }
+
   const [currentGroup, setCurrentGroup] = useState<string>("A");
-  const [currentGroupData, setCurrentGroupData] = useState<GroupTableItem[]>(groupTableData.groups[0].data)
+  const [currentGroupData, setCurrentGroupData] = useState<GroupTableItem[] | null>(null)
   const [currentGroupMatches, setCurrentGroupMatches] = useState<null | GroupMatch[]>(null);
+
   const reloadData = (letter: string) => {
     /* This function changes current letter, and reloads data for specific group. In future it could be write more accurate*/
-    const data = findGroupByLetter(letter);
+    // const data = findGroupByLetter(letter);
     setCurrentGroup(letter);
-    setCurrentGroupData(data);
+
+    fetch(`/api/Match/GetGroupData?group=${letter}`)
+    .then(response => response.json())
+    .then(output => {
+      setCurrentGroupData(output.groupMatches);
+    })
+
   }
 
   console.log("CurrentGroupMatches", currentGroupMatches);
@@ -48,7 +47,9 @@ const GroupStage = () => {
         setCurrentGroup={reloadData}
         />
       <GroupTable 
-        groupTableData={currentGroupData}/>
+        groupTableData={currentGroupData}
+        groupTableName={currentGroup}
+        />
       <GroupStageMatches
         groupMatches={currentGroupMatches}
       />
