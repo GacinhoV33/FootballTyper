@@ -1,8 +1,11 @@
-using Microsoft.AspNetCore.Authentication;
+using FootballTyperAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<FootballTyperAPIContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FootballTyperAPIContext") ?? throw new InvalidOperationException("Connection string 'FootballTyperAPIContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -29,4 +32,29 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+SetupDatabase(app);
+
 app.Run();
+
+
+//----------------------------------------------------------------------------------------------//
+//---------------------------------------Local functions---------------------------------------//
+
+void SetupDatabase(WebApplication app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<FootballTyperAPIContext>();
+            //DbInitializer.CleanDb(context);
+            DbInitializer.Initialize(context);
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "An error occurred creating the DB.");
+        }
+    }
+}
