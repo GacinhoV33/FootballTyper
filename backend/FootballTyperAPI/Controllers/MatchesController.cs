@@ -1,6 +1,7 @@
 ﻿using FootballTyperAPI.Data;
 using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
+using FootballTyperAPI.Models.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -106,6 +107,36 @@ namespace FootballTyperAPI.Controllers
         public IEnumerable<MatchJSON> GetMatchesFromFixture()
         {
             return MatchHelper.GetAllMatchesJSON();
+        }
+
+
+        // GET: api/Matches/Group
+        [HttpGet("Group")]
+        public async Task<ActionResult<List<MatchApi>>> GetGroupMatches()
+        {
+            var groupMatches = await _context.GetAllGroupMatches();
+
+            if (groupMatches == null)
+            {
+                return NotFound();
+            }
+
+            return groupMatches.Select(m => MapMatch(m)).ToList();
+        }
+
+        private MatchApi MapMatch(Match match)
+        {
+            return new MatchApi()
+            {
+                HomeTeam = match.HomeTeam?.Name,
+                AwayTeam = match.AwayTeam?.Name,
+                HomeTeamScore = match.HomeTeamScore,
+                AwayTeamScore = match.AwayTeamScore,
+                Group = match.Group?.Replace("Group ", ""),
+                Stadium = match.Location,
+                Date = match.Date,
+                Referee = match.Referee
+            };
         }
     }
 }

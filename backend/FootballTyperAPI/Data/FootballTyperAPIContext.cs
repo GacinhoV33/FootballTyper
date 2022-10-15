@@ -1,5 +1,4 @@
-﻿using FootballTyperAPI.Helpers;
-using FootballTyperAPI.Models;
+﻿using FootballTyperAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FootballTyperAPI.Data
@@ -22,6 +21,21 @@ namespace FootballTyperAPI.Data
             modelBuilder.Entity<Team>().ToTable("Teams");
             //modelBuilder.Entity<Bet>().ToTable("Bets");
 
+        }
+
+        public async Task<List<Match>> GetAllMatches()
+        {
+            return await Matches.Include("HomeTeam").Include("AwayTeam").ToListAsync();
+        }
+
+        public async Task<List<Match>> GetAllGroupMatches()
+        {
+            return (await GetAllMatches()).Where(t => t.RoundNumber <= 3).ToList();
+        }
+
+        public List<Team> GetAllTeams()
+        {
+            return Teams.ToList();
         }
     }
 }
