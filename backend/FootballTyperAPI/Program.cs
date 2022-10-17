@@ -48,7 +48,7 @@ void SetupDatabase(WebApplication app)
         try
         {
             var context = services.GetRequiredService<FootballTyperAPIContext>();
-            //DbInitializer.CleanDb(context);
+            DbInitializer.CleanDb(context);
             DbInitializer.Initialize(context);
         }
         catch (Exception ex)
