@@ -19,7 +19,8 @@ namespace FootballTyperAPI.Helpers
         {
             var jsonString = new WebClient().DownloadString(URL);
             var allMatches = JsonSerializer.Deserialize<List<MatchJSON>>(jsonString).Where(p => p.Location != "TBA");
-            return allMatches.Select(t => t.HomeTeam).Concat(allMatches.Select(d => d.AwayTeam)).Distinct().Select(x => new Team() { Name = x }).ToList();
+            return allMatches.Select(t => t.HomeTeam).Concat(allMatches.Select(d => d.AwayTeam)).Distinct()
+                .Select(x => new Team() { Name = x, Group = allMatches.FirstOrDefault(y => y.HomeTeam == x || y.AwayTeam == x)?.Group.Replace("Group ", "") }).ToList();
         }
 
     }
