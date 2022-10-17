@@ -1,7 +1,6 @@
 import React from 'react';
 import './GroupTable.scss';
 import CountryIcon  from "../../CountrIcon/CountryIcon";
-import { CountryDict } from '../../../helpers/structures';
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 export interface GroupTableItem {
@@ -18,20 +17,20 @@ interface GropuTableProps {
   groupTableName: string,
 }
 
-
-
 const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
   return (
 
     <div className='body-table'>
       <Table striped>
         <thead >
-              <th></th>
+          <tr>
+              <th>.</th>
               <th>Country</th>
               <th>Win</th>
               <th>Loss</th>
               <th>Draw</th>
               <th>Points</th>
+            </tr>
           </thead>
         <tbody>
           {dummyData.map(({countryName, points, win, draw, loss}, index) => (
@@ -41,7 +40,7 @@ const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
                   <CountryIcon size="lg" countryName={countryName} />             
                   {countryName}
               </td>
-              <td>{win}{win}</td>
+              <td>{win}</td>
               <td>{loss}</td>
               <td>{draw}</td>
               <td><h5>{points}</h5></td>

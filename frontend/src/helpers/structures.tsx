@@ -1,15 +1,5 @@
-const groupLetters = ["A", "B", "C", "D", "E", "F", "G", "H"];
+export const groupLetters = ["A", "B", "C", "D", "E", "F", "G", "H"];
 export default groupLetters;
-
-export let CountryDict = new Map<string , string>();
-CountryDict.set('Poland', 'PL')
-CountryDict.set('United States', 'US')
-CountryDict.set('Ecuador', 'EC')
-CountryDict.set('Netherlands', 'NL')
-CountryDict.set('Qatar', 'QA')
-CountryDict.set('Senegal', 'SN')
-
-
 
 export const groupTableData = {
   groups: [

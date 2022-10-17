@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './GroupStage.scss';
 
 // components
@@ -12,6 +12,7 @@ import {GroupTableItem} from './GroupTable/GroupTable';
 // structures
 import groupLetters from '../../helpers/structures';
 import { groupTableData } from '../../helpers/structures';
+import {AppCtx}  from '../../App';
 // Fetch: In this component we should use data from context that contains info about groups 
 
 export interface GroupMatch {
@@ -26,33 +27,32 @@ export interface GroupMatch {
   group: string,
 }
 
-export interface GroupTeamRank {
-  name: string,
-  win: number,
-  loss: number, 
-  draw: number, 
-  group: string,
+export interface GroupStageProps {
+  groupMatches: any,
 }
 
-const GroupStage = () => {
-
+const GroupStage: React.FC<GroupStageProps> = ({groupMatches}) => {
+ 
+  let letterToNumber = new Map<string , string>();
+  for(let i = 0; i<8 ; i++) {
+    letterToNumber.set(groupLetters[i], `${i}`);
+  }
   const [currentGroup, setCurrentGroup] = useState<string>("A");
   const [currentGroupData, setCurrentGroupData] = useState<GroupTableItem[] | null>(null)
-  const [currentGroupMatches, setCurrentGroupMatches] = useState<null | GroupMatch[]>(null);
+  // console.log(Number('0'))
+  const [currentGroupMatches, setCurrentGroupMatches] = useState<GroupMatch[] | null>(null);
+
+  useEffect(() => {
+    setCurrentGroupMatches(groupMatches[Number(letterToNumber.get(currentGroup))])
+  }, [currentGroup])
 
   const reloadData = (letter: string) => {
     /* This function changes current letter, and reloads data for specific group. In future it could be write more accurate*/
     // const data = findGroupByLetter(letter);
     setCurrentGroup(letter);
-    //  To out 
-    fetch(`/api/Match/GetGroupData?group=${letter}`)
-    .then(response => response.json())
-    .then(output => {
-      setCurrentGroupData(output.groupMatches);
-    })
-  }
+    setCurrentGroupMatches(groupMatches)
 
-  console.log("CurrentGroupMatches", currentGroupMatches);
+  }
   return (
     <div className='group-stage'>
       <GroupSwitch 
@@ -71,6 +71,8 @@ const GroupStage = () => {
     </div>
   )
 }
+
+
 
 export default GroupStage
 

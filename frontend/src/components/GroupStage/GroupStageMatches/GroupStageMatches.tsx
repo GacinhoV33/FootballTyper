@@ -1,59 +1,19 @@
 import React from 'react'
 import './GroupStageMatches.scss';
 
-import { GroupMatch } from '../GroupStage';
 import  Matchrow  from '../../Matchrow/Matchrow'
+import { GroupMatch } from '../GroupStage';
 interface GroupStageMatchesProps {
   groupMatches: GroupMatch[] | null,
 }
 
-const dummyData = [{
-    firstName: 'Poland',
-    secondName: 'Spain',
-    firstScore: 1,
-    secondScore: 2,
-    userID: 'hwsdys', // type? 
-    date: '18-11-2022', // type DATE create! TODO 
-    hour: '18:00',
-
-},
-{
-  firstName: 'Poland',
-  secondName: 'Spain',
-  firstScore: 1,
-  secondScore: 2,
-  userID: 'hwsdys', // type? 
-  date: '18-11-2022', // type DATE create! TODO 
-  hour: '18:00',
-
-},
-{
-  firstName: 'Poland',
-  secondName: 'Spain',
-  firstScore: 1,
-  secondScore: 2,
-  userID: 'hwsdys', // type? 
-  date: '18-11-2022', // type DATE create! TODO 
-  hour: '18:00',
-
-},
-{
-  firstName: 'Poland',
-  secondName: 'Spain',
-  firstScore: 1,
-  secondScore: 2,
-  userID: 'hwsdys', // type? 
-  date: '18-11-2022', // type DATE create! TODO 
-  hour: '18:00',
-}]
-
 const GroupStageMatches = ({groupMatches} : GroupStageMatchesProps) => {
+  console.log('Thats groupmatches', groupMatches) 
   return (
-    // <div className='dev-class-stage-matches'>
     <div style={{width: '45%'}}>
-      {dummyData.map((item, index) => (
-        <Matchrow {...item}/>
-      ))}
+      { groupMatches ? groupMatches.map((item: GroupMatch, index) => (
+        <Matchrow groupMatch={item} key={index}/>
+      )) : null}
     </div>
   )
 }

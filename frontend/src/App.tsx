@@ -1,5 +1,4 @@
 import './App.css';
-import {Axios} from 'axios';
 // Components
 import NavbarComp from './components/Navbar/NavbarComp';
 import Homepage from './components/Homepage/Homepage';
@@ -18,66 +17,33 @@ import Login from './components/Login/Login';
 import Schedule from './components/Schedule/Schedule';
 // This component contains whole logic, all main components and it's the manager of whole application
 
-export const AppCtx = createContext<any>(null);
-
-export type AllMatches =  {
-
-}[]
-
-let dataContext = {
-    AllMatches: null,
-    AllGroupMatches: null,
-    GroupMatches: null,
-    
-};
-
-function getDataToContext(){
-  // This function fetching data about teams, and create context for whole App
-  fetch('/api/Matches')
-  .then(result => result.json())
-  .then((output) => {
-    dataContext.AllMatches = output;
-    console.log('Output: ', output)
-    }).catch(err => console.error(err))
-}
-
-// const getContextData = () => {
-//   fetch('/api/Teams/GetAll')
-//   .then(result => result.json())
-//   .then((output) => {
-//       dataContext.AllMatches = output;
-//     }).catch(err => console.error(err))
-
-
-//   // This fetch get all matches in group stage
-//   fetch('/api/Match/GetGroupMatches')
-//   .then(result => result.json())
-//   .then((output) => {
-//       dataContext.GroupMatches = output;
-//     }).catch(err => console.error(err))
-// }
-
-
+export const AppCtx = createContext<any>('string');
 
 function App() {
-  const [teamsData, setTeamsData] = useState<Team[] | null>(null);
+  const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
+  const [dataTeams, setDataTeams] = useState<any | null>(null);
 
   useEffect(() => {
-    getDataToContext();
-    // getContextData()
-    console.log('It work')
-  }
-    , [])
+    const fetchData = async () => {
+      const GroupMatches = await ( await fetch('/api/Matches/Group')).json()
+      // const /api/Teams
+      const data = await ( await fetch('/api/Teams')).json()
+
+      setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches))
+      setDataTeams(convertTeamsToGroupFormat(data))
+    }
+      fetchData();
+  }, []);
 
   return (
-      <AppCtx.Provider value={dataContext}>
+        
         <div className='app-body'>
           <NavbarComp/>
           <Routes>
             <Route path='/' element={<Homepage/>}/>
             <Route path='/knockout' element={<KnockoutStage/>}/>
             <Route path='/schedule' element={<Schedule/>}/>
-            <Route path='/groupstage' element={<GroupStage/>}/>
+            <Route path='/groupstage' element={dataGroupMatches ? <GroupStage groupMatches={dataGroupMatches}/> : null}/>
             <Route path='/yourbets' element={<YourBets/>}/>
             <Route 
               path='/ranking' 
@@ -93,11 +59,32 @@ function App() {
           </Routes>
           <Footer/>
         </div>
-      </AppCtx.Provider>
        
     
 
   );
+}
+
+function convertMatchesToGroupFormat(data: any) {
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+  let tab: any = [];
+  for(let i = 0; i < 8; i++) {
+    const result = data.filter((match: any) => match.group === letters[i])
+    tab.push(result)
+  }
+  console.log('tab', tab)
+  return tab
+}
+
+function convertTeamsToGroupFormat(data: any) {
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+  let tab: any = [];
+  for(let i = 0; i < 8; i++) {
+    const result = data.filter((team: any) => team.group === letters[i])
+    tab.push(result)
+  }
+  console.log('tab', tab)
+  return tab
 }
 
 export interface Team{

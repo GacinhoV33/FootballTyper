@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { AppCtx } from '../../App';
+// import { AppCtx } from '../../App';
 
 import './Schedule.scss';
 import { Team } from '../../App';
@@ -31,8 +31,9 @@ interface ScheduleItem {
 // }
 
 const Schedule = () => {
-  const data = useContext(AppCtx);
-  const [scheduleData, setScheduleData] = useState<ScheduleItem[] | null>(data.AllMatches);
+  // const data = useContext(AppCtx);
+  const data = null;
+  const [scheduleData, setScheduleData] = useState<ScheduleItem[] | null>(data);
 
   console.log("Thats's Schedule Data", scheduleData);
   console.log("Thats context: ", data);

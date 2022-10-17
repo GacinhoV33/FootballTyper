@@ -6,54 +6,49 @@ import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import Popover from 'react-bootstrap/Popover';
 import {FcInfo} from 'react-icons/fc'
+import { GroupMatch } from '../GroupStage/GroupStage';
 export interface MatchrowProps{
-    firstName: string,
-    secondName: string,
-    firstScore: number | null,
-    secondScore: number | null,
-    userID: string, // type? 
-    date: string, // type DATE create! TODO 
-    hour: string,
+    groupMatch: GroupMatch,
 }
 
-const Matchrow: React.FC<MatchrowProps> = ({firstName, secondName, firstScore, secondScore, userID, date, hour}) => {
+const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
     const [showBet, setShowBet] = useState<boolean>(false);
     const handleClose = () => setShowBet(false);
     const handleOpen = () => setShowBet(true);
     
     const [showAlert, setAlert] = useState<boolean>(false);
-    
+    console.log(groupMatch.date)
     function handleSubmit() {
         handleClose();
         console.log('Submitted')
         setAlert(true);
         setTimeout(() => setAlert(false), 2000);
     }
+    //@ts-ignore
     return (
     <>
     <div className='match-body'>
-    <div style={{height: '4.5rem', border: '2px solid #111231', borderRadius: '5px', boxShadow: '#222342', padding: '0.75rem', margin: '0.5rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-        <div style={{flexGrow: '1'}}><CircleFlag countryCode='pl' height='40px'/></div>
-        <div style={{flexGrow: '3', textAlign: 'center'}}><h4>{firstName} - {secondName}</h4></div>
-        <div style={{flexGrow: '1', display: 'flex', justifyContent: 'right'}}><CircleFlag countryCode='es' height='40px'/></div>
-        <div style={{flexGrow: '2'}}><div style={{position: 'relative', top: '0.55rem', textAlign: 'right'}}><h6>{date}</h6> <p style={{textAlign: 'right'}}>{hour}</p></div></div>
-        {/* <div style={{flexGrow: '2'}}><h6>{date}</h6></div> */}
-        <div style={{flexGrow: '1', textAlign: 'right'}}> 
-            <Button onClick={handleOpen}>BET</Button>
-            <FcInfo size={30} style={{marginLeft: '0.5rem'}}/>
-
+        <div style={{height: '4.5rem', border: '2px solid #111231', borderRadius: '5px', boxShadow: '#222342', padding: '0.75rem', margin: '0.5rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <div style={{flex: '1'}}><CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px'/></div>
+            <div style={{flex: '4', textAlign: 'center'}}><h4>{groupMatch.homeTeam} - {groupMatch.awayTeam}</h4></div>
+            <div style={{flex: '1', display: 'flex', justifyContent: 'right'}}><CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam) as string} height='40px'/></div>
+            <div style={{flex: '2', flexDirection: 'column-reverse', display: 'flex'}}>
+                <h6>{groupMatch.date}</h6>
+                {/* <p style={{textAlign: 'right'}}>{groupMatch.hour}</p> */}
+                    
+            </div>
+            <div style={{flexGrow: '1', textAlign: 'right'}}> 
+                <Button onClick={handleOpen}>BET</Button>
+                <FcInfo size={30} style={{marginLeft: '0.5rem'}}/>
+            </div>
         </div>
-
-           
-        {/* TODO - add fading out */}
-    </div>
     </div>
         {showBet && 
             <Modal show={showBet} onHide={handleClose} centered> 
                 <Modal.Title className='modal-header'>
-                    <CircleFlag height='45' countryCode='pl' style={{marginRight: '1.5rem'}}/>
-                        <h4 className='modal-title'> {firstName} vs {secondName}</h4> 
-                    <CircleFlag height='45' countryCode='es' style={{marginLeft: '1.5rem'}}/>
+                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.homeTeam) as string} style={{marginRight: '1.5rem'}}/>
+                        <h4 className='modal-title'> {groupMatch.homeTeam} vs {groupMatch.awayTeam}</h4> 
+                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.awayTeam) as string} style={{marginLeft: '1.5rem'}}/>
                 </Modal.Title>
 
                 <Modal.Body style={{display: 'flex', justifyContent: 'center'}}> 
@@ -70,3 +65,39 @@ const Matchrow: React.FC<MatchrowProps> = ({firstName, secondName, firstScore, s
 }
 
 export default Matchrow
+
+export let CountryDict = new Map<string , string>();
+CountryDict.set('Ecuador', 'ec')
+CountryDict.set('Netherlands', 'nl')
+CountryDict.set('Qatar', 'qa')
+CountryDict.set('Senegal', 'sn')
+CountryDict.set('Poland', 'pl')
+CountryDict.set('England', 'gb-eng')
+CountryDict.set('Wales', 'gb-wls')
+CountryDict.set('Argentina', 'ar')
+CountryDict.set('Mexico', 'mx')
+CountryDict.set('Saudi Arabia', 'sa')
+CountryDict.set('Tunisia', 'tn')
+CountryDict.set('Iran', 'ir')
+CountryDict.set('France', 'fr')
+CountryDict.set('Australia', 'au')
+CountryDict.set('Germany', 'de')
+CountryDict.set('Japan', 'jp')
+CountryDict.set('Spain', 'es')
+CountryDict.set('Costa Rica', 'cr')
+CountryDict.set('Morocco', 'ma')
+CountryDict.set('Croatia', 'hr')
+CountryDict.set('Belgium', 'be')
+CountryDict.set('Canada', 'ca')
+CountryDict.set('Switzerland', 'ch')
+CountryDict.set('Brazil', 'br')
+CountryDict.set('Serbia', 'rs')
+CountryDict.set('Cameroon', 'cm')
+CountryDict.set('Uruguay', 'uy')
+CountryDict.set('Korea Republic', 'kr')
+CountryDict.set('Portugal', 'pt')
+CountryDict.set('Ghana', 'gh')
+CountryDict.set('USA', 'us')
+CountryDict.set('Greece', 'gr')
+CountryDict.set('Denmark', 'dk')
+CountryDict.set('Greece', 'gr')
