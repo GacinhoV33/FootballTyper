@@ -41,7 +41,7 @@ namespace FootballTyperAPI.Data
 
         public async Task<List<Bet>> GetAllBets()
         {
-            return await Bets.Include("Match").ToListAsync();
+            return await Bets.Include("Match").Include("Match.HomeTeam").Include("Match.AwayTeam").ToListAsync();
         }
 
     }

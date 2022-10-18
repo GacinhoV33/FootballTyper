@@ -20,14 +20,14 @@ namespace FootballTyperAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bet>>> GetAllBets()
         {
-            return await _context.Bets.ToListAsync();
+            return (await _context.GetAllBets()).ToList();
         }
 
         // GET: api/Bets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Bet>> GetBet(int id)
         {
-            var bet = await _context.Bets.FindAsync(id);
+            var bet = (await _context.GetAllBets()).FirstOrDefault(x => x.Id == id);
 
             if (bet == null)
             {
