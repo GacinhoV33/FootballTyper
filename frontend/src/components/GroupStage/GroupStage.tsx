@@ -11,8 +11,6 @@ import {GroupTableItem} from './GroupTable/GroupTable';
 
 // structures
 import groupLetters from '../../helpers/structures';
-import { groupTableData } from '../../helpers/structures';
-import {AppCtx}  from '../../App';
 // Fetch: In this component we should use data from context that contains info about groups 
 
 export interface GroupMatch {

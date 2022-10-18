@@ -1,17 +1,6 @@
-// .dev-class-mybets{
-//     border-radius: 20px;
-//     background-color: #FFEE00;
-//     text-align: center;
-//     padding: 0 10px;
-//     width: 70%;
-//     align-items: center;
-//     padding: 0 15%;
-// }
+.bet{
+    display: flex;
+    flex-direction: row;
+    flex-grow: auto;
 
-// .dev-table{
-//     width: 70%;
-//     border: 2px solid #112211;
-//     .dev-row{
-//         border: 1px solid #112211;
-//     }
-// }
+}

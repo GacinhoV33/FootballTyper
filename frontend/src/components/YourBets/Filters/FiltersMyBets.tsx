@@ -19,7 +19,13 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({activeFilter, setActiveFil
   return (
     <div className='filter-box'>
         {filterTypes.map((filterName, index) => (
-            <Button active={activeFilter === filterName} key={filterName} onClick={() => handleFilterChange(filterName)} style={{margin: '0.5rem', borderRadius: '2rem'}}>
+            <Button 
+            active={activeFilter === filterName} 
+            key={filterName} 
+            onClick={() => handleFilterChange(filterName)} 
+            style={{margin: '0.5rem', borderRadius: '2rem'}}
+            className={activeFilter === filterName ? 'filter-active' : undefined}
+            >
                 {filterName}
             </Button>
         ))}

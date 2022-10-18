@@ -3,37 +3,8 @@ import './MyBets.scss';
 import MatchBet from '../../KnockoutStage/MatchBet/MatchBet'
 // Data
 import { dummyBet } from '../../../helpers/dummyData';
-/* public class Bet
-    {
-        public int Id { get; set; }
 
-        public bool HomeTeamWin { get; set; }
-
-        [Range(0, 30, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
-        public int HomeTeamScoreBet { get; set; }
-
-        public bool AwayTeamWin { get; set; }
-
-        [Range(0, 30, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
-        public int AwayTeamScoreBet { get; set; }
-
-        public bool HomeAwayDrawn { get; set; }
-
-        public float PointsFactor { get; set; } = 1;
-
-        public int MatchId { get; set; }
-
-        public Match Match { get; set; }
-
-        public string BettorUserName { get; set; }
-
-        public DateTime BetDate { get; set; }
-        
-        public bool? SuccessfulBet { get; set; }
-    }
-*/
-
-export type Match = {}
+export type Match = {} //TODO remove this - only for dev 
 
 export type Bet = {
     id: number,
@@ -54,22 +25,20 @@ export type Bet = {
 
 export interface MyBetsProps{
   userBetsData: Bet[],
+  allBets: Bet[] | null,
 }
   
-const MyBets: React.FC<MyBetsProps> = ({userBetsData}) => {
-    return (
-      <div>
-        {/* <MatchBet {...dummyData}/>
-        <MatchBet {...dummyData}/>
-        <MatchBet {...dummyData}/>
-        <MatchBet {...dummyData}/>
-        <MatchBet {...dummyData}/>
-        <MatchBet {...dummyData}/> */}
+const MyBets: React.FC<MyBetsProps> = ({userBetsData, allBets}) => {
+    console.log(allBets);  
+  return (
+      <div className='bet-body'>
+        {allBets ? allBets.map(({id, homeTeamWin, homeTeamScore, homeTeamScoreBet, awayTeamWin, awayTeamScore, awayTeamScoreBet, homeAwayDrawn, pointsFactor, matchId, match, bettorUserName, betDate, successfulBet}, index) => (
+            <div className='bet' key={id}>
+                1 : 2 | your bet: {homeTeamScoreBet} : {awayTeamScoreBet}
+            </div>     
+        )) : null}
       </div>
-  
-  
-    )
-  }
+    )}
 
 export default MyBets;
 

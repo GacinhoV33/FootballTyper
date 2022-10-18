@@ -3,10 +3,6 @@ import './App.css';
 import NavbarComp from './components/Navbar/NavbarComp';
 import Homepage from './components/Homepage/Homepage';
 import Footer from './components/Footer/Footer';
-// Helpers & structures
-// From Libraries
-import { createContext, useEffect, useState } from 'react';
-import {Router, Route, Routes } from 'react-router-dom';
 import KnockoutStage from './components/KnockoutStage/KnockoutStage';
 import GroupStage from './components/GroupStage/GroupStage';
 import YourBets from './components/YourBets/YourBets';
@@ -17,6 +13,13 @@ import Login from './components/Login/Login';
 import Schedule from './components/Schedule/Schedule';
 import { groupTableData } from './helpers/structures';
 import Profil from './components/Profil/Profil';
+
+import { Bet } from './components/YourBets/MyBets/MyBets';
+// Helpers & structures
+// From Libraries
+import { createContext, useEffect, useState } from 'react';
+import {Router, Route, Routes } from 'react-router-dom';
+
 // This component contains whole logic, all main components and it's the manager of whole application
 
 export const AppCtx = createContext<any>('string');
@@ -24,15 +27,18 @@ export const AppCtx = createContext<any>('string');
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [dataTeams, setDataTeams] = useState<any | null>(null);
+  const [allBets, setAllBets] = useState<Bet[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const GroupMatches = await ( await fetch('/api/Matches/Group')).json()
+      const GroupMatches = await ( await fetch('/api/Matches/Group')).json();
       // const /api/Teams
-      const data = await ( await fetch('/api/Teams')).json()
+      const data = await ( await fetch('/api/Teams')).json();
+      const allBets = await( await fetch('/api/Bets')).json();
 
-      setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches))
-      setDataTeams(convertTeamsToGroupFormat(data))
+      setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
+      setDataTeams(convertTeamsToGroupFormat(data));
+      setAllBets(allBets);
     }
       fetchData();
   }, []);
@@ -46,7 +52,7 @@ function App() {
             <Route path='/knockout' element={<KnockoutStage/>}/>
             <Route path='/schedule' element={<Schedule/>}/>
             <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams}/> : null}/>
-            <Route path='/yourbets' element={<YourBets userName='testUser1'/>}/>
+            <Route path='/yourbets' element={<YourBets userName='testUser1' allBets={allBets}/>}/>  {/* in future remove allBets because of huge number of bets!!! TODO*/}
             <Route 
               path='/ranking' 
               element={
@@ -62,9 +68,6 @@ function App() {
           </Routes>
           <Footer/>
         </div>
-       
-    
-
   );
 }
 
@@ -99,5 +102,22 @@ export interface Team{
   lost: number,
   group: string,
 }
+
+export interface Match {
+  id: number,
+  homeTeam: string,
+  awayTeam: string,
+  homeTeamScore: number,
+  awayTeamScore: number,
+  group: string,
+  location: string,
+  date: string,
+  referee: string,
+  town: string,
+  matchNumber: number,
+  roundNumber: number,
+  isMatchValid: boolean,
+}
+
 
 export default App;
