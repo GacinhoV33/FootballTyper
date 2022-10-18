@@ -21,7 +21,6 @@ export interface GroupMatch {
   homeTeamScore: number, 
   awayTeamScore: number, 
   date: string,
-  hour: string, 
   stadium: string, 
   referee: string, 
   group: string,
@@ -29,9 +28,10 @@ export interface GroupMatch {
 
 export interface GroupStageProps {
   groupMatches: any,
+  dataTeams: any
 }
 
-const GroupStage: React.FC<GroupStageProps> = ({groupMatches}) => {
+const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
  
   let letterToNumber = new Map<string , string>();
   for(let i = 0; i<8 ; i++) {
@@ -39,19 +39,17 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches}) => {
   }
   const [currentGroup, setCurrentGroup] = useState<string>("A");
   const [currentGroupData, setCurrentGroupData] = useState<GroupTableItem[] | null>(null)
-  // console.log(Number('0'))
   const [currentGroupMatches, setCurrentGroupMatches] = useState<GroupMatch[] | null>(null);
 
   useEffect(() => {
     setCurrentGroupMatches(groupMatches[Number(letterToNumber.get(currentGroup))])
+    setCurrentGroupData(dataTeams[Number(letterToNumber.get(currentGroup))])
+
   }, [currentGroup])
 
   const reloadData = (letter: string) => {
-    /* This function changes current letter, and reloads data for specific group. In future it could be write more accurate*/
-    // const data = findGroupByLetter(letter);
+    /* This function changes current letter, useEffect is responsible for reloading it in another components*/
     setCurrentGroup(letter);
-    setCurrentGroupMatches(groupMatches)
-
   }
   return (
     <div className='group-stage'>

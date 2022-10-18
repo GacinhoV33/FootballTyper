@@ -86,6 +86,21 @@ export const dummyRanking = {
       userName: "testUser3",
       points: 30, 
       // TODO 
+    },
+    {
+      userName: "testUser4",
+      points: 30, 
+      // TODO 
+    },
+    {
+      userName: "testUser5",
+      points: 30, 
+      // TODO 
+    },
+    {
+      userName: "testUser6",
+      points: 30, 
+      // TODO 
     }
   ]
 }

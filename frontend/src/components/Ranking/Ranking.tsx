@@ -5,6 +5,7 @@ import { dummyRanking } from '../../helpers/structures';
 // bootstrap
 import Table from 'react-bootstrap/Table'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import FilterRanking from './FilterRanking';
 
 export type RankingFilters = 'general' | 'lastDay' | 'groupStage' | 'knockoutStage';
 
@@ -18,26 +19,30 @@ const Ranking = ({currentUserName} : RankingProps) => {
 
   const [filter, setFilter] = useState<RankingFilters>('general')
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
-     <Table bordered hover style={{width: '75%'}}>
-          <thead>
-              <tr>
-                <th style={{width: '5%'}}>Place</th>
-                <th>User</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-            {dummyRanking.data.map(({userName, points}, index) => (
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{userName}</td>
-                <td>{points}</td>
-              </tr>
-            ))}
-            </tbody>
-        </Table>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <FilterRanking activeFilter={filter} setActiveFilter={setFilter} userName={currentUserName}/>
+        <div style={{display: 'flex', justifyContent: 'center', minWidth: '500px'}}>
+          <Table bordered hover striped>
+                <thead>
+                    <tr>
+                      <th style={{width: '5%'}}>Place</th>
+                      <th>User</th>
+                      <th>Points</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                  {dummyRanking.data.map(({userName, points}, index) => (
+                    <tr style={currentUserName === userName ? {backgroundColor: 'lightGreen', fontWeight: '500'} : {}} key={index}>
+                      <td>{index+1}</td>
+                      <td>{userName}</td>
+                      <td>{points}</td>
+                    </tr>
+                  ))}
+                  </tbody>
+            </Table>
+        </div>
     </div>
+    
    
   )
 }

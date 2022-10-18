@@ -8,7 +8,6 @@ interface GroupStageMatchesProps {
 }
 
 const GroupStageMatches = ({groupMatches} : GroupStageMatchesProps) => {
-  console.log('Thats groupmatches', groupMatches) 
   return (
     <div style={{width: '45%'}}>
       { groupMatches ? groupMatches.map((item: GroupMatch, index) => (

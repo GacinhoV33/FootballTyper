@@ -16,11 +16,12 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
     const handleClose = () => setShowBet(false);
     const handleOpen = () => setShowBet(true);
     
+    const [date, hour] = groupMatch.date.split('T');
+    const day = getDayFromDate(date);
+    getDayFromDate(date);
     const [showAlert, setAlert] = useState<boolean>(false);
-    console.log(groupMatch.date)
     function handleSubmit() {
         handleClose();
-        console.log('Submitted')
         setAlert(true);
         setTimeout(() => setAlert(false), 2000);
     }
@@ -32,14 +33,17 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
             <div style={{flex: '1'}}><CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px'/></div>
             <div style={{flex: '4', textAlign: 'center'}}><h4>{groupMatch.homeTeam} - {groupMatch.awayTeam}</h4></div>
             <div style={{flex: '1', display: 'flex', justifyContent: 'right'}}><CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam) as string} height='40px'/></div>
-            <div style={{flex: '2', flexDirection: 'column-reverse', display: 'flex'}}>
-                <h6>{groupMatch.date}</h6>
-                {/* <p style={{textAlign: 'right'}}>{groupMatch.hour}</p> */}
+            <div style={{flex: '2', flexDirection: 'column', display: 'flex', alignItems: 'center', marginTop: '0.9rem'}}>
+                <h6>{date}</h6>
+                <p >{hour}</p>
                     
             </div>
+            <div style={{flex:' 1.5', textAlign:'center'}}>
+                <h6>{day}</h6>
+            </div>
+            
             <div style={{flexGrow: '1', textAlign: 'right'}}> 
                 <Button onClick={handleOpen}>BET</Button>
-                <FcInfo size={30} style={{marginLeft: '0.5rem'}}/>
             </div>
         </div>
     </div>
@@ -65,6 +69,14 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
 }
 
 export default Matchrow
+
+function getDayFromDate(date: string){
+    const daysShortcut = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const dayIndex = new Date(date).getDay();  
+    return daysShortcut[dayIndex];
+    
+}
 
 export let CountryDict = new Map<string , string>();
 CountryDict.set('Ecuador', 'ec')
