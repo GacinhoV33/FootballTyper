@@ -12,6 +12,7 @@ namespace FootballTyperAPI.Data
 
         public DbSet<Match> Matches { get; set; } = default!;
         public DbSet<Team> Teams { get; set; } = default!;
+        public DbSet<Bet> Bets { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,7 +20,7 @@ namespace FootballTyperAPI.Data
 
             modelBuilder.Entity<Match>().ToTable("Match");
             modelBuilder.Entity<Team>().ToTable("Teams");
-            //modelBuilder.Entity<Bet>().ToTable("Bets");
+            modelBuilder.Entity<Bet>().ToTable("Bets");
 
         }
 
@@ -37,5 +38,11 @@ namespace FootballTyperAPI.Data
         {
             return Teams.ToList();
         }
+
+        public async Task<List<Bet>> GetAllBets()
+        {
+            return await Bets.Include("Match").ToListAsync();
+        }
+
     }
 }
