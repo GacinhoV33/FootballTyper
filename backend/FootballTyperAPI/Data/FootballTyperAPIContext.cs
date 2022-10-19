@@ -44,5 +44,7 @@ namespace FootballTyperAPI.Data
             return await Bets.Include("Match").Include("Match.HomeTeam").Include("Match.AwayTeam").ToListAsync();
         }
 
+        public DbSet<FootballTyperAPI.Models.TyperUser> TyperUser { get; set; }
+
     }
 }

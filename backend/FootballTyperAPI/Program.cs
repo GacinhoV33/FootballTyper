@@ -16,14 +16,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -42,6 +46,14 @@ app.Run();
 
 void SetupDatabase(WebApplication app)
 {
+    var service = (IServiceScopeFactory)app.Services.GetService(typeof(IServiceScopeFactory));
+
+    using (var db = service.CreateScope().ServiceProvider.GetService<FootballTyperAPIContext>())
+    {
+        db.Database.Migrate();
+
+    }
+
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
