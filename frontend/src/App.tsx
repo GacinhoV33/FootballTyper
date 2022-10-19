@@ -10,8 +10,6 @@ import Ranking from './components/Ranking/Ranking';
 import Statistics from './components/Statistics/Statistics';
 import Rules from './components/Rules/Rules';
 import Login from './components/Login/Login';
-import Schedule from './components/Schedule/Schedule';
-import { groupTableData } from './helpers/structures';
 import Profil from './components/Profil/Profil';
 
 import { Bet } from './components/YourBets/MyBets/MyBets';
@@ -50,7 +48,6 @@ function App() {
           <Routes>
             <Route path='/' element={<Homepage/>}/>
             <Route path='/knockout' element={<KnockoutStage/>}/>
-            <Route path='/schedule' element={<Schedule/>}/>
             <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams}/> : null}/>
             <Route path='/yourbets' element={<YourBets userName='testUser1' allBets={allBets}/>}/>  {/* in future remove allBets because of huge number of bets!!! TODO*/}
             <Route 
@@ -105,8 +102,8 @@ export interface Team{
 
 export interface Match {
   id: number,
-  homeTeam: string,
-  awayTeam: string,
+  homeTeam: Team,
+  awayTeam: Team,
   homeTeamScore: number,
   awayTeamScore: number,
   group: string,

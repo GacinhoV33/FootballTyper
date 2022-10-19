@@ -1,10 +1,8 @@
 import React from 'react';
 import './MyBets.scss';
-import MatchBet from '../../KnockoutStage/MatchBet/MatchBet'
 // Data
 import { dummyBet } from '../../../helpers/dummyData';
-
-export type Match = {} //TODO remove this - only for dev 
+import { Match } from '../../../App';
 
 export type Bet = {
     id: number,
@@ -24,17 +22,26 @@ export type Bet = {
 }
 
 export interface MyBetsProps{
-  userBetsData: Bet[],
+  userBetsData: Bet[] | null,
   allBets: Bet[] | null,
 }
   
 const MyBets: React.FC<MyBetsProps> = ({userBetsData, allBets}) => {
-    console.log(allBets);  
+  console.log('This is data from MyBets Comp: ', userBetsData);  
   return (
       <div className='bet-body'>
-        {allBets ? allBets.map(({id, homeTeamWin, homeTeamScore, homeTeamScoreBet, awayTeamWin, awayTeamScore, awayTeamScoreBet, homeAwayDrawn, pointsFactor, matchId, match, bettorUserName, betDate, successfulBet}, index) => (
+        {userBetsData ? userBetsData.map(({id, homeTeamWin, homeTeamScore, homeTeamScoreBet, awayTeamWin, awayTeamScore, awayTeamScoreBet, homeAwayDrawn, pointsFactor, matchId, match, bettorUserName, betDate, successfulBet}, index) => (
             <div className='bet' key={id}>
-                1 : 2 | your bet: {homeTeamScoreBet} : {awayTeamScoreBet}
+              {/* <img 
+                style={{height: '1rem', width: '3rem'}}
+                alt={match.homeTeam.name}
+                // src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${CountryDict.get(match.homeTeam.name)?.toUpperCase()}.svg`}
+                /> */}
+                <h6>{match.homeTeam.name}</h6> - <h6>{match.awayTeam.name}</h6>       Succesful: {successfulBet ? 'yes' : 'no'}
+                {/* <img 
+                style={{height: '1rem', width: '3rem'}}
+                alt={match.awayTeam.name}
+                src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${CountryDict.get(match.awayTeam.name)?.toUpperCase()}.svg`}/> */}
             </div>     
         )) : null}
       </div>
@@ -42,6 +49,8 @@ const MyBets: React.FC<MyBetsProps> = ({userBetsData, allBets}) => {
 
 export default MyBets;
 
+
+// Remove 
 export const dummyBetData = [{
     id: 1,
     homeTeamWin: true,
@@ -76,3 +85,38 @@ export const dummyBetData = [{
 },
 ]
 
+let CountryDict = new Map<string , string>();
+CountryDict.set('Ecuador', 'ec')
+CountryDict.set('Netherlands', 'nl')
+CountryDict.set('Qatar', 'qa')
+CountryDict.set('Senegal', 'sn')
+CountryDict.set('Poland', 'pl')
+CountryDict.set('England', 'gb') // todo xXD 
+CountryDict.set('Wales', 'gb-wls')
+CountryDict.set('Argentina', 'ar')
+CountryDict.set('Mexico', 'mx')
+CountryDict.set('Saudi Arabia', 'sa')
+CountryDict.set('Tunisia', 'tn')
+CountryDict.set('Iran', 'ir')
+CountryDict.set('France', 'fr')
+CountryDict.set('Australia', 'au')
+CountryDict.set('Germany', 'de')
+CountryDict.set('Japan', 'jp')
+CountryDict.set('Spain', 'es')
+CountryDict.set('Costa Rica', 'cr')
+CountryDict.set('Morocco', 'ma')
+CountryDict.set('Croatia', 'hr')
+CountryDict.set('Belgium', 'be')
+CountryDict.set('Canada', 'ca')
+CountryDict.set('Switzerland', 'ch')
+CountryDict.set('Brazil', 'br')
+CountryDict.set('Serbia', 'rs')
+CountryDict.set('Cameroon', 'cm')
+CountryDict.set('Uruguay', 'uy')
+CountryDict.set('Korea Republic', 'kr')
+CountryDict.set('Portugal', 'pt')
+CountryDict.set('Ghana', 'gh')
+CountryDict.set('USA', 'us')
+CountryDict.set('Greece', 'gr')
+CountryDict.set('Denmark', 'dk')
+CountryDict.set('Greece', 'gr')

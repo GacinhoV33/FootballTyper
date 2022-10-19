@@ -14,7 +14,7 @@ const CountryIcon = ({size = 'lg', countryName = 'PL'} : CountryIconProps) => {
     <div>
         <ReactCountryFlag
         //@ts-ignore
-        countryCode={CountryDict.get(countryName) ? CountryDict.get(countryName) : 'PL'}
+        countryCode={CountryDict.get(countryName) ? CountryDict.get(countryName) : 'pl'}
         sizes='lg'
         style={size === 'lg' ? {
           width: '3rem',
