@@ -19,6 +19,7 @@ const BetCard: React.FC<BetCardProps> = ({bet, gridId}) => {
     function handleSave(){
       setBaseBet({homeBet: currentBet.homeBet, awayBet: currentBet.awayBet});
       console.log("Saved", baseBet);
+      //TODO send to database
     }
     return (
       <Card style={{borderRadius: '25px', boxShadow: betString}}>
@@ -44,7 +45,7 @@ const BetCard: React.FC<BetCardProps> = ({bet, gridId}) => {
                     />
                 </div>
                 <div style={{}}></div>
-                <div style={{gridRow: '5', gridColumn: '1/4'}}>
+                <div style={{gridRow: '8', gridColumn: '1/4'}}>
                   <Button style={{width: '100%'}} disabled={betDisabled} onClick={handleSave} variant={betDisabled ? 'success' : 'primary'}>
                     {betDisabled ? 'Saved' : 'Save'}
                   </Button></div>
