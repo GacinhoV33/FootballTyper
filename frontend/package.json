@@ -1,5 +1,5 @@
 {
-  "proxy": "https://localhost:44302",
+  "proxy": "https://footballtyperapi.azure-api.net/",
   "name": "football-typer",
   "version": "0.1.0",
   "private": true,

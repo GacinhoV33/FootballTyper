@@ -16,8 +16,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000", "https://football-typer-api.azurewebsites.net",
+                "https://footballtyperapi.azure-api.net", "https://football-typer-frontend.azurewebsites.net")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

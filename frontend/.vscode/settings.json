@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/eed15410-e741-4074-bf07-9bf70b0d82f0/AppServices/subscriptions/eed15410-e741-4074-bf07-9bf70b0d82f0/resourceGroups/football-typer-rg/providers/Microsoft.Web/sites/football-typer-frontend",
+    "appService.deploySubpath": "build"
+}
