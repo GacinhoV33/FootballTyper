@@ -26,7 +26,6 @@ const NavbarComp = () => {
         <Nav className="me-auto">
             <Nav.Link href="/groupstage">GroupStage</Nav.Link>
             <Nav.Link href="/knockout">Knockout</Nav.Link>
-            <Nav.Link href="/schedule">Schedule</Nav.Link>
             <Nav.Link href="/yourbets">My Bets</Nav.Link>  {/* Think about changing yourbets to mybets*/}
             <Nav.Link href="/ranking">Ranking</Nav.Link>
             <Nav.Link href="/statistics">Statistics</Nav.Link>

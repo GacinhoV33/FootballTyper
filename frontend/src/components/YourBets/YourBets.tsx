@@ -27,7 +27,7 @@ const YourBets: React.FC<YourBetsProps> = ({userName, allBets}) => {
     if(filterMyBets.indexOf('KnockoutStage') !== -1 && allBets){
       //#TODO knockout stage
     }
-    setBetsToShow(currentBets)
+    setBetsToShow(currentBets);
   }
   useEffect(
     () => sortMyBets()
