@@ -13,7 +13,7 @@ const FilterRanking: React.FC<FilterRankingProps> = ({activeFilter, setActiveFil
   return (
     <div className='filter-box'>
         {filterTypes.map((filterName, index) => (
-            <Button active={activeFilter === filterName} key={filterName} onClick={() => handleFiltrChange(filterName)} style={{margin: '0.5rem', borderRadius: '2rem'}}>
+            <Button size='lg' active={activeFilter === filterName} key={filterName} onClick={() => handleFiltrChange(filterName)} style={{margin: '0.5rem', borderRadius: '2rem'}}>
                 {filterName}
             </Button>
         ))}

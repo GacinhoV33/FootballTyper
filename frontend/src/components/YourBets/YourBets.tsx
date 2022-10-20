@@ -34,7 +34,7 @@ const YourBets: React.FC<YourBetsProps> = ({userName, allBets}) => {
   , [filterMyBets]);
 
   return (
-    <div>
+    <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
       <FiltersMyBets activeFilters={filterMyBets} setActiveFilters={setFilterMyBets}/>
       <MyBets userBetsData={betsToShow} allBets={allBets}/>
     </div>

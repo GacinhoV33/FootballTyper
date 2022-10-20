@@ -3,6 +3,7 @@ import './MyBets.scss';
 // Data
 import { dummyBet } from '../../../helpers/dummyData';
 import { Match } from '../../../App';
+import BetCard from './BetCard';
 
 export type Bet = {
     id: number,
@@ -30,19 +31,8 @@ const MyBets: React.FC<MyBetsProps> = ({userBetsData, allBets}) => {
   console.log('This is data from MyBets Comp: ', userBetsData);  
   return (
       <div className='bet-body'>
-        {userBetsData ? userBetsData.map(({id, homeTeamWin, homeTeamScore, homeTeamScoreBet, awayTeamWin, awayTeamScore, awayTeamScoreBet, homeAwayDrawn, pointsFactor, matchId, match, bettorUserName, betDate, successfulBet}, index) => (
-            <div className='bet' key={id}>
-              {/* <img 
-                style={{height: '1rem', width: '3rem'}}
-                alt={match.homeTeam.name}
-                // src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${CountryDict.get(match.homeTeam.name)?.toUpperCase()}.svg`}
-                /> */}
-                <h6>{match.homeTeam.name}</h6> - <h6>{match.awayTeam.name}</h6>       Succesful: {successfulBet ? 'yes' : 'no'}
-                {/* <img 
-                style={{height: '1rem', width: '3rem'}}
-                alt={match.awayTeam.name}
-                src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${CountryDict.get(match.awayTeam.name)?.toUpperCase()}.svg`}/> */}
-            </div>     
+        {userBetsData ? userBetsData.map((bet, index) => (
+            <BetCard bet={bet} gridId={{row: Math.floor(index /4), column: index % 4}} key={index}/>
         )) : null}
       </div>
     )}

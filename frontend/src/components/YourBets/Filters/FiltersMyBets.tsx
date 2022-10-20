@@ -15,8 +15,9 @@ export interface FiltersMyBetsProps{
 
 const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({activeFilters, setActiveFilters}) => {
   function handleFilterChange(filter: BetFilters){
-    const newFilters = deepcopy(activeFilters);
+    let newFilters = deepcopy(activeFilters);
     const index = newFilters.indexOf(filter);
+
     if(index > -1){
       newFilters.splice(index, 1);
       setActiveFilters(newFilters);
@@ -54,8 +55,8 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({activeFilters, setActiveFi
         newFilters.push(filter);
         setActiveFilters(newFilters);
       }
-      else{
-        newFilters.push(filter);
+      else if(filter === 'All'){
+        newFilters = ['All'];
         setActiveFilters(newFilters);
       }
     }
