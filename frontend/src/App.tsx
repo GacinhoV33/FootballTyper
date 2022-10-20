@@ -16,7 +16,7 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
 import { createContext, useEffect, useState } from 'react';
-import {Router, Route, Routes } from 'react-router-dom';
+import { Router, Route, Routes } from 'react-router-dom';
 
 // This component contains whole logic, all main components and it's the manager of whole application
 
@@ -29,49 +29,50 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const GroupMatches = await ( await fetch('/api/Matches/Group')).json();
+
+      const GroupMatches = await (await fetch('https://football-typer-api.azurewebsites.net/api/Matches/Group')).json();
       // const /api/Teams
-      const data = await ( await fetch('/api/Teams')).json();
-      const allBets = await( await fetch('/api/Bets')).json();
+      const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
+      const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
 
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllBets(allBets);
     }
-      fetchData();
+    fetchData();
   }, []);
 
   return (
-        
-        <div className='app-body'>
-          <NavbarComp/>
-          <Routes>
-            <Route path='/' element={<Homepage/>}/>
-            <Route path='/knockout' element={<KnockoutStage/>}/>
-            <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams}/> : null}/>
-            <Route path='/yourbets' element={<YourBets userName='testUser1' allBets={allBets}/>}/>  {/* in future remove allBets because of huge number of bets!!! TODO*/}
-            <Route 
-              path='/ranking' 
-              element={
-              <Ranking
-                currentUserName="TestUser2" // TODO REMOVE 
-                />
-              }
+
+    <div className='app-body'>
+      <NavbarComp />
+      <Routes>
+        <Route path='/' element={<Homepage />} />
+        <Route path='/knockout' element={<KnockoutStage />} />
+        <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : null} />
+        <Route path='/yourbets' element={<YourBets userName='testUser1' allBets={allBets} />} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
+        <Route
+          path='/ranking'
+          element={
+            <Ranking
+              currentUserName="TestUser2" // TODO REMOVE 
             />
-            <Route path='/statistics' element={<Statistics/>}/>
-            <Route path='/rules' element={<Rules/>}/>
-            <Route path='/Login' element={<Login/>} />  {/* #TODO think about login*/}
-            <Route path='/profil' element={<Profil/>}/>
-          </Routes>
-          <Footer/>
-        </div>
+          }
+        />
+        <Route path='/statistics' element={<Statistics />} />
+        <Route path='/rules' element={<Rules />} />
+        <Route path='/Login' element={<Login />} />  {/* #TODO think about login*/}
+        <Route path='/profil' element={<Profil />} />
+      </Routes >
+      <Footer />
+    </div >
   );
 }
 
 function convertMatchesToGroupFormat(data: any) {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   let tab: any = [];
-  for(let i = 0; i < 8; i++) {
+  for (let i = 0; i < 8; i++) {
     const result = data.filter((match: any) => match.group === letters[i])
     tab.push(result)
   }
@@ -81,14 +82,14 @@ function convertMatchesToGroupFormat(data: any) {
 function convertTeamsToGroupFormat(data: any) {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   let tab: any = [];
-  for(let i = 0; i < 8; i++) {
+  for (let i = 0; i < 8; i++) {
     const result = data.filter((team: any) => team.group === letters[i])
     tab.push(result)
   }
   return tab
 }
 
-export interface Team{
+export interface Team {
   id: string,
   name: string,
   coach: null | string,
