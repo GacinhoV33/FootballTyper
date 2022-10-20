@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './BetCard.scss';
 import {Bet} from './MyBets'
 import Card from 'react-bootstrap/Card';
 import { CircleFlag } from 'react-circle-flags';
+import Button from 'react-bootstrap/Button';
 
 export interface BetCardProps{
   bet: Bet,
@@ -10,12 +11,19 @@ export interface BetCardProps{
 }
 
 const BetCard: React.FC<BetCardProps> = ({bet, gridId}) => {
-
+    const [baseBet, setBaseBet] = useState<{homeBet: number, awayBet: number}>({homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet})
+    const [currentBet, setCurrentBet] = useState<{homeBet: number, awayBet: number}>({homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet})
     const betString = bet.successfulBet !== undefined ? (bet.successfulBet ? `0 1px 10px lightgreen` : `0 1px 10px red`) : undefined;
+    const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; // TODO add option after deadline
+    
+    function handleSave(){
+      setBaseBet({homeBet: currentBet.homeBet, awayBet: currentBet.awayBet});
+      console.log("Saved", baseBet);
+    }
     return (
       <Card style={{borderRadius: '25px', boxShadow: betString}}>
         <Card.Header style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}> 
-            <CircleFlag countryCode='pl' style={{paddingRight: '1.5rem'}} height='75'/>
+            <div style={{display: 'flex'}}><CircleFlag countryCode='pl' style={{paddingRight: '1.5rem'}} height='75'/></div>
               {/* <h3> ? : ? </h3> */}
               <h3>{bet.homeTeamScore ? bet.homeTeamScore : '?'} : {bet.awayTeamScore ? bet.awayTeamScore : '?'}</h3>
             <CircleFlag countryCode='es' style={{paddingLeft: '1.5rem'}} height='75'/>
@@ -24,12 +32,22 @@ const BetCard: React.FC<BetCardProps> = ({bet, gridId}) => {
             {/* {bet.successfulBet ? 'yes' : 'no'} */}
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10%'}}>
                 <div style={{height: '50px', gridColumn: '1/4', display: 'flex', justifyContent: 'center'}}>
-                    <input className='bet-input' disabled placeholder={bet.homeTeamScoreBet.toString()}/>
+                    <input className='bet-input' 
+                    placeholder={bet.homeTeamScoreBet.toString()}
+                    onChange={e => setBaseBet({homeBet: Number.parseInt( e.target.value), awayBet: currentBet.awayBet})}
+                    />
                     <h3>-</h3>
-                    <input className='bet-input' placeholder={bet.awayTeamScoreBet.toString()}/>
+                    <input 
+                    className='bet-input' 
+                    placeholder={bet.awayTeamScoreBet.toString()}
+                    onChange={e => setBaseBet({homeBet: currentBet.homeBet, awayBet: Number.parseInt(e.target.value)})}
+                    />
                 </div>
                 <div style={{}}></div>
-                <div style={{}}></div>
+                <div style={{gridRow: '5', gridColumn: '1/4'}}>
+                  <Button style={{width: '100%'}} disabled={betDisabled} onClick={handleSave} variant={betDisabled ? 'success' : 'primary'}>
+                    {betDisabled ? 'Saved' : 'Save'}
+                  </Button></div>
             </div>
         </Card.Body>
       </Card>
