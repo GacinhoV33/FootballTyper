@@ -117,4 +117,16 @@ export interface Match {
 }
 
 
+export interface User{
+  name: string,
+  // email: string, TODO?
+  img: string, 
+  totalPoints: number,
+  totalGoodBet: number,
+  totalPerfectBet: number,
+  totalWrongBet: number,
+  leauges: string[],
+  id: number,
+}
+
 export default App;
