@@ -1,7 +1,6 @@
 import React from 'react';
 import './MyBets.scss';
 // Data
-import { dummyBet } from '../../../helpers/dummyData';
 import { Match } from '../../../App';
 import BetCard from './BetCard';
 
@@ -41,40 +40,6 @@ const MyBets: React.FC<MyBetsProps> = ({ userBetsData, allBets }) => {
 export default MyBets;
 
 
-// Remove 
-export const dummyBetData = [{
-  id: 1,
-  homeTeamWin: true,
-  homeTeamScore: 1,
-  homeTeamScoreBet: 2,
-  awayTeamWin: false,
-  awayTeamScore: 0,
-  awayTeamScoreBet: 1,
-  homeAwayDrawn: false,
-  pointsFactor: 1.0,
-  matchId: 21,
-  match: {},
-  bettorUserName: 'testUser1',
-  betDate: '21-11-2022T17:00',
-  successfulBet: true,
-},
-{
-  id: 2,
-  homeTeamWin: false,
-  homeTeamScore: 2,
-  homeTeamScoreBet: 2,
-  awayTeamWin: true,
-  awayTeamScore: 3,
-  awayTeamScoreBet: 3,
-  homeAwayDrawn: false,
-  pointsFactor: 1.0,
-  matchId: 22,
-  match: {},
-  bettorUserName: 'testUser1',
-  betDate: '22-11-2022T17:00',
-  successfulBet: false,
-},
-]
 
 let CountryDict = new Map<string, string>();
 CountryDict.set('Ecuador', 'ec')

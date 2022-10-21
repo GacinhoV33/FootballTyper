@@ -1,15 +1,6 @@
 import React from 'react'
 import "./NavbarComp.scss";
 import {Link} from 'react-router-dom';
-// components 
-import GroupStage from '../GroupStage/GroupStage';
-import CountryFlags from '../CountryFlags/CountryFlags';
-import KnockoutStage from '../KnockoutStage/KnockoutStage';
-import Login from '../Login/Login';
-import Ranking from '../Ranking/Ranking';
-import Rules from '../Rules/Rules';
-import Statistics from '../Statistics/Statistics';
-import YourBets from '../YourBets/YourBets'; 
 
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';

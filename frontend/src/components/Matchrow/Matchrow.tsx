@@ -4,8 +4,6 @@ import { CircleFlag } from 'react-circle-flags'
 import Button from 'react-bootstrap/Button'; 
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
-import Popover from 'react-bootstrap/Popover';
-import {FcInfo} from 'react-icons/fc'
 import { GroupMatch } from '../GroupStage/GroupStage';
 export interface MatchrowProps{
     groupMatch: GroupMatch,
@@ -25,7 +23,6 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
         setAlert(true);
         setTimeout(() => setAlert(false), 2000);
     }
-    //@ts-ignore
     return (
     <>
     <div className='match-body'>
@@ -36,7 +33,6 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
             <div style={{flex: '2', flexDirection: 'column', display: 'flex', alignItems: 'center', marginTop: '0.9rem'}}>
                 <h6>{date}</h6>
                 <p >{hour}</p>
-                    
             </div>
             <div style={{flex:' 1.5', textAlign:'center'}}>
                 <h6>{day}</h6>

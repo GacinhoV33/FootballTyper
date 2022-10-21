@@ -1,9 +1,7 @@
 import React from 'react';
-import groupLetters from '../../../helpers/structures';
 import './GroupSwitch.scss';
 import Pagination from 'react-bootstrap/Pagination';
 
-import GroupIcon from './GroupIcon/GroupIcon'
 
 interface GroupSwitchProps {
   groupLetters: string[],

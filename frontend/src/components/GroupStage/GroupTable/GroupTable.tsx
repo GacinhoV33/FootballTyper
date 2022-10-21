@@ -36,8 +36,8 @@ const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
           {groupTableData ? groupTableData.map(({name, points, won, drawn, lost}, index) => (
             <tr key={index}>
               <td><h5>{index + 1}.</h5></td>
-              <td>
-                  <CountryIcon size="lg" countryName={name} />             
+              <td >
+                  <CountryIcon size='md' countryName={name} />             
                   {name}
               </td>
               <td>{won}</td>
@@ -54,41 +54,3 @@ const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
 }
 
 export default GroupTable;
-
-// TODO : fix Icon 
-// better styling
-// const dummyData: GroupTableItem[]  = [{
-//   countryName: 'Poland',
-//   points: 3,
-//   win: 1, 
-//   draw: 0, 
-//   loss: 1, 
-//   group: 'A'
-// },
-// {
-//   countryName: 'Poland',
-//   points: 3,
-//   win: 1, 
-//   draw: 0, 
-//   loss: 1, 
-//   group: 'A'
-// },
-// {
-//   countryName: 'Poland',
-//   points: 3,
-//   win: 1, 
-//   draw: 0, 
-//   loss: 1, 
-//   group: 'A'
-
-// },
-// {
-//   countryName: 'Poland',
-//   points: 3,
-//   win: 1, 
-//   draw: 0, 
-//   loss: 1, 
-//   group: 'A'
-
-// }
-// ]

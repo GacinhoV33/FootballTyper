@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './YourBets.scss';
-import { Bet, dummyBetData } from './MyBets/MyBets'
+import { Bet } from './MyBets/MyBets'
 // components
 import MyBets from './MyBets/MyBets';
 import FiltersMyBets, { BetFilters } from './Filters/FiltersMyBets';

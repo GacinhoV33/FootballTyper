@@ -17,8 +17,14 @@ const BetCard: React.FC<BetCardProps> = ({ bet, gridId }) => {
   const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; // TODO add option after deadline
 
   function handleSave() {
-    setBaseBet({ homeBet: currentBet.homeBet, awayBet: currentBet.awayBet });
-    console.log("Saved", baseBet);
+    try{
+      if(currentBet.homeBet < 100 && currentBet.awayBet < 100){
+        setBaseBet({homeBet: currentBet.homeBet, awayBet: currentBet.awayBet });
+      }}
+    catch(e){
+      console.log(e);
+    }
+    console.log("Saved", baseBet, currentBet);
     //TODO send to database
   }
   return (
@@ -35,13 +41,19 @@ const BetCard: React.FC<BetCardProps> = ({ bet, gridId }) => {
           <div style={{ height: '50px', gridColumn: '1/4', display: 'flex', justifyContent: 'center' }}>
             <input className='bet-input'
               placeholder={bet.homeTeamScoreBet.toString()}
-              onChange={e => setBaseBet({ homeBet: Number.parseInt(e.target.value), awayBet: currentBet.awayBet })}
+              type='number'
+              min='0'
+              max='30'
+              onChange={e => setCurrentBet({ homeBet: Number.parseInt(e.target.value), awayBet: currentBet.awayBet })}
             />
             <h3>-</h3>
             <input
               className='bet-input'
+              type='number'
+              min='0'
+              max='30'
               placeholder={bet.awayTeamScoreBet.toString()}
-              onChange={e => setBaseBet({ homeBet: currentBet.homeBet, awayBet: Number.parseInt(e.target.value) })}
+              onChange={e => setCurrentBet({ homeBet: currentBet.homeBet, awayBet: Number.parseInt(e.target.value)})}
             />
           </div>
           <div style={{}}></div>

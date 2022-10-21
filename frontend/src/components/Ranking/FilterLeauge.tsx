@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { InputHTMLAttributes, useState } from 'react';
 import './FilterLeauge.scss';
 import TextField from '@mui/material/TextField';
+// import SearchIcon from "@material-ui/icons/Search";
+// import CloseIcon from "@material-ui/icons/Close";
+import {ImSearch} from 'react-icons/im';
+import {MdClose} from 'react-icons/md';
+import Dropdown from 'react-bootstrap/Dropdown';
+export interface FilterLeaugeProps {
+  currentFilter: string, 
+  setCurrentFilter: React.Dispatch<React.SetStateAction<string>>,
+}
 
-const FilterLeauge = () => {
+const FilterLeauge: React.FC<FilterLeaugeProps> = ({currentFilter, setCurrentFilter}) => {
+  
   return (
-    <div style={{display: 'flex', flexDirection: 'row'}}>
-            {/* <h3 style={{}}>Leauge</h3>
-            <div className="search">
-                <TextField
-                id="outlined-basic"
-                variant="outlined"
-                fullWidth
-                label="Search"
-                />
-            </div> */}
-    </div>
+      <Dropdown style={{paddingBottom: '1rem', marginLeft: '3rem'}}>
+        <Dropdown.Toggle variant='secondary' style={{width: '10rem', paddingBottom: '0.2rem'}}>
+          {currentFilter}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          {leaugesNames.map((name, index) => (
+            <Dropdown.Item onClick={() => setCurrentFilter(name)} key={name}>
+                {name}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+       
+      </Dropdown>
   )
 }
 
-export default FilterLeauge
+export default FilterLeauge;
+
+const leaugesNames = ['main', 'clownLeauge', 'randomLeauge']

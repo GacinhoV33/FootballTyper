@@ -1,6 +1,5 @@
 import React from 'react';
 import './FiltersMyBets.scss';
-import DropDown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 
 //@ts-ignore

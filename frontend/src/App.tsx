@@ -30,10 +30,16 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
 
-      const GroupMatches = await (await fetch('https://football-typer-api.azurewebsites.net/api/Matches/Group')).json();
+      // const GroupMatches = await (await fetch('https://football-typer-api.azurewebsites.net/api/Matches/Group')).json();
+      
+      // // const /api/Teams
+      // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
+      // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
+      const GroupMatches = await (await fetch('api/Matches/Group')).json();
+      
       // const /api/Teams
-      const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
-      const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
+      const data = await (await fetch('api/Teams')).json();
+      const allBets = await (await fetch('api/Bets')).json();
 
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
@@ -56,6 +62,7 @@ function App() {
           element={
             <Ranking
               currentUserName="TestUser2" // TODO REMOVE 
+              allUsers={dummyData}
             />
           }
         />
@@ -121,13 +128,93 @@ export interface Match {
 export interface User{
   name: string,
   // email: string, TODO?
-  img: string, 
+  imgLink: string, //TODO?  
   totalPoints: number,
-  totalGoodBet: number,
-  totalPerfectBet: number,
+  totalExactScoreBet: number,
+  totalCorrectWinnerBet: number,
   totalWrongBet: number,
   leauges: string[],
   id: number,
 }
 
 export default App;
+
+export const dummyData: User[] = [
+  {
+    name: 'user123',
+    // email: string, TODO?
+    imgLink: 'imgPath', //TODO?  
+    totalPoints: 50,
+    totalExactScoreBet: 1,
+    totalCorrectWinnerBet: 5,
+    totalWrongBet: 6,
+    leauges: ['main', 'clownLeauge'],
+    id: 21312,
+  },
+  {
+    name: 'user13',
+    // email: string, TODO?
+    imgLink: 'imgPath', //TODO?  
+    totalPoints: 30,
+    totalExactScoreBet: 2,
+    totalCorrectWinnerBet: 0,
+    totalWrongBet: 6,
+    leauges: ['main'],
+    id: 21312,
+  },
+  {
+    name: 'user1111',
+    // email: string, TODO?
+    imgLink: 'imgPath', //TODO?  
+    totalPoints: 31,
+    totalExactScoreBet: 2,
+    totalCorrectWinnerBet: 1,
+    totalWrongBet: 14,
+    leauges: ['main'],
+    id: 21313,
+  },
+  {
+    name: 'user1',
+    // email: string, TODO?
+    imgLink: 'imgPath', //TODO?  
+    totalPoints: 11,
+    totalExactScoreBet: 2,
+    totalCorrectWinnerBet: 5,
+    totalWrongBet: 6,
+    leauges: ['main', 'clownLeauge'],
+    id: 21314,
+  },
+  {
+    name: 'user1',
+    // email: string, TODO?
+    imgLink: 'imgPath', //TODO?  
+    totalPoints: 24,
+    totalExactScoreBet: 2,
+    totalCorrectWinnerBet: 4,
+    totalWrongBet: 6,
+    leauges: ['main',],
+    id: 21315,
+  },
+  {
+    name: 'user1',
+    // email: string, TODO?
+    imgLink: 'imgPath', //TODO?  
+    totalPoints: 50,
+    totalExactScoreBet: 3,
+    totalCorrectWinnerBet: 5,
+    totalWrongBet: 6,
+    leauges: ['main', 'clownLeauge'],
+    id: 21316,
+  },
+  {
+    name: 'user1',
+    // email: string, TODO?
+    imgLink: 'imgPath', //TODO?  
+    totalPoints: 54,
+    totalExactScoreBet: 1,
+    totalCorrectWinnerBet: 3,
+    totalWrongBet: 1,
+    leauges: ['main', 'clownLeauge'],
+    id: 21317,
+  },
+]
