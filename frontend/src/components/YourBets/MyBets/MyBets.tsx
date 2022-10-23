@@ -27,7 +27,6 @@ export interface MyBetsProps {
 }
 
 const MyBets: React.FC<MyBetsProps> = ({ userBetsData, allBets }) => {
-  console.log('This is data from MyBets Comp: ', userBetsData);
   return (
     <div className='bet-body'>
       {userBetsData.map((bet, index) => (

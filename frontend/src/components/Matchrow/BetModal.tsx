@@ -24,14 +24,11 @@ const BetModal: React.FC<BetModalProps> = ({ showAlert, showBet, handleClose, mo
 
     function handleSubmit() {
         handleClose();
-        console.log("im in")
-        console.log(showAlert)
         setAlert(true)
         setTimeout(() => 
         {setAlert(false)
         }, 2000);
     }
-    console.log('Alert', showAlert);
     return (
 
         <div>

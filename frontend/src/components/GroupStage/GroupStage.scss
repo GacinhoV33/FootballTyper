@@ -1,5 +1,22 @@
 .group-stage{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+}
+
+.group-stage-center{
+    flex-direction: column;
+    flex-grow: 10;
+    display: flex;
+    align-items: center;
+}
+
+.group-stage-left{
+    flex-grow: 1;
+    gap: 2%;   
+}
+
+.group-stage-right{
+    flex-grow: 1;
+    gap: 2%;   
 }

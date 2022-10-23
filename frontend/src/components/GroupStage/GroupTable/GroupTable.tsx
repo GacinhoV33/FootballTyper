@@ -15,9 +15,14 @@ export interface GroupTableItem {
 interface GropuTableProps {
   groupTableData: GroupTableItem[]  | null,
   groupTableName: string,
+  chosenCountries: {homeCountry: string, awayCountry: string},
+  setChosenCountries: React.Dispatch<React.SetStateAction<{
+    homeCountry: string;
+    awayCountry: string;
+}>>,
 }
 
-const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
+const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenCountries} : GropuTableProps) => {
   return (
 
     <div className='body-table'>
@@ -34,7 +39,7 @@ const GroupTable = ({groupTableData, groupTableName} : GropuTableProps) => {
           </thead>
         <tbody>
           {groupTableData ? groupTableData.map(({name, points, won, drawn, lost}, index) => (
-            <tr key={index}>
+            <tr key={index} onClick={() => setChosenCountries({homeCountry: name, awayCountry: chosenCountries.awayCountry})}>
               <td><h5>{index + 1}.</h5></td>
               <td >
                   <CountryIcon size='md' countryName={name} />             

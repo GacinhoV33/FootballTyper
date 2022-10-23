@@ -8,9 +8,14 @@ import { GroupMatch } from '../GroupStage/GroupStage';
 import BetModal from './BetModal';
 export interface MatchrowProps{
     groupMatch: GroupMatch,
+    chosenCountries: {homeCountry: string, awayCountry: string},
+    setChosenCountries: React.Dispatch<React.SetStateAction<{
+        homeCountry: string;
+        awayCountry: string;
+    }>>,
 }
 
-const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
+const Matchrow: React.FC<MatchrowProps> = ({groupMatch, chosenCountries, setChosenCountries}) => {
     const [showBet, setShowBet] = useState<boolean>(false);
     const [showAlert, setAlert] = useState<boolean>(false);
 
@@ -23,10 +28,10 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
     const [modalValue, setModalValue] = useState<{homeScore: string, awayScore: string}>({homeScore: '', awayScore: ''});
     const day = getDayFromDate(date);
     getDayFromDate(date);
-    
+
     return (
     <>
-    <div className='match-body'>
+    <div className='match-body' onClick={()=> setChosenCountries({homeCountry: groupMatch.homeTeam, awayCountry: groupMatch.awayTeam})}>
         <div style={{height: '4.5rem', border: '2px solid #111231', borderRadius: '5px', boxShadow: '#222342', padding: '0.75rem', margin: '0.5rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{flex: '1'}}><CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px'/></div>
             <div style={{flex: '4', textAlign: 'center'}}><h4>{groupMatch.homeTeam} - {groupMatch.awayTeam}</h4></div>

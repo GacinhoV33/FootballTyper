@@ -7,7 +7,7 @@ export interface LoadingLayoutProps {
 }
 const LoadingLayout: React.FC<LoadingLayoutProps> = ({componentName}) => {
   return (
-    <div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
+    <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '45vh'}}>
         <h1>{componentName} loading...</h1>
         <Spinner animation='border' />
     </div>

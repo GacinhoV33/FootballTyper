@@ -12,9 +12,11 @@
 
 .match-body{
     position: relative;
+    cursor: pointer;
+    :hover{
+        opacity: 90%;
+    }
 }
-
-
 
 .input-score{
     width: 4rem;

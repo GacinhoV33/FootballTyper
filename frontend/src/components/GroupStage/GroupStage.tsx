@@ -8,9 +8,8 @@ import GroupSwitch from './GroupSwitch/GroupSwitch';
 import GroupTable from './GroupTable/GroupTable';
 // interfaces
 import {GroupTableItem} from './GroupTable/GroupTable';
-
-// structures
-import groupLetters from '../../helpers/structures';
+import LeftBar from './LeftBar/LeftBar';
+import RightBar from './RightBar/RightBar';
 // Fetch: In this component we should use data from context that contains info about groups 
 
 export interface GroupMatch {
@@ -38,7 +37,7 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
   const [currentGroup, setCurrentGroup] = useState<string>("A");
   const [currentGroupData, setCurrentGroupData] = useState<GroupTableItem[] | null>(null)
   const [currentGroupMatches, setCurrentGroupMatches] = useState<GroupMatch[] | null>(null);
-
+  const [chosenCountries, setChosenCountries] = useState<{homeCountry: string, awayCountry: string}>({homeCountry: 'none', awayCountry: 'none'});
   useEffect(() => {
     setCurrentGroupMatches(groupMatches[Number(letterToNumber.get(currentGroup))])
     setCurrentGroupData(dataTeams[Number(letterToNumber.get(currentGroup))])
@@ -51,19 +50,31 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
   }
   return (
     <div className='group-stage'>
-      <GroupSwitch 
-        groupLetters={groupLetters}
-        currentGroup={currentGroup}
-        setCurrentGroup={reloadData}
+      <div className='group-stage-left'>
+        <LeftBar chosenCountries={chosenCountries}/>
+      </div>
+      <div className='group-stage-center'>
+        <GroupSwitch 
+          groupLetters={groupLetters}
+          currentGroup={currentGroup}
+          setCurrentGroup={reloadData}
+          />
+        <GroupTable 
+          groupTableData={currentGroupData}
+          groupTableName={currentGroup}
+          chosenCountries={chosenCountries}
+          setChosenCountries={setChosenCountries}
+          />
+        <GroupStageMatches
+          groupMatches={currentGroupMatches}
+          chosenCountries={chosenCountries}
+          setChosenCountries={setChosenCountries}
         />
-      <GroupTable 
-        groupTableData={currentGroupData}
-        groupTableName={currentGroup}
-        />
-      <GroupStageMatches
-        groupMatches={currentGroupMatches}
-      />
-      <GroupStagePlayerStatistics/>
+        <GroupStagePlayerStatistics/>
+      </div>
+      <div className='group-stage-right'>
+        <RightBar chosenCountries={chosenCountries}/>
+      </div>
     </div>
   )
 }
@@ -72,3 +83,4 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
 
 export default GroupStage
 
+export const groupLetters = ["A", "B", "C", "D", "E", "F", "G", "H"];
