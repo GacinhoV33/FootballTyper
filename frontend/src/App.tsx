@@ -11,7 +11,7 @@ import Statistics from './components/Statistics/Statistics';
 import Rules from './components/Rules/Rules';
 import Login from './components/Login/Login';
 import Profil from './components/Profil/Profil';
-
+import LoadingLayout from './components/LoadingLayout/LoadingLayout';
 import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
@@ -19,8 +19,7 @@ import { createContext, useEffect, useState } from 'react';
 import { Router, Route, Routes } from 'react-router-dom';
 
 // This component contains whole logic, all main components and it's the manager of whole application
-
-export const AppCtx = createContext<any>('string');
+export const UserContext = createContext('userNotLogged');
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
@@ -49,30 +48,30 @@ function App() {
   }, []);
 
   return (
-
+    <UserContext.Provider value={'user123'}>
     <div className='app-body'>
       <NavbarComp />
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/knockout' element={<KnockoutStage />} />
-        <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : null} />
-        <Route path='/yourbets' element={<YourBets userName='testUser1' allBets={allBets} />} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
+        <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage'/>} />
+        <Route path='/yourbets' element={allBets ? <YourBets userName='testUser1' allBets={allBets} /> : <LoadingLayout componentName='My bets'/>} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
         <Route
           path='/ranking'
           element={
             <Ranking
-              currentUserName="TestUser2" // TODO REMOVE 
               allUsers={dummyData}
             />
           }
         />
         <Route path='/statistics' element={<Statistics />} />
         <Route path='/rules' element={<Rules />} />
-        <Route path='/Login' element={<Login />} />  {/* #TODO think about login*/}
+        <Route path='/Login' element={<Login />} /> 
         <Route path='/profil' element={<Profil />} />
       </Routes >
       <Footer />
     </div >
+    </UserContext.Provider>
   );
 }
 

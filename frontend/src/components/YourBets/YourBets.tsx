@@ -7,22 +7,24 @@ import FiltersMyBets, { BetFilters } from './Filters/FiltersMyBets';
 
 export interface YourBetsProps{
   userName: string,
-  allBets: Bet[] | null,
+  allBets: Bet[],
 }
 const YourBets: React.FC<YourBetsProps> = ({userName, allBets}) => {
+  const currentDate = new Date();
+  allBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
   const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>([])
-  const [betsToShow, setBetsToShow] = useState<Bet[] | null>(allBets)
-  console.log('AllBets', allBets);
+  const [betsToShow, setBetsToShow] = useState<Bet[]>(allBets)
+
   function sortMyBets(){
     let currentBets = allBets;
     if(filterMyBets.indexOf('GroupStage') !== -1 && allBets){
-      currentBets = allBets?.filter((bet) => bet.matchId <= 92)      // #TODO how to verify that match is groupstage
+      currentBets = allBets.filter((bet) => bet.matchId <= 92)      // #TODO how to verify that match is groupstage
     }
     if(filterMyBets.indexOf('Correct') !== -1 && allBets){
-      currentBets = allBets?.filter((bet) => bet.successfulBet)
+      currentBets = allBets.filter((bet) => bet.successfulBet)
     }
     else if(filterMyBets.indexOf('Wrong') !== -1 && allBets){
-      currentBets = allBets?.filter((bet) => !bet.successfulBet)
+      currentBets = allBets.filter((bet) => !bet.successfulBet)
     }
     if(filterMyBets.indexOf('KnockoutStage') !== -1 && allBets){
       //#TODO knockout stage
@@ -32,7 +34,8 @@ const YourBets: React.FC<YourBetsProps> = ({userName, allBets}) => {
   useEffect(
     () => sortMyBets()
   , [filterMyBets]);
-
+  
+  
   return (
     <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
       <FiltersMyBets activeFilters={filterMyBets} setActiveFilters={setFilterMyBets}/>

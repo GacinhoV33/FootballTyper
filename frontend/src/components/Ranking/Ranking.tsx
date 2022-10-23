@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import './Ranking.scss';
 // bootstrap
@@ -7,7 +7,7 @@ import FilterRanking from './FilterRanking';
 import FilterLeauge from './FilterLeauge';
 import ListRanking from './ListRanking';
 import { User } from '../../App';
-
+import { CSSTransition } from 'react-transition-group';
 
 export type LeaugeName = {
   leaugeName: string,
@@ -17,11 +17,10 @@ export type LeaugeName = {
 export type RankingFilters = 'general' | 'lastDay' | 'groupStage' | 'knockoutStage';
 
 export type RankingProps = {
-  currentUserName: string,
   allUsers: User[]
 }
 
-const Ranking = ({ currentUserName, allUsers }: RankingProps) => {
+const Ranking = ({ allUsers }: RankingProps) => {
 
   const [filter, setFilter] = useState<RankingFilters>('general');
   const [leaugeFilter, setLeaugeFilter] = useState<string>('main');
@@ -31,13 +30,12 @@ const Ranking = ({ currentUserName, allUsers }: RankingProps) => {
   const sortedUsers = leaugeUsers.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBet - user1.totalExactScoreBet);
   useEffect(() => setUsersToDisplay(sortedUsers),
     [leaugeFilter])
-  const currentDate = new Date(); //TODO 
-  
-    return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+  const currentDate = new Date();
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <FilterRanking activeFilter={filter} setActiveFilter={setFilter} userName={currentUserName} />
+          <FilterRanking activeFilter={filter} setActiveFilter={setFilter}/>
           <FilterLeauge currentFilter={leaugeFilter} setCurrentFilter={setLeaugeFilter} />
         </div>
       </div>

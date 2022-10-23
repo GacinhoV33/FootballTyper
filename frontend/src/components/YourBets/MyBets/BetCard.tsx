@@ -17,11 +17,12 @@ const BetCard: React.FC<BetCardProps> = ({ bet, gridId }) => {
   const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; // TODO add option after deadline
 
   function handleSave() {
-    try{
-      if(currentBet.homeBet < 100 && currentBet.awayBet < 100){
-        setBaseBet({homeBet: currentBet.homeBet, awayBet: currentBet.awayBet });
-      }}
-    catch(e){
+    try {
+      if (currentBet.homeBet < 100 && currentBet.awayBet < 100) {
+        setBaseBet({ homeBet: currentBet.homeBet, awayBet: currentBet.awayBet });
+      }
+    }
+    catch (e) {
       console.log(e);
     }
     console.log("Saved", baseBet, currentBet);
@@ -31,7 +32,6 @@ const BetCard: React.FC<BetCardProps> = ({ bet, gridId }) => {
     <Card style={{ borderRadius: '25px', boxShadow: betString }}>
       <Card.Header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ display: 'flex' }}><CircleFlag countryCode='pl' style={{ paddingRight: '1.5rem' }} height='75' /></div>
-        {/* <h3> ? : ? </h3> */}
         <h3>{bet.homeTeamScore ? bet.homeTeamScore : '?'} : {bet.awayTeamScore ? bet.awayTeamScore : '?'}</h3>
         <CircleFlag countryCode='es' style={{ paddingLeft: '1.5rem' }} height='75' />
       </Card.Header>
@@ -53,14 +53,15 @@ const BetCard: React.FC<BetCardProps> = ({ bet, gridId }) => {
               min='0'
               max='30'
               placeholder={bet.awayTeamScoreBet.toString()}
-              onChange={e => setCurrentBet({ homeBet: currentBet.homeBet, awayBet: Number.parseInt(e.target.value)})}
+              onChange={e => setCurrentBet({ homeBet: currentBet.homeBet, awayBet: Number.parseInt(e.target.value) })}
             />
           </div>
           <div style={{}}></div>
           <div style={{ gridRow: '8', gridColumn: '1/4' }}>
             <Button style={{ width: '100%' }} disabled={betDisabled} onClick={handleSave} variant={betDisabled ? 'success' : 'primary'}>
               {betDisabled ? 'Saved' : 'Save'}
-            </Button></div>
+            </Button>
+          </div>
         </div>
       </Card.Body>
     </Card>

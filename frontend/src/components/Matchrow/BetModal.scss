@@ -1,20 +1,20 @@
+.modal-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .modal-title{
     text-align: center;
 }
 
-.alert-body2{
-    width: 15%;
+.alert-body{
+    width: 150%;
     height: 10vh;
     position: fixed;
     top: 5rem;
     right: 2rem;
 }
-
-.match-body{
-    position: relative;
-}
-
-
 
 .input-score{
     width: 4rem;
@@ -29,6 +29,7 @@
     width: 50%;
     right: 25%;
 }
+
 
 .no-spin::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {
     -webkit-appearance: none !important;

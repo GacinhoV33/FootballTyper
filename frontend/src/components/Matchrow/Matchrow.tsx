@@ -1,28 +1,29 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import './Matchrow.scss';
 import { CircleFlag } from 'react-circle-flags'
 import Button from 'react-bootstrap/Button'; 
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import { GroupMatch } from '../GroupStage/GroupStage';
+import BetModal from './BetModal';
 export interface MatchrowProps{
     groupMatch: GroupMatch,
 }
 
 const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
     const [showBet, setShowBet] = useState<boolean>(false);
-    const handleClose = () => setShowBet(false);
+    const [showAlert, setAlert] = useState<boolean>(false);
+
+    const handleClose = () => {
+        setShowBet(false)
+       };
     const handleOpen = () => setShowBet(true);
     
     const [date, hour] = groupMatch.date.split('T');
+    const [modalValue, setModalValue] = useState<{homeScore: string, awayScore: string}>({homeScore: '', awayScore: ''});
     const day = getDayFromDate(date);
     getDayFromDate(date);
-    const [showAlert, setAlert] = useState<boolean>(false);
-    function handleSubmit() {
-        handleClose();
-        setAlert(true);
-        setTimeout(() => setAlert(false), 2000);
-    }
+    
     return (
     <>
     <div className='match-body'>
@@ -43,23 +44,27 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch}) => {
             </div>
         </div>
     </div>
-        {showBet && 
-            <Modal show={showBet} onHide={handleClose} centered> 
-                <Modal.Title className='modal-header'>
-                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.homeTeam) as string} style={{marginRight: '1.5rem'}}/>
-                        <h4 className='modal-title'> {groupMatch.homeTeam} vs {groupMatch.awayTeam}</h4> 
-                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.awayTeam) as string} style={{marginLeft: '1.5rem'}}/>
-                </Modal.Title>
-
-                <Modal.Body style={{display: 'flex', justifyContent: 'center'}}> 
-                    <input className='input-score no-spin' maxLength={2} type="number" /> <h6 style={{position: 'absolute', bottom: '1.4rem'}}> - </h6> <input className='input-score no-spin' maxLength={2} type="number"/> 
-        {/* TODO - fix center of VS and make separte component of it */}
-                </Modal.Body>
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem'}}>
-                <Button style={{width: '8rem'}} size='sm' onClick={handleSubmit}> Submit </Button>
-                </div>
-            </Modal>}
-        {showAlert && <div className='correct-submit-alert'> <Alert variant='success'> Match bet submitted correctly </Alert> </div>} 
+            {showBet && <BetModal 
+            showBet={showBet} 
+            handleClose={handleClose} 
+            modalValue={modalValue} 
+            groupMatch={groupMatch} 
+            setModalValue={setModalValue}
+            showAlert={showAlert}
+            setAlert={setAlert}
+            />
+            }
+            {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >=0  && Number(modalValue.awayScore) >=0 && Number(modalValue.awayScore) < 100) ?
+                <Alert className='alert-body2' variant='success'>
+                    <Alert.Heading>Success!</Alert.Heading>
+                    Match bet submitted correctly
+                </Alert>
+                :
+                <Alert className='alert-body2' variant='danger'>
+                    <Alert.Heading>Error!</Alert.Heading>
+                    Wrong input
+                </Alert>
+            ) : null}
         </>
   )
 }

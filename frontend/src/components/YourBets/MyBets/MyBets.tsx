@@ -22,17 +22,17 @@ export type Bet = {
 }
 
 export interface MyBetsProps {
-  userBetsData: Bet[] | null,
-  allBets: Bet[] | null,
+  userBetsData: Bet[],
+  allBets: Bet[],
 }
 
 const MyBets: React.FC<MyBetsProps> = ({ userBetsData, allBets }) => {
   console.log('This is data from MyBets Comp: ', userBetsData);
   return (
     <div className='bet-body'>
-      {userBetsData ? userBetsData.map((bet, index) => (
+      {userBetsData.map((bet, index) => (
         <BetCard bet={bet} gridId={{ row: Math.floor(index / 4), column: index % 4 }} key={index} />
-      )) : null}
+      ))}
     </div>
   )
 }

@@ -1,8 +1,9 @@
 import React from 'react'
 import './GroupStageMatches.scss';
-
-import  Matchrow  from '../../Matchrow/Matchrow'
+import    Matchrow  from '../../Matchrow/Matchrow'
 import { GroupMatch } from '../GroupStage';
+
+import Spinner from 'react-bootstrap/Spinner'
 interface GroupStageMatchesProps {
   groupMatches: GroupMatch[] | null,
 }
@@ -12,7 +13,7 @@ const GroupStageMatches = ({groupMatches} : GroupStageMatchesProps) => {
     <div style={{width: '45%'}}>
       { groupMatches ? groupMatches.map((item: GroupMatch, index) => (
         <Matchrow groupMatch={item} key={index}/>
-      )) : null}
+      )) : <Spinner animation='border' />}
     </div>
   )
 }
