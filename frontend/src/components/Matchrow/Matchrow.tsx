@@ -28,23 +28,32 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     const [modalValue, setModalValue] = useState<{ homeScore: string, awayScore: string }>({ homeScore: '', awayScore: '' });
     const day = getDayFromDate(date);
     getDayFromDate(date);
-
+    
     return (
         <>
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam, awayCountry: groupMatch.awayTeam })}>
                 <div className='main-match-body'>
-                    <div style={{ flex: '1' }}><CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px' /></div>
+                    <div style={{ flex: '1' }}>
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px' />
+                    </div>
+                    <div style={{flex: '1', textAlign: 'right'}}>
+                        {groupMatch.homeTeamScore === -1 ? <h4>?</h4> : groupMatch.homeTeamScore}
+                    </div>
                     <div style={{ flex: '6', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                         <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '11px' }}>
-                            {date} {day} {hour}
+                            {date} {day} {hour.slice(0, 5)}
                         </p>
                         <h4 style={{ paddingTop: '0' }}>
                             {groupMatch.homeTeam} - {groupMatch.awayTeam}
                         </h4>
                     </div>
+                    <div style={{flex: '1'}}>
+                        {groupMatch.awayTeamScore === -1 ? <h4>?</h4> : groupMatch.awayTeamScore}
+                    </div>
                     <div style={{ flex: '1', display: 'flex', justifyContent: 'right' }}>
                         <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam) as string} height='40px' />
                     </div>
+
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
                         <Button onClick={handleOpen}>BET</Button>
                     </div>
@@ -56,7 +65,6 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                 modalValue={modalValue}
                 groupMatch={groupMatch}
                 setModalValue={setModalValue}
-                showAlert={showAlert}
                 setAlert={setAlert}
             />
             }

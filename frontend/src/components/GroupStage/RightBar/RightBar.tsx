@@ -16,20 +16,20 @@ const RightBar: React.FC<RightBarProps> = ({chosenCountries, currentGroup}) => {
   return (
     <div className='right-bar'>
       <div style={{display: 'flex'}}>
-        <h2 style={{textAlign: 'center'}}>Top Scores</h2>
-        <h3> GROUP {currentGroup} </h3>
+        <h2 style={{textAlign: 'left'}}>Top Scores</h2>
+        <h3 style={{textAlign: 'center'}}> GROUP {currentGroup} </h3>
       </div>
     
     <Table>
         <tbody>
         {dummyPlayerData.map(({playerName, goals, assists, team, yellowCards, redCards, imgPath} : Player, index: number) => (
-            <tr>
-            <td>{index+1}</td>
-            <td>{playerName}</td>
-            <td>{goals} <BiFootball size={20}/></td>
-            <td>{assists} A</td>
-            <td>{yellowCards} <TbRectangleVertical size={20} style={{color:'#EDED22'}} fill={'#FEFE22'}/> </td>
-            <td>{redCards} <TbRectangleVertical size={20} style={{color:'#ED1111'}} fill={'#FE0000'}/> </td>
+            <tr style={{textAlign: 'center'}}>
+            <td style={{fontWeight: '500'}}>{index+1}</td>
+            <td style={{textAlign: 'left'}}>{playerName}</td>
+            <td> <BiFootball size={20}/> {goals}</td>
+            <td><span style={{fontWeight: '500', color: 'chocolate'}}> A </span>{assists}</td>
+            <td> <TbRectangleVertical size={20} style={{color:'#EDED22'}} fill={'#FEFE22'}/> {yellowCards}</td>
+            <td> <TbRectangleVertical size={20} style={{color:'#ED1111'}} fill={'#FE0000'}/> {redCards}  </td>
 
             {/* <div style={{fontWeight: '700'}}>{index+1} {playerName}</div>
             {goals}<BiFootball size={20}/> {assists} {team} */}

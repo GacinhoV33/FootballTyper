@@ -15,18 +15,17 @@ export interface BetModalProps {
         homeScore: string;
         awayScore: string;
     }>>,
-    showAlert: boolean,
     setAlert: React.Dispatch<React.SetStateAction<boolean>>,
 
 }
 
-const BetModal: React.FC<BetModalProps> = ({ showAlert, showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert }) => {
+const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert }) => {
 
     function handleSubmit() {
         handleClose();
         setAlert(true)
-        setTimeout(() => 
-        {setAlert(false)
+        setTimeout(() => {
+            setAlert(false)
         }, 2000);
     }
     return (
@@ -40,9 +39,20 @@ const BetModal: React.FC<BetModalProps> = ({ showAlert, showBet, handleClose, mo
                 </Modal.Title>
 
                 <Modal.Body style={{ display: 'flex', justifyContent: 'center' }}>
-                    <input className='input-score no-spin' maxLength={2} type="number" value={modalValue.homeScore} onChange={(e) => setModalValue({ homeScore: e.target.value, awayScore: modalValue.awayScore })} />
+                    <input
+                        className='input-score no-spin'
+                        maxLength={2}
+                        type="number"
+                        value={modalValue.homeScore}
+                        onChange={(e) => setModalValue({ homeScore: e.target.value, awayScore: modalValue.awayScore })}
+                    />
                     <h6 style={{ position: 'absolute', bottom: '1.4rem' }}> - </h6>
-                    <input className='input-score no-spin' maxLength={2} type="number" value={modalValue.awayScore} onChange={(e) => setModalValue({ homeScore: modalValue.homeScore, awayScore: e.target.value })} />
+                    <input
+                        className='input-score no-spin'
+                        maxLength={2} type="number"
+                        value={modalValue.awayScore} 
+                        onChange={(e) => setModalValue({ homeScore: modalValue.homeScore, awayScore: e.target.value })} 
+                    />
                     {/* TODO - fix center of VS and make separte component of it */}
                 </Modal.Body>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>

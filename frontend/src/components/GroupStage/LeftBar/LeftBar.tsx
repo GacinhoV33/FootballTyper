@@ -19,7 +19,7 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
 
                         <tr style={{textAlign: 'center'}}>
                             <td style={{fontWeight: '500'}}>{index + 1}</td>
-                            <td>{playerName}</td>
+                            <td style={{textAlign: 'left'}}>{playerName}</td>
                             <td><BiFootball size={20} />{goals}</td>
                             <td> <span style={{fontWeight: '500', color: 'chocolate'}}>A</span> {assists} </td>
                             <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
