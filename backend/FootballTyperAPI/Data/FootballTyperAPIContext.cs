@@ -34,6 +34,11 @@ namespace FootballTyperAPI.Data
             return (await GetAllMatches()).Where(t => t.RoundNumber <= 3).ToList();
         }
 
+        public async Task<List<Match>> GetAllKnockoutMatches()
+        {
+            return (await GetAllMatches()).Where(t => t.RoundNumber > 3).ToList();
+        }
+
         public List<Team> GetAllTeams()
         {
             return Teams.ToList();

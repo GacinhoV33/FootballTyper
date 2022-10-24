@@ -4,6 +4,7 @@ using FootballTyperAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FootballTyperAPI.Migrations
 {
     [DbContext(typeof(FootballTyperAPIContext))]
-    partial class FootballTyperAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20221024115049_TyperUserAuthenticationRegistrationETC")]
+    partial class TyperUserAuthenticationRegistrationETC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,28 +68,6 @@ namespace FootballTyperAPI.Migrations
                     b.HasIndex("MatchId");
 
                     b.ToTable("Bets", (string)null);
-                });
-
-            modelBuilder.Entity("FootballTyperAPI.Models.League", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TyperUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TyperUserId");
-
-                    b.ToTable("League");
                 });
 
             modelBuilder.Entity("FootballTyperAPI.Models.Match", b =>
@@ -187,29 +167,16 @@ namespace FootballTyperAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImgLink")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TotalCorrectWinnerBets")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalExactScoreBets")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalPoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalWrongBets")
-                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -231,13 +198,6 @@ namespace FootballTyperAPI.Migrations
                     b.Navigation("Match");
                 });
 
-            modelBuilder.Entity("FootballTyperAPI.Models.League", b =>
-                {
-                    b.HasOne("FootballTyperAPI.Models.TyperUser", null)
-                        .WithMany("Leagues")
-                        .HasForeignKey("TyperUserId");
-                });
-
             modelBuilder.Entity("FootballTyperAPI.Models.Match", b =>
                 {
                     b.HasOne("FootballTyperAPI.Models.Team", "AwayTeam")
@@ -251,11 +211,6 @@ namespace FootballTyperAPI.Migrations
                     b.Navigation("AwayTeam");
 
                     b.Navigation("HomeTeam");
-                });
-
-            modelBuilder.Entity("FootballTyperAPI.Models.TyperUser", b =>
-                {
-                    b.Navigation("Leagues");
                 });
 #pragma warning restore 612, 618
         }

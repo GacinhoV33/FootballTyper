@@ -17,5 +17,7 @@
         public DateTime Date { get; set; }
 
         public string? Referee { get; set; }
+
+        public string? Stage { get; set; }
     }
 }
