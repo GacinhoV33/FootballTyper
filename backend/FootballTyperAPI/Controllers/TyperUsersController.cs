@@ -43,7 +43,7 @@ namespace FootballTyperAPI.Controllers
             return Ok(new { message = "Registration successful" });
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -52,7 +52,7 @@ namespace FootballTyperAPI.Controllers
         }
 
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -61,7 +61,7 @@ namespace FootballTyperAPI.Controllers
         }
 
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPut("{id}")]
         public IActionResult Update(int id, UpdateRequest model)
         {
@@ -70,7 +70,7 @@ namespace FootballTyperAPI.Controllers
         }
 
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
