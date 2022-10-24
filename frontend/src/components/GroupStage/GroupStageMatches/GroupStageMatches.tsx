@@ -16,10 +16,14 @@ interface GroupStageMatchesProps {
 
 const GroupStageMatches = ({groupMatches, chosenCountries, setChosenCountries} : GroupStageMatchesProps) => {
   return (
-    <div style={{width: '45%'}}>
+    <div className='group-stage-matches-content'>
       { groupMatches ? groupMatches.map((item: GroupMatch, index) => (
+        <div>
         <Matchrow groupMatch={item} key={index} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries}/>
-      )) : <Spinner animation='border' />}
+        </div>
+      )) : <Spinner animation='border' />
+
+      }
     </div>
   )
 }

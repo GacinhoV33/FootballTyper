@@ -1,65 +1,66 @@
 import React, { useRef, useState } from 'react'
 import './Matchrow.scss';
 import { CircleFlag } from 'react-circle-flags'
-import Button from 'react-bootstrap/Button'; 
+import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import { GroupMatch } from '../GroupStage/GroupStage';
 import BetModal from './BetModal';
-export interface MatchrowProps{
+export interface MatchrowProps {
     groupMatch: GroupMatch,
-    chosenCountries: {homeCountry: string, awayCountry: string},
+    chosenCountries: { homeCountry: string, awayCountry: string },
     setChosenCountries: React.Dispatch<React.SetStateAction<{
         homeCountry: string;
         awayCountry: string;
     }>>,
 }
 
-const Matchrow: React.FC<MatchrowProps> = ({groupMatch, chosenCountries, setChosenCountries}) => {
+const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setChosenCountries }) => {
     const [showBet, setShowBet] = useState<boolean>(false);
     const [showAlert, setAlert] = useState<boolean>(false);
 
     const handleClose = () => {
         setShowBet(false)
-       };
+    };
     const handleOpen = () => setShowBet(true);
-    
+
     const [date, hour] = groupMatch.date.split('T');
-    const [modalValue, setModalValue] = useState<{homeScore: string, awayScore: string}>({homeScore: '', awayScore: ''});
+    const [modalValue, setModalValue] = useState<{ homeScore: string, awayScore: string }>({ homeScore: '', awayScore: '' });
     const day = getDayFromDate(date);
     getDayFromDate(date);
 
     return (
-    <>
-    <div className='match-body' onClick={()=> setChosenCountries({homeCountry: groupMatch.homeTeam, awayCountry: groupMatch.awayTeam})}>
-        <div style={{height: '4.5rem', border: '2px solid #111231', borderRadius: '5px', boxShadow: '#222342', padding: '0.75rem', margin: '0.5rem', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-            <div style={{flex: '1'}}><CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px'/></div>
-            <div style={{flex: '4', textAlign: 'center'}}><h4>{groupMatch.homeTeam} - {groupMatch.awayTeam}</h4></div>
-            <div style={{flex: '1', display: 'flex', justifyContent: 'right'}}><CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam) as string} height='40px'/></div>
-            <div style={{flex: '2', flexDirection: 'column', display: 'flex', alignItems: 'center', marginTop: '0.9rem'}}>
-                <h6>{date}</h6>
-                <p >{hour}</p>
+        <>
+            <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam, awayCountry: groupMatch.awayTeam })}>
+                <div className='main-match-body'>
+                    <div style={{ flex: '1' }}><CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px' /></div>
+                    <div style={{ flex: '6', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                        <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '11px' }}>
+                            {date} {day} {hour}
+                        </p>
+                        <h4 style={{ paddingTop: '0' }}>
+                            {groupMatch.homeTeam} - {groupMatch.awayTeam}
+                        </h4>
+                    </div>
+                    <div style={{ flex: '1', display: 'flex', justifyContent: 'right' }}>
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam) as string} height='40px' />
+                    </div>
+                    <div style={{ flexGrow: '1', textAlign: 'right' }}>
+                        <Button onClick={handleOpen}>BET</Button>
+                    </div>
+                </div>
             </div>
-            <div style={{flex:' 1.5', textAlign:'center'}}>
-                <h6>{day}</h6>
-            </div>
-            
-            <div style={{flexGrow: '1', textAlign: 'right'}}> 
-                <Button onClick={handleOpen}>BET</Button>
-            </div>
-        </div>
-    </div>
-            {showBet && <BetModal 
-            showBet={showBet} 
-            handleClose={handleClose} 
-            modalValue={modalValue} 
-            groupMatch={groupMatch} 
-            setModalValue={setModalValue}
-            showAlert={showAlert}
-            setAlert={setAlert}
+            {showBet && <BetModal
+                showBet={showBet}
+                handleClose={handleClose}
+                modalValue={modalValue}
+                groupMatch={groupMatch}
+                setModalValue={setModalValue}
+                showAlert={showAlert}
+                setAlert={setAlert}
             />
             }
-            {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >=0  && Number(modalValue.awayScore) >=0 && Number(modalValue.awayScore) < 100) ?
+            {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >= 0 && Number(modalValue.awayScore) >= 0 && Number(modalValue.awayScore) < 100) ?
                 <Alert className='alert-body2' variant='success'>
                     <Alert.Heading>Success!</Alert.Heading>
                     Match bet submitted correctly
@@ -71,20 +72,20 @@ const Matchrow: React.FC<MatchrowProps> = ({groupMatch, chosenCountries, setChos
                 </Alert>
             ) : null}
         </>
-  )
+    )
 }
 
 export default Matchrow
 
-function getDayFromDate(date: string){
+function getDayFromDate(date: string) {
     const daysShortcut = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const dayIndex = new Date(date).getDay();  
+    const dayIndex = new Date(date).getDay();
     return daysShortcut[dayIndex];
-    
+
 }
 
-export let CountryDict = new Map<string , string>();
+export let CountryDict = new Map<string, string>();
 CountryDict.set('Ecuador', 'ec')
 CountryDict.set('Netherlands', 'nl')
 CountryDict.set('Qatar', 'qa')

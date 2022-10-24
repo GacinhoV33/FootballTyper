@@ -30,7 +30,7 @@ const MyBets: React.FC<MyBetsProps> = ({ userBetsData, allBets }) => {
   return (
     <div className='bet-body'>
       {userBetsData.map((bet, index) => (
-        <BetCard bet={bet} gridId={{ row: Math.floor(index / 4), column: index % 4 }} key={index} />
+        <BetCard bet={bet} key={index} />
       ))}
     </div>
   )

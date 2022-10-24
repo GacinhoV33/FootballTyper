@@ -23,13 +23,16 @@ interface GropuTableProps {
 }
 
 const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenCountries} : GropuTableProps) => {
+  
+  
+  const highlightedItem = {backgroundColor: '#DEDE00'}
   return (
 
     <div className='body-table'>
-      <Table striped>
+      <Table striped style={{tableLayout: 'fixed'}}>
         <thead >
           <tr>
-              <th>.</th>
+              <th style={{width: '5%'}}></th>
               <th>Country</th>
               <th>Win</th>
               <th>Loss</th>
@@ -39,9 +42,13 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
           </thead>
         <tbody>
           {groupTableData ? groupTableData.map(({name, points, won, drawn, lost}, index) => (
-            <tr key={index} onClick={() => setChosenCountries({homeCountry: name, awayCountry: chosenCountries.awayCountry})}>
+            <tr 
+            key={index} 
+            onClick={() => setChosenCountries({homeCountry: name, awayCountry: chosenCountries.awayCountry})}
+            style={name === chosenCountries.homeCountry  || name === chosenCountries.awayCountry ? highlightedItem : undefined}
+            >
               <td><h5>{index + 1}.</h5></td>
-              <td >
+              <td style={{display: 'flex', gap: '0.7rem', fontWeight: '500', alignItems: 'center'}}>
                   <CountryIcon size='md' countryName={name} />             
                   {name}
               </td>
