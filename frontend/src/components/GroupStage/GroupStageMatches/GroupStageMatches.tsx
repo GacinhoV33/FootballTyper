@@ -16,7 +16,7 @@ interface GroupStageMatchesProps {
 
 const GroupStageMatches = ({groupMatches, chosenCountries, setChosenCountries} : GroupStageMatchesProps) => {
   return (
-    <div className='group-stage-matches-content' style={{width: '97%', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(3, 1fr)', gap: '5px'}}>
+    <div className='group-stage-matches-content'>
       { groupMatches ? groupMatches.map((item: GroupMatch, index) => (
         <div>
         <Matchrow groupMatch={item} key={index} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries}/>

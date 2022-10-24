@@ -1,9 +1,6 @@
-.dev-class-stage-matches{
-    width: 70%;
-}
-
 .group-stage-matches-content{
-    width: 97%;
+    margin-top: 2rem;
+    width: 91%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
