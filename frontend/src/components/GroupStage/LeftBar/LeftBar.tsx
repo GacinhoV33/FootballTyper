@@ -1,7 +1,8 @@
 import React from 'react';
 import './LeftBar.scss';
-import List from 'react-bootstrap/Listgroup';
-
+import Table from 'react-bootstrap/Table';
+import {BiFootball} from 'react-icons/bi';
+import { TbRectangleVertical } from 'react-icons/tb';
 
 export interface LeftBarProps{
     chosenCountries: {homeCountry: string, awayCountry: string},
@@ -11,18 +12,30 @@ export interface LeftBarProps{
 const LeftBar: React.FC<LeftBarProps> = ({chosenCountries}) => {
   return (
     <div className='left-bar'>
-        <List>
+        <h2 style={{textAlign: 'center'}}>Top Scores</h2>
+        <Table>
+            <tbody>
             {dummyPlayerData.map(({playerName, goals, assists, team, yellowCards, redCards, imgPath}, index) => (
-                <List.Item>
-                {/* TODO  - goals as a icon of ball, assists (find good icon), team as a rectangle flag, yellow cards as a yellow card icon same with red, img Path if dataBase with img of players on mundial*/}
-                <h4>{playerName}</h4>
-                {goals} {assists} {team}
-                </List.Item>
+            
+                <tr>
+                <td>{index+1}</td>
+                <td>{playerName}</td>
+                <td>{goals} <BiFootball size={20}/></td>
+                <td>{assists} A</td>
+                <td>{yellowCards} <TbRectangleVertical size={20} style={{color:'#EDED22'}} fill={'#FEFE22'}/> </td>
+                <td>{redCards} <TbRectangleVertical size={20} style={{color:'#ED1111'}} fill={'#FE0000'}/> </td>
+
+                {/* <div style={{fontWeight: '700'}}>{index+1} {playerName}</div>
+                {goals}<BiFootball size={20}/> {assists} {team} */}
+                </tr>
             ))}
-        </List>
+        </tbody>
+
+        </Table>
     </div>
   )
 }
+                {/* TODO  - goals as a icon of ball, assists (find good icon), team as a rectangle flag, yellow cards as a yellow card icon same with red, img Path if dataBase with img of players on mundial*/}
 
 export default LeftBar;
 
@@ -37,7 +50,7 @@ export interface Player{
     imgPath?: string,
 }
 
-const dummyPlayerData: Player[] = [
+export const dummyPlayerData: Player[] = [
     {
         playerName: 'Cristiano Ronaldo',
         goals: 5,

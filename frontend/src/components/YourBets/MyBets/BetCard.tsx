@@ -7,10 +7,9 @@ import Button from 'react-bootstrap/Button';
 
 export interface BetCardProps {
   bet: Bet,
-  gridId: { row: number, column: number },
 }
 
-const BetCard: React.FC<BetCardProps> = ({ bet, gridId }) => {
+const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const [baseBet, setBaseBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const [currentBet, setCurrentBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const betString = bet.successfulBet !== undefined ? (bet.successfulBet ? `0 1px 10px lightgreen` : `0 1px 10px red`) : undefined;
