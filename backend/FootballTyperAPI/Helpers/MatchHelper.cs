@@ -41,5 +41,50 @@ namespace FootballTyperAPI.Helpers
             };
         }
 
+        public static List<ScoreEnum> ConvertBetsToScoreEnums(List<Bet> bets)
+        {
+            var scoreEnums = new List<ScoreEnum>();
+            foreach(var bet in bets)
+            {
+                DefineScoreEnum(bet, out ScoreEnum score);
+                scoreEnums.Add(score);
+            }
+            return scoreEnums;
+        }
+
+        private static void DefineScoreEnum(Bet bet, out ScoreEnum score)
+        {
+            var matchResult = bet.Match;
+
+            if (matchResult.HomeTeamScore == matchResult.AwayTeamScore && bet.HomeTeamScoreBet == bet.AwayTeamScoreBet)
+            {
+                score = ScoreEnum.CorrectOutcome;
+                if (matchResult.HomeTeamScore == bet.HomeTeamScoreBet)
+                {
+                    score = ScoreEnum.CorrectScoreBet;
+                }
+                return;
+            }
+            else if (matchResult.HomeTeamScore > matchResult.AwayTeamScore && bet.HomeTeamScoreBet > bet.AwayTeamScoreBet)
+            {
+                score = ScoreEnum.CorrectOutcome;
+                if (matchResult.HomeTeamScore == bet.HomeTeamScoreBet && matchResult.AwayTeamScore == bet.AwayTeamScoreBet)
+                {
+                    score = ScoreEnum.CorrectScoreBet;
+                }
+                return;
+            }
+            else if (matchResult.HomeTeamScore < matchResult.AwayTeamScore && bet.HomeTeamScoreBet < bet.AwayTeamScoreBet)
+            {
+                score = ScoreEnum.CorrectOutcome;
+                if (matchResult.HomeTeamScore == bet.HomeTeamScoreBet && matchResult.AwayTeamScore == bet.AwayTeamScoreBet)
+                {
+                    score = ScoreEnum.CorrectScoreBet;
+                }
+                return;
+            }
+            score = ScoreEnum.WrongBet;
+        }
+
     }
 }

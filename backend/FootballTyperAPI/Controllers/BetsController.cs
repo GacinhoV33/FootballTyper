@@ -1,4 +1,5 @@
 ﻿using FootballTyperAPI.Data;
+using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -102,9 +103,13 @@ namespace FootballTyperAPI.Controllers
 
         // GET: api/Bets/User/{id}
         [HttpGet("User/{userId}")]
-        public async Task<ActionResult<IEnumerable<Bet>>> GetBetByUserId(string userId)
+        public async Task<ActionResult<IEnumerable<Bet>>> GetBetByUserId(int userId)
         {
-            var userBets = (await _context.GetAllBets()).Where(x => x.BettorUserName == userId).ToList();
+            var user = _context.TyperUser.FirstOrDefault(x => x.Id == userId);
+            if (user == null)
+                return NotFound();
+
+            var userBets = (await _context.GetAllBets()).Where(x => x.BettorUserName == user.Username).ToList();
 
             if (!userBets.Any())
             {
@@ -112,6 +117,32 @@ namespace FootballTyperAPI.Controllers
             }
 
             return userBets;
+        }
+
+        // GET: api/Bets/User/{username}
+        [HttpGet("User/{username}")]
+        public async Task<ActionResult<IEnumerable<Bet>>> GetBetByUsername(string username)
+        {
+            var userBets = (await _context.GetAllBets()).Where(x => x.BettorUserName == username).ToList();
+
+            if (!userBets.Any())
+            {
+                return NotFound();
+            }
+
+            return userBets;
+        }
+
+        // GET: api/Bets/User/LastFive/{username}
+        [HttpGet("User/LastFive/{username}")]
+        public async Task<List<ScoreEnum>> GetLastFiveBetScoresByUsername(string username)
+        {
+            var lastFiveBets = (await _context.GetAllBets())
+                .Where(x => x.BettorUserName == username && x.Match.Date <= DateTime.Now)
+                .OrderByDescending(t => t.Match.Date)
+                .Take(5)
+                .ToList();
+            return MatchHelper.ConvertBetsToScoreEnums(lastFiveBets);
         }
     }
 }
