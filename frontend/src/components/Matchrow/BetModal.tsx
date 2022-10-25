@@ -26,7 +26,7 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
         setAlert(true)
         setTimeout(() => {
             setAlert(false)
-        }, 2000);
+        }, 3000);
     }
     return (
 

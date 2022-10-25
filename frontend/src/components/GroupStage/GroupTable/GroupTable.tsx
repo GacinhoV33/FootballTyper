@@ -47,8 +47,8 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
             onClick={() => setChosenCountries({homeCountry: name, awayCountry: chosenCountries.awayCountry})}
             style={name === chosenCountries.homeCountry  || name === chosenCountries.awayCountry ? highlightedItem : undefined}
             >
-              <td><h5>{index + 1}.</h5></td>
-              <td style={{display: 'flex', gap: '0.7rem', fontWeight: '500', alignItems: 'center'}}>
+              <td style={{ height: '4rem'}}><h5>{index + 1}.</h5></td>
+              <td style={{display: 'flex', gap: '0.7rem', fontWeight: '500', alignItems: 'center', height: '4.06rem'}}>
                   <CountryIcon size='md' countryName={name} />             
                   {name}
               </td>

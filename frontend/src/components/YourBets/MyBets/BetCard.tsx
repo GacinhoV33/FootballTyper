@@ -8,6 +8,8 @@ import { HiBuildingStorefront } from 'react-icons/hi2';
 import { IoPersonSharp } from 'react-icons/io5';
 import { AiFillClockCircle } from 'react-icons/ai';
 import { BsFillCalendarDateFill } from 'react-icons/bs';
+import styled, { keyframes } from "styled-components";
+
 export interface BetCardProps {
   bet: Bet,
 }
@@ -31,17 +33,18 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
     //TODO send to database
   }
   return (
+    <CardAnimation>
     <Card style={{ borderRadius: '25px', boxShadow: betString, height: '105%'}}>
       <Card.Header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ display: 'flex' }}><CircleFlag countryCode='pl' style={{ paddingRight: '1.5rem' }} height='75' /></div>
         <h3>{bet.homeTeamScore ? bet.homeTeamScore : '?'} : {bet.awayTeamScore ? bet.awayTeamScore : '?'}</h3>
         <CircleFlag countryCode='es' style={{ paddingLeft: '1.5rem' }} height='75' />
       </Card.Header>
-      <Card.Body className='bet-card-body' style={{minHeight: '550px'}}>
+      <Card.Body className='bet-card-body'>
         <Card.Text>
         {/* {bet.successfulBet ? 'yes' : 'no'} */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2%'}}>
-        <div style={{ height: '50px', gridColumn: '1/4', display: 'flex', justifyContent: 'center' , marginTop: '0.75rem'}}>
+        <div style={{ height: '2.5rem', gridColumn: '1/4', display: 'flex', justifyContent: 'center' , marginTop: '0.25rem', marginBottom: '1rem'}}>
             <input className='bet-input'
               placeholder={bet.homeTeamScoreBet.toString()}
               type='number'
@@ -49,7 +52,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
               max='30'
               onChange={e => setCurrentBet({ homeBet: Number.parseInt(e.target.value), awayBet: currentBet.awayBet })}
             />
-            <h3>-</h3>
+            <h3 style={{padding:'0 1.5rem'}}>-</h3>
             <input
               className='bet-input'
               type='number'
@@ -78,7 +81,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           </div>
           <div style={{ gridColumn: '1/4'}}>
             {bet.homeTeamScore && bet.awayTeamScore ? <h4 style={{ textAlign: 'center' }}>5 points</h4> : // Style points TODO
-              <Button style={{ width: '100%' }} disabled={betDisabled} onClick={handleSave} variant={betDisabled ? 'success' : 'primary'}>
+              <Button style={{ width: '100%', marginTop: '1rem' }} disabled={betDisabled} onClick={handleSave} variant={betDisabled ? 'success' : 'primary'}>
                 {betDisabled ? 'Saved' : 'Save'}
               </Button>
             }
@@ -87,11 +90,31 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
         </Card.Text>
       </Card.Body>
     </Card>
+    </CardAnimation>
   )
 }
 
 export default BetCard;
 
+//animations
+const cardAnimation = keyframes`
+0%{
+  transform: scale(90%); 
+  opacity: 1;
+}
+50%{
+  transform: scale(105%);
+  opacity: 0.9;
+}
+100%{
+  transform: scale(100%);
+}
+`
+const CardAnimation = styled.div`
+  animation-name: ${cardAnimation};
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+`
 
 export let CountryDict = new Map<string, string>();
 CountryDict.set('Ecuador', 'ec')

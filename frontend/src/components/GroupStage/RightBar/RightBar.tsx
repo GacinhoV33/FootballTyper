@@ -5,6 +5,8 @@ import {BiFootball} from 'react-icons/bi';
 import { TbRectangleVertical } from 'react-icons/tb';
 import {dummyPlayerData} from '../LeftBar/LeftBar';
 import { Player } from '../LeftBar/LeftBar';
+import styled, { keyframes } from "styled-components";
+
 export interface RightBarProps{
     chosenCountries: {homeCountry: string, awayCountry: string},
     currentGroup: string,
@@ -14,7 +16,7 @@ export interface RightBarProps{
 
 const RightBar: React.FC<RightBarProps> = ({chosenCountries, currentGroup}) => {
   return (
-    <div className='right-bar'>
+    <RightBarAnimation>
       <div style={{display: 'flex'}}>
         <h2 style={{textAlign: 'left'}}>Top Scores</h2>
         <h3 style={{textAlign: 'center'}}> GROUP {currentGroup} </h3>
@@ -38,8 +40,31 @@ const RightBar: React.FC<RightBarProps> = ({chosenCountries, currentGroup}) => {
     </tbody>
 
     </Table>
-</div>
+</RightBarAnimation>
   )
 }
 
-export default RightBar
+export default RightBar;
+
+//animations
+
+const rightBarAnimation = keyframes`
+from{
+    transform: translateX(5rem);
+}
+to{
+    transform: translateX(0rem);
+}
+`;
+
+const RightBarAnimation = styled.div`
+    animation-name: ${rightBarAnimation};
+    animation-duration: 1s;
+    display: flex;
+    align-items: flex-start !important;
+    flex-direction: column;
+    padding-top: 5rem;
+    padding-right: 1rem;
+    animation-timing-function: ease-in-out;
+
+`

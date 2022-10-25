@@ -6,6 +6,8 @@ import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import { GroupMatch } from '../GroupStage/GroupStage';
 import BetModal from './BetModal';
+import styled, { keyframes } from "styled-components";
+
 export interface MatchrowProps {
     groupMatch: GroupMatch,
     chosenCountries: { homeCountry: string, awayCountry: string },
@@ -69,15 +71,20 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
             />
             }
             {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >= 0 && Number(modalValue.awayScore) >= 0 && Number(modalValue.awayScore) < 100) ?
-                <Alert className='alert-body2' variant='success'>
+                <AlertAnimation >
+                <Alert variant='success'>
                     <Alert.Heading>Success!</Alert.Heading>
                     Match bet submitted correctly
                 </Alert>
+                </AlertAnimation>
                 :
-                <Alert className='alert-body2' variant='danger'>
+                <AlertAnimation >
+                <Alert variant='danger'>
                     <Alert.Heading>Error!</Alert.Heading>
                     Wrong input
                 </Alert>
+                </AlertAnimation>
+
             ) : null}
         </>
     )
@@ -92,6 +99,28 @@ function getDayFromDate(date: string) {
     return daysShortcut[dayIndex];
 
 }
+
+
+//animations
+const alertAnimation = keyframes`
+from{
+    opacity: 1;
+    transform: translateY(-10px);
+}
+to{
+    opacity: 0;
+    transform: translateY(0px);
+}
+`
+const AlertAnimation = styled.div`
+animation-name: ${alertAnimation};
+animation-duration: 3s;
+width: 15%;
+height: 10vh;
+position: fixed;
+top: 1rem;
+right: 2rem;
+`
 
 export let CountryDict = new Map<string, string>();
 CountryDict.set('Ecuador', 'ec')

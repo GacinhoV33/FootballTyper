@@ -134,10 +134,10 @@ export interface User{
   totalWrongBet: number,
   leauges: string[],
   id: number,
+  lastFiveBets: number[],
 }
 
 export default App;
-
 export const dummyData: User[] = [
   {
     name: 'user123',
@@ -149,6 +149,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main', 'clownLeauge'],
     id: 21312,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user13',
@@ -160,6 +161,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main'],
     id: 21312,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1111',
@@ -171,6 +173,7 @@ export const dummyData: User[] = [
     totalWrongBet: 14,
     leauges: ['main'],
     id: 21313,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -182,6 +185,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main', 'clownLeauge'],
     id: 21314,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -193,6 +197,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main',],
     id: 21315,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -204,6 +209,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main', 'clownLeauge'],
     id: 21316,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -215,5 +221,6 @@ export const dummyData: User[] = [
     totalWrongBet: 1,
     leauges: ['main', 'clownLeauge'],
     id: 21317,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
 ]

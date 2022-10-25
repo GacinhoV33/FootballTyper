@@ -9,15 +9,9 @@ import { Bet } from '../YourBets/MyBets/MyBets';
 import Table from 'react-bootstrap/Table';
 import { UserContext } from '../../App';
 import { FaCrown } from 'react-icons/fa';
-
 export interface ListRankingProps {
     leauge: string,
     allUsers: User[],
-}
-
-export type UserLastBets = {
-    user: User,
-    lastBets: Bet[],  //TODO? 
 }
 
 const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
@@ -39,7 +33,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                     </tr>
                 </thead>
                 <tbody className='ranking-row-content'>
-                    {allUsers.map(({ totalPoints, name, totalCorrectWinnerBet, totalWrongBet, totalExactScoreBet }, index) => (
+                    {allUsers.map(({ totalPoints, name, totalCorrectWinnerBet, totalWrongBet, totalExactScoreBet, lastFiveBets }, index) => (
                         <tr key={index} style={userName === name ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
                             <td> <h4>{index + 1}.</h4> </td>
                             <td> {index === 0 ? <FaCrown style={{ color: 'orange' }} size='30' /> : null}</td>
@@ -49,8 +43,18 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                             <td> {totalCorrectWinnerBet}</td>
                             <td> {totalWrongBet}</td>
                             <td style={{ textAlign: 'center' }}>
-                                {[1, 2, 3, 4].map((i) => i % 2 === 0 ? <BsCheck style={{ color: 'green' }} size='40' /> : <BiCheckDouble style={{ color: 'lightgreen' }} size='40' />)}
-                                <ImCross style={{ color: 'red' }} size='20' />
+                                {lastFiveBets.map((userBet, index) => {
+                                    switch (userBet) {
+                                        case 0:
+                                            return <ImCross style={{ color: 'red', margin:'0 0.45rem' }} size='20' key={index}/>
+                                        case 1:
+                                            return <BsCheck style={{ color: 'green' }} size='40' key={index}/>
+                                        case 2:
+                                            return <BiCheckDouble style={{ color: 'lightgreen' }} size='40' key={index}/>
+                                    }
+                                }
+                                )
+                                }
                             </td>
                         </tr>
                     ))}
