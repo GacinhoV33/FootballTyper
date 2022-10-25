@@ -11,7 +11,7 @@ const NavbarComp = () => {
   
   return (
     <Navbar bg='light' expand='lg'>
-        <div style={{paddingLeft: '1.5rem', display: 'flex', flexDirection: 'row'}}>
+        <div className='navbar-content'>
         <Navbar.Brand href="/">Cool Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Nav className="me-auto">

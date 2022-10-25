@@ -73,7 +73,7 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
         <GroupStagePlayerStatistics/>
       </div>
       <div className='group-stage-right'>
-        <RightBar chosenCountries={chosenCountries}/>
+        <RightBar chosenCountries={chosenCountries} currentGroup={currentGroup}/>
       </div>
     </div>
   )

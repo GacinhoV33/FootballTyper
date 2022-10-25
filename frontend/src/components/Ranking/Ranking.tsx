@@ -39,8 +39,7 @@ const Ranking = ({ allUsers }: RankingProps) => {
           <FilterLeauge currentFilter={leaugeFilter} setCurrentFilter={setLeaugeFilter} />
         </div>
       </div>
-
-
+      
       <div style={{ display: 'flex', minWidth: '500px', maxWidth: '1000px', width: '100%' }}>
         <ListRanking allUsers={usersToDisplay} leauge='clownLeauge' />
       </div>
