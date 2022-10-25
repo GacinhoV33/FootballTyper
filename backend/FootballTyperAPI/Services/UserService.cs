@@ -13,6 +13,7 @@ public interface IUserService
     AuthenticateResponse Authenticate(AuthenticateRequest model);
     IEnumerable<TyperUser> GetAll();
     TyperUser GetById(int id);
+    TyperUser GetByUsername(string username);
     void Register(RegisterRequest model);
     void Update(int id, UpdateRequest model);
     void Delete(int id);
@@ -36,7 +37,7 @@ public class UserService : IUserService
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model)
     {
-        var user = _context.TyperUser.SingleOrDefault(x => x.Username == model.Username);
+        var user = _context.TyperUser.SingleOrDefault(x => x.Username == model.Username || x.Email == model.Username);
 
         // validate
         if (user == null || !BCrypt.Verify(model.Password, user.PasswordHash))
@@ -58,10 +59,17 @@ public class UserService : IUserService
         return getUser(id);
     }
 
+    public TyperUser GetByUsername(string username)
+    {
+        var user = _context.TyperUser.FirstOrDefault(x => x.Username == username);
+        if (user == null) throw new KeyNotFoundException("User not found");
+        return user;
+    }
+
     public void Register(RegisterRequest model)
     {
         // validate
-        if (_context.TyperUser.Any(x => x.Username == model.Username))
+        if (_context.TyperUser.Any(x => x.Username == model.Username || x.Email == model.Email))
             throw new AppException("Username '" + model.Username + "' is already taken");
 
         // map model to new user object
@@ -69,7 +77,6 @@ public class UserService : IUserService
 
         // hash password
         user.PasswordHash = BCrypt.HashPassword(model.Password);
-        user.Email = "email@gmail.com";
 
         // save user
         _context.TyperUser.Add(user);

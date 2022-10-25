@@ -1,17 +1,22 @@
 import { randomInt } from 'crypto';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Login.scss';
 
 const Login = () => {
-  // const passwordRef = useRef<HTMLInputElement | null>(null)
-  // const emailRef = useRef<HTMLInputElement | null>(null)
 
   const [fullName, setFullName] = useState(null);
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
-  let [authMode, setAuthMode] = useState("profile") //useState("signin")
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  let [authMode, setAuthMode] = useState("signin");
+
+  useEffect(() => {
+    const msg = password != confirmPassword && confirmPassword != null ? "Passwords are not the same." : "";
+    setPasswordErrorMessage(msg);
+  }, [confirmPassword, password]
+  )
 
   const handleFullNameInputChange = (e: any) => {
     const { id, value } = e.target;
@@ -30,18 +35,13 @@ const Login = () => {
 
   const handlePasswordInputChange = (e: any) => {
     const { id, value } = e.target;
-    if (confirmPassword != null && password != confirmPassword) {
-      // alert("pibib");
-    }
     setPassword(value);
   }
 
   const handleConfirmPasswordInputChange = (e: any) => {
     const { id, value } = e.target;
-    if (password != confirmPassword) {
-      // alert("pibib");
-    }
     setConfirmPassword(value);
+
   }
 
   const handleLogOut = (e: any) => {
@@ -50,31 +50,69 @@ const Login = () => {
     setAuthMode("signin");
   }
 
+  const changeAuthMode = () => {
+    setAuthMode(authMode === "signin" ? "signup" : "signin")
+  }
+
+  const validate = () => {
+    if(password != confirmPassword){
+      // alert
+    }
+  }
+
   function onSubmit(e: React.FormEvent) {
-    console.log("onSubmit <------------------------------->");
-    console.log(authMode);
     e.preventDefault();
+
+    validate();
+
     if (authMode == "signup") {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fullName: fullName, username: userName, password: password, email: email })
       };
+
       fetch('api/TyperUsers/register', requestOptions)
         .then(response => response.json())
-        .then(data => console.log(data));
-      // .then(data => this.setState({ postId: data.id }));
+        .then(data => {
+          const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: userName, password: password })
+          };
+
+          fetch('api/TyperUsers/authenticate', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+              localStorage.setItem("userToken", data.token);
+
+              const requestOptions = {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${data.token}`
+                }
+              };
+
+              fetch(`api/TyperUsers/${data.id}`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                  localStorage.setItem("user", JSON.stringify(data));
+                  setAuthMode("profile");
+                });
+            });
+        })
     }
     else if (authMode == "signin") {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: "mav", password: "sercret-password" })
+        body: JSON.stringify({ username: userName, password: password })
       };
+
       fetch('api/TyperUsers/authenticate', requestOptions)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           localStorage.setItem("userToken", data.token);
 
           const requestOptions = {
@@ -82,23 +120,17 @@ const Login = () => {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${data.token}`
-            },
-            // body: JSON.stringify({ username: "mav", password: "sercret-password" })
+            }
           };
 
           fetch(`api/TyperUsers/${data.id}`, requestOptions)
             .then(response => response.json())
             .then(data => {
-              console.log(data);
               localStorage.setItem("user", JSON.stringify(data));
               setAuthMode("profile");
             });
         });
     }
-  }
-
-  const changeAuthMode = () => {
-    setAuthMode(authMode === "signin" ? "signup" : "signin")
   }
 
   if (authMode === "signin") {
@@ -114,21 +146,13 @@ const Login = () => {
               </span>
             </div>
             <div className="form-group mt-3">
-              <label>User Name</label>
+              <label>Username or email</label>
               <input
-                id="userName"
+                id="userNameOrEmail"
                 type="text"
                 className="form-control mt-1"
-                placeholder="e.g userName1"
+                placeholder="e.g userName1 or user@mail.com"
                 onChange={(e) => handleUserNameInputChange(e)}
-              />
-            </div>
-            <div className="form-group mt-3">
-              <label>Email address</label>
-              <input
-                type="email"
-                className="form-control mt-1"
-                placeholder="Enter email"
               />
             </div>
             <div className="form-group mt-3">
@@ -164,7 +188,7 @@ const Login = () => {
             <label>Full Name: {(JSON.parse(localStorage.getItem("user") as string)).fullName} </label>
           </div>
           <div className="form-group mt-3">
-            <label>User Name: {(JSON.parse(localStorage.getItem("user") as string)).userName} </label>
+            <label>User Name: {(JSON.parse(localStorage.getItem("user") as string)).username} </label>
           </div>
           <div className="form-group mt-3">
             <label>Email address: {(JSON.parse(localStorage.getItem("user") as string)).email} </label>
@@ -229,6 +253,7 @@ const Login = () => {
               placeholder="Enter password"
               onChange={(e) => handlePasswordInputChange(e)}
             />
+            <p className="invalid-password-msg">{passwordErrorMessage}</p>
           </div>
           <div className="form-group mt-3">
             <label>Confirm password</label>
@@ -239,6 +264,7 @@ const Login = () => {
               placeholder="Enter password"
               onChange={(e) => handleConfirmPasswordInputChange(e)}
             />
+            <p className="invalid-password-msg">{passwordErrorMessage}</p>
           </div>
           <div className="d-grid gap-2 mt-3">
             <button type="submit" className="btn btn-primary">

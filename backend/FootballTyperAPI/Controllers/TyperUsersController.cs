@@ -40,7 +40,8 @@ namespace FootballTyperAPI.Controllers
         public IActionResult Register(RegisterRequest model)
         {
             _userService.Register(model);
-            return Ok(new { message = "Registration successful" });
+            var registeredUser = _userService.GetByUsername(model.Username);
+            return Ok(new { message = "Registration successful", userId = registeredUser.Id });
         }
 
         //[AllowAnonymous]
