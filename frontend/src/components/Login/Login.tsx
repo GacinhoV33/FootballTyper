@@ -1,6 +1,6 @@
-import { randomInt } from 'crypto';
-import React, { useState, useEffect } from 'react'
 import './Login.scss';
+import React, { useState, useEffect } from 'react'
+import Alert from 'react-bootstrap/Alert';
 
 const Login = () => {
 
@@ -12,6 +12,9 @@ const Login = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   let [authMode, setAuthMode] = useState("signin");
 
+  const [isValid, setIsValid] = useState<boolean>(true);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+
   useEffect(() => {
     const msg = password != confirmPassword && confirmPassword != null ? "Passwords are not the same." : "";
     setPasswordErrorMessage(msg);
@@ -19,29 +22,23 @@ const Login = () => {
   )
 
   const handleFullNameInputChange = (e: any) => {
-    const { id, value } = e.target;
-    setFullName(value);
+    setFullName(e.target.value);
   }
 
   const handleUserNameInputChange = (e: any) => {
-    const { id, value } = e.target;
-    setUserName(value);
+    setUserName(e.target.value);
   }
 
   const handleEmailInputChange = (e: any) => {
-    const { id, value } = e.target;
-    setEmail(value);
+    setEmail(e.target.value);
   }
 
   const handlePasswordInputChange = (e: any) => {
-    const { id, value } = e.target;
-    setPassword(value);
+    setPassword(e.target.value);
   }
 
   const handleConfirmPasswordInputChange = (e: any) => {
-    const { id, value } = e.target;
-    setConfirmPassword(value);
-
+    setConfirmPassword(e.target.value);
   }
 
   const handleLogOut = (e: any) => {
@@ -51,19 +48,26 @@ const Login = () => {
   }
 
   const changeAuthMode = () => {
-    setAuthMode(authMode === "signin" ? "signup" : "signin")
+    setAuthMode(authMode === "signin" ? "signup" : "signin");
   }
 
-  const validate = () => {
-    if(password != confirmPassword){
-      // alert
+  const isDataValid = () => {
+    setShowAlert(true);
+    var re = /\S+@\S+\.\S+/;
+    if (password != confirmPassword || re.test(email || "")) {
+      setIsValid(false);
+      return false;
     }
+    setIsValid(true);
+    return true;
   }
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    validate();
+    if (authMode === "signup" && !isDataValid()) {
+      return;
+    }
 
     if (authMode == "signup") {
       const requestOptions = {
@@ -208,6 +212,10 @@ const Login = () => {
       <form className="Auth-form" onSubmit={onSubmit}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign In</h3>
+          {showAlert
+            ? (isValid ? <Alert variant="success">Hurray! We have send your request for registration.</Alert> : <Alert variant="danger">Oops! Correct wrong data.</Alert>)
+            : null
+          }
           <div className="text-center">
             Already registered?{" "}
             <span className="link-primary" onClick={changeAuthMode}>
