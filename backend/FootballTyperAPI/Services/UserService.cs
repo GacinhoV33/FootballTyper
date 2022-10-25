@@ -3,10 +3,10 @@ namespace FootballTyperAPI.Services;
 using AutoMapper;
 using BCrypt.Net;
 using FootballTyperAPI.Authorization;
-using FootballTyperAPI.Models;
-using FootballTyperAPI.Helpers;
-using FootballTyperAPI.Models.Users;
 using FootballTyperAPI.Data;
+using FootballTyperAPI.Helpers;
+using FootballTyperAPI.Models;
+using FootballTyperAPI.Models.Users;
 
 public interface IUserService
 {
@@ -69,8 +69,11 @@ public class UserService : IUserService
     public void Register(RegisterRequest model)
     {
         // validate
-        if (_context.TyperUser.Any(x => x.Username == model.Username || x.Email == model.Email))
-            throw new AppException("Username '" + model.Username + "' is already taken");
+        if (_context.TyperUser.Any(x => x.Username == model.Username))
+            throw new AppException("Username '" + model.Username + "' is already taken!");
+
+        if (_context.TyperUser.Any(x => x.Email == model.Email))
+            throw new AppException("For email: '" + model.Email + "' account is already created!");
 
         // map model to new user object
         var user = _mapper.Map<TyperUser>(model);

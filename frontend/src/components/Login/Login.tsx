@@ -10,10 +10,10 @@ const Login = () => {
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  let [authMode, setAuthMode] = useState("signin");
-
+  const [authMode, setAuthMode] = useState("signin");
   const [isValid, setIsValid] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const msg = password != confirmPassword && confirmPassword != null ? "Passwords are not the same." : "";
@@ -54,7 +54,7 @@ const Login = () => {
   const isDataValid = () => {
     setShowAlert(true);
     var re = /\S+@\S+\.\S+/;
-    if (password != confirmPassword || re.test(email || "")) {
+    if (password != confirmPassword || !re.test(email || "")) {
       setIsValid(false);
       return false;
     }
@@ -77,7 +77,12 @@ const Login = () => {
       };
 
       fetch('api/TyperUsers/register', requestOptions)
-        .then(response => response.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response); // 2. reject instead of throw
+        })
         .then(data => {
           const requestOptions = {
             method: 'POST',
@@ -104,8 +109,19 @@ const Login = () => {
                   localStorage.setItem("user", JSON.stringify(data));
                   setAuthMode("profile");
                 });
+
+              setShowAlert(false);
+              setIsValid(true);
             });
         })
+        .catch((response) => {
+          setIsValid(false);
+          setShowAlert(true);
+          response.json().then((json: any) => {          
+            setErrorMsg(json.message ? json.message : (json.errors.Username ? json.errors.Username[0] : (json.errors.Password ? json.errors.Password[0] : "")));
+
+          })
+        });
     }
     else if (authMode == "signin") {
       const requestOptions = {
@@ -115,7 +131,12 @@ const Login = () => {
       };
 
       fetch('api/TyperUsers/authenticate', requestOptions)
-        .then(response => response.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+        })
         .then(data => {
           localStorage.setItem("userToken", data.token);
 
@@ -133,6 +154,16 @@ const Login = () => {
               localStorage.setItem("user", JSON.stringify(data));
               setAuthMode("profile");
             });
+
+          setShowAlert(false);
+          setIsValid(true);
+        })
+        .catch((response) => {
+          setShowAlert(true);
+          setIsValid(false);
+          response.json().then((json: any) => {
+            setErrorMsg(json.message ? json.message : (json.errors.Username ? json.errors.Username[0] : (json.errors.Password ? json.errors.Password[0] : "")));
+          })
         });
     }
   }
@@ -143,6 +174,16 @@ const Login = () => {
         <form className="Auth-form" onSubmit={onSubmit}>
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
+            {showAlert
+              ? (
+                isValid
+                  ?
+                  <Alert variant="success">Hurray! We have send your request for registration.</Alert>
+                  :
+                  <Alert variant="danger">Oops! Wrong data. <br></br> {errorMsg}</Alert>
+              )
+              : null
+            }
             <div className="text-center">
               Not registered yet?{" "}
               <span className="link-primary" onClick={changeAuthMode}>
@@ -165,6 +206,7 @@ const Login = () => {
                 type="password"
                 className="form-control mt-1"
                 placeholder="Enter password"
+                onChange={(e) => handlePasswordInputChange(e)}
               />
             </div>
             <div className="d-grid gap-2 mt-3">
@@ -213,7 +255,13 @@ const Login = () => {
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign In</h3>
           {showAlert
-            ? (isValid ? <Alert variant="success">Hurray! We have send your request for registration.</Alert> : <Alert variant="danger">Oops! Correct wrong data.</Alert>)
+            ? (
+              isValid
+                ?
+                <Alert variant="success">Hurray! We have send your request for registration.</Alert>
+                :
+                <Alert variant="danger">Oops! Correct wrong data. <br></br> {errorMsg}</Alert>
+            )
             : null
           }
           <div className="text-center">
