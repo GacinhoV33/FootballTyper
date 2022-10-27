@@ -3,6 +3,7 @@ namespace FootballTyperAPI.Helpers;
 using AutoMapper;
 using FootballTyperAPI.Models;
 using FootballTyperAPI.Models.Users;
+using FootballTyperAPI.Models.Bets;
 
 public class AutoMapperProfile : Profile
 {
@@ -26,5 +27,18 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
+
+        // PostBetRequest -> Bet
+        CreateMap<PostBetRequest, Bet>();
+
+        // PutBetRequest -> Bet
+        CreateMap<PutBetRequest, Bet>();
+
+
+        // Bet -> GetBetRequest
+        CreateMap<Bet, GetBetRequest>();
+        //// GetBetRequest -> Bet
+        //CreateMap<GetBetRequest, Bet>();
+
     }
 }
