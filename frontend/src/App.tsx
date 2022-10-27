@@ -18,8 +18,10 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 import { createContext, useEffect, useState } from 'react';
 import { Router, Route, Routes } from 'react-router-dom';
 
+import {configureStore} from '@reduxjs/toolkit';
 // This component contains whole logic, all main components and it's the manager of whole application
 export const UserContext = createContext('userNotLogged');
+
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);

@@ -121,24 +121,10 @@ namespace FootballTyperAPI.Controllers
                 return NotFound();
             }
 
-            return groupMatches.Select(m => MapMatch(m, "group")).ToList();
+            return groupMatches.Select(m => MapMatch(m)).ToList();
         }
 
-        // GET: api/Matches/Knockout
-        [HttpGet("Knockout")]
-        public async Task<ActionResult<List<MatchApi>>> GetKnockoutMatches()
-        {
-            var groupMatches = await _context.GetAllKnockoutMatches();
-
-            if (groupMatches == null)
-            {
-                return NotFound();
-            }
-
-            return groupMatches.Select(m => MapMatch(m, "knockout")).ToList();
-        }
-
-        private MatchApi MapMatch(Match match, string stage)
+        private MatchApi MapMatch(Match match)
         {
             return new MatchApi()
             {
@@ -149,8 +135,7 @@ namespace FootballTyperAPI.Controllers
                 Group = match.Group?.Replace("Group ", ""),
                 Stadium = match.Location,
                 Date = match.Date,
-                Referee = match.Referee,
-                Stage = stage
+                Referee = match.Referee
             };
         }
     }

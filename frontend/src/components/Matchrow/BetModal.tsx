@@ -22,6 +22,34 @@ export interface BetModalProps {
 const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert }) => {
 
     function handleSubmit() {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+            // "id": 0,
+            "match": groupMatch,
+            "homeTeamWin": true,
+            "homeTeamScoreBet": 2,
+            "awayTeamWin": false,  //TODO add home/awayTeamWinBet
+            "awayTeamScoreBet": 1,
+            "homeAwayDrawn": true,
+            "pointsFactor":1.2,
+            "matchId": 961,
+            "bettorUserName": "string",
+            "betDate": "2022-10-26T14:14:37.738Z",
+            "successfulBet": true
+          })
+          };
+    
+          fetch('api/Bets', requestOptions)
+            .then((response) => {
+                console.log('resp', response);
+              if (response.ok) {
+                return response.json();
+              }
+              return Promise.reject(response); // 2. reject instead of throw
+            });
+
         handleClose();
         setAlert(true)
         setTimeout(() => {
