@@ -1,6 +1,8 @@
-﻿using FootballTyperAPI.Data;
+﻿using AutoMapper;
+using FootballTyperAPI.Data;
 using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
+using FootballTyperAPI.Models.Bets;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,22 +13,26 @@ namespace FootballTyperAPI.Controllers
     public class BetsController : ControllerBase
     {
         private readonly FootballTyperAPIContext _context;
+        private IMapper _mapper;
 
-        public BetsController(FootballTyperAPIContext context)
+        public BetsController(FootballTyperAPIContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Bets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bet>>> GetAllBets()
+        public async Task<ActionResult<IEnumerable<GetBetRequest>>> GetAllBets()
         {
-            return (await _context.GetAllBets()).ToList();
+            var bets = (await _context.GetAllBets());
+            var getBetsModels = bets.Select(x => _mapper.Map(x, new GetBetRequest())).ToList();
+            return getBetsModels;
         }
 
         // GET: api/Bets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bet>> GetBet(int id)
+        public async Task<ActionResult<GetBetRequest>> GetBet(int id)
         {
             var bet = (await _context.GetAllBets()).FirstOrDefault(x => x.Id == id);
 
@@ -35,19 +41,28 @@ namespace FootballTyperAPI.Controllers
                 return NotFound();
             }
 
-            return bet;
+            var getBetModel = _mapper.Map(bet, new GetBetRequest());
+            return getBetModel;
         }
 
         // PUT: api/Bets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBet(int id, Bet bet)
+        public async Task<IActionResult> PutBet(int id, PutBetRequest betModel)
         {
-            if (id != bet.Id)
+            if (id != betModel.Id)
             {
-                return BadRequest();
+                return BadRequest(new { message = "PUT request Id is different than Bet Model Id" });
             }
 
+            var bet = (await _context.GetAllBets()).FirstOrDefault(x => x.Id == betModel.Id);
+
+            if (bet == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(betModel, bet);
             _context.Entry(bet).State = EntityState.Modified;
 
             try
@@ -72,9 +87,11 @@ namespace FootballTyperAPI.Controllers
         // POST: api/Bets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Bet>> PostBet(Bet bet)
+        public async Task<ActionResult<Bet>> PostBet(PostBetRequest betModel)
         {
-            _context.Bets.Add(bet);
+            var bet = new Bet();
+            _context.Bets.Add(_mapper.Map(betModel, bet));
+            bet.Match = (await _context.GetAllMatches()).FirstOrDefault(x => x.Id == bet.MatchId) ?? new Match();
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBet", new { id = bet.Id }, bet);

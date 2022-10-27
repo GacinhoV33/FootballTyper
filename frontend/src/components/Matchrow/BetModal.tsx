@@ -22,6 +22,60 @@ export interface BetModalProps {
 const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert }) => {
 
     function handleSubmit() {
+        var id = 1307
+        const putRequestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(
+                {
+                    "id" : id,
+                    "homeTeamScoreBet": modalValue.homeScore,
+                    "awayTeamScoreBet": modalValue.awayScore,
+                    "betDate": new Date()
+                }
+            )
+        };
+
+        fetch(`api/Bets/${id}`, putRequestOptions)
+            .then((response) => {
+                console.log("response: ", response);
+                if (response.ok) {
+                    // console.log(response.json());
+                    return response.json();
+                }
+                return Promise.reject(response);
+            })
+            .then((data) => console.log(data));
+
+//----------------------------------------------------------------------------------------------------
+            // const postRequestOptions = {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(
+            //         {
+            //             // "id" : 1307,
+            //             "homeTeamScoreBet": 1,
+            //             "awayTeamScoreBet": 2,
+            //             "matchId": 4500,
+            //             "bettorUserName": "mav5",
+            //             "betDate": "2022-10-26T15:44:37.088Z"
+            //         }
+            //     )
+            // };
+    
+            // fetch('api/Bets', postRequestOptions)
+            //     .then((response) => {
+            //         console.log("response: ", response);
+            //         if (response.ok) {
+            //             // console.log(response.json());
+            //             return response.json();
+            //         }
+            //         return Promise.reject(response);
+            //     })
+            //     .then((data) => console.log(data));
+
+//----------------------------------------------------------------------------------------------------
+
         handleClose();
         setAlert(true)
         setTimeout(() => {
@@ -50,8 +104,8 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                     <input
                         className='input-score no-spin'
                         maxLength={2} type="number"
-                        value={modalValue.awayScore} 
-                        onChange={(e) => setModalValue({ homeScore: modalValue.homeScore, awayScore: e.target.value })} 
+                        value={modalValue.awayScore}
+                        onChange={(e) => setModalValue({ homeScore: modalValue.homeScore, awayScore: e.target.value })}
                     />
                     {/* TODO - fix center of VS and make separte component of it */}
                 </Modal.Body>

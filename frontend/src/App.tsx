@@ -30,12 +30,11 @@ function App() {
     const fetchData = async () => {
 
       // const GroupMatches = await (await fetch('https://football-typer-api.azurewebsites.net/api/Matches/Group')).json();
-      
       // // const /api/Teams
       // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
       // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
+
       const GroupMatches = await (await fetch('api/Matches/Group')).json();
-      
       // const /api/Teams
       const data = await (await fetch('api/Teams')).json();
       const allBets = await (await fetch('api/Bets')).json();
