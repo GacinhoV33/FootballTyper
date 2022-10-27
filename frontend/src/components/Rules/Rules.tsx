@@ -5,14 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Accordion from 'react-bootstrap/Accordion';
 import Pagination from 'react-bootstrap/Pagination';
 
-const accordionTitles: string[] = ['Rule 1', 'Rule 2']
-const accordionRules: string[] = ['That is description of rule 1', 'That is description of rule 2']
+const accordionTitles: string[] = ['How to win points', 'Factor', 'Bet Time']; 
+const accordionRules: string[] = [
+  'You can win points by betting correct score of the game. You receive 2 points for correct match result or 4 points if you bet exact score.', 
+  'To make our game even more interested we introduce factors in knockout stage. 1/8 - x1.5. 1/4 - x2. 1/2 and 3rd place match - x2.5.  Final - x3.',
+  'You may create/update your only before start of the match. We strongly recommend to make it at least 10 minutes before start.',
+  ]
 
 const faqContent: {title: string, body: string}[] = [
-  {title: 'FAQ question 1', body: 'This is body of FAQ question 1'},
-  {title: 'FAQ question 2', body: 'This is body of FAQ question 2'},
-  {title: 'FAQ question 3', body: 'This is body of FAQ question 3'},]
-
+  {title: 'Can I see bets of other players?', body: `No it's not possible. We disabled this feature to avoid situation where you copy bet of your opponent.`},
+  {title: 'I forgot to bet on time. What can I do?', body: 'Unluckily in this kind of situation you just lost opportunity to win points. '},
+  {title: `I bet a game but system show wrong bet/I bet a correct score but don't receive points.`, body: `We don't covering situation quite like this, but if it would happen, please inform admin. There's a record of all actions made by users in our database and after verification we may fix issue.`},
+  {title: `I've seen a bug`, body: `If you have seen a bug, please contact admin. Your message should contain screenshot and describtion of problem.`}]
 const paginationTitles: RulesSectionType[] = ['Rules', 'Terms&Conditions', 'FAQ']
 export type RulesSectionType = 'Rules' | 'FAQ' | 'Terms&Conditions';
 
@@ -46,7 +50,7 @@ const Rules = () => {
         <div style={{width: '70%', }}>
         { 
           currentSection === 'Rules' && accordionTitles.map((title, index) => (
-            <Accordion >
+            <Accordion key={index}>
                 <Accordion.Item eventKey={index.toString()}>
                 <Accordion.Header>  <h5>{title}</h5> </Accordion.Header>
                 <Accordion.Body> {accordionRules[index]} </Accordion.Body>
@@ -57,7 +61,7 @@ const Rules = () => {
         {
           currentSection === 'FAQ' && 
           faqContent.map(({title, body}, index) => (
-            <Accordion>
+            <Accordion  key={index}>
                <Accordion.Item eventKey={`faq-${index.toString()}`}>
                 <Accordion.Header>  <h5>{title}</h5> </Accordion.Header>
                 <Accordion.Body> {body} </Accordion.Body>

@@ -18,7 +18,6 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 import { createContext, useEffect, useState } from 'react';
 import { Router, Route, Routes } from 'react-router-dom';
 
-import {configureStore} from '@reduxjs/toolkit';
 // This component contains whole logic, all main components and it's the manager of whole application
 export const UserContext = createContext('userNotLogged');
 
@@ -32,12 +31,11 @@ function App() {
     const fetchData = async () => {
 
       // const GroupMatches = await (await fetch('https://football-typer-api.azurewebsites.net/api/Matches/Group')).json();
-      
       // // const /api/Teams
       // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
       // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
+
       const GroupMatches = await (await fetch('api/Matches/Group')).json();
-      
       // const /api/Teams
       const data = await (await fetch('api/Teams')).json();
       const allBets = await (await fetch('api/Bets')).json();
@@ -45,6 +43,7 @@ function App() {
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllBets(allBets);
+      console.log(allBets);
     }
     fetchData();
   }, []);

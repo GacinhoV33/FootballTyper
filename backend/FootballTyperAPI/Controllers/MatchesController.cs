@@ -20,9 +20,9 @@ namespace FootballTyperAPI.Controllers
 
         // GET: api/Matches
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Match>>> GetMatch()
+        public async Task<ActionResult<List<Match>>> GetMatch()
         {
-            return await _context.Matches.ToListAsync();
+            return await _context.GetAllMatches();
         }
 
         // GET: api/Matches/5

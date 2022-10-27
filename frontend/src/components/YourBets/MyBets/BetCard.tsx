@@ -15,22 +15,47 @@ export interface BetCardProps {
 }
 
 const BetCard: React.FC<BetCardProps> = ({ bet }) => {
+  console.log(bet)
   const [baseBet, setBaseBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const [currentBet, setCurrentBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const betString = bet.successfulBet !== undefined ? (bet.successfulBet ? `0 1px 10px lightgreen` : `0 1px 10px red`) : undefined;
   const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; // TODO add option after deadline
-  const [date, hour] = bet.match.date.split('T')
+  const afterDeadline =  new Date().getTime() > new Date('2022-08-26T16:33:27.1796134').getTime()
+  // const [date, hour] = bet.match.date ? bet.match.date.split('T') : ['1999-20-11', '00:00']
   function handleSave() {
     try {
-      if (currentBet.homeBet < 100 && currentBet.awayBet < 100) {
+      if (currentBet.homeBet < 100 && currentBet.awayBet < 100 && new Date().getTime() < new Date('2022-08-26T16:33:27.1796134').getTime()) { //TODO change on bet date
         setBaseBet({ homeBet: currentBet.homeBet, awayBet: currentBet.awayBet });
+        const id = 1307
+        const userName = "testUser1";
+        const putRequestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(
+                {
+                    "id" : id,
+                    "homeTeamScoreBet": currentBet.homeBet,
+                    "awayTeamScoreBet": currentBet.awayBet,
+                    "betDate": new Date(),
+                    "bettorUserName": userName,
+                }
+            )
+        };
+
+        fetch(`api/Bets/${id}`, putRequestOptions)
+            .then((response) => {
+                console.log("response: ", response);
+                if (response.ok) {
+                    return response.json();
+                }
+                return Promise.reject(response);
+            })
+            .then((data) => console.log(data));
       }
     }
     catch (e) {
       console.log(e);
     }
-    console.log("Saved", baseBet, currentBet);
-    //TODO send to database
   }
   return (
     <CardAnimation>
@@ -64,15 +89,20 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
             <BsFillCalendarDateFill size={20}/>
-            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{date}</span>
+            {/* <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{date}</span> */}
+            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{'23-11-2022'}</span>
+
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
             <AiFillClockCircle size={20}/>
-            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{hour.slice(0, 5)}</span>
+            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{'17:00'}</span>
+            {/* <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{hour.slice(0, 5)}</span> */}
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
             <HiBuildingStorefront size={20}/>
-            <h6 style={{paddingLeft: '0.4rem'}}>{bet.match.location}</h6>
+            {/* <h6 style={{paddingLeft: '0.4rem'}}>{bet.match.location}</h6> */}
+            <h6 style={{paddingLeft: '0.4rem'}}>{'Al-Kaida'}</h6>
+
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
             <IoPersonSharp size={20} />
@@ -81,8 +111,8 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           </div>
           <div style={{ gridColumn: '1/4'}}>
             {bet.homeTeamScore && bet.awayTeamScore ? <h4 style={{ textAlign: 'center' }}>5 points</h4> : // Style points TODO
-              <Button style={{ width: '100%', marginTop: '1rem' }} disabled={betDisabled} onClick={handleSave} variant={betDisabled ? 'success' : 'primary'}>
-                {betDisabled ? 'Saved' : 'Save'}
+              <Button style={{ width: '100%', marginTop: '1rem' }} disabled={betDisabled || afterDeadline} onClick={handleSave} variant={betDisabled || afterDeadline ? 'success' : 'primary'}>
+                {(betDisabled || !afterDeadline) ? 'Saved' : 'Save'}
               </Button>
             }
           </div>

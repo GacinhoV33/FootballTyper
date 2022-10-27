@@ -18,11 +18,8 @@ const GroupStageMatches = ({groupMatches, chosenCountries, setChosenCountries} :
   return (
     <div className='group-stage-matches-content'>
       { groupMatches ? groupMatches.map((item: GroupMatch, index) => (
-        <div>
         <Matchrow groupMatch={item} key={index} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries}/>
-        </div>
       )) : <Spinner animation='border' />
-
       }
     </div>
   )

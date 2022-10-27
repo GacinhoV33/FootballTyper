@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Alert from 'react-bootstrap/Alert';
 
 const Login = () => {
-
+  const apiURL = 'https://football-typer-api.azurewebsites.net/'
   const [fullName, setFullName] = useState(null);
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -76,7 +76,7 @@ const Login = () => {
         body: JSON.stringify({ fullName: fullName, username: userName, password: password, email: email })
       };
 
-      fetch('api/TyperUsers/register', requestOptions)
+      fetch(apiURL + 'api/TyperUsers/register', requestOptions)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -90,7 +90,7 @@ const Login = () => {
             body: JSON.stringify({ username: userName, password: password })
           };
 
-          fetch('api/TyperUsers/authenticate', requestOptions)
+          fetch(apiURL + 'api/TyperUsers/authenticate', requestOptions)
             .then(response => response.json())
             .then(data => {
               localStorage.setItem("userToken", data.token);
@@ -103,7 +103,7 @@ const Login = () => {
                 }
               };
 
-              fetch(`api/TyperUsers/${data.id}`, requestOptions)
+              fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                   localStorage.setItem("user", JSON.stringify(data));
@@ -130,7 +130,7 @@ const Login = () => {
         body: JSON.stringify({ username: userName, password: password })
       };
 
-      fetch('api/TyperUsers/authenticate', requestOptions)
+      fetch(apiURL + 'api/TyperUsers/authenticate', requestOptions)
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -148,7 +148,7 @@ const Login = () => {
             }
           };
 
-          fetch(`api/TyperUsers/${data.id}`, requestOptions)
+          fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
             .then(response => response.json())
             .then(data => {
               localStorage.setItem("user", JSON.stringify(data));

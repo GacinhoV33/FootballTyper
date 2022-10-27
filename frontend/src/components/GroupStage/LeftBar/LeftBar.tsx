@@ -18,7 +18,7 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
                 <tbody>
                     {dummyPlayerData.map(({ playerName, goals, assists, team, yellowCards, redCards, imgPath }, index) => (
 
-                        <tr style={{textAlign: 'center'}}>
+                        <tr style={{textAlign: 'center'}} key={index}>
                             <td style={{fontWeight: '500'}}>{index + 1}</td>
                             <td style={{textAlign: 'left'}}>{playerName}</td>
                             <td><BiFootball size={20} />{goals}</td>
@@ -33,8 +33,6 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
         </LeftBarAnimation>
     )
 }
-{/* TODO  - goals as a icon of ball, assists (find good icon), team as a rectangle flag, yellow cards as a yellow card icon same with red, img Path if dataBase with img of players on mundial*/ }
-
 export default LeftBar;
 
 //animations
