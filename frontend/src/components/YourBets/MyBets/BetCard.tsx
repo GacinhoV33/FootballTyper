@@ -19,7 +19,9 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const [baseBet, setBaseBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const [currentBet, setCurrentBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const betString = bet.successfulBet !== undefined ? (bet.successfulBet ? `0 1px 10px lightgreen` : `0 1px 10px red`) : undefined;
-  const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; // TODO add option after deadline
+  // const betString = bet.successfulBet !== undefined ? (bet.successfulBet === 1 ? `0 1px 10px lightgreen` : (bet.successfulBet === 2 ? '0 1px 10px darkgreen' :`0 1px 10px red`) : undefined;
+
+  const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; 
   const afterDeadline =  new Date().getTime() > new Date('2022-08-26T16:33:27.1796134').getTime()
   // const [date, hour] = bet.match.date ? bet.match.date.split('T') : ['1999-20-11', '00:00']
   function handleSave() {

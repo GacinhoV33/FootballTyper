@@ -60,7 +60,7 @@ export const optionsPie = {
     },
     title: {
       display: true,
-      text: 'Goals at minut',
+      text: 'Players bets',
     },
   },
 };

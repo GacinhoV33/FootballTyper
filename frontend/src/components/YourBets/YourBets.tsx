@@ -29,6 +29,14 @@ const YourBets: React.FC<YourBetsProps> = ({userName, allBets}) => {
     if(filterMyBets.indexOf('KnockoutStage') !== -1 && allBets){
       //#TODO knockout stage
     }
+    const currentDate = new Date();
+    if(filterMyBets.indexOf('Past') !== -1 && allBets){
+      currentBets = allBets.filter((bet) => new Date(bet.match.date) > currentDate);
+    }
+    else if(filterMyBets.indexOf('Active') !== -1 && allBets){
+      currentBets = allBets.filter((bet) => new Date(bet.match.date) < currentDate);
+    }
+
     setBetsToShow(currentBets);
   }
   useEffect(
