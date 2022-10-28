@@ -1,23 +1,24 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import './Matchrow.scss';
 import { CircleFlag } from 'react-circle-flags'
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
-import { GroupMatch } from '../GroupStage/GroupStage';
 import BetModal from './BetModal';
 import styled, { keyframes } from "styled-components";
-
+import { Bet } from '../YourBets/MyBets/MyBets';
+import { Match } from '../../App';
+import CountryDict from '../YourBets/MyBets/CountryDict';
 export interface MatchrowProps {
-    groupMatch: GroupMatch,
+    groupMatch: Match,
     chosenCountries: { homeCountry: string, awayCountry: string },
     setChosenCountries: React.Dispatch<React.SetStateAction<{
         homeCountry: string;
         awayCountry: string;
     }>>,
+    userBets: Bet[] | undefined,
 }
 
-const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setChosenCountries }) => {
+const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setChosenCountries, userBets}) => {
     const [showBet, setShowBet] = useState<boolean>(false);
     const [showAlert, setAlert] = useState<boolean>(false);
 
@@ -33,10 +34,10 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     
     return (
         <>
-            <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam, awayCountry: groupMatch.awayTeam })}>
+            <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
                 <div className='main-match-body'>
                     <div style={{ flex: '1' }}>
-                        <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam) as string} height='40px' />
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px' />
                     </div>
                     <div style={{flex: '1', textAlign: 'right'}}>
                         {groupMatch.homeTeamScore === -1 ? <h4>?</h4> : groupMatch.homeTeamScore}
@@ -46,14 +47,14 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                             {date} {day} {hour.slice(0, 5)}
                         </p>
                         <h4 style={{ paddingTop: '0' }}>
-                            {groupMatch.homeTeam} - {groupMatch.awayTeam}
+                            {groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}
                         </h4>
                     </div>
                     <div style={{flex: '1'}}>
                         {groupMatch.awayTeamScore === -1 ? <h4>?</h4> : groupMatch.awayTeamScore}
                     </div>
                     <div style={{ flex: '1', display: 'flex', justifyContent: 'right' }}>
-                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam) as string} height='40px' />
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} height='40px' />
                     </div>
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
@@ -68,6 +69,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                 groupMatch={groupMatch}
                 setModalValue={setModalValue}
                 setAlert={setAlert}
+                userBets={userBets}
             />
             }
             {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >= 0 && Number(modalValue.awayScore) >= 0 && Number(modalValue.awayScore) < 100) ?
@@ -121,39 +123,3 @@ position: fixed;
 top: 1rem;
 right: 2rem;
 `
-
-export let CountryDict = new Map<string, string>();
-CountryDict.set('Ecuador', 'ec')
-CountryDict.set('Netherlands', 'nl')
-CountryDict.set('Qatar', 'qa')
-CountryDict.set('Senegal', 'sn')
-CountryDict.set('Poland', 'pl')
-CountryDict.set('England', 'gb-eng')
-CountryDict.set('Wales', 'gb-wls')
-CountryDict.set('Argentina', 'ar')
-CountryDict.set('Mexico', 'mx')
-CountryDict.set('Saudi Arabia', 'sa')
-CountryDict.set('Tunisia', 'tn')
-CountryDict.set('Iran', 'ir')
-CountryDict.set('France', 'fr')
-CountryDict.set('Australia', 'au')
-CountryDict.set('Germany', 'de')
-CountryDict.set('Japan', 'jp')
-CountryDict.set('Spain', 'es')
-CountryDict.set('Costa Rica', 'cr')
-CountryDict.set('Morocco', 'ma')
-CountryDict.set('Croatia', 'hr')
-CountryDict.set('Belgium', 'be')
-CountryDict.set('Canada', 'ca')
-CountryDict.set('Switzerland', 'ch')
-CountryDict.set('Brazil', 'br')
-CountryDict.set('Serbia', 'rs')
-CountryDict.set('Cameroon', 'cm')
-CountryDict.set('Uruguay', 'uy')
-CountryDict.set('Korea Republic', 'kr')
-CountryDict.set('Portugal', 'pt')
-CountryDict.set('Ghana', 'gh')
-CountryDict.set('USA', 'us')
-CountryDict.set('Greece', 'gr')
-CountryDict.set('Denmark', 'dk')
-CountryDict.set('Greece', 'gr')

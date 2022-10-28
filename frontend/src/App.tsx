@@ -35,7 +35,7 @@ function App() {
       // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
       // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
 
-      const GroupMatches = await (await fetch('api/Matches/Group')).json();
+      const GroupMatches = await (await fetch('api/Matches')).json();
       // const /api/Teams
       const data = await (await fetch('api/Teams')).json();
       const allBets = await (await fetch('api/Bets')).json();
@@ -43,7 +43,7 @@ function App() {
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllBets(allBets);
-      console.log(allBets);
+      console.log(GroupMatches);
     }
     fetchData();
   }, []);
@@ -80,7 +80,7 @@ function convertMatchesToGroupFormat(data: any) {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   let tab: any = [];
   for (let i = 0; i < 8; i++) {
-    const result = data.filter((match: any) => match.group === letters[i])
+    const result = data.filter((match: any) => match.group ? match.group[6] === letters[i] : false)
     tab.push(result)
   }
   return tab

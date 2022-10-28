@@ -1,81 +1,79 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Modal from 'react-bootstrap/Modal';
-import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import { Match, UserContext } from '../../App';
 import { CircleFlag } from 'react-circle-flags'
-import { GroupMatch } from '../GroupStage/GroupStage';
 import './BetModal.scss';
-
+import { Bet } from '../YourBets/MyBets/MyBets';
+import CountryDict from '../YourBets/MyBets/CountryDict';
 export interface BetModalProps {
     showBet: boolean,
     handleClose: () => void,
     modalValue: { homeScore: string, awayScore: string },
-    groupMatch: GroupMatch,
+    groupMatch: Match,
     setModalValue: React.Dispatch<React.SetStateAction<{
         homeScore: string;
         awayScore: string;
     }>>,
     setAlert: React.Dispatch<React.SetStateAction<boolean>>,
+    userBets: Bet[] | undefined,
 
 }
 
-const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert }) => {
+const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert, userBets }) => {
 
-    const userName = 'testUser1'; //Fake user name - it might be also user id 
+    const userName = useContext(UserContext);
+    // const [userBets, setUserBets] = useState<Bet[]>()
     function handleSubmit() {
-        const id = 1307
-        const putRequestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(
-                {
-                    "id" : id,
-                    "homeTeamScoreBet": modalValue.homeScore,
-                    "awayTeamScoreBet": modalValue.awayScore,
-                    "betDate": new Date(),
-                    "bettorUserName": userName,
-                }
-            )
-        };
-        fetch(`api/Bets/${id}`, putRequestOptions)
-            .then((response) => {
-                console.log("response: ", response);
-                if (response.ok) {
-                    return response.json();
-                }
-                return Promise.reject(response);
-            })
-            .then((data) => console.log(data));
+        const betId = userBets?.filter((bet) => bet.matchId === groupMatch.id);
+        if (betId !== undefined && userBets) {
+            const putRequestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(
+                    {
+                        "id": userBets[0].id,
+                        "homeTeamScoreBet": modalValue.homeScore,
+                        "awayTeamScoreBet": modalValue.awayScore,
+                        "betDate": new Date().toString(),
+                    }
+                )
+            };
+            fetch(`api/Bets/${userBets[0].id}`, putRequestOptions)
+                .then((response) => {
+                    console.log("response: ", response);
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                })
+                .then((data) => console.log(data));
+        }
+        else {
+            const postRequestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(
+                    {
+                        "homeTeamScoreBet": 1,
+                        "awayTeamScoreBet": 2,
+                        "matchId": groupMatch.id,
+                        "bettorUserName": userName,
+                        "betDate": new Date().toString(),
+                    }
+                )
+            };
 
-//----------------------------------------------------------------------------------------------------
-            // const postRequestOptions = {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(
-            //         {
-            //             // "id" : 1307,
-            //             "homeTeamScoreBet": 1,
-            //             "awayTeamScoreBet": 2,
-            //             "matchId": 4500,
-            //             "bettorUserName": "mav5",
-            //             "betDate": "2022-10-26T15:44:37.088Z"
-            //         }
-            //     )
-            // };
-    
-            // fetch('api/Bets', postRequestOptions)
-            //     .then((response) => {
-            //         console.log("response: ", response);
-            //         if (response.ok) {
-            //             // console.log(response.json());
-            //             return response.json();
-            //         }
-            //         return Promise.reject(response);
-            //     })
-            //     .then((data) => console.log(data));
-
-//----------------------------------------------------------------------------------------------------
-
+            fetch('api/Bets', postRequestOptions)
+                .then((response) => {
+                    console.log("response: ", response);
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                })
+                .then((data) => console.log(data));
+        }
         handleClose();
         setAlert(true)
         setTimeout(() => {
@@ -87,9 +85,9 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
         <div>
             <Modal show={showBet} onHide={handleClose} centered>
                 <Modal.Title className='modal-header'>
-                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.homeTeam) as string} style={{ marginRight: '1.5rem' }} />
-                    <h4 className='modal-title'> {groupMatch.homeTeam} vs {groupMatch.awayTeam}</h4>
-                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.awayTeam) as string} style={{ marginLeft: '1.5rem' }} />
+                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} style={{ marginRight: '1.5rem' }} />
+                    <h4 className='modal-title'> {groupMatch.homeTeam.name} vs {groupMatch.awayTeam.name}</h4>
+                    <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} style={{ marginLeft: '1.5rem' }} />
                 </Modal.Title>
 
                 <Modal.Body style={{ display: 'flex', justifyContent: 'center' }}>
@@ -118,40 +116,3 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
 }
 
 export default BetModal;
-
-
-export let CountryDict = new Map<string, string>();
-CountryDict.set('Ecuador', 'ec')
-CountryDict.set('Netherlands', 'nl')
-CountryDict.set('Qatar', 'qa')
-CountryDict.set('Senegal', 'sn')
-CountryDict.set('Poland', 'pl')
-CountryDict.set('England', 'gb-eng')
-CountryDict.set('Wales', 'gb-wls')
-CountryDict.set('Argentina', 'ar')
-CountryDict.set('Mexico', 'mx')
-CountryDict.set('Saudi Arabia', 'sa')
-CountryDict.set('Tunisia', 'tn')
-CountryDict.set('Iran', 'ir')
-CountryDict.set('France', 'fr')
-CountryDict.set('Australia', 'au')
-CountryDict.set('Germany', 'de')
-CountryDict.set('Japan', 'jp')
-CountryDict.set('Spain', 'es')
-CountryDict.set('Costa Rica', 'cr')
-CountryDict.set('Morocco', 'ma')
-CountryDict.set('Croatia', 'hr')
-CountryDict.set('Belgium', 'be')
-CountryDict.set('Canada', 'ca')
-CountryDict.set('Switzerland', 'ch')
-CountryDict.set('Brazil', 'br')
-CountryDict.set('Serbia', 'rs')
-CountryDict.set('Cameroon', 'cm')
-CountryDict.set('Uruguay', 'uy')
-CountryDict.set('Korea Republic', 'kr')
-CountryDict.set('Portugal', 'pt')
-CountryDict.set('Ghana', 'gh')
-CountryDict.set('USA', 'us')
-CountryDict.set('Greece', 'gr')
-CountryDict.set('Denmark', 'dk')
-CountryDict.set('Greece', 'gr')
