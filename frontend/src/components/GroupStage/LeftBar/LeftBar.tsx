@@ -3,6 +3,7 @@ import './LeftBar.scss';
 import Table from 'react-bootstrap/Table';
 import { BiFootball } from 'react-icons/bi';
 import { TbRectangleVertical } from 'react-icons/tb';
+import styled, { keyframes } from "styled-components";
 
 export interface LeftBarProps {
     chosenCountries: { homeCountry: string, awayCountry: string },
@@ -11,13 +12,13 @@ export interface LeftBarProps {
 
 const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
     return (
-        <div className='left-bar'>
+        <LeftBarAnimation>
             <h2 style={{ textAlign: 'center' }}>Top Scores</h2>
             <Table>
                 <tbody>
                     {dummyPlayerData.map(({ playerName, goals, assists, team, yellowCards, redCards, imgPath }, index) => (
 
-                        <tr style={{textAlign: 'center'}}>
+                        <tr style={{textAlign: 'center'}} key={index}>
                             <td style={{fontWeight: '500'}}>{index + 1}</td>
                             <td style={{textAlign: 'left'}}>{playerName}</td>
                             <td><BiFootball size={20} />{goals}</td>
@@ -29,13 +30,32 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
                 </tbody>
 
             </Table>
-        </div>
+        </LeftBarAnimation>
     )
 }
-{/* TODO  - goals as a icon of ball, assists (find good icon), team as a rectangle flag, yellow cards as a yellow card icon same with red, img Path if dataBase with img of players on mundial*/ }
-
 export default LeftBar;
 
+//animations
+
+const leftBarAnimation = keyframes`
+from{
+    transform: translateX(-5rem);
+}
+to{
+    transform: translateX(0rem);
+}
+`;
+
+const LeftBarAnimation = styled.div`
+    animation-name: ${leftBarAnimation};
+    animation-duration: 1s;
+    display: flex;
+    align-items: flex-start !important;
+    flex-direction: column;
+    padding-top: 5rem;
+    padding-left: 1rem;
+    animation-timing-function: ease-in-out;
+`
 
 export interface Player {
     playerName: string,

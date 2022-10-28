@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 // Components
 import NavbarComp from './components/Navbar/NavbarComp';
 import Homepage from './components/Homepage/Homepage';
@@ -21,6 +21,7 @@ import { Router, Route, Routes } from 'react-router-dom';
 // This component contains whole logic, all main components and it's the manager of whole application
 export const UserContext = createContext('userNotLogged');
 
+
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [dataTeams, setDataTeams] = useState<any | null>(null);
@@ -42,6 +43,7 @@ function App() {
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllBets(allBets);
+      console.log(allBets);
     }
     fetchData();
   }, []);
@@ -133,10 +135,10 @@ export interface User{
   totalWrongBet: number,
   leauges: string[],
   id: number,
+  lastFiveBets: number[],
 }
 
 export default App;
-
 export const dummyData: User[] = [
   {
     name: 'user123',
@@ -148,6 +150,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main', 'clownLeauge'],
     id: 21312,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user13',
@@ -159,6 +162,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main'],
     id: 21312,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1111',
@@ -170,6 +174,7 @@ export const dummyData: User[] = [
     totalWrongBet: 14,
     leauges: ['main'],
     id: 21313,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -181,6 +186,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main', 'clownLeauge'],
     id: 21314,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -192,6 +198,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main',],
     id: 21315,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -203,6 +210,7 @@ export const dummyData: User[] = [
     totalWrongBet: 6,
     leauges: ['main', 'clownLeauge'],
     id: 21316,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
   {
     name: 'user1',
@@ -214,5 +222,6 @@ export const dummyData: User[] = [
     totalWrongBet: 1,
     leauges: ['main', 'clownLeauge'],
     id: 21317,
+    lastFiveBets: [2, 1, 0, 0, 1],
   },
 ]

@@ -21,8 +21,9 @@ export interface BetModalProps {
 
 const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert }) => {
 
+    const userName = 'testUser1'; //Fake user name - it might be also user id 
     function handleSubmit() {
-        var id = 1307
+        const id = 1307
         const putRequestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -31,16 +32,15 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                     "id" : id,
                     "homeTeamScoreBet": modalValue.homeScore,
                     "awayTeamScoreBet": modalValue.awayScore,
-                    "betDate": new Date()
+                    "betDate": new Date(),
+                    "bettorUserName": userName,
                 }
             )
         };
-
         fetch(`api/Bets/${id}`, putRequestOptions)
             .then((response) => {
                 console.log("response: ", response);
                 if (response.ok) {
-                    // console.log(response.json());
                     return response.json();
                 }
                 return Promise.reject(response);
@@ -80,7 +80,7 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
         setAlert(true)
         setTimeout(() => {
             setAlert(false)
-        }, 2000);
+        }, 3000);
     }
     return (
 
