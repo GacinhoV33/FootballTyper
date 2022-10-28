@@ -24,12 +24,7 @@
 
         public DateTime BetDate { get; set; }
 
-        public bool? SuccessfulBet { get; set; }
+        public ScoreEnum? BetResult { get; set; }
     }
 }
 
-// GET AllBets
-// POST Bet
-// PUT Bet
-// DELETE Bet
-// GET AllBetsByUserId
