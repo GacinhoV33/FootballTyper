@@ -5,7 +5,6 @@ import { User } from '../../App';
 import { BsCheck } from "react-icons/bs";
 import { BiCheckDouble } from "react-icons/bi"
 import { ImCross } from 'react-icons/im';
-import { Bet } from '../YourBets/MyBets/MyBets';
 import Table from 'react-bootstrap/Table';
 import { UserContext } from '../../App';
 import { FaCrown } from 'react-icons/fa';

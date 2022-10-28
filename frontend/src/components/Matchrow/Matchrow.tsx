@@ -68,8 +68,9 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                 groupMatch={groupMatch}
                 setModalValue={setModalValue}
                 setAlert={setAlert}
-            />
+            />            
             }
+
             {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >= 0 && Number(modalValue.awayScore) >= 0 && Number(modalValue.awayScore) < 100) ?
                 <AlertAnimation >
                 <Alert variant='success'>

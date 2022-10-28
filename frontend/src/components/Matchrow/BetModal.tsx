@@ -83,8 +83,6 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
         }, 3000);
     }
     return (
-
-        <div>
             <Modal show={showBet} onHide={handleClose} centered>
                 <Modal.Title className='modal-header'>
                     <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.homeTeam) as string} style={{ marginRight: '1.5rem' }} />
@@ -113,7 +111,6 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                     <Button style={{ width: '8rem' }} size='sm' onClick={handleSubmit}> Submit </Button>
                 </div>
             </Modal>
-        </div>
     )
 }
 
