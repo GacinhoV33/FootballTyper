@@ -10,6 +10,8 @@
 
         public int MatchId { get; set; }
 
+        public Match Match { get; set; }
+
         public string BettorUserName { get; set; }
 
         public DateTime BetDate { get; set; }
