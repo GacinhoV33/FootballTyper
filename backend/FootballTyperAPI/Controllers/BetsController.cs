@@ -118,8 +118,8 @@ namespace FootballTyperAPI.Controllers
             return _context.Bets.Any(e => e.Id == id);
         }
 
-        // GET: api/Bets/User/{id}
-        [HttpGet("User/{userId}")]
+        // GET: api/Bets/User/Id/{id}
+        [HttpGet("User/Id/{userId}")]
         public async Task<ActionResult<IEnumerable<Bet>>> GetBetByUserId(int userId)
         {
             var user = _context.TyperUser.FirstOrDefault(x => x.Id == userId);
