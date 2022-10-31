@@ -114,7 +114,15 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
               fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                  localStorage.setItem("user", JSON.stringify(data));
+                  localStorage.setItem("user", JSON.stringify(
+                    {
+                      username: data.username,
+                      email: data.email,
+                      fullName: data.fullName,
+                      id: data.id,
+                      imgLink: data.imgLink,
+                      leagues: data.leagues
+                    }));
                   setAuthMode("profile");
                 })
                 // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
@@ -161,7 +169,15 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
           fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
             .then(response => response.json())
             .then(data => {
-              localStorage.setItem("user", JSON.stringify(data));
+              localStorage.setItem("user", JSON.stringify(
+                {
+                  username: data.username,
+                  email: data.email,
+                  fullName: data.fullName,
+                  id: data.id,
+                  imgLink: data.imgLink,
+                  leagues: data.leagues
+                }));
               setAuthMode("profile");
             })
             // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
