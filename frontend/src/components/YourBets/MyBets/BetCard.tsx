@@ -15,27 +15,25 @@ export interface BetCardProps {
 }
 
 const BetCard: React.FC<BetCardProps> = ({ bet }) => {
-  console.log(bet)
   const [baseBet, setBaseBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const [currentBet, setCurrentBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
-  const betString = bet.successfulBet !== undefined ? (bet.successfulBet ? `0 1px 10px lightgreen` : `0 1px 10px red`) : undefined;
-  // const betString = bet.successfulBet !== undefined ? (bet.successfulBet === 1 ? `0 1px 10px lightgreen` : (bet.successfulBet === 2 ? '0 1px 10px darkgreen' :`0 1px 10px red`) : undefined;
+  // const betString = bet.successfulBet !== undefined ? (bet.successfulBet ? `0 1px 10px lightgreen` : `0 1px 10px red`) : undefined;
+  const betString = bet.successfulBet !== undefined ? (bet.successfulBet === 1 ? `0 1px 10px lightgreen` : (bet.successfulBet === 2 ? '0 1px 10px darkgreen' : `0 1px 10px red`)) : undefined;
 
   const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; 
   const afterDeadline =  new Date().getTime() > new Date('2022-08-26T16:33:27.1796134').getTime()
-  // const [date, hour] = bet.match.date ? bet.match.date.split('T') : ['1999-20-11', '00:00']
+  const [date, hour] = bet.match.date ? bet.match.date.split('T') : ['1999-20-11', '00:00']
   function handleSave() {
-    try {
-      if (currentBet.homeBet < 100 && currentBet.awayBet < 100 && new Date().getTime() < new Date('2022-08-26T16:33:27.1796134').getTime()) { //TODO change on bet date
+    try { 
+      if (currentBet.homeBet < 100 && currentBet.awayBet < 100 && new Date() < new Date(bet.match.date)) { //TODO change on bet date
         setBaseBet({ homeBet: currentBet.homeBet, awayBet: currentBet.awayBet });
-        const id = 1307
-        const userName = "testUser1";
+        const userName = "testUser1"; // Take from context
         const putRequestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(
                 {
-                    "id" : id,
+                    "id" : bet.id,
                     "homeTeamScoreBet": currentBet.homeBet,
                     "awayTeamScoreBet": currentBet.awayBet,
                     "betDate": new Date(),
@@ -44,15 +42,20 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
             )
         };
 
-        fetch(`api/Bets/${id}`, putRequestOptions)
+        fetch(`api/Bets/${bet.id}`, putRequestOptions)
             .then((response) => {
                 console.log("response: ", response);
                 if (response.ok) {
-                    return response.json();
+                  console.log('ok')
+                    return response;
                 }
+                console.log('reject')
                 return Promise.reject(response);
             })
-            .then((data) => console.log(data));
+            .then((data) => {
+              console.log("then")
+              console.log(data)}
+              );
       }
     }
     catch (e) {
@@ -63,9 +66,9 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
     <CardAnimation>
     <Card style={{ borderRadius: '25px', boxShadow: betString, height: '105%'}}>
       <Card.Header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ display: 'flex' }}><CircleFlag countryCode='pl' style={{ paddingRight: '1.5rem' }} height='75' /></div>
+        <div style={{ display: 'flex' }}><CircleFlag countryCode={CountryDict.get(bet.match.homeTeam.name) as string} style={{ paddingRight: '1.5rem' }} height='75' /></div>
         <h3>{bet.homeTeamScore ? bet.homeTeamScore : '?'} : {bet.awayTeamScore ? bet.awayTeamScore : '?'}</h3>
-        <CircleFlag countryCode='es' style={{ paddingLeft: '1.5rem' }} height='75' />
+        <CircleFlag countryCode={CountryDict.get(bet.match.awayTeam.name) as string} style={{ paddingLeft: '1.5rem' }} height='75' />
       </Card.Header>
       <Card.Body className='bet-card-body'>
         <Card.Text>
@@ -91,19 +94,19 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
             <BsFillCalendarDateFill size={20}/>
-            {/* <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{date}</span> */}
-            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{'23-11-2022'}</span>
+            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{date}</span>
+            {/* <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{'23-11-2022'}</span> */}
 
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
             <AiFillClockCircle size={20}/>
-            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{'17:00'}</span>
-            {/* <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{hour.slice(0, 5)}</span> */}
+            {/* <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{'17:00'}</span> */}
+            <span style={{fontWeight: '500', marginRight: '0.4rem', paddingLeft: '0.4rem'}}>{hour.slice(0, 5)}</span>
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
             <HiBuildingStorefront size={20}/>
-            {/* <h6 style={{paddingLeft: '0.4rem'}}>{bet.match.location}</h6> */}
-            <h6 style={{paddingLeft: '0.4rem'}}>{'Al-Kaida'}</h6>
+            <h6 style={{paddingLeft: '0.4rem'}}>{bet.match.location}</h6>
+            {/* <h6 style={{paddingLeft: '0.4rem'}}>{'Al-Kaida'}</h6> */}
 
           </div>
           <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
@@ -113,7 +116,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           </div>
           <div style={{ gridColumn: '1/4'}}>
             {bet.homeTeamScore && bet.awayTeamScore ? <h4 style={{ textAlign: 'center' }}>5 points</h4> : // Style points TODO
-              <Button style={{ width: '100%', marginTop: '1rem' }} disabled={betDisabled || afterDeadline} onClick={handleSave} variant={betDisabled || afterDeadline ? 'success' : 'primary'}>
+              <Button style={{ width: '100%', marginTop: '1rem' }} disabled={betDisabled || !afterDeadline} onClick={handleSave} variant={betDisabled || !afterDeadline ? 'success' : 'primary'}>
                 {(betDisabled || !afterDeadline) ? 'Saved' : 'Save'}
               </Button>
             }

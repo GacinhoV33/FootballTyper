@@ -18,32 +18,42 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 import { createContext, useEffect, useState } from 'react';
 import { Router, Route, Routes } from 'react-router-dom';
 
+
+export type UserLocalStorageData = {
+  username: string,
+  email: string,
+  fullname: string,
+  id: number,
+  imgLink?: string,
+  leauges?: string[],
+}
 // This component contains whole logic, all main components and it's the manager of whole application
 export type UserStatus = {
-  userName: User | null,
+  userLocalData: UserLocalStorageData | null,
   isUserSigned: boolean,
 }
 
 
-const dummyUser =  {
-  name: '',
-  imgLink: '', //TODO?  
-  totalPoints: 0,
-  totalExactScoreBet: 0,
-  totalCorrectWinnerBet: 0,
-  totalWrongBet: 0,
-  leauges: ['', ''],
+const dummyUser = {
+  name: ' ',
+  email: ' ',
+  fullname: ' ',
+  imgLink: ' ', //TODO?  
+  leauges: [' ', ' '],
   id: 0,
-  lastFiveBets: [0, 0, 0, 0, 0],
 }
 // export const UserContext = createContext({userName: localStorage.getItem('user'), isUserSigned: localStorage.getItem('user') !== '' ?  true : false});
-export const UserContext = createContext({userName: dummyUser, isUserSigned: false});
+export const UserContext = createContext({ userName: dummyUser, isUserSigned: false });
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allBets, setAllBets] = useState<Bet[] | null>(null);
-  const [userStatus, setUserStatus] = useState<UserStatus>({userName: localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user') as string) : dummyUser, isUserSigned: localStorage.getItem('user') !== '' ?  true : false})
+  const [userStatus, setUserStatus] = useState<UserStatus>({
+    // @ts-ignore
+    userLocalData: localStorage.getItem('user'),
+    isUserSigned: localStorage.getItem('user') !== '' ? true : false
+  })
   useEffect(() => {
     const fetchData = async () => {
 
@@ -63,31 +73,30 @@ function App() {
     }
     fetchData();
   }, []);
-  console.log(localStorage.getItem('user'))
   return (
-    <UserContext.Provider value={{userName: dummyUser, isUserSigned: false}}>
-    <div className='app-body'>
-      <NavbarComp />
-      <Routes>
-        <Route path='/' element={userStatus.isUserSigned ? <Homepage/> : <Login setUserStatus={setUserStatus}/>} />
-        <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus}/>} />
-        <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage'/>} />
-        <Route path='/yourbets' element={allBets ? <YourBets userName='testUser1' allBets={allBets} /> : <LoadingLayout componentName='My bets'/>} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
-        <Route
-          path='/ranking'
-          element={
-            <Ranking
-              allUsers={dummyData}
-            />
-          }
-        />
-        <Route path='/statistics' element={<Statistics />} />
-        <Route path='/rules' element={<Rules />} />
-        <Route path='/Login' element={<Login setUserStatus={setUserStatus}/>} /> 
-        <Route path='/profil' element={<Profil />} />
-      </Routes >
-      <Footer />
-    </div >
+    <UserContext.Provider value={{ userName: dummyUser, isUserSigned: false }}>
+      <div className='app-body'>
+        <NavbarComp />
+        <Routes>
+          <Route path='/' element={userStatus.isUserSigned ? <Homepage /> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage' />} />
+          <Route path='/yourbets' element={allBets ? <YourBets userName='testUser1' allBets={allBets} /> : <LoadingLayout componentName='My bets' />} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
+          <Route
+            path='/ranking'
+            element={
+              <Ranking
+                allUsers={dummyData}
+              />
+            }
+          />
+          <Route path='/statistics' element={<Statistics />} />
+          <Route path='/rules' element={<Rules />} />
+          <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
+          <Route path='/profil' element={<Profil />} />
+        </Routes >
+        <Footer />
+      </div >
     </UserContext.Provider>
   );
 }
@@ -141,7 +150,7 @@ export interface Match {
 }
 
 
-export interface User{
+export interface User {
   name: string,
   // email: string, TODO?
   imgLink: string, //TODO?  

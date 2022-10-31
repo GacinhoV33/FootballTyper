@@ -14,7 +14,6 @@ const YourBets: React.FC<YourBetsProps> = ({userName, allBets}) => {
   allBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
   const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>([])
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allBets)
-  console.log(allBets)
   function sortMyBets(){
     let currentBets = allBets;
     if(filterMyBets.indexOf('GroupStage') !== -1 && allBets){
