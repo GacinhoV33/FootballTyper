@@ -43,13 +43,13 @@ function App() {
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllBets(allBets);
-      console.log(GroupMatches);
+      // console.log(GroupMatches);
     }
     fetchData();
   }, []);
 
   return (
-    <UserContext.Provider value={'user123'}>
+    <UserContext.Provider value={'User1'}>
     <div className='app-body'>
       <NavbarComp />
       <Routes>

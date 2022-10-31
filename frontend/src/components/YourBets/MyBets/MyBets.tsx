@@ -3,7 +3,6 @@ import './MyBets.scss';
 // Data
 import { Match } from '../../../App';
 import BetCard from './BetCard';
-import CountryDict from './CountryDict';
 
 export type Bet = {
   id: number,

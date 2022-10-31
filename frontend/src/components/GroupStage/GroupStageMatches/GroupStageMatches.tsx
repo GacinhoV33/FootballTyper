@@ -21,8 +21,9 @@ const GroupStageMatches = ({ groupMatches, chosenCountries, setChosenCountries }
   const [userBets, setUserBets] = useState<Bet[] | undefined>()
   useEffect(() => {
     const getUserBets = async () => {
-      const allBets = await (await fetch(`api/Bets/User/${userName}`)).json();
-      setUserBets(allBets);
+      const allUserBets = await (await fetch(`api/Bets/User/${userName}`)).json();
+      setUserBets(allUserBets);
+      console.log('All users bets:', allUserBets)
     }
     getUserBets();
   }

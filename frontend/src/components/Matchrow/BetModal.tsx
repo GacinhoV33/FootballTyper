@@ -23,7 +23,6 @@ export interface BetModalProps {
 const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert, userBets }) => {
 
     const userName = useContext(UserContext);
-    // const [userBets, setUserBets] = useState<Bet[]>()
     function handleSubmit() {
         const betId = userBets?.filter((bet) => bet.matchId === groupMatch.id);
         if (betId !== undefined && userBets) {
@@ -48,6 +47,7 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                     return Promise.reject(response);
                 })
                 .then((data) => console.log(data));
+            console.log(putRequestOptions.body)
         }
         else {
             const postRequestOptions = {
@@ -81,8 +81,6 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
         }, 3000);
     }
     return (
-
-        <div>
             <Modal show={showBet} onHide={handleClose} centered>
                 <Modal.Title className='modal-header'>
                     <CircleFlag height='45' countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} style={{ marginRight: '1.5rem' }} />
@@ -111,7 +109,6 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                     <Button style={{ width: '8rem' }} size='sm' onClick={handleSubmit}> Submit </Button>
                 </div>
             </Modal>
-        </div>
     )
 }
 
