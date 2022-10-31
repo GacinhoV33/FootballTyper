@@ -2,8 +2,13 @@ import './Login.scss';
 import React, { useState, useEffect } from 'react'
 import Alert from 'react-bootstrap/Alert';
 import LoginForm from './LoginForm';
+import { UserStatus } from '../../App';
 
-const Login = () => {
+export interface LoginProps {
+  setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>
+}
+
+const Login: React.FC<LoginProps> = ({setUserStatus}) => {
   const apiURL = 'https://football-typer-api.azurewebsites.net/'
   const [fullName, setFullName] = useState(null);
   const [userName, setUserName] = useState(null);
@@ -109,7 +114,9 @@ const Login = () => {
                 .then(data => {
                   localStorage.setItem("user", JSON.stringify(data));
                   setAuthMode("profile");
-                });
+                })
+                .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
+                );
 
               setShowAlert(false);
               setIsValid(true);
@@ -154,7 +161,8 @@ const Login = () => {
             .then(data => {
               localStorage.setItem("user", JSON.stringify(data));
               setAuthMode("profile");
-            });
+            })
+            .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
 
           setShowAlert(false);
           setIsValid(true);

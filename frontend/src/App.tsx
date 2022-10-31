@@ -20,19 +20,17 @@ import { Router, Route, Routes } from 'react-router-dom';
 
 // This component contains whole logic, all main components and it's the manager of whole application
 export type UserStatus = {
-  userName: string,
+  userName: User | null,
   isUserSigned: boolean,
-  userEmail?: string,
-
 }
 
-export const UserContext = createContext({userName: '', isUserSigned: false, userEmail: ''});
+export const UserContext = createContext({userName: localStorage.getItem('user'), isUserSigned: localStorage.getItem('user') !== '' ?  true : false});
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allBets, setAllBets] = useState<Bet[] | null>(null);
-  const [userData, setUserData] = useState<UserStatus>({userName: '', isUserSigned: false, userEmail: ''})
+  const [userStatus, setUserStatus] = useState<UserStatus>({userName: localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user') as string) : dummyUser, isUserSigned: localStorage.getItem('user') !== '' ?  true : false})
   useEffect(() => {
     const fetchData = async () => {
 
@@ -49,20 +47,17 @@ function App() {
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllBets(allBets);
-      // console.log(GroupMatches);
     }
     fetchData();
   }, []);
-  const userAuth = localStorage.getItem('signin')
-
-  console.log('that is local' , localStorage.getItem("signin"));
+  console.log(userStatus)
   return (
-    <UserContext.Provider value={userData}>
+    <UserContext.Provider value={userStatus}>
     <div className='app-body'>
       <NavbarComp />
       <Routes>
-        <Route path='/' element={<Homepage />} />
-        <Route path='/knockout' element={<KnockoutStage />} />
+        <Route path='/' element={userStatus.isUserSigned ? <Homepage/> : <Login setUserStatus={setUserStatus}/>} />
+        <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus}/>} />
         <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage'/>} />
         <Route path='/yourbets' element={allBets ? <YourBets userName='testUser1' allBets={allBets} /> : <LoadingLayout componentName='My bets'/>} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
         <Route
@@ -75,7 +70,7 @@ function App() {
         />
         <Route path='/statistics' element={<Statistics />} />
         <Route path='/rules' element={<Rules />} />
-        <Route path='/Login' element={<Login />} /> 
+        <Route path='/Login' element={<Login setUserStatus={setUserStatus}/>} /> 
         <Route path='/profil' element={<Profil />} />
       </Routes >
       <Footer />
@@ -233,3 +228,15 @@ export const dummyData: User[] = [
     lastFiveBets: [2, 1, 0, 0, 1],
   },
 ]
+
+const dummyUser =  {
+  name: '',
+  imgLink: '', //TODO?  
+  totalPoints: 0,
+  totalExactScoreBet: 0,
+  totalCorrectWinnerBet: 0,
+  totalWrongBet: 0,
+  leauges: ['', ''],
+  id: 0,
+  lastFiveBets: [0, 0, 0, 0, 0],
+}
