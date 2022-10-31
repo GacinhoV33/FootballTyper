@@ -1,6 +1,7 @@
 import './Login.scss';
 import React, { useState, useEffect } from 'react'
 import Alert from 'react-bootstrap/Alert';
+import LoginForm from './LoginForm';
 
 const Login = () => {
   const apiURL = 'https://football-typer-api.azurewebsites.net/'
@@ -170,171 +171,163 @@ const Login = () => {
 
   if (authMode === "signin") {
     return (
-        <div className="Auth-form-container wc-logo">
-          <form className="Auth-form" onSubmit={onSubmit}>
-            <div className="Auth-form-content">
-              <h3 className="Auth-form-title">Sign In</h3>
-              {showAlert
-                ? (
-                  isValid
-                    ?
-                    <Alert variant="success">Hurray! We have send your request for registration.</Alert>
-                    :
-                    <Alert variant="danger">Oops! Wrong data. <br></br> {errorMsg}</Alert>
-                )
-                : null
-              }
-              <div className="text-center">
-                Not registered yet?{" "}
-                <span className="link-primary" onClick={changeAuthMode}>
-                  Sign Up
-                </span>
-              </div>
-              <div className="form-group mt-3">
-                <label>Username or email</label>
-                <input
-                  id="userNameOrEmail"
-                  type="text"
-                  className="form-control mt-1"
-                  placeholder="e.g userName1 or user@mail.com"
-                  onChange={(e) => handleUserNameInputChange(e)}
-                />
-              </div>
-              <div className="form-group mt-3">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control mt-1"
-                  placeholder="Enter password"
-                  onChange={(e) => handlePasswordInputChange(e)}
-                />
-              </div>
-              <div className="d-grid gap-2 mt-3">
-                <button type="submit" className="btn btn-primary">
-                  Sign In
-                </button>
-              </div>
-              {/* <p className="text-center mt-2">
-              Forgot <a href="#">password?</a>
-            </p> */}
-            </div>
-          </form>
-        </div>
-    )
-  }
-  else if (authMode === "profile") {
-    return (
-      <div className="Auth-form-container wc-logo">
-        <div className="Auth-form">
-          <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Profile</h3>
-            <div className="text-center">
-              You are logged in
-            </div>
-            <div className="form-group mt-3">
-              <label>Full Name: {(JSON.parse(localStorage.getItem("user") as string)).fullName} </label>
-            </div>
-            <div className="form-group mt-3">
-              <label>User Name: {(JSON.parse(localStorage.getItem("user") as string)).username} </label>
-            </div>
-            <div className="form-group mt-3">
-              <label>Email address: {(JSON.parse(localStorage.getItem("user") as string)).email} </label>
-            </div>
-            <div className="d-grid gap-2 mt-3">
-              <button className="btn btn-primary" onClick={handleLogOut}>
-                Log out
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="Auth-form-container wc-logo">
-      <form className="Auth-form" onSubmit={onSubmit}>
-        <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Sign In</h3>
+      <LoginForm onSubmit={onSubmit} title='Sign In'>
+        <div>
           {showAlert
             ? (
               isValid
                 ?
                 <Alert variant="success">Hurray! We have send your request for registration.</Alert>
                 :
-                <Alert variant="danger">Oops! Correct wrong data. <br></br> {errorMsg}</Alert>
+                <Alert variant="danger">Oops! Wrong data. <br></br> {errorMsg}</Alert>
             )
             : null
           }
           <div className="text-center">
-            Already registered?{" "}
+            Not registered yet?{" "}
             <span className="link-primary" onClick={changeAuthMode}>
-              Sign In
+              Sign Up
             </span>
           </div>
           <div className="form-group mt-3">
-            <label>Full Name</label>
+            <label>Username or email</label>
             <input
-              id="fullName"
+              id="userNameOrEmail"
               type="text"
               className="form-control mt-1"
-              placeholder="e.g Jane Doe"
-              onChange={(e) => handleFullNameInputChange(e)}
-            />
-          </div>
-          <div className="form-group mt-3">
-            <label>User Name</label>
-            <input
-              id="userName"
-              type="text"
-              className="form-control mt-1"
-              placeholder="e.g userName1"
+              placeholder="e.g userName1 or user@mail.com"
               onChange={(e) => handleUserNameInputChange(e)}
-            />
-          </div>
-          <div className="form-group mt-3">
-            <label>Email address</label>
-            <input
-              id="email"
-              type="email"
-              className="form-control mt-1"
-              placeholder="Email Address"
-              onChange={(e) => handleEmailInputChange(e)}
             />
           </div>
           <div className="form-group mt-3">
             <label>Password</label>
             <input
-              id="password"
               type="password"
               className="form-control mt-1"
               placeholder="Enter password"
               onChange={(e) => handlePasswordInputChange(e)}
             />
-            <p className="invalid-password-msg">{passwordErrorMessage}</p>
-          </div>
-          <div className="form-group mt-3">
-            <label>Confirm password</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              className="form-control mt-1"
-              placeholder="Enter password"
-              onChange={(e) => handleConfirmPasswordInputChange(e)}
-            />
-            <p className="invalid-password-msg">{passwordErrorMessage}</p>
           </div>
           <div className="d-grid gap-2 mt-3">
             <button type="submit" className="btn btn-primary">
-              Create account
+              Sign In
             </button>
           </div>
           {/* <p className="text-center mt-2">
+              Forgot <a href="#">password?</a>
+            </p> */}
+        </div>
+      </LoginForm>
+
+    )
+  }
+  else if (authMode === "profile") {
+    return (
+      <LoginForm onSubmit={onSubmit} title='Profile'>
+        <div>
+          <div className="text-center">
+            You are logged in
+          </div>
+          <div className="form-group mt-3">
+            <label>Full Name: {(JSON.parse(localStorage.getItem("user") as string)).fullName} </label>
+          </div>
+          <div className="form-group mt-3">
+            <label>User Name: {(JSON.parse(localStorage.getItem("user") as string)).username} </label>
+          </div>
+          <div className="form-group mt-3">
+            <label>Email address: {(JSON.parse(localStorage.getItem("user") as string)).email} </label>
+          </div>
+          <div className="d-grid gap-2 mt-3">
+            <button className="btn btn-primary" onClick={handleLogOut}>
+              Log out
+            </button>
+          </div>
+        </div>
+      </LoginForm>
+    )
+  }
+
+  return (
+    <LoginForm onSubmit={onSubmit} title='Sign Up'>
+      <div>
+        {showAlert
+          ? (
+            isValid
+              ?
+              <Alert variant="success">Hurray! We have send your request for registration.</Alert>
+              :
+              <Alert variant="danger">Oops! Correct wrong data. <br></br> {errorMsg}</Alert>
+          )
+          : null
+        }
+        <div className="text-center">
+          Already registered?{" "}
+          <span className="link-primary" onClick={changeAuthMode}>
+            Sign In
+          </span>
+        </div>
+        <div className="form-group mt-3">
+          <label>Full Name</label>
+          <input
+            id="fullName"
+            type="text"
+            className="form-control mt-1"
+            placeholder="e.g Jane Doe"
+            onChange={(e) => handleFullNameInputChange(e)}
+          />
+        </div>
+        <div className="form-group mt-3">
+          <label>User Name</label>
+          <input
+            id="userName"
+            type="text"
+            className="form-control mt-1"
+            placeholder="e.g userName1"
+            onChange={(e) => handleUserNameInputChange(e)}
+          />
+        </div>
+        <div className="form-group mt-3">
+          <label>Email address</label>
+          <input
+            id="email"
+            type="email"
+            className="form-control mt-1"
+            placeholder="Email Address"
+            onChange={(e) => handleEmailInputChange(e)}
+          />
+        </div>
+        <div className="form-group mt-3">
+          <label>Password</label>
+          <input
+            id="password"
+            type="password"
+            className="form-control mt-1"
+            placeholder="Enter password"
+            onChange={(e) => handlePasswordInputChange(e)}
+          />
+          <p className="invalid-password-msg">{passwordErrorMessage}</p>
+        </div>
+        <div className="form-group mt-3">
+          <label>Confirm password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            className="form-control mt-1"
+            placeholder="Enter password"
+            onChange={(e) => handleConfirmPasswordInputChange(e)}
+          />
+          <p className="invalid-password-msg">{passwordErrorMessage}</p>
+        </div>
+        <div className="d-grid gap-2 mt-3">
+          <button type="submit" className="btn btn-primary">
+            Create account
+          </button>
+        </div>
+        {/* <p className="text-center mt-2">
             Forgot <a href="#">password?</a>
           </p> */}
-        </div>
-      </form>
-    </div>
+      </div>
+    </LoginForm>
   )
 }
 
