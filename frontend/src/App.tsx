@@ -24,7 +24,20 @@ export type UserStatus = {
   isUserSigned: boolean,
 }
 
-export const UserContext = createContext({userName: localStorage.getItem('user'), isUserSigned: localStorage.getItem('user') !== '' ?  true : false});
+
+const dummyUser =  {
+  name: '',
+  imgLink: '', //TODO?  
+  totalPoints: 0,
+  totalExactScoreBet: 0,
+  totalCorrectWinnerBet: 0,
+  totalWrongBet: 0,
+  leauges: ['', ''],
+  id: 0,
+  lastFiveBets: [0, 0, 0, 0, 0],
+}
+// export const UserContext = createContext({userName: localStorage.getItem('user'), isUserSigned: localStorage.getItem('user') !== '' ?  true : false});
+export const UserContext = createContext({userName: dummyUser, isUserSigned: false});
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
@@ -50,9 +63,9 @@ function App() {
     }
     fetchData();
   }, []);
-  console.log(userStatus)
+  console.log(localStorage.getItem('user'))
   return (
-    <UserContext.Provider value={userStatus}>
+    <UserContext.Provider value={{userName: dummyUser, isUserSigned: false}}>
     <div className='app-body'>
       <NavbarComp />
       <Routes>
@@ -228,15 +241,3 @@ export const dummyData: User[] = [
     lastFiveBets: [2, 1, 0, 0, 1],
   },
 ]
-
-const dummyUser =  {
-  name: '',
-  imgLink: '', //TODO?  
-  totalPoints: 0,
-  totalExactScoreBet: 0,
-  totalCorrectWinnerBet: 0,
-  totalWrongBet: 0,
-  leauges: ['', ''],
-  id: 0,
-  lastFiveBets: [0, 0, 0, 0, 0],
-}

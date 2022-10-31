@@ -9,7 +9,8 @@ export interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({setUserStatus}) => {
-  const apiURL = 'https://football-typer-api.azurewebsites.net/'
+  // const apiURL = 'https://football-typer-api.azurewebsites.net/'
+  const apiURL = '';
   const [fullName, setFullName] = useState(null);
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -48,6 +49,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
   }
 
   const handleLogOut = (e: any) => {
+    e.preventDefault();
     localStorage.setItem("user", "");
     localStorage.setItem("userToken", "");
     setAuthMode("signin");
@@ -115,8 +117,8 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
                   localStorage.setItem("user", JSON.stringify(data));
                   setAuthMode("profile");
                 })
-                .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
-                );
+                // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
+                // );
 
               setShowAlert(false);
               setIsValid(true);
@@ -162,7 +164,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
               localStorage.setItem("user", JSON.stringify(data));
               setAuthMode("profile");
             })
-            .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
+            // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
 
           setShowAlert(false);
           setIsValid(true);
