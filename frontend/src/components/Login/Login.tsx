@@ -4,7 +4,8 @@ import Alert from 'react-bootstrap/Alert';
 import LoginForm from './LoginForm';
 
 const Login = () => {
-  const apiURL = 'https://football-typer-api.azurewebsites.net/'
+  // const apiURL = 'https://football-typer-api.azurewebsites.net/'
+  const apiURL = ''
   const [fullName, setFullName] = useState(null);
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -43,6 +44,7 @@ const Login = () => {
   }
 
   const handleLogOut = (e: any) => {
+    e.preventDefault();
     localStorage.setItem("user", "");
     localStorage.setItem("userToken", "");
     setAuthMode("signin");

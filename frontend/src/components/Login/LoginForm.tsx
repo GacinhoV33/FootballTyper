@@ -1,6 +1,5 @@
 import './Login.scss';
 import React, { useState, useEffect } from 'react'
-import Alert from 'react-bootstrap/Alert';
 
 export interface LoginFormProps {
     onSubmit: (e: React.FormEvent) => void,
