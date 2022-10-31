@@ -19,14 +19,20 @@ import { createContext, useEffect, useState } from 'react';
 import { Router, Route, Routes } from 'react-router-dom';
 
 // This component contains whole logic, all main components and it's the manager of whole application
-export const UserContext = createContext('userNotLogged');
+export type UserStatus = {
+  userName: string,
+  isUserSigned: boolean,
+  userEmail?: string,
 
+}
+
+export const UserContext = createContext({userName: '', isUserSigned: false, userEmail: ''});
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allBets, setAllBets] = useState<Bet[] | null>(null);
-
+  const [userData, setUserData] = useState<UserStatus>({userName: '', isUserSigned: false, userEmail: ''})
   useEffect(() => {
     const fetchData = async () => {
 
@@ -47,9 +53,11 @@ function App() {
     }
     fetchData();
   }, []);
+  const userAuth = localStorage.getItem('signin')
 
+  console.log('that is local' , localStorage.getItem("signin"));
   return (
-    <UserContext.Provider value={'User1'}>
+    <UserContext.Provider value={userData}>
     <div className='app-body'>
       <NavbarComp />
       <Routes>
