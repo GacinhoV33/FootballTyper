@@ -7,6 +7,7 @@ namespace FootballTyperAPI.Data
     {
         public static void Initialize(FootballTyperAPIContext context)
         {
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             if (!context.Teams.Any())
                 FillTeamsTable(context);
@@ -19,11 +20,15 @@ namespace FootballTyperAPI.Data
 
         public static void CleanDb(FootballTyperAPIContext context)
         {
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            context.RemoveRange(context.Matches);
-            context.RemoveRange(context.Teams);
-            context.RemoveRange(context.Bets);
+            if (context.Bets.Any())
+                context.RemoveRange(context.Bets);
+            if (context.Matches.Any())
+                context.RemoveRange(context.Matches);
+            if (context.Teams.Any())
+                context.RemoveRange(context.Teams);
             context.SaveChanges();
         }
 
