@@ -10,7 +10,6 @@ import Ranking from './components/Ranking/Ranking';
 import Statistics from './components/Statistics/Statistics';
 import Rules from './components/Rules/Rules';
 import Login from './components/Login/Login';
-import Profil from './components/Profil/Profil';
 import LoadingLayout from './components/LoadingLayout/LoadingLayout';
 import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
@@ -33,17 +32,17 @@ export type UserStatus = {
   isUserSigned: boolean,
 }
 
-
-const dummyUser = {
-  name: ' ',
-  email: ' ',
-  fullname: ' ',
-  imgLink: ' ', //TODO?  
-  leauges: [' ', ' '],
+const userObjInit: UserLocalStorageData | null = {
+  username: 'no-user',
+  email: 'no-email',
+  fullname: 'no-fullname',
   id: 0,
+  imgLink: 'none',
+  leauges: ['none'],
 }
+
 // export const UserContext = createContext({userName: localStorage.getItem('user'), isUserSigned: localStorage.getItem('user') !== '' ?  true : false});
-export const UserContext = createContext({ userName: dummyUser, isUserSigned: false });
+export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
@@ -51,9 +50,12 @@ function App() {
   const [allBets, setAllBets] = useState<Bet[] | null>(null);
   const [userStatus, setUserStatus] = useState<UserStatus>({
     // @ts-ignore
-    userLocalData: localStorage.getItem('user'),
+    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user')) : userObjInit,
     isUserSigned: localStorage.getItem('user') !== '' ? true : false
   })
+  // const [allUsers, setAllUsers] = useState<User[] | null>(null);
+
+
   useEffect(() => {
     const fetchData = async () => {
 
@@ -67,21 +69,37 @@ function App() {
       const data = await (await fetch('api/Teams')).json();
       const allBets = await (await fetch('api/Bets')).json();
 
+      const requestAllUsersOptions = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+        }
+      };
+
+      fetch('api/TyperUsers', requestAllUsersOptions)
+        .then((data) => console.log("data1", data));
+
+
+      // const allUsersApi = await (await fetch('api/TyperUsers')); TODO
+      // setAllUsers(allUsersApi);
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllBets(allBets);
     }
     fetchData();
+
   }, []);
+  console.log(userStatus);
   return (
-    <UserContext.Provider value={{ userName: dummyUser, isUserSigned: false }}>
+    <UserContext.Provider value={userStatus}>
       <div className='app-body'>
         <NavbarComp />
         <Routes>
           <Route path='/' element={userStatus.isUserSigned ? <Homepage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage' />} />
-          <Route path='/yourbets' element={allBets ? <YourBets userName='testUser1' allBets={allBets} /> : <LoadingLayout componentName='My bets' />} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
+          <Route path='/yourbets' element={allBets ? <YourBets allBets={allBets} /> : <LoadingLayout componentName='My bets' />} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
           <Route
             path='/ranking'
             element={
@@ -93,7 +111,6 @@ function App() {
           <Route path='/statistics' element={<Statistics />} />
           <Route path='/rules' element={<Rules />} />
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
-          <Route path='/profil' element={<Profil />} />
         </Routes >
         <Footer />
       </div >
@@ -166,7 +183,7 @@ export interface User {
 export default App;
 export const dummyData: User[] = [
   {
-    name: 'user123',
+    name: 'user1234',
     // email: string, TODO?
     imgLink: 'imgPath', //TODO?  
     totalPoints: 50,

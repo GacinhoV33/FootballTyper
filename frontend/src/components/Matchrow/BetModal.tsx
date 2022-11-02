@@ -22,23 +22,31 @@ export interface BetModalProps {
 
 const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert, userBets }) => {
 
-    const userName = useContext(UserContext);
+    const userName = useContext(UserContext).userLocalData?.username;
     function handleSubmit() {
-        const betId = userBets?.filter((bet) => bet.matchId === groupMatch.id);
+        console.log(userBets)
+        let betId: Bet[] = [];
+        if(userBets){
+            betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
+        }
+        // const betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
+        console.log(betId);
         if (betId !== undefined && userBets) {
             const putRequestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(
                     {
-                        "id": userBets[0].id,
+                        "id": betId[0].id,
                         "homeTeamScoreBet": modalValue.homeScore,
                         "awayTeamScoreBet": modalValue.awayScore,
                         "betDate": new Date().toString(),
+                        "bettorUserName": userName, // TODO - is this needed?
+
                     }
                 )
             };
-            fetch(`api/Bets/${userBets[0].id}`, putRequestOptions)
+            fetch(`api/Bets/${betId[0].id}`, putRequestOptions)
                 .then((response) => {
                     console.log("response: ", response);
                     if (response.ok) {

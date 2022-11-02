@@ -22,7 +22,6 @@ const NavbarComp = () => {
             <Nav.Link href="/statistics">Statistics</Nav.Link>
             <Nav.Link href="/rules">Rules</Nav.Link>
             <Nav.Link href="/login">Login</Nav.Link>
-            <Nav.Link href='/profil'>Profile</Nav.Link>
         </Nav>
         </div>
     </Navbar>

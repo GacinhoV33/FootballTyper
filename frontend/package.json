@@ -29,6 +29,7 @@
     "react-bootstrap": "^2.5.0",
     "react-chartjs-2": "^4.3.1",
     "react-circle-flags": "^0.0.18",
+    "react-circular-progressbar": "^2.1.0",
     "react-country-flag": "^3.0.2",
     "react-currency-flags": "^0.1.2",
     "react-dom": "^18.2.0",

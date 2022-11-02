@@ -34,7 +34,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                 </thead>
                 <tbody className='ranking-row-content'>
                     {allUsers.map(({ totalPoints, name, totalCorrectWinnerBet, totalWrongBet, totalExactScoreBet, lastFiveBets }, index) => (
-                        <tr key={index} style={userCtx.userName.name === name ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
+                        <tr key={index} style={userCtx.userLocalData?.username === name ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
                             <td> <h4>{index + 1}.</h4> </td>
                             <td> {index === 0 ? <FaCrown style={{ color: 'orange' }} size='30' /> : null}</td>
                             <td> <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} />{name}</td>

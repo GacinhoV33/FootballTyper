@@ -5,7 +5,7 @@ import LoginForm from './LoginForm';
 import { UserStatus } from '../../App';
 
 export interface LoginProps {
-  setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>
+  setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>,
 }
 
 const Login: React.FC<LoginProps> = ({setUserStatus}) => {
