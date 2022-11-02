@@ -25,4 +25,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FootballTyperAPI.Models\FootballTyperAPI.Models.csproj" />
+  </ItemGroup>
+
 </Project>
