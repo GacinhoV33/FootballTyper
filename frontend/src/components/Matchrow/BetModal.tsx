@@ -17,45 +17,38 @@ export interface BetModalProps {
     }>>,
     setAlert: React.Dispatch<React.SetStateAction<boolean>>,
     userBets: Bet[] | undefined,
+    setBetChange: React.Dispatch<React.SetStateAction<number>>
 
 }
 
-const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert, userBets }) => {
+const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert, userBets, setBetChange }) => {
 
     const userName = useContext(UserContext).userLocalData?.username;
     function handleSubmit() {
-        console.log(userBets)
         let betId: Bet[] = [];
         if(userBets){
             betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
         }
         // const betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
-        console.log(betId);
-        if (betId !== undefined && userBets) {
+        if (betId.length > 0 && userBets) {
             const putRequestOptions = {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(
                     {
                         "id": betId[0].id,
-                        "homeTeamScoreBet": modalValue.homeScore,
-                        "awayTeamScoreBet": modalValue.awayScore,
-                        "betDate": new Date().toString(),
-                        "bettorUserName": userName, // TODO - is this needed?
-
+                        "homeTeamScoreBet": Number(modalValue.homeScore),
+                        "awayTeamScoreBet": Number(modalValue.awayScore),
+                        "betDate": new Date(),
                     }
                 )
             };
             fetch(`api/Bets/${betId[0].id}`, putRequestOptions)
                 .then((response) => {
-                    console.log("response: ", response);
                     if (response.ok) {
-                        return response.json();
+                        setBetChange(prev => prev+1)
                     }
-                    return Promise.reject(response);
                 })
-                .then((data) => console.log(data));
-            console.log(putRequestOptions.body)
         }
         else {
             const postRequestOptions = {
@@ -63,22 +56,24 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(
                     {
-                        "homeTeamScoreBet": 1,
-                        "awayTeamScoreBet": 2,
+                        "homeTeamScoreBet": modalValue.homeScore,
+                        "awayTeamScoreBet": modalValue.awayScore,
                         "matchId": groupMatch.id,
                         "bettorUserName": userName,
-                        "betDate": new Date().toString(),
+                        "betDate": new Date(),
                     }
                 )
             };
 
             fetch('api/Bets', postRequestOptions)
                 .then((response) => {
-                    console.log("response: ", response);
                     if (response.ok) {
+                        setBetChange(prev => prev+1)
                         return response.json();
                     }
+
                     return Promise.reject(response);
+                    
                 })
                 .then((data) => console.log(data));
         }
@@ -111,7 +106,6 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                         value={modalValue.awayScore}
                         onChange={(e) => setModalValue({ homeScore: modalValue.homeScore, awayScore: e.target.value })}
                     />
-                    {/* TODO - fix center of VS and make separte component of it */}
                 </Modal.Body>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
                     <Button style={{ width: '8rem' }} size='sm' onClick={handleSubmit}> Submit </Button>

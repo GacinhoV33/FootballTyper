@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './YourBets.scss';
 import { Bet } from './MyBets/MyBets';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
@@ -7,17 +7,20 @@ import 'react-circular-progressbar/dist/styles.css';
 // components
 import MyBets from './MyBets/MyBets';
 import FiltersMyBets, { BetFilters } from './Filters/FiltersMyBets';
+import { UserContext } from '../../App';
 
 export interface YourBetsProps{
   allBets: Bet[],
 }
 const YourBets: React.FC<YourBetsProps> = ({allBets}) => {
   const currentDate = new Date();
+  const userCtx = useContext(UserContext);
   allBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
   const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>([])
-  const [betsToShow, setBetsToShow] = useState<Bet[]>(allBets)
+  const [betsToShow, setBetsToShow] = useState<Bet[]>([])
+
   function sortMyBets(){
-    let currentBets = allBets;
+    let currentBets = betsToShow;
     if(filterMyBets.indexOf('GroupStage') !== -1 && allBets){
       currentBets = allBets.filter((bet) => bet.matchId <= 92)      // #TODO how to verify that match is groupstage
     }
@@ -40,10 +43,21 @@ const YourBets: React.FC<YourBetsProps> = ({allBets}) => {
 
     setBetsToShow(currentBets);
   }
+
   useEffect(
     () => sortMyBets()
   , [filterMyBets]);
   
+  useEffect(() => {
+    const getUserBets = async () => {
+      const userName = userCtx.userLocalData ? userCtx.userLocalData.username : '';
+      const allUserBets = await (await fetch(`api/Bets/User/${userName}`)).json();
+      
+      setBetsToShow(allUserBets);
+      console.log('All users bets:', allUserBets)
+    }
+    getUserBets();
+  }, [])
   
   return (
     

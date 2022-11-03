@@ -90,7 +90,6 @@ function App() {
     fetchData();
 
   }, []);
-  console.log(userStatus);
   return (
     <UserContext.Provider value={userStatus}>
       <div className='app-body'>

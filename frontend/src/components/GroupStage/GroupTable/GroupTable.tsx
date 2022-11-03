@@ -55,9 +55,9 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
                   <CountryIcon size='md' countryName={name} />             
                   {name}
               </td>
-              <td>{won}</td>
-              <td>{lost}</td>
-              <td>{drawn}</td>
+              <td><strong>{won}</strong></td>
+              <td><strong>{lost}</strong></td>
+              <td><strong>{drawn}</strong></td>
               <td><h5>{points}</h5></td>
             </tr>
         )}) : null}

@@ -142,10 +142,10 @@ namespace FootballTyperAPI.Controllers
         {
             var userBets = (await _context.GetAllBets()).Where(x => x.BettorUserName == username).ToList();
 
-            if (!userBets.Any())
-            {
-                return NotFound();
-            }
+            //if (!userBets.Any())
+            //{
+            //    return NotFound();
+            //}
 
             return userBets;
         }

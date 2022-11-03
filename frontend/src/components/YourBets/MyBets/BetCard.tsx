@@ -44,16 +44,13 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
 
         fetch(`api/Bets/${bet.id}`, putRequestOptions)
             .then((response) => {
-                console.log("response: ", response);
                 if (response.ok) {
-                  console.log('ok')
                     return response;
                 }
                 console.log('reject')
                 return Promise.reject(response);
             })
             .then((data) => {
-              console.log("then")
               console.log(data)}
               );
       }

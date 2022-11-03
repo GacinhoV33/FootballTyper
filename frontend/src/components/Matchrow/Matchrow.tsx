@@ -20,12 +20,12 @@ export interface MatchrowProps {
         awayCountry: string;
     }>>,
     userBets?: Bet[] | undefined,
+    setBetChange: React.Dispatch<React.SetStateAction<number>>
 }
 
-const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setChosenCountries, userBets }) => {
+const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setChosenCountries, userBets, setBetChange }) => {
     const [showBet, setShowBet] = useState<boolean>(false);
     const [showAlert, setAlert] = useState<boolean>(false);
-
     const handleClose = () => {
         setShowBet(false)
     };
@@ -36,12 +36,15 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     const day = getDayFromDate(date);
     getDayFromDate(date);
 
+
+    // {userBets ? (userBets.filter((bet) => bet.matchId === groupMatch.id).length > 0 ? <p key='render'>{userBets[0].homeTeamScoreBet}</p> : <p>-</p>) : <p>-</p>}
+    const isBetNew  = userBets?.filter((bet) => bet.matchId === groupMatch.id)
+    
+    // const homeBetDisplay = 
     // console.log('groupmatchname', groupMatch.homeTeam.name)
     // console.log('parse', JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string))
     // console.log('value', JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value)
     // const gradString = `linear-gradient(to right, ${JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value},${JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value})`;
-    const [showTooltip, setShowTooltip] = useState<number>(0);
-    const targetHomeScore = useRef(null);
     return (
         <>
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
@@ -63,7 +66,6 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                         <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px' />
                     </div>
                     <div style={{ flex: '1', textAlign: 'right' }}>
-                        {/* {userBets ? (userBets.filter((bet) => bet.matchId === groupMatch.id).length > 0 ? <p>{userBets[0].homeTeamScoreBet}</p> : <p>-</p>) : <p>-</p>} */}
                         <OverlayTrigger
                             placement='top'
                             overlay={
@@ -71,7 +73,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     This is your {groupMatch.homeTeam.name} bet.
                                 </Tooltip>
                             }>
-                            <span>-</span>
+                            {isBetNew !== undefined && isBetNew[0]?.homeTeamScoreBet ? <p> {isBetNew[0]?.homeTeamScoreBet}</p>  : <p>-</p>}
                         </OverlayTrigger>
                         {groupMatch.homeTeamScore === -1 ? <h4>?</h4> : groupMatch.homeTeamScore}
                     </div>
@@ -91,7 +93,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     This is your {groupMatch.awayTeam.name} bet.
                                 </Tooltip>
                             }>
-                            <span>-</span>
+                            {isBetNew !== undefined && isBetNew[0]?.awayTeamScoreBet ? <p>{isBetNew[0]?.awayTeamScoreBet}</p>  : <p>-</p>}
                         </OverlayTrigger>
                         {groupMatch.awayTeamScore === -1 ? <h4>?</h4> : groupMatch.awayTeamScore}
                     </div>
@@ -113,6 +115,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                 setModalValue={setModalValue}
                 setAlert={setAlert}
                 userBets={userBets}
+                setBetChange={setBetChange}
             />
             }
             {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >= 0 && Number(modalValue.awayScore) >= 0 && Number(modalValue.awayScore) < 100) ?

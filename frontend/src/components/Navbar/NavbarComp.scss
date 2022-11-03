@@ -2,5 +2,15 @@
     padding-left: 1.5rem; 
     display: flex; 
     flex-direction: row;
+    justify-content: space-between;
     min-width: 10rem;
+    width: 100%;
+}
+
+.navlinks-body{
+    padding-top: 1rem;
+}
+
+.navlink-item{
+    height: 50px;
 }
