@@ -16,6 +16,7 @@ import {
   ArcElement,
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
+import TimeToStartTwo from './TimeToStartTwo';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
@@ -133,6 +134,7 @@ const Statistics = () => {
       <Row>
         <Col>
           <CurrentDay/>
+          <TimeToStartTwo/>
           <Bar options={options} data={data} />
         </Col>
         <Col style={{width: '10rem'}}>

@@ -10,7 +10,6 @@ export interface AnimatedLettersProps{
 
 const AnimatedLetters: React.FC<AnimatedLettersProps> = ({strToDisplay, idx}) => {
     const strArray = strToDisplay.split('');
-    console.log(strArray);
     const [letterClass, setLetterClass] = useState('text-animate')
     //@ts-ignore
     useEffect(() => {

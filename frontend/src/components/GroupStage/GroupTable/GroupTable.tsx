@@ -3,6 +3,7 @@ import './GroupTable.scss';
 import CountryIcon  from "../../CountrIcon/CountryIcon";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import countriesColors from '../../AnimatedLetters/CountriesColors';
 export interface GroupTableItem {
     name: string,
     points: number,
@@ -41,7 +42,9 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
             </tr>
           </thead>
         <tbody>
-          {groupTableData ? groupTableData.map(({name, points, won, drawn, lost}, index) => (
+          {groupTableData ? groupTableData.map(({name, points, won, drawn, lost}, index) => {
+            // const highlightedItem = {backgroundImage: `linear-gradient(to right, ${JSON.parse(countriesColors.get(name ) as string).mainColor.value},${JSON.parse(countriesColors.get(name)as string).secondColor.value})`}
+            return(
             <tr 
             key={index} 
             onClick={() => setChosenCountries({homeCountry: name, awayCountry: chosenCountries.awayCountry})}
@@ -52,12 +55,12 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
                   <CountryIcon size='md' countryName={name} />             
                   {name}
               </td>
-              <td>{won}</td>
-              <td>{lost}</td>
-              <td>{drawn}</td>
+              <td><strong>{won}</strong></td>
+              <td><strong>{lost}</strong></td>
+              <td><strong>{drawn}</strong></td>
               <td><h5>{points}</h5></td>
             </tr>
-        )) : null}
+        )}) : null}
         </tbody>
         
       </Table>

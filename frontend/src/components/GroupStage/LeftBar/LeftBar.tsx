@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import { BiFootball } from 'react-icons/bi';
 import { TbRectangleVertical } from 'react-icons/tb';
 import styled, { keyframes } from "styled-components";
-
+import countriesColors from '../../AnimatedLetters/CountriesColors';
 export interface LeftBarProps {
     chosenCountries: { homeCountry: string, awayCountry: string },
 
@@ -16,9 +16,11 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
             <h2 style={{ textAlign: 'center' }}>Top Scores</h2>
             <Table>
                 <tbody>
-                    {dummyPlayerData.map(({ playerName, goals, assists, team, yellowCards, redCards, imgPath }, index) => (
-
-                        <tr style={{textAlign: 'center'}} key={index}>
+                    {dummyPlayerData.map(({ playerName, goals, assists, team, yellowCards, redCards, imgPath }, index) => {
+                        
+                        const gradString = `linear-gradient(to right, rgba(255, 10, 10, 0.7), yellow)`;
+                        return(
+                        <tr style={{textAlign: 'center', backgroundImage: gradString}} key={index}>
                             <td style={{fontWeight: '500'}}>{index + 1}</td>
                             <td style={{textAlign: 'left'}}>{playerName}</td>
                             <td><BiFootball size={20} />{goals}</td>
@@ -26,7 +28,7 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
                             <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
                             <td><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
                         </tr>
-                    ))}
+                    )})}
                 </tbody>
 
             </Table>

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Match } from '../../App';
 import './GroupStage.scss';
 
 // components
@@ -12,16 +13,16 @@ import LeftBar from './LeftBar/LeftBar';
 import RightBar from './RightBar/RightBar';
 // Fetch: In this component we should use data from context that contains info about groups 
 
-export interface GroupMatch {
-  homeTeam: string,
-  awayTeam: string, 
-  homeTeamScore: number, 
-  awayTeamScore: number, 
-  date: string,
-  stadium: string, 
-  referee: string, 
-  group: string,
-}
+// export interface GroupMatch extends Match {
+//   homeTeam: string,
+//   awayTeam: string, 
+//   homeTeamScore: number, 
+//   awayTeamScore: number, 
+//   date: string,
+//   stadium: string, 
+//   referee: string, 
+//   group: string,
+// }
 
 export interface GroupStageProps {
   groupMatches: any,
@@ -36,7 +37,7 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
   }
   const [currentGroup, setCurrentGroup] = useState<string>("A");
   const [currentGroupData, setCurrentGroupData] = useState<GroupTableItem[] | null>(null)
-  const [currentGroupMatches, setCurrentGroupMatches] = useState<GroupMatch[] | null>(null);
+  const [currentGroupMatches, setCurrentGroupMatches] = useState<Match[] | null>(null);
   const [chosenCountries, setChosenCountries] = useState<{homeCountry: string, awayCountry: string}>({homeCountry: 'none', awayCountry: 'none'});
   useEffect(() => {
     setCurrentGroupMatches(groupMatches[Number(letterToNumber.get(currentGroup))])
