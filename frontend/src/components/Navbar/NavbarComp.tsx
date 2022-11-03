@@ -27,6 +27,7 @@ const NavbarComp = () => {
               <Nav.Link href="/ranking"  {...navlinkProps}>Ranking</Nav.Link>
               <Nav.Link href="/statistics"  {...navlinkProps}>Statistics</Nav.Link>
               <Nav.Link href="/rules"  {...navlinkProps}>Rules</Nav.Link>
+              <Nav.Link href="/adminpanel"  {...navlinkProps}>Admin Panel</Nav.Link>
               <Nav.Link href="/login" {...navlinkProps}>Login</Nav.Link>
           </Nav>
           </div>

@@ -19,7 +19,7 @@ namespace FootballTyperAPI.AzureFunctions
                 [Sql("SELECT * FROM [dbo].[Bets]",
             CommandType = System.Data.CommandType.Text,
             ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets,
-                [Sql("SELECT * FROM [dbo].[Match]",
+                [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL",
             CommandType = System.Data.CommandType.Text,
             ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
                 [Sql("SELECT * FROM [dbo].[Teams]",
@@ -38,7 +38,7 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Starting execution of: UpdateScoreAfterMatch");
 
             UpdateData(Bets, Matches, Teams);
-            CalculatePointsForEachTeam(Matches);
+            var matchesToReturn = CalculatePointsForEachTeam(Matches);
 
             outTeams = Teams.ToArray();
             outMatches = Matches.Select(x => MapMatch(x)).ToArray();
@@ -46,7 +46,7 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Ending execution of: UpdateScoreAfterMatch");
             log.LogInformation($"-------------------------------------------------------------------------");
 
-            return new OkObjectResult(new { Ok = true });
+            return new OkObjectResult(new { Ok = true, Matches = matchesToReturn });
         }
 
         private static void UpdateData(IEnumerable<Bet> Bets, IEnumerable<Match> Matches, IEnumerable<Team> Teams)
@@ -63,13 +63,18 @@ namespace FootballTyperAPI.AzureFunctions
             }
         }
 
-        private static void CalculatePointsForEachTeam(IEnumerable<Match> Matches)
+        private static IEnumerable<Match> CalculatePointsForEachTeam(IEnumerable<Match> Matches)
         {
+            var matchesToReturn = new List<Match>();
             foreach (var match in Matches)
             {
                 if (match.HomeTeamScore != -1 && match.AwayTeamScore != -1 && !match.IsMatchProcessed)
+                {
                     CalculateResultPointsForTeamByMatch(match);
+                    matchesToReturn.Add(match);
+                }
             }
+            return matchesToReturn;
         }
 
         private static void CalculateResultPointsForTeamByMatch(Match match)

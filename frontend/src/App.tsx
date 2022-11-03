@@ -10,6 +10,7 @@ import Ranking from './components/Ranking/Ranking';
 import Statistics from './components/Statistics/Statistics';
 import Rules from './components/Rules/Rules';
 import Login from './components/Login/Login';
+import AdminPanel from './components/AdminPanel/AdminPanel';
 import LoadingLayout from './components/LoadingLayout/LoadingLayout';
 import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
@@ -109,6 +110,7 @@ function App() {
           />
           <Route path='/statistics' element={<Statistics />} />
           <Route path='/rules' element={<Rules />} />
+          <Route path='/adminpanel' element={<AdminPanel />} />
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
         <Footer />

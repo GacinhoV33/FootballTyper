@@ -11,7 +11,8 @@ namespace FootballTyperAPI.AzureFunctions
     public class TriggerAfterMatch
     {
         [FunctionName("TriggerAfterMatch")]
-        public async Task Run([TimerTrigger("*/15 * * * * *")] TimerInfo myTimer, ILogger log)
+        //public async Task Run([TimerTrigger("*/15 * * * * *")] TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 0 0 * * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
