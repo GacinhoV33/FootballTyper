@@ -13,8 +13,14 @@ namespace FootballTyperAPI.AzureFunctions
         [FunctionName("TriggerAfterMatch")]
         public async Task Run([TimerTrigger("*/15 * * * * *")] TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"-------------------------------------------------------------------------");
+            log.LogInformation($"Execution date: {DateTime.Now}");
+            log.LogInformation($"Starting execution of: TriggerAfterMatch");
+
             var result = await Get("api/UpdateScoreAfterMatch");
+
+            log.LogInformation($"Ending execution of: TriggerAfterMatch");
+            log.LogInformation($"-------------------------------------------------------------------------");
         }
 
         private async Task<HttpResponseMessage> Get(string path)

@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FootballTyperAPI.Models\FootballTyperAPI.Models.csproj" />
   </ItemGroup>
 

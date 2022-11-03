@@ -35,6 +35,7 @@ namespace FootballTyperAPI.Data
         public static void FillMatchesTable(FootballTyperAPIContext context)
         {
             var matches = MatchHelper.GetAllMatches(context.Teams.ToList());
+            InitializeGroupStage(matches);
             context.AddRange(matches);
             context.SaveChanges();
 
@@ -159,6 +160,16 @@ namespace FootballTyperAPI.Data
             };
             context.AddRange(bets);
             context.SaveChanges();
+        }
+
+        private static void InitializeGroupStage(List<Match> matches)
+        {
+            foreach (var match in matches.Take(48))
+            {
+                match.AwayTeamScore = Random.Shared.Next(0, 5);
+                match.HomeTeamScore = Random.Shared.Next(0, 5);
+                match.Date = DateTime.Now;
+            }
         }
     }
 }

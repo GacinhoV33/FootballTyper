@@ -2,15 +2,11 @@
 
 namespace FootballTyperAPI.Models
 {
-    public class Match
+    public class MatchDbSave
     {
         public int Id { get; set; }
 
-        public Team? HomeTeam { get; set; }
-
         public int? HomeTeamId { get; set; }
-
-        public Team? AwayTeam { get; set; }
 
         public int? AwayTeamId { get; set; }
 
@@ -35,8 +31,6 @@ namespace FootballTyperAPI.Models
         public int MatchNumber { get; set; }
 
         public int RoundNumber { get; set; }
-
-        public bool IsMatchValid { get { return HomeTeamScore > -1 && AwayTeamScore > -1; } }
 
         public bool IsMatchProcessed { get; set; }
     }
