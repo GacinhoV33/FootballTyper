@@ -14,7 +14,7 @@ import LoadingLayout from './components/LoadingLayout/LoadingLayout';
 import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { Router, Route, Routes } from 'react-router-dom';
 
 
@@ -28,7 +28,7 @@ export type UserLocalStorageData = {
 }
 // This component contains whole logic, all main components and it's the manager of whole application
 export type UserStatus = {
-  userLocalData: UserLocalStorageData | null,
+  userLocalData: UserLocalStorageData ,
   isUserSigned: boolean,
 }
 
@@ -45,17 +45,15 @@ const userObjInit: UserLocalStorageData | null = {
 export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
 
 function App() {
+  console.log(localStorage.getItem('user'))
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [dataTeams, setDataTeams] = useState<any | null>(null);
-  const [allBets, setAllBets] = useState<Bet[] | null>(null);
+  const [allUserBets, setAllUserBets] = useState<Bet[] | undefined>(undefined);
+  const [allUsers, setAllUsers] = useState<User[] | null>(null);
   const [userStatus, setUserStatus] = useState<UserStatus>({
-    // @ts-ignore
-    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user')) : userObjInit,
+    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string)  : userObjInit,
     isUserSigned: localStorage.getItem('user') !== '' ? true : false
   })
-  // const [allUsers, setAllUsers] = useState<User[] | null>(null);
-
-
   useEffect(() => {
     const fetchData = async () => {
 
@@ -65,9 +63,7 @@ function App() {
       // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
 
       const GroupMatches = await (await fetch('api/Matches')).json();
-      // const /api/Teams
       const data = await (await fetch('api/Teams')).json();
-      const allBets = await (await fetch('api/Bets')).json();
 
       const requestAllUsersOptions = {
         method: 'GET',
@@ -76,16 +72,13 @@ function App() {
           'Authorization': `Bearer ${localStorage.getItem('userToken')}`
         }
       };
-
-      fetch('api/TyperUsers', requestAllUsersOptions)
-        .then((data) => console.log("data1", data));
-
-
-      // const allUsersApi = await (await fetch('api/TyperUsers')); TODO
-      // setAllUsers(allUsersApi);
+      const allUsers = await( await fetch('api/TyperUsers', requestAllUsersOptions)).json();
+      const userName= JSON.parse(localStorage.getItem('user') as string);
+      const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
+      setAllUserBets(allUserBets);
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
-      setAllBets(allBets);
+      setAllUsers(allUsers);
     }
     fetchData();
 
@@ -98,13 +91,11 @@ function App() {
           <Route path='/' element={userStatus.isUserSigned ? <Homepage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage' />} />
-          <Route path='/yourbets' element={allBets ? <YourBets allBets={allBets} /> : <LoadingLayout componentName='My bets' />} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
+          <Route path='/yourbets' element={allUserBets !== undefined ? <YourBets allUserBets={allUserBets} /> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
           <Route
             path='/ranking'
             element={
-              <Ranking
-                allUsers={dummyData}
-              />
+              allUsers ? <Ranking allUsers={allUsers}/> : <LoadingLayout componentName='Ranking'/>
             }
           />
           <Route path='/statistics' element={<Statistics />} />
@@ -167,102 +158,102 @@ export interface Match {
 
 
 export interface User {
-  name: string,
+  username: string,
   // email: string, TODO?
   imgLink: string, //TODO?  
   totalPoints: number,
-  totalExactScoreBet: number,
-  totalCorrectWinnerBet: number,
-  totalWrongBet: number,
+  totalExactScoreBets: number,
+  totalCorrectWinnerBets: number,
+  totalWrongBets: number,
   leauges: string[],
   id: number,
   lastFiveBets: number[],
 }
 
 export default App;
-export const dummyData: User[] = [
-  {
-    name: 'user1234',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 50,
-    totalExactScoreBet: 1,
-    totalCorrectWinnerBet: 5,
-    totalWrongBet: 6,
-    leauges: ['main', 'clownLeauge'],
-    id: 21312,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user13',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 30,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 0,
-    totalWrongBet: 6,
-    leauges: ['main'],
-    id: 21312,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1111',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 31,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 1,
-    totalWrongBet: 14,
-    leauges: ['main'],
-    id: 21313,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 11,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 5,
-    totalWrongBet: 6,
-    leauges: ['main', 'clownLeauge'],
-    id: 21314,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 24,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 4,
-    totalWrongBet: 6,
-    leauges: ['main',],
-    id: 21315,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 50,
-    totalExactScoreBet: 3,
-    totalCorrectWinnerBet: 5,
-    totalWrongBet: 6,
-    leauges: ['main', 'clownLeauge'],
-    id: 21316,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 54,
-    totalExactScoreBet: 1,
-    totalCorrectWinnerBet: 3,
-    totalWrongBet: 1,
-    leauges: ['main', 'clownLeauge'],
-    id: 21317,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-]
+// export const dummyData: User[] = [
+//   {
+//     name: 'user1234',
+//     // email: string, TODO?
+//     imgLink: 'imgPath', //TODO?  
+//     totalPoints: 50,
+//     totalExactScoreBet: 1,
+//     totalCorrectWinnerBet: 5,
+//     totalWrongBet: 6,
+//     leauges: ['main', 'clownLeauge'],
+//     id: 21312,
+//     lastFiveBets: [2, 1, 0, 0, 1],
+//   },
+//   {
+//     name: 'user13',
+//     // email: string, TODO?
+//     imgLink: 'imgPath', //TODO?  
+//     totalPoints: 30,
+//     totalExactScoreBet: 2,
+//     totalCorrectWinnerBet: 0,
+//     totalWrongBet: 6,
+//     leauges: ['main'],
+//     id: 21312,
+//     lastFiveBets: [2, 1, 0, 0, 1],
+//   },
+//   {
+//     name: 'user1111',
+//     // email: string, TODO?
+//     imgLink: 'imgPath', //TODO?  
+//     totalPoints: 31,
+//     totalExactScoreBet: 2,
+//     totalCorrectWinnerBet: 1,
+//     totalWrongBet: 14,
+//     leauges: ['main'],
+//     id: 21313,
+//     lastFiveBets: [2, 1, 0, 0, 1],
+//   },
+//   {
+//     name: 'user1',
+//     // email: string, TODO?
+//     imgLink: 'imgPath', //TODO?  
+//     totalPoints: 11,
+//     totalExactScoreBet: 2,
+//     totalCorrectWinnerBet: 5,
+//     totalWrongBet: 6,
+//     leauges: ['main', 'clownLeauge'],
+//     id: 21314,
+//     lastFiveBets: [2, 1, 0, 0, 1],
+//   },
+//   {
+//     name: 'user1',
+//     // email: string, TODO?
+//     imgLink: 'imgPath', //TODO?  
+//     totalPoints: 24,
+//     totalExactScoreBet: 2,
+//     totalCorrectWinnerBet: 4,
+//     totalWrongBet: 6,
+//     leauges: ['main',],
+//     id: 21315,
+//     lastFiveBets: [2, 1, 0, 0, 1],
+//   },
+//   {
+//     name: 'user1',
+//     // email: string, TODO?
+//     imgLink: 'imgPath', //TODO?  
+//     totalPoints: 50,
+//     totalExactScoreBet: 3,
+//     totalCorrectWinnerBet: 5,
+//     totalWrongBet: 6,
+//     leauges: ['main', 'clownLeauge'],
+//     id: 21316,
+//     lastFiveBets: [2, 1, 0, 0, 1],
+//   },
+//   {
+//     name: 'user1',
+//     // email: string, TODO?
+//     imgLink: 'imgPath', //TODO?  
+//     totalPoints: 54,
+//     totalExactScoreBet: 1,
+//     totalCorrectWinnerBet: 3,
+//     totalWrongBet: 1,
+//     leauges: ['main', 'clownLeauge'],
+//     id: 21317,
+//     lastFiveBets: [2, 1, 0, 0, 1],
+//   },
+// ]

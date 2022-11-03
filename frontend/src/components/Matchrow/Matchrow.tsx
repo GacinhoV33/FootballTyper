@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import './Matchrow.scss';
 import { CircleFlag } from 'react-circle-flags'
 import Button from 'react-bootstrap/Button';
@@ -37,14 +37,11 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     getDayFromDate(date);
 
 
-    // {userBets ? (userBets.filter((bet) => bet.matchId === groupMatch.id).length > 0 ? <p key='render'>{userBets[0].homeTeamScoreBet}</p> : <p>-</p>) : <p>-</p>}
     const isBetNew  = userBets?.filter((bet) => bet.matchId === groupMatch.id)
-    
-    // const homeBetDisplay = 
-    // console.log('groupmatchname', groupMatch.homeTeam.name)
-    // console.log('parse', JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string))
-    // console.log('value', JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value)
-    // const gradString = `linear-gradient(to right, ${JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value},${JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value})`;
+    const mainColor = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value
+    const secondColor = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value
+    const thirdColor = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).thirdColor.value
+    const gradString = `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.1), rgba${secondColor.slice(0, -1)}, 0.1)`
     return (
         <>
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
@@ -60,7 +57,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     justifyContent: 'center',
                     alignItems: 'center',
                     minWidth: '540px',
-                    //   backgroundImage: gradString,
+                    backgroundImage: gradString,
                 }}>
                     <div style={{ flex: '1' }}>
                         <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px' />
@@ -73,7 +70,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     This is your {groupMatch.homeTeam.name} bet.
                                 </Tooltip>
                             }>
-                            {isBetNew !== undefined && isBetNew[0]?.homeTeamScoreBet ? <p> {isBetNew[0]?.homeTeamScoreBet}</p>  : <p>-</p>}
+                            {isBetNew !== undefined && isBetNew[0]?.homeTeamScoreBet !== null ? <p> {isBetNew[0]?.homeTeamScoreBet}</p>  : <p>-</p>}
                         </OverlayTrigger>
                         {groupMatch.homeTeamScore === -1 ? <h4>?</h4> : groupMatch.homeTeamScore}
                     </div>
@@ -93,7 +90,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     This is your {groupMatch.awayTeam.name} bet.
                                 </Tooltip>
                             }>
-                            {isBetNew !== undefined && isBetNew[0]?.awayTeamScoreBet ? <p>{isBetNew[0]?.awayTeamScoreBet}</p>  : <p>-</p>}
+                            {isBetNew !== undefined && isBetNew[0]?.awayTeamScoreBet !== null ? <p>{isBetNew[0]?.awayTeamScoreBet}</p>  : <p>-</p>}
                         </OverlayTrigger>
                         {groupMatch.awayTeamScore === -1 ? <h4>?</h4> : groupMatch.awayTeamScore}
                     </div>

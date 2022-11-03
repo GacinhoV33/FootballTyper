@@ -144,7 +144,7 @@ namespace FootballTyperAPI.Controllers
 
             //if (!userBets.Any())
             //{
-            //    return NotFound();
+            //   return Array.Empty<Bet>();
             //}
 
             return userBets;

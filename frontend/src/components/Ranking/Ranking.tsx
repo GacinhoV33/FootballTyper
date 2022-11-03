@@ -17,29 +17,30 @@ export type LeaugeName = {
 export type RankingFilters = 'general' | 'lastDay' | 'groupStage' | 'knockoutStage';
 
 export type RankingProps = {
-  allUsers: User[]
+  allUsers: User[],
 }
 
-const Ranking = ({ allUsers }: RankingProps) => {
+const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
 
   const [filter, setFilter] = useState<RankingFilters>('general');
   const [leaugeFilter, setLeaugeFilter] = useState<string>('main');
   const [usersToDisplay, setUsersToDisplay] = useState<User[]>(allUsers);
 
-  const leaugeUsers = allUsers.filter((user) => user.leauges.indexOf(leaugeFilter) !== -1);
-  const sortedUsers = leaugeUsers.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBet - user1.totalExactScoreBet);
-  useEffect(() => setUsersToDisplay(sortedUsers),
+  const leaugeUsers = allUsers.filter((user) => user.leauges?.indexOf(leaugeFilter) !== -1); //TODO when Api correct delete question mark because there's always at least one leauge
+  const sortedUsers = leaugeUsers?.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
+  useEffect(() =>
+    setUsersToDisplay(sortedUsers),
     [leaugeFilter])
   const currentDate = new Date();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <FilterRanking activeFilter={filter} setActiveFilter={setFilter}/>
+          <FilterRanking activeFilter={filter} setActiveFilter={setFilter} />
           <FilterLeauge currentFilter={leaugeFilter} setCurrentFilter={setLeaugeFilter} />
         </div>
       </div>
-      
+
       <div style={{ display: 'flex', minWidth: '500px', maxWidth: '1000px', width: '100%' }}>
         <ListRanking allUsers={usersToDisplay} leauge='clownLeauge' />
       </div>

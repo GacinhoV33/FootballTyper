@@ -33,17 +33,17 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                     </tr>
                 </thead>
                 <tbody className='ranking-row-content'>
-                    {allUsers.map(({ totalPoints, name, totalCorrectWinnerBet, totalWrongBet, totalExactScoreBet, lastFiveBets }, index) => (
-                        <tr key={index} style={userCtx.userLocalData?.username === name ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
+                    {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets }, index) => (
+                        <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
                             <td> <h4>{index + 1}.</h4> </td>
                             <td> {index === 0 ? <FaCrown style={{ color: 'orange' }} size='30' /> : null}</td>
-                            <td> <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} />{name}</td>
+                            <td> <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} />{username}</td>
                             <td> {totalPoints}</td>
-                            <td> {totalExactScoreBet}</td>
-                            <td> {totalCorrectWinnerBet}</td>
-                            <td> {totalWrongBet}</td>
+                            <td> {totalExactScoreBets}</td>
+                            <td> {totalCorrectWinnerBets}</td>
+                            <td> {totalWrongBets}</td>
                             <td style={{ textAlign: 'center' }}>
-                                {lastFiveBets.map((userBet, index) => {
+                                {lastFiveBets?.map((userBet, index) => {
                                     switch (userBet) {
                                         case 0:
                                             return <ImCross style={{ color: 'red', margin:'0 0.45rem' }} size='20' key={index}/>
@@ -57,7 +57,8 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                                 }
                             </td>
                         </tr>
-                    ))}
+                    ))
+                }
                 </tbody>
             </Table>
         </div>

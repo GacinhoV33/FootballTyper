@@ -1,9 +1,9 @@
 import React from 'react';
 import './FiltersMyBets.scss';
 import Button from 'react-bootstrap/Button';
+import deepcopy from 'deepcopy';
 
 //@ts-ignore
-import * as deepcopy from 'deepcopy';
 
 export type BetFilters = 'All' | 'Correct' | 'Wrong' | 'GroupStage' | 'KnockoutStage' | 'Active' | 'Past';
 const filterTypes: BetFilters[] = ['All', 'Correct', 'Wrong', 'GroupStage', 'KnockoutStage', 'Active', 'Past' ]

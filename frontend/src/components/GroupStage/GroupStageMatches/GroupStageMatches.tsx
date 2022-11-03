@@ -24,9 +24,7 @@ const GroupStageMatches = ({ groupMatches, chosenCountries, setChosenCountries }
     const getUserBets = async () => {
       const userName = userCtx.userLocalData ? userCtx.userLocalData.username : '';
       const allUserBets = await (await fetch(`api/Bets/User/${userName}`)).json();
-      
       setUserBets(allUserBets);
-      console.log('All users bets:', allUserBets)
     }
     getUserBets();
   }, [betChange])

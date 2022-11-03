@@ -61,7 +61,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   }
   return (
     <CardAnimation>
-    <Card style={{ borderRadius: '25px', boxShadow: betString, height: '105%'}}>
+    <Card style={{ borderRadius: '25px', boxShadow: betString, height: '105%', minWidth: '280px'}}>
       <Card.Header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ display: 'flex' }}><CircleFlag countryCode={CountryDict.get(bet.match.homeTeam.name) as string} style={{ paddingRight: '1.5rem' }} height='75' /></div>
         <h3>{bet.homeTeamScore ? bet.homeTeamScore : '?'} : {bet.awayTeamScore ? bet.awayTeamScore : '?'}</h3>
@@ -69,7 +69,6 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
       </Card.Header>
       <Card.Body className='bet-card-body'>
         <Card.Text>
-        {/* {bet.successfulBet ? 'yes' : 'no'} */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2%'}}>
         <div style={{ height: '2.5rem', gridColumn: '1/4', display: 'flex', justifyContent: 'center' , marginTop: '0.25rem', marginBottom: '1rem'}}>
             <input className='bet-input'
@@ -103,7 +102,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
             <h6 style={{paddingLeft: '0.4rem'}}>{bet.match.location}</h6>
 
           </div>
-          <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row'}}>
+          <div style={{ gridColumn: '1/4', display: 'flex', flexDirection: 'row', marginBottom: '1.0rem'}}>
             <IoPersonSharp size={20} />
             {/* {bet.match.referee} */}
             <h6 style={{paddingLeft: '0.4rem'}}>Szymon Marciniak</h6>

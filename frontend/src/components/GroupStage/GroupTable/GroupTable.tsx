@@ -24,11 +24,7 @@ interface GropuTableProps {
 }
 
 const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenCountries} : GropuTableProps) => {
-  
-  
-  const highlightedItem = {backgroundColor: '#DEDE00'}
-  return (
-
+    return (
     <div className='body-table'>
       <Table striped style={{tableLayout: 'fixed'}}>
         <thead >
@@ -43,12 +39,15 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
           </thead>
         <tbody>
           {groupTableData ? groupTableData.map(({name, points, won, drawn, lost}, index) => {
-            // const highlightedItem = {backgroundImage: `linear-gradient(to right, ${JSON.parse(countriesColors.get(name ) as string).mainColor.value},${JSON.parse(countriesColors.get(name)as string).secondColor.value})`}
+            const mainColor = JSON.parse(countriesColors.get(name as string) as string).mainColor.value
+            const secondColor = JSON.parse(countriesColors.get(name as string) as string).secondColor.value
+            const thirdColor = JSON.parse(countriesColors.get(name as string) as string).thirdColor.value
+            const gradString = {backgroundImage: `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.6), rgba${secondColor.slice(0, -1)}, 0.6)`}
             return(
             <tr 
             key={index} 
             onClick={() => setChosenCountries({homeCountry: name, awayCountry: chosenCountries.awayCountry})}
-            style={name === chosenCountries.homeCountry  || name === chosenCountries.awayCountry ? highlightedItem : undefined}
+            style={name === chosenCountries.homeCountry  || name === chosenCountries.awayCountry ? gradString : undefined}
             >
               <td style={{ height: '4rem'}}><h5>{index + 1}.</h5></td>
               <td style={{display: 'flex', gap: '0.7rem', fontWeight: '500', alignItems: 'center', height: '4.06rem'}}>

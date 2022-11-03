@@ -24,8 +24,8 @@ export interface BetModalProps {
 const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, groupMatch, setModalValue, setAlert, userBets, setBetChange }) => {
 
     const userName = useContext(UserContext).userLocalData?.username;
+    let betId: Bet[] = [];
     function handleSubmit() {
-        let betId: Bet[] = [];
         if(userBets){
             betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
         }
@@ -72,10 +72,8 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                         return response.json();
                     }
 
-                    return Promise.reject(response);
-                    
+                    return Promise.reject(response);                    
                 })
-                .then((data) => console.log(data));
         }
         handleClose();
         setAlert(true)
@@ -96,14 +94,12 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
                         className='input-score no-spin'
                         maxLength={2}
                         type="number"
-                        value={modalValue.homeScore}
                         onChange={(e) => setModalValue({ homeScore: e.target.value, awayScore: modalValue.awayScore })}
                     />
                     <h6 style={{ position: 'absolute', bottom: '1.4rem' }}> - </h6>
                     <input
                         className='input-score no-spin'
                         maxLength={2} type="number"
-                        value={modalValue.awayScore}
                         onChange={(e) => setModalValue({ homeScore: modalValue.homeScore, awayScore: e.target.value })}
                     />
                 </Modal.Body>
