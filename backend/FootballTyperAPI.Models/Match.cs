@@ -8,7 +8,11 @@ namespace FootballTyperAPI.Models
 
         public Team? HomeTeam { get; set; }
 
+        public int? HomeTeamId { get; set; }
+
         public Team? AwayTeam { get; set; }
+
+        public int? AwayTeamId { get; set; }
 
         [DisplayName("Score")]
         public int HomeTeamScore { get; set; }
@@ -33,5 +37,7 @@ namespace FootballTyperAPI.Models
         public int RoundNumber { get; set; }
 
         public bool IsMatchValid { get { return HomeTeamScore > -1 && AwayTeamScore > -1; } }
+
+        public bool IsMatchProcessed { get; set; }
     }
 }

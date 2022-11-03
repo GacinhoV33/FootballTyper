@@ -7,6 +7,7 @@ namespace FootballTyperAPI.Data
     {
         public static void Initialize(FootballTyperAPIContext context)
         {
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             if (!context.Teams.Any())
                 FillTeamsTable(context);
@@ -19,17 +20,22 @@ namespace FootballTyperAPI.Data
 
         public static void CleanDb(FootballTyperAPIContext context)
         {
+            //context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            context.RemoveRange(context.Matches);
-            context.RemoveRange(context.Teams);
-            context.RemoveRange(context.Bets);
+            if (context.Bets.Any())
+                context.RemoveRange(context.Bets);
+            if (context.Matches.Any())
+                context.RemoveRange(context.Matches);
+            if (context.Teams.Any())
+                context.RemoveRange(context.Teams);
             context.SaveChanges();
         }
 
         public static void FillMatchesTable(FootballTyperAPIContext context)
         {
             var matches = MatchHelper.GetAllMatches(context.Teams.ToList());
+            //InitializeGroupStage(matches);
             context.AddRange(matches);
             context.SaveChanges();
 
@@ -154,6 +160,16 @@ namespace FootballTyperAPI.Data
             };
             context.AddRange(bets);
             context.SaveChanges();
+        }
+
+        private static void InitializeGroupStage(List<Match> matches)
+        {
+            foreach (var match in matches.Where(x => x.RoundNumber <= 3))
+            {
+                match.AwayTeamScore = Random.Shared.Next(0, 5);
+                match.HomeTeamScore = Random.Shared.Next(0, 5);
+                match.Date = DateTime.Now;
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using FootballTyperAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FootballTyperAPI.Migrations
 {
     [DbContext(typeof(FootballTyperAPIContext))]
-    partial class FootballTyperAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20221031224311_MatchTeamIdsAdded")]
+    partial class MatchTeamIdsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,9 +118,6 @@ namespace FootballTyperAPI.Migrations
                     b.Property<int>("HomeTeamScore")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsMatchProcessed")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -156,12 +155,6 @@ namespace FootballTyperAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Drawn")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GoalsAgainst")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GoalsFor")
                         .HasColumnType("int");
 
                     b.Property<string>("Group")
