@@ -18,7 +18,7 @@ export type Bet = {
   match: Match,
   bettorUserName: string,
   betDate: string,
-  successfulBet?: number
+  betResult: number
 }
 
 export interface MyBetsProps {

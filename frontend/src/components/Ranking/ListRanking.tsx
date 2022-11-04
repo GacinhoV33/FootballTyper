@@ -5,10 +5,12 @@ import { User } from '../../App';
 import { BsCheck } from "react-icons/bs";
 import { BiCheckDouble } from "react-icons/bi"
 import { ImCross } from 'react-icons/im';
-import { Bet } from '../YourBets/MyBets/MyBets';
 import Table from 'react-bootstrap/Table';
 import { UserContext } from '../../App';
 import { FaCrown } from 'react-icons/fa';
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+
 export interface ListRankingProps {
     leauge: string,
     allUsers: User[],
@@ -26,10 +28,54 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                         <td style={{ width: '30px' }}></td>
                         <th> User </th>
                         <th> Points </th>
-                        <th>CBS</th>
-                        <th>CB</th>
-                        <th>WB</th>
-                        <th style={{ textAlign: 'center' }}>Form</th>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip id={'correctscores'}>
+                                    Correct Bet Score
+                                </Tooltip>
+                            }
+                            placement='top-start'
+                        >
+                            <th>
+                                CBS
+                            </th>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip id={'correctresults'}>
+                                    Correct Bet 
+                                </Tooltip>
+                            }
+                            placement='top-start'
+                        >
+                            <th>
+                                CB
+                            </th>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip id={'wrongbets'}>
+                                    Wrong Bets
+                                </Tooltip>
+                            }
+                            placement='top-start'
+                        >
+                            <th>
+                                WB
+                            </th>
+                        </OverlayTrigger>
+                        <OverlayTrigger
+                            overlay={
+                                <Tooltip id={'last5matches'}>
+                                    Last 5 user bets
+                                </Tooltip>
+                            }
+                            placement='top-start'
+                        >
+                            <th style={{ textAlign: 'center' }}>
+                                Form
+                            </th>
+                        </OverlayTrigger>
                     </tr>
                 </thead>
                 <tbody className='ranking-row-content'>
@@ -46,11 +92,11 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                                 {lastFiveBets?.map((userBet, index) => {
                                     switch (userBet) {
                                         case 0:
-                                            return <ImCross style={{ color: 'red', margin:'0 0.45rem' }} size='20' key={index}/>
+                                            return <ImCross style={{ color: 'red', margin: '0 0.45rem' }} size='20' key={index} />
                                         case 1:
-                                            return <BsCheck style={{ color: 'green' }} size='40' key={index}/>
+                                            return <BsCheck style={{ color: 'green' }} size='40' key={index} />
                                         case 2:
-                                            return <BiCheckDouble style={{ color: 'lightgreen' }} size='40' key={index}/>
+                                            return <BiCheckDouble style={{ color: 'lightgreen' }} size='40' key={index} />
                                     }
                                 }
                                 )
@@ -58,7 +104,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                             </td>
                         </tr>
                     ))
-                }
+                    }
                 </tbody>
             </Table>
         </div>

@@ -33,7 +33,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
     [leaugeFilter])
   const currentDate = new Date();
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className='ranking-main-body'>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <FilterRanking activeFilter={filter} setActiveFilter={setFilter} />

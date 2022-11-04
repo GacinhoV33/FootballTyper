@@ -42,11 +42,9 @@ const userObjInit: UserLocalStorageData | null = {
   leauges: ['none'],
 }
 
-// export const UserContext = createContext({userName: localStorage.getItem('user'), isUserSigned: localStorage.getItem('user') !== '' ?  true : false});
 export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
 
 function App() {
-  console.log(localStorage.getItem('user'))
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allUserBets, setAllUserBets] = useState<Bet[] | undefined>(undefined);
@@ -63,7 +61,9 @@ function App() {
       // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
       // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
 
-      const GroupMatches = await (await fetch('api/Matches')).json();
+
+      const GroupMatches = await (await fetch('api/Matches')).json(); //TODO zmienić nazwę
+      console.log(GroupMatches)
       const data = await (await fetch('api/Teams')).json();
 
       const requestAllUsersOptions = {

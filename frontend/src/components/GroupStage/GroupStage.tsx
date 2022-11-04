@@ -30,7 +30,7 @@ export interface GroupStageProps {
 }
 
 const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
- 
+  console.log(dataTeams)
   let letterToNumber = new Map<string , string>();
   for(let i = 0; i<8 ; i++) {
     letterToNumber.set(groupLetters[i], `${i}`);

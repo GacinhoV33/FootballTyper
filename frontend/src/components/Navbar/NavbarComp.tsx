@@ -8,12 +8,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import TimeToStart from '../Statistics/TimeToStart';
 import TimeToStartTwo from '../Statistics/TimeToStartTwo';
+import {BiFootball} from 'react-icons/bi';
 
 const NavbarComp = () => {
   const navlinkProps = {style: {
     fontSize:'1.50rem',
     marginRight: '2px'
   }}
+
+  const worldBall = <BiFootball size={28} style={{color: '#807090'}}/>;
   return (
     <Navbar bg='light' expand='lg' style={{height: '5rem', display: 'flex', flexDirection: 'row'}}>
         <div className='navbar-content'>
@@ -31,7 +34,8 @@ const NavbarComp = () => {
               <Nav.Link href="/login" {...navlinkProps}>Login</Nav.Link>
           </Nav>
           </div>
-          <div style={{paddingRight: '1rem'}}>    
+          <div style={{paddingRight: '1rem', display: 'flex', alignItems: 'center'}}>  
+              <h1 style={{color: '#809070'}}>W{worldBall}rld Cup st{worldBall}rts in </h1>  
               <TimeToStartTwo/>
           </div>
 

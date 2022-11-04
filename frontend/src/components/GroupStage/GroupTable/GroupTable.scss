@@ -14,3 +14,16 @@
     flex-direction: row;
     justify-content: center;
 }
+
+.textCenter{
+    td{
+        display: table-cell;
+        vertical-align: middle;
+
+    }
+
+    .goals{
+        display: flex;
+        justify-content: space-evenly;
+    }
+}

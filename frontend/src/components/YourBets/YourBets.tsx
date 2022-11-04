@@ -15,38 +15,37 @@ export interface YourBetsProps{
 const YourBets: React.FC<YourBetsProps> = ({allUserBets}) => {
   const currentDate = new Date();
   const userCtx = useContext(UserContext);
-      console.log(allUserBets)
-
   allUserBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
   const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>([])
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allUserBets)
 
   function sortMyBets(){
-    console.log(allUserBets)
     let currentBets = deepcopy(allUserBets);
+    console.log(currentBets)
+
     if(filterMyBets.indexOf('GroupStage') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => bet.matchId <= 92)      // #TODO how to verify that match is groupstage
-    }
-    if(filterMyBets.indexOf('Correct') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => bet.successfulBet)
-    }
-    else if(filterMyBets.indexOf('Wrong') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => !bet.successfulBet)
+      currentBets = currentBets.filter((bet) => bet.match.group !== 'Knockout')      // #TODO how to verify that match is groupstage
     }
     if(filterMyBets.indexOf('KnockoutStage') !== -1 && allUserBets){
-      //#TODO knockout stage
+      currentBets = currentBets.filter((bet) => bet.match.group === 'Knockout')
     }
+    if(filterMyBets.indexOf('Correct') !== -1 && allUserBets){
+      currentBets = currentBets.filter((bet) => bet.betResult !== undefined && bet.betResult > 0)
+    }
+    else if(filterMyBets.indexOf('Wrong') !== -1 && allUserBets){
+      currentBets = currentBets.filter((bet) =>  bet.betResult !== undefined && bet.betResult === 0)
+    }
+    
     const currentDate = new Date();
     if(filterMyBets.indexOf('Past') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => new Date(bet.match.date) > currentDate);
+      currentBets = currentBets.filter((bet) => new Date(bet.match.date) < currentDate);
     }
     else if(filterMyBets.indexOf('Active') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => new Date(bet.match.date) < currentDate);
+      currentBets = currentBets.filter((bet) => new Date(bet.match.date) > currentDate);
     }
     if(filterMyBets.indexOf('All') !== -1){
       currentBets = deepcopy(allUserBets);
     }
-    console.log(currentBets)
     setBetsToShow(currentBets);
   }
 
@@ -54,15 +53,17 @@ const YourBets: React.FC<YourBetsProps> = ({allUserBets}) => {
     () => sortMyBets()
   , [filterMyBets]);
   
-  // useEffect(() => {
-  //   const getUserBets = async () => {
-  //     const userName = userCtx.userLocalData ? userCtx.userLocalData.username : '';
-  //     const allUserBets = await (await fetch(`api/Bets/User/${userName}`)).json();
-  //     setBetsToShow(allUserBets);
-  //   }
-  //   getUserBets();
-  // }, [])
+  useEffect(() => {
+    const getUserBets = async () => {
+      const userName = userCtx.userLocalData ? userCtx.userLocalData.username : '';
+      const allUserBets = await (await fetch(`api/Bets/User/${userName}`)).json();
+      setBetsToShow(allUserBets);
+    }
+    getUserBets();
+  }, [])
   
+  const correctScores = allUserBets.filter((bet) => bet.betResult === 2);
+  const correctResult = allUserBets.filter((bet) => bet.betResult === 1);
   return (
     
     <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
@@ -75,10 +76,14 @@ const YourBets: React.FC<YourBetsProps> = ({allUserBets}) => {
         <div style={{gridColumn: '3/11'}}>
           <MyBets allUserBets={betsToShow}/>
         </div>
-          <div style={{gridColumn: '11/13', alignItems: 'flex-start', padding: '0 2.5rem', textAlign: 'center'}}>
+          <div className='rightBar-yourbets'>
               <h2 style={{color: '#41F0A0'}}>Correct Score</h2>
-              <CircularProgressbar value={6} maxValue={8} text={`${6/8*100}%`} styles={buildStyles({pathColor: 'darkgreen'})}/>
+              <CircularProgressbar value={correctScores.length} maxValue={allUserBets.length} text={`${allUserBets.length !==0 ? correctScores.length/allUserBets.length : 0}%`} styles={buildStyles({pathColor: 'darkgreen'})}/>
+              
+              <h2 style={{color: '#41F0A0'}}>Correct Result</h2>
+              <CircularProgressbar value={correctResult.length} maxValue={allUserBets.length} text={`${allUserBets.length !== 0 ? correctResult.length/allUserBets.length : 0}%`} styles={buildStyles({pathColor: 'darkgreen'})}/>
           </div>
+
       </div>
     </div>
   )

@@ -18,8 +18,9 @@ export interface BetCardProps {
 const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const [baseBet, setBaseBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
   const [currentBet, setCurrentBet] = useState<{ homeBet: number, awayBet: number }>({ homeBet: bet.homeTeamScoreBet, awayBet: bet.awayTeamScoreBet })
-  const betString = bet.successfulBet !== undefined ? (bet.successfulBet === 1 ? `0 1px 10px lightgreen` : (bet.successfulBet === 2 ? '0 1px 10px darkgreen' : `0 1px 10px red`)) : undefined;
+  const betString = bet.betResult !== undefined && bet.betResult !== null ? (bet.betResult === 1 ? `0 1px 10px lightgreen` : (bet.betResult === 2 ? '0 1px 10px darkgreen' : `0 1px 10px red`)) : undefined;
 
+  const isAfterTime= new Date(bet.match.date) < new Date();
   const betDisabled = baseBet.homeBet === currentBet.homeBet && baseBet.awayBet === currentBet.awayBet; 
   const afterDeadline =  new Date().getTime() > new Date('2022-08-26T16:33:27.1796134').getTime()
   const [date, hour] = bet.match.date ? bet.match.date.split('T') : ['1999-20-11', '00:00']
@@ -62,28 +63,30 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   return (
     <CardAnimation>
     <Card style={{ borderRadius: '25px', boxShadow: betString, height: '105%', minWidth: '280px'}}>
-      <Card.Header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+      <Card.Header style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
         <div style={{ display: 'flex' }}><CircleFlag countryCode={CountryDict.get(bet.match.homeTeam.name) as string} style={{ paddingRight: '1.5rem' }} height='75' /></div>
-        <h3>{bet.homeTeamScore ? bet.homeTeamScore : '?'} : {bet.awayTeamScore ? bet.awayTeamScore : '?'}</h3>
+        <h3>{bet.match.homeTeamScore !== -1 ? bet.match.homeTeamScore : '?'} : {bet.match.awayTeamScore !== -1 ? bet.match.awayTeamScore : '?'}</h3>
         <CircleFlag countryCode={CountryDict.get(bet.match.awayTeam.name) as string} style={{ paddingLeft: '1.5rem' }} height='75' />
       </Card.Header>
       <Card.Body className='bet-card-body'>
         <Card.Text>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2%'}}>
         <div style={{ height: '2.5rem', gridColumn: '1/4', display: 'flex', justifyContent: 'center' , marginTop: '0.25rem', marginBottom: '1rem'}}>
-            <input className='bet-input'
+            <input className='bet-input no-spin'
               placeholder={bet.homeTeamScoreBet.toString()}
               type='number'
               min='0'
               max='30'
+              disabled={isAfterTime}
               onChange={e => setCurrentBet({ homeBet: Number.parseInt(e.target.value), awayBet: currentBet.awayBet })}
             />
             <h3 style={{padding:'0 1.5rem'}}>-</h3>
             <input
-              className='bet-input'
+              className='bet-input no-spin'
               type='number'
               min='0'
               max='30'
+              disabled={isAfterTime}
               placeholder={bet.awayTeamScoreBet.toString()}
               onChange={e => setCurrentBet({ homeBet: currentBet.homeBet, awayBet: Number.parseInt(e.target.value) })}
             />

@@ -8,3 +8,13 @@
         display: none;
     }
 }
+
+.rightBar-yourbets{
+    grid-column: 11/13;
+    align-items: flex-start;
+    padding: 0 2.5rem;
+    text-align: center;
+    @media (max-width: 1500px) {
+        display: none;
+    }
+}
