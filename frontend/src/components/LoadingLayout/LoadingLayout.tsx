@@ -2,7 +2,6 @@
 import React from 'react';
 import './LoadingLayout.scss';
 import Spinner from 'react-bootstrap/Spinner';
-import Loader from 'react-loaders';
 import logo_player from './logo_player.png';
 export interface LoadingLayoutProps {
     componentName: string,

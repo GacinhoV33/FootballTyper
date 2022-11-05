@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import TimeToStartTwo from '../Statistics/TimeToStartTwo';
 import {BiFootball} from 'react-icons/bi';
+import logo_player from '../LoadingLayout/logo_player.png';
 
 const NavbarComp = () => {
   const navlinkProps = {style: {
@@ -22,6 +23,7 @@ const NavbarComp = () => {
               {/* <Navbar.Brand href="/">Cool Logo</Navbar.Brand> */}
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Nav className="me-auto">
+              <img src={logo_player} alt='logogogo' width='80px' height='70px' />
               <Nav.Link href="/groupstage" {...navlinkProps} >GroupStage</Nav.Link>
               <Nav.Link href="/knockout"  {...navlinkProps}>Knockout</Nav.Link>
               <Nav.Link href="/yourbets"  {...navlinkProps}>My Bets</Nav.Link>  {/* Think about changing yourbets to mybets*/}
@@ -36,7 +38,6 @@ const NavbarComp = () => {
               <h1 style={{color: '#809070'}}>W{worldBall}rld Cup st{worldBall}rts in </h1>  
               <TimeToStartTwo/>
           </div>
-
         </div>
     </Navbar>
   )

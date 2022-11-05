@@ -97,6 +97,24 @@ function App() {
       return <LoadingLayout componentName='Ranking'/>
     }
   }
+
+  const groupStageReturn = () => {
+    if(!userStatus.isUserSigned){
+      return(
+        <Login setUserStatus={setUserStatus} />
+      )
+    }
+    else if(dataTeams){
+      return(
+        <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} />
+      )
+  }
+    else{
+      return(
+        <LoadingLayout componentName='Group Stage' />
+      )
+    }
+  }
   return (
     <UserContext.Provider value={userStatus}>
       <div className='app-body'>
@@ -104,7 +122,7 @@ function App() {
         <Routes>
           <Route path='/' element={userStatus.isUserSigned ? <Homepage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
-          <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage' />} />
+          <Route path='/groupstage' element={groupStageReturn()} />
           <Route path='/yourbets' element={allUserBets !== undefined ? <YourBets allUserBets={allUserBets} /> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
           <Route
             path='/ranking'

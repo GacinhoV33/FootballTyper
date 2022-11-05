@@ -37,7 +37,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     getDayFromDate(date);
 
 
-    const isBetNew  = userBets?.filter((bet) => bet.matchId === groupMatch.id)
+    const isBetNew = userBets?.filter((bet) => bet.matchId === groupMatch.id)
     const isBetExisting = isBetNew !== undefined && isBetNew.length !== 0 && isBetNew[0]?.homeTeamScoreBet !== undefined;
     const mainColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value
     const secondColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).secondColor.value
@@ -67,8 +67,9 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     //     rgba${secondColorAway.slice(0, -1)}, 0.4), 
     //     transparent 
     //   )`
-      const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, 0.2), rgba${secondColorHome.slice(0, -1)}, 0.2), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, 0.4), rgba${secondColorAway.slice(0, -1)}, 0.4), rgba${thirdColorAway.slice(0, -1)}, 0.4))`
-      return (
+    const alpha = 0.4;
+    const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, ${alpha}), rgba${secondColorHome.slice(0, -1)}, ${alpha}), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, ${alpha}), rgba${secondColorAway.slice(0, -1)}, ${alpha}), rgba${thirdColorAway.slice(0, -1)}, ${alpha}))`
+    return (
         <>
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
                 <div style={{
@@ -88,7 +89,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     <div style={{ flex: '1' }}>
                         <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px' />
                     </div>
-                    <div style={{ flex: '1', textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'stretch'}}>
+                    <div style={{ flex: '1', textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
                         <OverlayTrigger
                             placement='top'
                             overlay={
@@ -96,9 +97,9 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     This is your {groupMatch.homeTeam.name} bet.
                                 </Tooltip>
                             }>
-                            {isBetExisting ? <p style={{margin: '0px !important'}}> {isBetNew[0]?.homeTeamScoreBet}</p>  : <p style={{margin: '0px !important'}}>-</p>}
+                            {isBetExisting ? <p style={{ margin: '0px !important' }}> {isBetNew[0]?.homeTeamScoreBet}</p> : <p style={{ margin: '0px !important' }}>-</p>}
                         </OverlayTrigger>
-                        {groupMatch.homeTeamScore === -1 ? <span style={{fontSize: '1.5rem', fontWeight: '700'}}>?</span> : <span>{groupMatch.homeTeamScore}</span>}
+                        {groupMatch.homeTeamScore === -1 ? <span style={{ fontSize: '1.5rem', fontWeight: '700' }}>?</span> : <span>{groupMatch.homeTeamScore}</span>}
                     </div>
                     <div style={{ flex: '6', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                         <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '11px' }}>
@@ -116,7 +117,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     This is your {groupMatch.awayTeam.name} bet.
                                 </Tooltip>
                             }>
-                            {isBetExisting ? <p style={{margin: '0px !important'}}>{isBetNew[0]?.awayTeamScoreBet}</p>  : <p style={{margin: '0px !important'}}>-</p>}
+                            {isBetExisting ? <p style={{ margin: '0px !important' }}>{isBetNew[0]?.awayTeamScoreBet}</p> : <p style={{ margin: '0px !important' }}>-</p>}
                         </OverlayTrigger>
                         {groupMatch.awayTeamScore === -1 ? <h4>?</h4> : <h4>{groupMatch.awayTeamScore}</h4>}
                     </div>
@@ -126,7 +127,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     </div>
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
-                        <Button onClick={handleOpen} variant={isBetExisting ? 'warning' : 'primary'} style={{width: '3.5rem'}}>{isBetExisting ? 'Edit' : 'Bet'}</Button> 
+                        <Button onClick={handleOpen} variant={isBetExisting ? 'warning' : 'primary'} style={{ width: '3.5rem' }}>{isBetExisting ? 'Edit' : 'Bet'}</Button>
                     </div>
                 </div>
             </div>
