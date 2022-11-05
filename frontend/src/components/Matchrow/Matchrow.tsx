@@ -39,11 +39,36 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
 
     const isBetNew  = userBets?.filter((bet) => bet.matchId === groupMatch.id)
     const isBetExisting = isBetNew !== undefined && isBetNew.length !== 0 && isBetNew[0]?.homeTeamScoreBet !== undefined;
-    const mainColor = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value
-    const secondColor = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value
-    const thirdColor = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).thirdColor.value
-    const gradString = `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.1), rgba${secondColor.slice(0, -1)}, 0.1)`
-    return (
+    const mainColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value
+    const secondColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).secondColor.value
+    const thirdColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).thirdColor.value
+
+    const mainColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value
+    const secondColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).secondColor.value
+    const thirdColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).thirdColor.value
+    // const gradString = `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.1), rgba${secondColor.slice(0, -1)}, 0.1)`;
+    // const gradString = `radial-gradient(
+    //     farthest-side at top left,
+    //     rgba${mainColorHome.slice(0, -1)}, 0.4),
+    //     transparent
+    //   ),
+    //   radial-gradient(
+    //     farthest-corner at bottom left,
+    //     rgba${secondColorHome.slice(0, -1)}, 0.4),
+    //     transparent
+    //   ),
+    //   radial-gradient(
+    //     farthest-corner at top right,
+    //     rgba${mainColorAway.slice(0, -1)}, 0.4), 
+    //     transparent
+    //   ),
+    //   radial-gradient(
+    //     farthest-corner at bottom right,
+    //     rgba${secondColorAway.slice(0, -1)}, 0.4), 
+    //     transparent 
+    //   )`
+      const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, 0.2), rgba${secondColorHome.slice(0, -1)}, 0.2), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, 0.4), rgba${secondColorAway.slice(0, -1)}, 0.4), rgba${thirdColorAway.slice(0, -1)}, 0.4))`
+      return (
         <>
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
                 <div style={{

@@ -31,7 +31,6 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   useEffect(() =>
     setUsersToDisplay(sortedUsers),
     [leaugeFilter])
-  const currentDate = new Date();
   return (
     <div className='ranking-main-body'>
       <div style={{ display: 'flex', justifyContent: 'center' }}>

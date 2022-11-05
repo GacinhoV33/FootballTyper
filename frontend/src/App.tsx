@@ -80,10 +80,23 @@ function App() {
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllUsers(allUsers);
+      // console.log(typeof allUsers)
     }
     fetchData();
 
   }, []);
+
+  const rankingReturn = () => {
+    if(allUsers && userStatus.isUserSigned && Array.isArray(allUsers)){
+      return  <Ranking allUsers={allUsers}/>
+    }
+    else if(allUsers && !userStatus.isUserSigned){
+      return <h1>State when user not logged but want to see ranking</h1>
+    }
+    else{
+      return <LoadingLayout componentName='Ranking'/>
+    }
+  }
   return (
     <UserContext.Provider value={userStatus}>
       <div className='app-body'>
@@ -96,7 +109,7 @@ function App() {
           <Route
             path='/ranking'
             element={
-              allUsers ? <Ranking allUsers={allUsers}/> : <LoadingLayout componentName='Ranking'/>
+              rankingReturn()
             }
           />
           <Route path='/statistics' element={<Statistics />} />

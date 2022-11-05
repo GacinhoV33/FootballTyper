@@ -26,7 +26,7 @@ interface GropuTableProps {
 }
 
 const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenCountries} : GropuTableProps) => {
-  const dataSorted = groupTableData?.sort((team2, team1) => team1.points - team2.points ? team1.points - team2.points : (team1.goalsFor - team1.goalsAgainst) - (team2.goalsFor - team2.goalsAgainst) )  
+  groupTableData?.sort((team2, team1) => team1.points - team2.points ? team1.points - team2.points : (team1.goalsFor - team1.goalsAgainst) - (team2.goalsFor - team2.goalsAgainst) )  
   return (
     <div className='body-table'>
       <Table striped style={{tableLayout: 'fixed'}}>
@@ -48,7 +48,9 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
             const mainColor = JSON.parse(countriesColors.get(name as string) as string).mainColor.value
             const secondColor = JSON.parse(countriesColors.get(name as string) as string).secondColor.value
             const thirdColor = JSON.parse(countriesColors.get(name as string) as string).thirdColor.value
-            const gradString = {backgroundImage: `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.6), rgba${secondColor.slice(0, -1)}, 0.6)`}
+            const gradString = {
+              backgroundImage: `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.6), rgba${secondColor.slice(0, -1)}, 0.6)`
+          }
             return(
             <tr 
             key={index} 

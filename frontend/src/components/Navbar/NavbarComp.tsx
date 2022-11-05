@@ -1,12 +1,10 @@
 import React from 'react'
 import "./NavbarComp.scss";
-import {Link} from 'react-router-dom';
 
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import TimeToStart from '../Statistics/TimeToStart';
 import TimeToStartTwo from '../Statistics/TimeToStartTwo';
 import {BiFootball} from 'react-icons/bi';
 
