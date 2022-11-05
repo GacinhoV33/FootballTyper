@@ -12,7 +12,6 @@ namespace FootballTyperAPI.AzureFunctions
 {
     public static class UpdateScoreAfterMatch
     {
-        // Visit https://aka.ms/sqlbindingsinput to learn how to use this input binding
         [FunctionName("UpdateScoreAfterMatch")]
         public static IActionResult Run(
                 [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UpdateScoreAfterMatch")] HttpRequest req,
@@ -38,7 +37,7 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Starting execution of: UpdateScoreAfterMatch");
 
             UpdateData(Bets, Matches, Teams);
-            var matchesToReturn = CalculatePointsForEachTeam(Matches);
+            var matchesToReturn = CalculatePointsForEachTeam(Matches, log);
 
             outTeams = Teams.ToArray();
             outMatches = Matches.Select(x => MapMatch(x)).ToArray();
@@ -49,7 +48,7 @@ namespace FootballTyperAPI.AzureFunctions
             return new OkObjectResult(new { Ok = true, Matches = matchesToReturn });
         }
 
-        private static void UpdateData(IEnumerable<Bet> Bets, IEnumerable<Match> Matches, IEnumerable<Team> Teams)
+        public static void UpdateData(IEnumerable<Bet> Bets, IEnumerable<Match> Matches, IEnumerable<Team> Teams)
         {
             foreach (var bet in Bets)
             {
@@ -63,22 +62,23 @@ namespace FootballTyperAPI.AzureFunctions
             }
         }
 
-        private static IEnumerable<Match> CalculatePointsForEachTeam(IEnumerable<Match> Matches)
+        private static IEnumerable<Match> CalculatePointsForEachTeam(IEnumerable<Match> Matches, ILogger log)
         {
             var matchesToReturn = new List<Match>();
             foreach (var match in Matches)
             {
                 if (match.HomeTeamScore != -1 && match.AwayTeamScore != -1 && !match.IsMatchProcessed)
                 {
-                    CalculateResultPointsForTeamByMatch(match);
+                    CalculateResultPointsForTeamByMatch(match, log);
                     matchesToReturn.Add(match);
                 }
             }
             return matchesToReturn;
         }
 
-        private static void CalculateResultPointsForTeamByMatch(Match match)
+        private static void CalculateResultPointsForTeamByMatch(Match match, ILogger log)
         {
+            log.LogInformation($"Calculating result points for match with ID: {match.Id}");
             if (match.HomeTeamScore == match.AwayTeamScore)
             {
                 match.AwayTeam.Points += (int)MatchResult.Drawn;
@@ -116,7 +116,7 @@ namespace FootballTyperAPI.AzureFunctions
             match.IsMatchProcessed = true;
         }
 
-        private static MatchDbSave MapMatch(Match match)
+        public static MatchDbSave MapMatch(Match match)
         {
             return new MatchDbSave()
             {
