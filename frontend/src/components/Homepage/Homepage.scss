@@ -1,5 +1,32 @@
-.dev-class{
-    border: 1px solid #101010;
-    background-color: #DDAAFA;
-    text-align: center;
+.homepage-main{
+    background-color: #34568B;
+    height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(10, 10fr);
+    grid-template-rows: repeat(10, 10fr) ;
+    border: 5px solid black;  
+    .flags{
+        grid-column: 1/11;
+        grid-row: 1/2;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        margin-left: 2%;
+        .flag{
+            padding: 0 0.5%;
+            width: 3%;
+            min-width: 20px;
+        }
+    }
+    
+    .content-body{
+        grid-column: 3/7;
+        grid-row: 2/3;
+        .welcome-text{
+            font-weight: 800;
+            font-size: 2.2vw;
+        }
+    }
+
 }

@@ -6,7 +6,6 @@ import TextField from '@mui/material/TextField';
 import {ImSearch} from 'react-icons/im';
 import {MdClose} from 'react-icons/md';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { CSSTransition } from 'react-transition-group';
 export interface FilterLeaugeProps {
   currentFilter: string, 
   setCurrentFilter: React.Dispatch<React.SetStateAction<string>>,

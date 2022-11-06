@@ -11,7 +11,8 @@ import CountryDict from '../YourBets/MyBets/CountryDict';
 import countriesColors from '../AnimatedLetters/CountriesColors';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-
+import { BsCheckCircle } from 'react-icons/bs';
+import { ImCross } from 'react-icons/im';
 export interface MatchrowProps {
     groupMatch: Match,
     chosenCountries: { homeCountry: string, awayCountry: string },
@@ -67,8 +68,27 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     //     rgba${secondColorAway.slice(0, -1)}, 0.4), 
     //     transparent 
     //   )`
+    const buttonOpacity = groupMatch.isMatchValid ? '0' : '1';
     const alpha = 0.4;
     const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, ${alpha}), rgba${secondColorHome.slice(0, -1)}, ${alpha}), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, ${alpha}), rgba${secondColorAway.slice(0, -1)}, ${alpha}), rgba${thirdColorAway.slice(0, -1)}, ${alpha}))`
+    let colorIcon;
+    console.log(isBetNew)
+    if(isBetNew !== undefined && isBetNew.length > 0){
+        if(isBetNew[0].betResult !== undefined){
+            if(isBetNew[0].betResult === 2){
+                colorIcon = 'darkgreen'
+            }
+            else if(isBetNew[0].betResult === 1){
+                colorIcon = 'lightgreen'
+            }
+            else{
+                colorIcon = 'red';
+            }
+        }
+    }
+    else{
+        colorIcon = 'red'
+    }
     return (
         <>
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
@@ -127,7 +147,20 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     </div>
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
-                        <Button onClick={handleOpen} variant={isBetExisting ? 'warning' : 'primary'} style={{ width: '3.5rem' }}>{isBetExisting ? 'Edit' : 'Bet'}</Button>
+                                {
+                                    !groupMatch.isMatchValid ?   
+                                    <Button 
+                                        onClick={handleOpen} 
+                                        variant={isBetExisting ? 'warning' : 'primary'} 
+                                        style={{ width: '3.5rem', opacity: buttonOpacity}}
+                                        disabled={groupMatch.isMatchValid}
+                                    >
+                                        {isBetExisting ? 'Edit' : 'Bet'}
+                                    </Button> :
+                                    (
+                                        colorIcon !== 'red' ? <BsCheckCircle size={45} style={{marginRight: '0.7rem', paddingLeft: '0.5rem', color: colorIcon}}/> : <ImCross size={40} style={{marginRight: '0.9rem', paddingLeft: '0.5rem', color: colorIcon}}/>
+                                    )
+                                }
                     </div>
                 </div>
             </div>

@@ -30,7 +30,6 @@ export interface GroupStageProps {
 }
 
 const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
-  console.log(dataTeams)
   let letterToNumber = new Map<string , string>();
   for(let i = 0; i<8 ; i++) {
     letterToNumber.set(groupLetters[i], `${i}`);
@@ -40,9 +39,10 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
   const [currentGroupMatches, setCurrentGroupMatches] = useState<Match[] | null>(null);
   const [chosenCountries, setChosenCountries] = useState<{homeCountry: string, awayCountry: string}>({homeCountry: 'none', awayCountry: 'none'});
   useEffect(() => {
+    const currentGrMatches = groupMatches[Number(letterToNumber.get(currentGroup))]
+    currentGrMatches.sort((match1: any, match2: any) => new Date(match1.date).getTime() - new Date(match2.date).getTime())
     setCurrentGroupMatches(groupMatches[Number(letterToNumber.get(currentGroup))])
     setCurrentGroupData(dataTeams[Number(letterToNumber.get(currentGroup))])
-
   }, [currentGroup])
 
   const reloadData = (letter: string) => {

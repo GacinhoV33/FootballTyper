@@ -7,7 +7,6 @@ import FilterRanking from './FilterRanking';
 import FilterLeauge from './FilterLeauge';
 import ListRanking from './ListRanking';
 import { User } from '../../App';
-import { CSSTransition } from 'react-transition-group';
 
 export type LeaugeName = {
   leaugeName: string,

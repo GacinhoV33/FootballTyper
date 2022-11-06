@@ -46,6 +46,7 @@ export const UserContext = createContext<UserStatus>({ userLocalData: userObjIni
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
+  const [allTeams, setAllTeams] = useState<Team[] | null>(null)
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allUserBets, setAllUserBets] = useState<Bet[] | undefined>(undefined);
   const [allUsers, setAllUsers] = useState<User[] | null>(null);
@@ -63,9 +64,7 @@ function App() {
 
 
       const GroupMatches = await (await fetch('api/Matches')).json(); //TODO zmienić nazwę
-      console.log(GroupMatches)
       const data = await (await fetch('api/Teams')).json();
-
       const requestAllUsersOptions = {
         method: 'GET',
         headers: {
@@ -77,10 +76,10 @@ function App() {
       const userName= JSON.parse(localStorage.getItem('user') as string);
       const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
       setAllUserBets(allUserBets);
+      setAllTeams(data)
       setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllUsers(allUsers);
-      // console.log(typeof allUsers)
     }
     fetchData();
 
@@ -115,15 +114,16 @@ function App() {
       )
     }
   }
+
   return (
     <UserContext.Provider value={userStatus}>
       <div className='app-body'>
         <NavbarComp />
         <Routes>
-          <Route path='/' element={userStatus.isUserSigned ? <Homepage /> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/' element={userStatus.isUserSigned ? <Homepage allTeams={allTeams}/> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== undefined ? <YourBets allUserBets={allUserBets} /> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
+          <Route path='/yourbets' element={allUserBets !== undefined ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
           <Route
             path='/ranking'
             element={
@@ -136,6 +136,7 @@ function App() {
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
         <Footer />
+
       </div >
     </UserContext.Provider>
   );

@@ -7,18 +7,20 @@ import deepcopy from 'deepcopy';
 // components
 import MyBets from './MyBets/MyBets';
 import FiltersMyBets, { BetFilters } from './Filters/FiltersMyBets';
-import { UserContext } from '../../App';
+import { User, UserContext } from '../../App';
 
 export interface YourBetsProps{
   allUserBets: Bet[],
+  allUsers: User[] | null,
 }
-const YourBets: React.FC<YourBetsProps> = ({allUserBets}) => {
+const YourBets: React.FC<YourBetsProps> = ({allUserBets, allUsers}) => {
   const currentDate = new Date();
   const userCtx = useContext(UserContext);
   allUserBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
   const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>([])
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allUserBets)
-
+  const userData = allUsers?.filter((user) => user.id === userCtx.userLocalData.id);
+  console.log(userData)
   function sortMyBets(){
     let currentBets = deepcopy(allUserBets);
     console.log(currentBets)
@@ -70,18 +72,37 @@ const YourBets: React.FC<YourBetsProps> = ({allUserBets}) => {
       <FiltersMyBets activeFilters={filterMyBets} setActiveFilters={setFilterMyBets}/>
       <div style={{display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)'}}>
         <div className='leftBar-yourbets'>
-           <h2 style={{color: '#11A0F0'}}>All Bets</h2>
-           <CircularProgressbar value={11} maxValue={48} text={`${allUserBets.length}/48`}/>
+          <div style={{display: 'flex'}}>
+            <div className='circular-bar-sizing'>
+              <h6 style={{color: '#11A0F0'}}>All Bets</h6>
+              <CircularProgressbar value={11} maxValue={48} text={`${allUserBets.length}/48`}/>
+            </div>
+            <div className='circular-bar-sizing'>
+                <h6 style={{color: '#11A0F0', display: 'inlineBlock'}}>Correct Score</h6>
+                <CircularProgressbar value={correctScores.length} maxValue={allUserBets.length} text={`${allUserBets.length !==0 ? correctScores.length/allUserBets.length * 100: 0}%`} styles={buildStyles({pathColor: 'green', textColor: 'green'})}/>
+              </div>
+          </div>
+          <div style={{display: 'flex'}}>
+
+            <div className='circular-bar-sizing'>
+              <h6 style={{color: '#11A0F0'}}>Correct Result</h6>
+              <CircularProgressbar value={correctResult.length} maxValue={allUserBets.length} text={`${allUserBets.length !== 0 ? correctResult.length/allUserBets.length * 100 : 0}%`} styles={buildStyles({pathColor: 'darkgreen', textColor: 'darkgreen'})}/>
+            </div>
+            <div className='circular-bar-sizing'>
+              <h6 style={{color: '#11A0F0'}}>Wrong</h6>
+              <CircularProgressbar 
+              value={allUserBets.length - correctResult.length} maxValue={allUserBets.length}
+              text={`${allUserBets.length !== 0 ? (allUserBets.length - correctResult.length)/allUserBets.length * 100: 0 }%`} 
+              styles={buildStyles({pathColor: 'red', textColor: 'red', })}/>
+            </div>
+          </div>
         </div>
         <div style={{gridColumn: '3/11'}}>
           <MyBets allUserBets={betsToShow}/>
         </div>
           <div className='rightBar-yourbets'>
-              <h2 style={{color: '#41F0A0'}}>Correct Score</h2>
-              <CircularProgressbar value={correctScores.length} maxValue={allUserBets.length} text={`${allUserBets.length !==0 ? correctScores.length/allUserBets.length : 0}%`} styles={buildStyles({pathColor: 'darkgreen'})}/>
-              
-              <h2 style={{color: '#41F0A0'}}>Correct Result</h2>
-              <CircularProgressbar value={correctResult.length} maxValue={allUserBets.length} text={`${allUserBets.length !== 0 ? correctResult.length/allUserBets.length : 0}%`} styles={buildStyles({pathColor: 'darkgreen'})}/>
+             <h1>Points: {userData ? userData[0].totalPoints : '2'}</h1>
+
           </div>
 
       </div>
