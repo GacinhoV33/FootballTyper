@@ -18,7 +18,7 @@ namespace FootballTyperAPI.Models
         public int TotalWrongBets { get; set; }
         public string Leagues { get; set; }
         public string? ImgLink { get; set; }
-        public string LastFiveBets { get; set; }
+        public string? LastFiveBets { get; set; }
 
     }
 }
