@@ -7,6 +7,7 @@ import FilterRanking from './FilterRanking';
 import FilterLeauge from './FilterLeauge';
 import ListRanking from './ListRanking';
 import { User } from '../../App';
+import deepcopy from 'deepcopy';
 
 export type LeaugeName = {
   leaugeName: string,
@@ -26,10 +27,14 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   const [usersToDisplay, setUsersToDisplay] = useState<User[]>(allUsers);
 
   const leaugeUsers = allUsers.filter((user) => user.leauges?.indexOf(leaugeFilter) !== -1); //TODO when Api correct delete question mark because there's always at least one leauge
+  
+  
   const sortedUsers = leaugeUsers?.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-  useEffect(() =>
-    setUsersToDisplay(sortedUsers),
-    [leaugeFilter])
+  useEffect(() =>{
+    const userToSet = deepcopy(sortedUsers);
+    // TODO API for this
+    setUsersToDisplay(userToSet)}
+    ,[leaugeFilter])
   return (
     <div className='ranking-main-body'>
       <div style={{ display: 'flex', justifyContent: 'center' }}>

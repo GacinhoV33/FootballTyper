@@ -10,21 +10,24 @@ import { UserContext } from '../../App';
 import { FaCrown } from 'react-icons/fa';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-
+import {BsArrowUp} from 'react-icons/bs';
+import { BsFillTriangleFill } from 'react-icons/bs';
+import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 export interface ListRankingProps {
     leauge: string,
     allUsers: User[],
 }
 
 const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
-
+    const yesterdayStatus = true;
     const userCtx = useContext(UserContext);
     return (
-        <div style={{ minWidth: '600px', width: '100%' }}>
+        <div style={{ minWidth: '600px', width: '100%'
+    }}>
             <Table striped>
                 <thead>
                     <tr>
-                        <th style={{ width: '30px' }}>Rank</th>
+                        <th style={{ width: '30px'}}>Rank</th>
                         <td style={{ width: '30px' }}></td>
                         <th> User </th>
                         <th> Points </th>
@@ -81,9 +84,15 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                 <tbody className='ranking-row-content'>
                     {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets }, index) => (
                         <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
-                            <td> <h4>{index + 1}.</h4> </td>
+                            <td style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}> 
+                                <h4>{index + 1}</h4> 
+                                {yesterdayStatus ? <VscTriangleUp size={10} style={{color: 'green'}}/> : <VscTriangleDown size={10} style={{color: 'red'}}/>}
+                            </td>
                             <td> {index === 0 ? <FaCrown style={{ color: 'orange' }} size='30' /> : null}</td>
-                            <td> <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} />{username}</td>
+                            <td> 
+                                <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} />
+                                {username}
+                            </td>
                             <td> {totalPoints}</td>
                             <td> {totalExactScoreBets}</td>
                             <td> {totalCorrectWinnerBets}</td>

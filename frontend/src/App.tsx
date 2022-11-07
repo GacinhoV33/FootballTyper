@@ -63,7 +63,7 @@ function App() {
       // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
 
 
-      const GroupMatches = await (await fetch('api/Matches')).json(); //TODO zmienić nazwę
+      const allMatches = await (await fetch('api/Matches')).json(); 
       const data = await (await fetch('api/Teams')).json();
       const requestAllUsersOptions = {
         method: 'GET',
@@ -77,7 +77,7 @@ function App() {
       const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
       setAllUserBets(allUserBets);
       setAllTeams(data)
-      setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
+      setdataGroupMatches(convertMatchesToGroupFormat(allMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
       setAllUsers(allUsers);
     }

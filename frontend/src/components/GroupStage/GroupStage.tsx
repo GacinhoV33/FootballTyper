@@ -4,7 +4,6 @@ import './GroupStage.scss';
 
 // components
 import GroupStageMatches from './GroupStageMatches/GroupStageMatches';
-import GroupStagePlayerStatistics from './GroupStagePlayerStatistics/GroupStagePlayerStatistics';
 import GroupSwitch from './GroupSwitch/GroupSwitch';
 import GroupTable from './GroupTable/GroupTable';
 // interfaces
@@ -12,17 +11,6 @@ import {GroupTableItem} from './GroupTable/GroupTable';
 import LeftBar from './LeftBar/LeftBar';
 import RightBar from './RightBar/RightBar';
 // Fetch: In this component we should use data from context that contains info about groups 
-
-// export interface GroupMatch extends Match {
-//   homeTeam: string,
-//   awayTeam: string, 
-//   homeTeamScore: number, 
-//   awayTeamScore: number, 
-//   date: string,
-//   stadium: string, 
-//   referee: string, 
-//   group: string,
-// }
 
 export interface GroupStageProps {
   groupMatches: any,
@@ -71,7 +59,6 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
           chosenCountries={chosenCountries}
           setChosenCountries={setChosenCountries}
         />
-        <GroupStagePlayerStatistics/>
       </div>
       <div className='group-stage-right'>
         <RightBar chosenCountries={chosenCountries} currentGroup={currentGroup}/>

@@ -72,21 +72,20 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     const alpha = 0.4;
     const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, ${alpha}), rgba${secondColorHome.slice(0, -1)}, ${alpha}), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, ${alpha}), rgba${secondColorAway.slice(0, -1)}, ${alpha}), rgba${thirdColorAway.slice(0, -1)}, ${alpha}))`
     let colorIcon;
-    console.log(isBetNew)
-    if(isBetNew !== undefined && isBetNew.length > 0){
-        if(isBetNew[0].betResult !== undefined){
-            if(isBetNew[0].betResult === 2){
+    if (isBetNew !== undefined && isBetNew.length > 0) {
+        if (isBetNew[0].betResult !== undefined) {
+            if (isBetNew[0].betResult === 2) {
                 colorIcon = 'darkgreen'
             }
-            else if(isBetNew[0].betResult === 1){
+            else if (isBetNew[0].betResult === 1) {
                 colorIcon = 'lightgreen'
             }
-            else{
+            else {
                 colorIcon = 'red';
             }
         }
     }
-    else{
+    else {
         colorIcon = 'red'
     }
     return (
@@ -110,16 +109,19 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                         <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px' />
                     </div>
                     <div style={{ flex: '1', textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
-                        <OverlayTrigger
-                            placement='top'
-                            overlay={
-                                <Tooltip id={'scorehometip'}>
-                                    This is your {groupMatch.homeTeam.name} bet.
-                                </Tooltip>
-                            }>
-                            {isBetExisting ? <p style={{ margin: '0px !important' }}> {isBetNew[0]?.homeTeamScoreBet}</p> : <p style={{ margin: '0px !important' }}>-</p>}
-                        </OverlayTrigger>
-                        {groupMatch.homeTeamScore === -1 ? <span style={{ fontSize: '1.5rem', fontWeight: '700' }}>?</span> : <span>{groupMatch.homeTeamScore}</span>}
+                        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <OverlayTrigger
+                                placement='top'
+                                overlay={
+                                    <Tooltip id={'scorehometip'}>
+                                        This is your {groupMatch.homeTeam.name} bet.
+                                    </Tooltip>
+                                }>
+                                {isBetExisting ? <p style={{ margin: '0px !important' }}> ({isBetNew[0]?.homeTeamScoreBet})</p> : <p></p>}
+                            </OverlayTrigger>
+                            {groupMatch.homeTeamScore === -1 ? <h4>?</h4> : <h4>{groupMatch.homeTeamScore}</h4>}
+                        </div>
+
                     </div>
                     <div style={{ flex: '6', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                         <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '11px' }}>
@@ -130,37 +132,44 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                         </h4>
                     </div>
                     <div style={{ flex: '1' }}>
-                        <OverlayTrigger
-                            placement='top'
-                            overlay={
-                                <Tooltip id={'scoreawaytip'}>
-                                    This is your {groupMatch.awayTeam.name} bet.
-                                </Tooltip>
-                            }>
-                            {isBetExisting ? <p style={{ margin: '0px !important' }}>{isBetNew[0]?.awayTeamScoreBet}</p> : <p style={{ margin: '0px !important' }}>-</p>}
-                        </OverlayTrigger>
-                        {groupMatch.awayTeamScore === -1 ? <h4>?</h4> : <h4>{groupMatch.awayTeamScore}</h4>}
+                        <div style={{ display: 'flex' }}>
+                            {groupMatch.awayTeamScore === -1 ? <h4>?</h4> : <h4>{groupMatch.awayTeamScore}</h4>}
+                            <OverlayTrigger
+                                placement='top'
+                                overlay={
+                                    <Tooltip id={'scoreawaytip'}>
+                                        This is your {groupMatch.awayTeam.name} bet.
+                                    </Tooltip>
+                                }>
+                                {isBetExisting ? <p style={{ margin: '0px !important' }}>({isBetNew[0]?.awayTeamScoreBet})</p> : <p></p>}
+                            </OverlayTrigger>
+
+                        </div>
+
                     </div>
 
                     <div style={{ flex: '1', display: 'flex', justifyContent: 'right' }}>
-                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} height='40px' />
+                        <div style={{borderRadius: '27px', border:'1px solid #050505'}}>
+                            <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} height='50px' style={{ borderRadius: '25px', border: '5px solid #FEEEEF', boxShadow: '8px rgba(10, 5, 10, 0.8)'}} />
+
+                        </div>
                     </div>
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
-                                {
-                                    !groupMatch.isMatchValid ?   
-                                    <Button 
-                                        onClick={handleOpen} 
-                                        variant={isBetExisting ? 'warning' : 'primary'} 
-                                        style={{ width: '3.5rem', opacity: buttonOpacity}}
-                                        disabled={groupMatch.isMatchValid}
-                                    >
-                                        {isBetExisting ? 'Edit' : 'Bet'}
-                                    </Button> :
-                                    (
-                                        colorIcon !== 'red' ? <BsCheckCircle size={45} style={{marginRight: '0.7rem', paddingLeft: '0.5rem', color: colorIcon}}/> : <ImCross size={40} style={{marginRight: '0.9rem', paddingLeft: '0.5rem', color: colorIcon}}/>
-                                    )
-                                }
+                        {
+                            !groupMatch.isMatchValid ?
+                                <Button
+                                    onClick={handleOpen}
+                                    variant={isBetExisting ? 'warning' : 'primary'}
+                                    style={{ width: '3.5rem', opacity: buttonOpacity }}
+                                    disabled={groupMatch.isMatchValid}
+                                >
+                                    {isBetExisting ? 'Edit' : 'Bet'}
+                                </Button> :
+                                (
+                                    colorIcon !== 'red' ? <BsCheckCircle size={45} style={{ marginRight: '0.7rem', paddingLeft: '0.5rem', color: colorIcon }} /> : <ImCross size={40} style={{ marginRight: '0.9rem', paddingLeft: '0.5rem', color: colorIcon }} />
+                                )
+                        }
                     </div>
                 </div>
             </div>

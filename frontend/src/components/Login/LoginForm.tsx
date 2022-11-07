@@ -1,5 +1,5 @@
 import './Login.scss';
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 export interface LoginFormProps {
     onSubmit: (e: React.FormEvent) => void,

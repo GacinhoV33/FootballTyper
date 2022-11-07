@@ -200,7 +200,7 @@ const SaudiaArabia = {
         value: '(255, 255, 255)',
     }
 }
-countriesColors.set('Saudi Arabia', JSON.stringify(SaudiaArabia)) //FLAG TODO
+countriesColors.set('Saudi Arabia', JSON.stringify(SaudiaArabia)) 
 
 // 13
 const Denmark = {
