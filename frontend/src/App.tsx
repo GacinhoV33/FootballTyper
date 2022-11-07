@@ -201,7 +201,7 @@ export interface User {
   totalWrongBets: number,
   leauges: string[],
   id: number,
-  lastFiveBets: number[],
+  lastFiveBets: string,
 }
 
 export default App;

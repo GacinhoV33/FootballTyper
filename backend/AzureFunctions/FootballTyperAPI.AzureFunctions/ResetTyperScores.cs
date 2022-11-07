@@ -39,6 +39,7 @@ namespace FootballTyperAPI.AzureFunctions
                 user.TotalCorrectWinnerBets = 0;
                 user.TotalExactScoreBets = 0;
                 user.TotalWrongBets = 0;
+                user.LastFiveBets = "";
             }
 
             foreach (var bet in Bets)

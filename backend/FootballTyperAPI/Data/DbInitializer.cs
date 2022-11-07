@@ -106,7 +106,19 @@ namespace FootballTyperAPI.Data
                     PointsFactor = 1,
                     BetResult = ScoreEnum.CorrectOutcome
                 },
-
+                new Bet()
+                {
+                    AwayTeamScoreBet = 2,
+                    AwayTeamWin = false,
+                    BetDate = DateTime.Now,
+                    BettorUserName = "User1",
+                    HomeAwayDrawn = false,
+                    HomeTeamScoreBet = 3,
+                    HomeTeamWin = true,
+                    Match = context.Matches.Skip(4).Take(1).FirstOrDefault(),
+                    PointsFactor = 1,
+                    BetResult = ScoreEnum.CorrectScoreBet
+                },
                 new Bet()
                 {
                     AwayTeamScoreBet = 2,
@@ -156,6 +168,19 @@ namespace FootballTyperAPI.Data
                     HomeTeamScoreBet = 3,
                     HomeTeamWin = true,
                     Match = context.Matches.Skip(3).Take(1).FirstOrDefault(),
+                    PointsFactor = 1,
+                    BetResult = ScoreEnum.CorrectScoreBet
+                },
+                new Bet()
+                {
+                    AwayTeamScoreBet = 2,
+                    AwayTeamWin = false,
+                    BetDate = DateTime.Now,
+                    BettorUserName = "User2",
+                    HomeAwayDrawn = false,
+                    HomeTeamScoreBet = 3,
+                    HomeTeamWin = true,
+                    Match = context.Matches.Skip(4).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
                     BetResult = ScoreEnum.CorrectScoreBet
                 },

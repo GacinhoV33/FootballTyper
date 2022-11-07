@@ -1,3 +1,4 @@
+using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,6 @@ namespace FootballTyperAPI.AzureFunctions
                 [Sql("SELECT * FROM [dbo].[TyperUser]",
             CommandType = System.Data.CommandType.Text,
             ConnectionStringSetting = "SqlConnectionString")] IEnumerable<TyperUser> Users,
-                //    [Sql("[dbo].[Teams]",
-                //CommandType = System.Data.CommandType.Text,
-                //ConnectionStringSetting = "SqlConnectionString")] out Team[] outTeams,
                 [Sql("[dbo].[Bets]",
             CommandType = System.Data.CommandType.Text,
             ConnectionStringSetting = "SqlConnectionString")] out BetDbSave[] outBets,
@@ -39,8 +37,9 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: UpdateTyperScores");
 
-            UpdateData(Bets, Matches);  //, Teams);
+            UpdateData(Bets, Matches);
             var betsToReturn = CalculatePointsForEachUser(Bets, Users, log);
+            UpdateLastFiveUserBets(Bets, Users);
 
             outUsers = Users.ToArray();
             outBets = Bets.Select(x => MapBet(x)).ToArray();
@@ -52,18 +51,25 @@ namespace FootballTyperAPI.AzureFunctions
             return new OkObjectResult(new { Ok = true, Bets = betsToReturn });
         }
 
-        public static void UpdateData(IEnumerable<Bet> Bets, IEnumerable<Match> Matches)//, IEnumerable<Team> Teams)
+        public static void UpdateLastFiveUserBets(IEnumerable<Bet> Bets, IEnumerable<TyperUser> Users)
+        {
+            foreach (var user in Users)
+            {
+                var lastFiveBets = Bets.Where(x => x.BettorUserName == user.Username && x.Match.Date <= DateTime.Now)
+                .OrderByDescending(t => t.Match.Date)
+                .Take(5)
+                .ToList();
+                var lastFiveBetsEnumList = MatchHelper.ConvertBetsToScoreEnums(lastFiveBets);
+                user.LastFiveBets = string.Join(",", lastFiveBetsEnumList.Select(x => ((int)x).ToString()));
+            }
+        }
+
+        public static void UpdateData(IEnumerable<Bet> Bets, IEnumerable<Match> Matches)
         {
             foreach (var bet in Bets)
             {
                 bet.Match = Matches.FirstOrDefault(x => x.Id == bet.MatchId);
             }
-
-            //foreach (var match in Matches)
-            //{
-            //    match.HomeTeam = Teams.FirstOrDefault(x => x.Id == match.HomeTeamId);
-            //    match.AwayTeam = Teams.FirstOrDefault(x => x.Id == match.AwayTeamId);
-            //}
         }
 
         private static IEnumerable<Bet> CalculatePointsForEachUser(IEnumerable<Bet> Bets, IEnumerable<TyperUser> Users, ILogger log)
