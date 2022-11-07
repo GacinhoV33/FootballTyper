@@ -14,45 +14,46 @@ export interface YourBetsProps{
   allUsers: User[] | null,
 }
 const YourBets: React.FC<YourBetsProps> = ({allUserBets, allUsers}) => {
-  const currentDate = new Date();
   const userCtx = useContext(UserContext);
-  allUserBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
   const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>([])
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allUserBets)
   const userData = allUsers?.filter((user) => user.id === userCtx.userLocalData.id);
-  console.log(userData)
-  function sortMyBets(){
-    let currentBets = deepcopy(allUserBets);
-    console.log(currentBets)
-
-    if(filterMyBets.indexOf('GroupStage') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => bet.match.group !== 'Knockout')      // #TODO how to verify that match is groupstage
-    }
-    if(filterMyBets.indexOf('KnockoutStage') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => bet.match.group === 'Knockout')
-    }
-    if(filterMyBets.indexOf('Correct') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => bet.betResult !== undefined && bet.betResult > 0)
-    }
-    else if(filterMyBets.indexOf('Wrong') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) =>  bet.betResult !== undefined && bet.betResult === 0)
-    }
-    
-    const currentDate = new Date();
-    if(filterMyBets.indexOf('Past') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => new Date(bet.match.date) < currentDate);
-    }
-    else if(filterMyBets.indexOf('Active') !== -1 && allUserBets){
-      currentBets = currentBets.filter((bet) => new Date(bet.match.date) > currentDate);
-    }
-    if(filterMyBets.indexOf('All') !== -1){
-      currentBets = deepcopy(allUserBets);
-    }
-    setBetsToShow(currentBets);
-  }
-
+  
   useEffect(
-    () => sortMyBets()
+    
+    () => {
+      allUserBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
+      function sortMyBets(){
+        let currentBets = deepcopy(allUserBets);
+        console.log(currentBets)
+    
+        if(filterMyBets.indexOf('GroupStage') !== -1 && allUserBets){
+          currentBets = currentBets.filter((bet) => bet.match.group !== 'Knockout')      // #TODO how to verify that match is groupstage
+        }
+        if(filterMyBets.indexOf('KnockoutStage') !== -1 && allUserBets){
+          currentBets = currentBets.filter((bet) => bet.match.group === 'Knockout')
+        }
+        if(filterMyBets.indexOf('Correct') !== -1 && allUserBets){
+          currentBets = currentBets.filter((bet) => bet.betResult !== undefined && bet.betResult > 0)
+        }
+        else if(filterMyBets.indexOf('Wrong') !== -1 && allUserBets){
+          currentBets = currentBets.filter((bet) =>  bet.betResult !== undefined && bet.betResult === 0)
+        }
+        
+        const currentDate = new Date();
+        if(filterMyBets.indexOf('Past') !== -1 && allUserBets){
+          currentBets = currentBets.filter((bet) => new Date(bet.match.date) < currentDate);
+        }
+        else if(filterMyBets.indexOf('Active') !== -1 && allUserBets){
+          currentBets = currentBets.filter((bet) => new Date(bet.match.date) > currentDate);
+        }
+        if(filterMyBets.indexOf('All') !== -1){
+          currentBets = deepcopy(allUserBets);
+        }
+        setBetsToShow(currentBets);
+      }
+      sortMyBets()
+    }
   , [filterMyBets]);
   
   useEffect(() => {

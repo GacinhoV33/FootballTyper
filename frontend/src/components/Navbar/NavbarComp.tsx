@@ -59,7 +59,7 @@ const NavbarComp = () => {
           </Nav>
           </div>
           <div style={{paddingRight: '1rem', display: 'flex', alignItems: 'center'}}>  
-              <h1 style={{color: '#809070'}}>W{worldBall}rld Cup st{worldBall}rts in </h1>  
+              <h1 style={{color: '#809070'}}>W{worldBall}rld Cup starts in </h1>  
               <TimeToStartTwo/>
           </div>
         </div>
