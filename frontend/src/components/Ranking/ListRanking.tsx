@@ -10,9 +10,14 @@ import { UserContext } from '../../App';
 import { FaCrown } from 'react-icons/fa';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import {BsArrowUp} from 'react-icons/bs';
+import { BsArrowUp } from 'react-icons/bs';
 import { BsFillTriangleFill } from 'react-icons/bs';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
+
+
+import avatar1 from './avatar1.jpg';
+import avatar2 from './avatar2.png';
+
 export interface ListRankingProps {
     leauge: string,
     allUsers: User[],
@@ -22,12 +27,13 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
     const yesterdayStatus = true;
     const userCtx = useContext(UserContext);
     return (
-        <div style={{ minWidth: '600px', width: '100%'
-    }}>
+        <div style={{
+            minWidth: '600px', width: '100%'
+        }}>
             <Table striped>
                 <thead>
                     <tr>
-                        <th style={{ width: '30px'}}>Rank</th>
+                        <th style={{ width: '30px' }}>Rank</th>
                         <td style={{ width: '30px' }}></td>
                         <th> User </th>
                         <th> Points </th>
@@ -46,7 +52,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                         <OverlayTrigger
                             overlay={
                                 <Tooltip id={'correctresults'}>
-                                    Correct Bet 
+                                    Correct Bet
                                 </Tooltip>
                             }
                             placement='top-start'
@@ -84,13 +90,23 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                 <tbody className='ranking-row-content'>
                     {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets }, index) => (
                         <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
-                            <td style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}> 
-                                <h4>{index + 1}</h4> 
-                                {yesterdayStatus ? <VscTriangleUp size={10} style={{color: 'green'}}/> : <VscTriangleDown size={10} style={{color: 'red'}}/>}
+                            <td style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+                                <h4>{index + 1}</h4>
+                                {yesterdayStatus ? <VscTriangleUp size={10} style={{ color: 'green' }} /> : <VscTriangleDown size={10} style={{ color: 'red' }} />}
                             </td>
                             <td> {index === 0 ? <FaCrown style={{ color: 'orange' }} size='30' /> : null}</td>
-                            <td> 
-                                <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} />
+                            <td>
+                                <OverlayTrigger
+                                    overlay={
+                                        <Tooltip id={'last5matches'} style={{ opacity: '1'}} color='red'>
+                                            <img src={avatar2} style={{height: '10rem', width: '10rem', borderRadius: '5rem'}} alt={index.toString()}/>
+                                            <div >{username}</div>
+                                        </Tooltip>
+                                    }
+                                    placement='top-start'
+                                >
+                                <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} src={avatar2} alt={username}/>
+                                </OverlayTrigger>
                                 {username}
                             </td>
                             <td> {totalPoints}</td>

@@ -14,6 +14,7 @@ import Button from 'react-bootstrap/Button';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import StadiumCard from './StadiumCard';
+import MatchCard, { MatchCardProps } from './MatchCard';
 export interface HomepageProps{
   allTeams: Team[] | null
 }
@@ -36,7 +37,29 @@ const responsive = {
   }
 };
 
-const Homepage: React.FC<HomepageProps> = ({allTeams}, props) => {
+
+const dummyMatches: MatchCardProps[] = [{
+  homeTeam: 'Poland',
+  awayTeam: 'Spain',
+  date: '2022-11-20T17:00:00',
+},
+{
+  homeTeam: 'Germany',
+  awayTeam: 'Argentina',
+  date: '2022-11-20T18:00:00',
+},
+{
+  homeTeam: 'Netherlands',
+  awayTeam: 'Mexico',
+  date: '2022-11-21T19:00:00',
+},
+{
+  homeTeam: 'Switzerland',
+  awayTeam: 'England',
+  date: '2022-11-22T17:00:00',
+},]
+
+const Homepage: React.FC<HomepageProps> = ({allTeams}) => {
   
   return (
     <div className='homepage-main'>
@@ -48,7 +71,14 @@ const Homepage: React.FC<HomepageProps> = ({allTeams}, props) => {
           }
         </div>
         <div className='content-body'>
-          <span className='welcome-text'>Welcome in Qatar 2022 Typer</span>
+          <span className='welcome-text'>
+            Welcome in Qatar 2022 Typer
+          </span>
+          <div className='current-matches'>
+              {dummyMatches.map((item, index) => (
+                <MatchCard {...item}/>
+              ))}
+          </div>
         </div>
 
         <div className='login-info'>

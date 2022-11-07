@@ -135,7 +135,7 @@ function App() {
           <Route path='/adminpanel' element={<AdminPanel />} />
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
-        <Footer />
+        {/* <Footer /> */}
 
       </div >
     </UserContext.Provider>
