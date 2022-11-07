@@ -27,11 +27,13 @@ const NavbarComp = () => {
     )
   }
   return (
-    <Navbar bg='light' expand='lg' style={{height: '5rem', display: 'flex', flexDirection: 'row'}}>
+    <Navbar bg='light' expand='lg' style={{height: '8vh', display: 'flex', flexDirection: 'row'}}>
         <div className='navbar-content'>
           <div className='navlinks-body'>
               <Nav className="me-auto">
-              <img  className='png-image' src={logo_player} alt='logogogo' width='80' height='70' style={{marginBottom: '1rem'}}/>
+              <Nav.Link href='/' {...navlinkProps}>
+                <img  className='png-image' src={logo_player} alt='logogogo' width='80' height='70' style={{marginBottom: '1rem'}}/>
+              </Nav.Link>
               <Nav.Link href="/groupstage" {...navlinkProps} className='nav-hover-item'>
                 <Nav.Item>GroupStage</Nav.Item>
               </Nav.Link>
@@ -53,7 +55,7 @@ const NavbarComp = () => {
               <Nav.Link href="/adminpanel"  {...navlinkProps} className='nav-hover-item'>
                 <Nav.Item>Admin Panel</Nav.Item>
               </Nav.Link>
-              <Nav.Link href={isUserLogged ? "/" : '/login'} {...navlinkProps} className='nav-hover-item'>
+              <Nav.Link href='/Login' {...navlinkProps} className='nav-hover-item'>
                 <Nav.Item>{isUserLogged ? profile() : 'Login'}</Nav.Item>
               </Nav.Link>
           </Nav>
