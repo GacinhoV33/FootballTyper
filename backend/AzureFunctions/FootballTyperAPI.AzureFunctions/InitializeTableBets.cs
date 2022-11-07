@@ -39,7 +39,6 @@ namespace Company.Function
                         HomeTeamWin = false,
                         MatchId = Matches.Skip(0).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectOutcome
                     },
                     new BetDbSave()
                     {
@@ -52,7 +51,6 @@ namespace Company.Function
                         HomeTeamWin = true,
                         MatchId = Matches.Skip(1).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectOutcome
                     },
                     new BetDbSave()
                     {
@@ -65,7 +63,6 @@ namespace Company.Function
                         HomeTeamWin = false,
                         MatchId = Matches.Skip(2).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectOutcome
                     },
                     new BetDbSave()
                     {
@@ -78,7 +75,6 @@ namespace Company.Function
                         HomeTeamWin = true,
                         MatchId = Matches.Skip(3).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectOutcome
                     },
                     new BetDbSave()
                     {
@@ -91,7 +87,6 @@ namespace Company.Function
                         HomeTeamWin = true,
                         MatchId = Matches.Skip(4).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectScoreBet
                     },
 
                     new BetDbSave()
@@ -105,7 +100,6 @@ namespace Company.Function
                         HomeTeamWin = false,
                         MatchId = Matches.Skip(0).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectOutcome
                     },
                     new BetDbSave()
                     {
@@ -118,7 +112,6 @@ namespace Company.Function
                         HomeTeamWin = true,
                         MatchId = Matches.Skip(1).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.WrongBet
                     },
                     new BetDbSave()
                     {
@@ -131,7 +124,6 @@ namespace Company.Function
                         HomeTeamWin = false,
                         MatchId = Matches.Skip(2).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.WrongBet
                     },
                     new BetDbSave()
                     {
@@ -144,7 +136,6 @@ namespace Company.Function
                         HomeTeamWin = true,
                         MatchId = Matches.Skip(3).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectScoreBet
                     },
                     new BetDbSave()
                     {
@@ -157,7 +148,6 @@ namespace Company.Function
                         HomeTeamWin = true,
                         MatchId = Matches.Skip(4).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
-                        BetResult = ScoreEnum.CorrectScoreBet
                     },
                 };
 
