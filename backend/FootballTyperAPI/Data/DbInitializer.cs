@@ -65,7 +65,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = false,
                     Match = context.Matches.Skip(0).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectOutcome
                 },
                 new Bet()
                 {
@@ -78,7 +77,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = true,
                     Match = context.Matches.Skip(1).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectOutcome
                 },
                 new Bet()
                 {
@@ -91,7 +89,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = false,
                     Match = context.Matches.Skip(2).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectOutcome
                 },
                 new Bet()
                 {
@@ -104,7 +101,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = true,
                     Match = context.Matches.Skip(3).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectOutcome
                 },
                 new Bet()
                 {
@@ -117,7 +113,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = true,
                     Match = context.Matches.Skip(4).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectScoreBet
                 },
                 new Bet()
                 {
@@ -130,7 +125,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = false,
                     Match = context.Matches.Skip(0).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectOutcome
                 },
                 new Bet()
                 {
@@ -143,7 +137,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = true,
                     Match = context.Matches.Skip(1).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.WrongBet
                 },
                 new Bet()
                 {
@@ -156,7 +149,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = false,
                     Match = context.Matches.Skip(2).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.WrongBet
                 },
                 new Bet()
                 {
@@ -169,7 +161,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = true,
                     Match = context.Matches.Skip(3).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectScoreBet
                 },
                 new Bet()
                 {
@@ -182,7 +173,6 @@ namespace FootballTyperAPI.Data
                     HomeTeamWin = true,
                     Match = context.Matches.Skip(4).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
-                    BetResult = ScoreEnum.CorrectScoreBet
                 },
             };
             context.AddRange(bets);
