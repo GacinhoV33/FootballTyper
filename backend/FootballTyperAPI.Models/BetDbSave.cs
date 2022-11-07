@@ -23,6 +23,10 @@
         public DateTime BetDate { get; set; }
 
         public ScoreEnum? BetResult { get; set; }
+
+        public bool IsBetProcessed { get; set; }
+
+        public DateTime BetProcessedDate { get; set; }
     }
 }
 

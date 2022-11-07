@@ -33,5 +33,7 @@ namespace FootballTyperAPI.Models
         public int RoundNumber { get; set; }
 
         public bool IsMatchProcessed { get; set; }
+
+        public DateTime MatchProcessedDate { get; set; }
     }
 }

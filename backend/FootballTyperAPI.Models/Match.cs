@@ -39,5 +39,7 @@ namespace FootballTyperAPI.Models
         public bool IsMatchValid { get { return HomeTeamScore > -1 && AwayTeamScore > -1; } }
 
         public bool IsMatchProcessed { get; set; }
+
+        public DateTime MatchProcessedDate { get; set; }
     }
 }

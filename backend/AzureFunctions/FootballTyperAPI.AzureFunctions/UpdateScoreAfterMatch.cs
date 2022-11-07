@@ -114,6 +114,7 @@ namespace FootballTyperAPI.AzureFunctions
             match.HomeTeam.GoalsFor += match.HomeTeamScore;
             match.HomeTeam.GoalsAgainst += match.AwayTeamScore;
             match.IsMatchProcessed = true;
+            match.MatchProcessedDate = DateTime.Now;
         }
 
         public static MatchDbSave MapMatch(Match match)
@@ -131,6 +132,7 @@ namespace FootballTyperAPI.AzureFunctions
                 MatchNumber = match.MatchNumber,
                 RoundNumber = match.RoundNumber,
                 IsMatchProcessed = match.IsMatchProcessed,
+                MatchProcessedDate = match.MatchProcessedDate,
                 Referee = match.Referee,
                 Town = match.Town
             };

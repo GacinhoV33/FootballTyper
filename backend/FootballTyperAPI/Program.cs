@@ -81,25 +81,30 @@ void SetupDatabase(WebApplication app)
 {
     var service = (IServiceScopeFactory)app.Services.GetService(typeof(IServiceScopeFactory));
 
+    bool isCleanAndInitDbNeeded = false;
+
     using (var db = service.CreateScope().ServiceProvider.GetService<FootballTyperAPIContext>())
     {
         db.Database.Migrate();
-
+        isCleanAndInitDbNeeded = db.Database.GetPendingMigrations().Any();
     }
 
-    using (var scope = app.Services.CreateScope())
+    if (isCleanAndInitDbNeeded)
     {
-        var services = scope.ServiceProvider;
-        try
+        using (var scope = app.Services.CreateScope())
         {
-            var context = services.GetRequiredService<FootballTyperAPIContext>();
-            DbInitializer.CleanDb(context);
-            DbInitializer.Initialize(context);
-        }
-        catch (Exception ex)
-        {
-            var logger = services.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ex, "An error occurred creating the DB.");
+            var services = scope.ServiceProvider;
+            try
+            {
+                var context = services.GetRequiredService<FootballTyperAPIContext>();
+                DbInitializer.CleanDb(context);
+                DbInitializer.Initialize(context);
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred creating the DB.");
+            }
         }
     }
 }

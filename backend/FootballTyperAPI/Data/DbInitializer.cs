@@ -15,6 +15,8 @@ namespace FootballTyperAPI.Data
                 FillMatchesTable(context);
             if (!context.Bets.Any())
                 FillBetsTable(context);
+            if (!context.TyperUser.Any(x => x.Username == "User1" || x.Username == "User2"))
+                FillTyperUserTable(context);
         }
 
 
@@ -159,6 +161,30 @@ namespace FootballTyperAPI.Data
                 },
             };
             context.AddRange(bets);
+            context.SaveChanges();
+        }
+        private static void FillTyperUserTable(FootballTyperAPIContext context)
+        {
+            var users = new List<TyperUser>()
+            {
+                new TyperUser
+                {
+                    Username = "User1",
+                    Email = "User1@gmail.com",
+                    FullName = "User1 FullName",
+                    PasswordHash = "PasswordHash",
+                    ImgLink = "ImgLink"
+                },
+                new TyperUser
+                {
+                    Username = "User2",
+                    Email = "User2@gmail.com",
+                    FullName = "User2 FullName",
+                    PasswordHash = "PasswordHash",
+                    ImgLink = "ImgLink"
+                }
+            };
+            context.AddRange(users);
             context.SaveChanges();
         }
 

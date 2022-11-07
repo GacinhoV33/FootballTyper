@@ -16,7 +16,7 @@ namespace FootballTyperAPI.Models
         public int TotalExactScoreBets { get; set; }
         public int TotalCorrectWinnerBets { get; set; }
         public int TotalWrongBets { get; set; }
-        public List<League> Leagues { get; set; }
+        //public List<League> Leagues { get; set; }
         public string? ImgLink { get; set; }
 
     }
