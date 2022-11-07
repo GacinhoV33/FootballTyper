@@ -149,10 +149,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     </div>
 
                     <div style={{ flex: '1', display: 'flex', justifyContent: 'right' }}>
-                        <div style={{borderRadius: '27px', border:'1px solid #050505'}}>
-                            <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} height='50px' style={{ borderRadius: '25px', border: '5px solid #FEEEEF', boxShadow: '8px rgba(10, 5, 10, 0.8)'}} />
-
-                        </div>
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} height='40px' style={{boxShadow: '8px rgba(10, 5, 10, 0.8)'}} />
                     </div>
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
