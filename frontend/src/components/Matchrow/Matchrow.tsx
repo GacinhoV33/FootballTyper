@@ -11,8 +11,9 @@ import CountryDict from '../YourBets/MyBets/CountryDict';
 import countriesColors from '../AnimatedLetters/CountriesColors';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { BsCheckCircle } from 'react-icons/bs';
+import { BsCheck, BsCheckCircle } from 'react-icons/bs';
 import { ImCross } from 'react-icons/im';
+import { BiCheckDouble } from 'react-icons/bi';
 export interface MatchrowProps {
     groupMatch: Match,
     chosenCountries: { homeCountry: string, awayCountry: string },
@@ -93,6 +94,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
                 <div style={{
                     height: '4.5rem',
+                    width: '98%',
                     border: '2px solid #111231',
                     borderRadius: '5px',
                     boxShadow: '#222342',
@@ -106,7 +108,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     backgroundImage: gradString,
                 }}>
                     <div style={{ flex: '1' }}>
-                        <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px' />
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px'/>
                     </div>
                     <div style={{ flex: '1', textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -164,7 +166,10 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     {isBetExisting ? 'Edit' : 'Bet'}
                                 </Button> :
                                 (
-                                    colorIcon !== 'red' ? <BsCheckCircle size={45} style={{ marginRight: '0.7rem', paddingLeft: '0.5rem', color: colorIcon }} /> : <ImCross size={40} style={{ marginRight: '0.9rem', paddingLeft: '0.5rem', color: colorIcon }} />
+                                    colorIcon === 'lightgreen' ? <BsCheck size={40} style={{color: colorIcon}} /> 
+                                    : (colorIcon === 'darkgreen'? <BiCheckDouble size={40} style={{color: colorIcon}} /> 
+                                    : <ImCross size={30} style={{color: colorIcon, marginRight: '0.5rem' }} /> )
+
                                 )
                         }
                     </div>

@@ -4,6 +4,7 @@ import './StadiumCard.scss';
 
 export interface StadiumCardProps {
     photo: string,
+    stadiumName: string,
     describtion?: string,
     stadiumSize?: number,
     stadiumLocation?: string,

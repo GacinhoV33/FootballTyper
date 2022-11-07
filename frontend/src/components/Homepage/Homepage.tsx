@@ -7,8 +7,20 @@ import CountryDict from '../YourBets/MyBets/CountryDict';
 import { Team } from '../../App';
 import { CircleFlag } from 'react-circle-flags';
 // import Carousel  from 'react-bootstrap/Carousel';
+
+//photos
 import photo4 from './photo4.png';
 import photo3 from './photo3.jpg';
+
+import amhed_bin_ali_stadium from './ahmed_bin_ali_stadium.jpg';
+import al_bayt_stadium from './al_bayt_stadium.jpg'
+import al_thumama_stadium from './al_thumama_stadium.jpg';
+import al_wakrah_stadium from './al_wakrah_stadium.jpg';
+import education_city_stadium from './education_city_stadium.jpg';
+import khalifa_stadium from './khalifa_stadium.jpg';
+import lusail_stadium from './lusail_stadium.jpg';
+import stadium_974 from './stadium_974.jpg'
+
 import Button from 'react-bootstrap/Button';
 
 import Carousel from "react-multi-carousel";
@@ -18,6 +30,28 @@ import MatchCard, { MatchCardProps } from './MatchCard';
 export interface HomepageProps{
   allTeams: Team[] | null
 }
+
+export interface Stadium{
+  photo: string,
+  stadiumName: string,
+  size: number,
+  city: string,
+}
+
+const stadiums = [{
+  photo: amhed_bin_ali_stadium,
+  stadiumName: 'Ahmed Bin Ali Stadium',
+  size: 40000,
+  city: 'Al-Rayyan',
+},
+{
+  photo: al_bayt_stadium,
+  stadiumName: 'Ahmed Bin Ali Stadium',
+  size: 40000,
+  city: 'Al-Rayyan',
+},
+]
+
 
 const responsive = {
   desktop: {
@@ -115,7 +149,7 @@ const Homepage: React.FC<HomepageProps> = ({allTeams}) => {
                   </div>
                 ))} */}
                 {[photo4, photo3, photo4, photo3].map((photo, index) => (
-                  <StadiumCard photo={photo} index={index} key={index} />
+                  <StadiumCard photo={photo} index={index} key={index} stadiumName={'Al Khaida'}/>
                 ))}
 
           </Carousel>

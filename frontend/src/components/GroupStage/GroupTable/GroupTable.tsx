@@ -40,7 +40,6 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
               <th>Draw</th>
               <th>Goals</th>
               <th>Points</th>
-              <th></th>
             </tr>
           </thead>
         <tbody className='textCenter'>
@@ -57,7 +56,7 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
             onClick={() => setChosenCountries({homeCountry: name, awayCountry: chosenCountries.awayCountry})}
             style={name === chosenCountries.homeCountry  || name === chosenCountries.awayCountry ? gradString : undefined}
             >
-              <td style={{ height: '4rem'}}><h5 style={{paddingTop: '0.4rem'}}>{index + 1}.</h5></td>
+              <td style={{ height: '6vh'}}><h5 style={{paddingTop: '0.4rem'}}>{index + 1}.</h5></td>
               <td> <CountryIcon size='lg' countryName={name} />  </td>
               <td style={{fontWeight: '600', alignItems: 'center', height: ''}}>
                   {name}

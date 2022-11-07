@@ -26,9 +26,9 @@ const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date }) => {
             </div>
             
             <div className='vs-pill'>
-                <Badge pill bg='danger' style={{ height: '6vh', width: '4vw', fontSize: '1.75vw', textAlign: 'center', alignItems: 'center' }}>
+                <div style={{ height: '6vh', width: '4vw', fontSize: '1.75vw', textAlign: 'center', alignItems: 'center', borderRadius: '1vw', background: '#a176c1' }}>
                     VS
-                </Badge>
+                </div>
             </div>
 
             <div className='right-flag'>
