@@ -80,6 +80,19 @@ namespace Company.Function
                         PointsFactor = 1,
                         BetResult = ScoreEnum.CorrectOutcome
                     },
+                    new BetDbSave()
+                    {
+                        AwayTeamScoreBet = 2,
+                        AwayTeamWin = false,
+                        BetDate = DateTime.Now,
+                        BettorUserName = "User1",
+                        HomeAwayDrawn = false,
+                        HomeTeamScoreBet = 3,
+                        HomeTeamWin = true,
+                        MatchId = Matches.Skip(4).Take(1).FirstOrDefault().Id,
+                        PointsFactor = 1,
+                        BetResult = ScoreEnum.CorrectScoreBet
+                    },
 
                     new BetDbSave()
                     {
@@ -130,6 +143,19 @@ namespace Company.Function
                         HomeTeamScoreBet = 3,
                         HomeTeamWin = true,
                         MatchId = Matches.Skip(3).Take(1).FirstOrDefault().Id,
+                        PointsFactor = 1,
+                        BetResult = ScoreEnum.CorrectScoreBet
+                    },
+                    new BetDbSave()
+                    {
+                        AwayTeamScoreBet = 2,
+                        AwayTeamWin = false,
+                        BetDate = DateTime.Now,
+                        BettorUserName = "User2",
+                        HomeAwayDrawn = false,
+                        HomeTeamScoreBet = 3,
+                        HomeTeamWin = true,
+                        MatchId = Matches.Skip(4).Take(1).FirstOrDefault().Id,
                         PointsFactor = 1,
                         BetResult = ScoreEnum.CorrectScoreBet
                     },

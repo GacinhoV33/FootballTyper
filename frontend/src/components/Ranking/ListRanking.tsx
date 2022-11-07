@@ -98,14 +98,14 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                             <td>
                                 <OverlayTrigger
                                     overlay={
-                                        <Tooltip id={'last5matches'} style={{ opacity: '1'}} color='red'>
-                                            <img src={avatar2} style={{height: '10rem', width: '10rem', borderRadius: '5rem'}} alt={index.toString()}/>
+                                        <Tooltip id={'last5matches'} style={{ opacity: '1' }} color='red'>
+                                            <img src={avatar2} style={{ height: '10rem', width: '10rem', borderRadius: '5rem' }} alt={index.toString()} />
                                             <div >{username}</div>
                                         </Tooltip>
                                     }
                                     placement='top-start'
                                 >
-                                <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} src={avatar2} alt={username}/>
+                                    <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '1rem' }} src={avatar2} alt={username} />
                                 </OverlayTrigger>
                                 {username}
                             </td>
@@ -114,17 +114,19 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                             <td> {totalCorrectWinnerBets}</td>
                             <td> {totalWrongBets}</td>
                             <td style={{ textAlign: 'center' }}>
-                                {lastFiveBets?.map((userBet, index) => {
-                                    switch (userBet) {
-                                        case 0:
-                                            return <ImCross style={{ color: 'red', margin: '0 0.45rem' }} size='20' key={index} />
-                                        case 1:
-                                            return <BsCheck style={{ color: 'green' }} size='40' key={index} />
-                                        case 2:
-                                            return <BiCheckDouble style={{ color: 'lightgreen' }} size='40' key={index} />
-                                    }
-                                }
-                                )
+                                {
+                                    lastFiveBets !== "" ?
+                                        lastFiveBets?.split(',').map(Number).map((userBet, index) => {
+                                            switch (userBet) {
+                                                case 0:
+                                                    return <ImCross style={{ color: 'red', margin: '0 0.45rem' }} size='20' key={index} />
+                                                case 1:
+                                                    return <BsCheck style={{ color: 'green' }} size='40' key={index} />
+                                                case 2:
+                                                    return <BiCheckDouble style={{ color: 'lightgreen' }} size='40' key={index} />
+                                            }
+                                        })
+                                        : null
                                 }
                             </td>
                         </tr>

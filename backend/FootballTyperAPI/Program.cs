@@ -85,8 +85,8 @@ void SetupDatabase(WebApplication app)
 
     using (var db = service.CreateScope().ServiceProvider.GetService<FootballTyperAPIContext>())
     {
-        db.Database.Migrate();
         isCleanAndInitDbNeeded = db.Database.GetPendingMigrations().Any();
+        db.Database.Migrate();
     }
 
     if (isCleanAndInitDbNeeded)
