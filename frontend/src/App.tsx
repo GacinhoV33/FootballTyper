@@ -12,6 +12,7 @@ import Rules from './components/Rules/Rules';
 import Login from './components/Login/Login';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import LoadingLayout from './components/LoadingLayout/LoadingLayout';
+import AuthVerify from './components/AuthVerify/AuthVerify';
 import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
@@ -135,6 +136,7 @@ function App() {
           <Route path='/adminpanel' element={<AdminPanel />} />
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
+        <AuthVerify/>
         {/* <Footer /> */}
 
       </div >
