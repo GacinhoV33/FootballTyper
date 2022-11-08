@@ -16,7 +16,7 @@ export interface BetModalProps {
         awayScore: string;
     }>>,
     setAlert: React.Dispatch<React.SetStateAction<boolean>>,
-    userBets: Bet[] | undefined,
+    userBets: Bet[] | null,
     setBetChange: React.Dispatch<React.SetStateAction<number>>
 
 }

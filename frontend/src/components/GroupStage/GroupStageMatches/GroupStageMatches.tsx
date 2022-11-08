@@ -18,7 +18,7 @@ interface GroupStageMatchesProps {
 const GroupStageMatches = ({ groupMatches, chosenCountries, setChosenCountries }: GroupStageMatchesProps) => {
 
   const userCtx = useContext(UserContext);
-  const [userBets, setUserBets] = useState<Bet[] | undefined>();
+  const [userBets, setUserBets] = useState<Bet[] | null>(null);
   const [betChange, setBetChange] = useState<number>(0);
   useEffect(() => {
     const getUserBets = async () => {

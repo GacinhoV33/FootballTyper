@@ -1,6 +1,12 @@
 import jwt_decode from "jwt-decode";
+import { UserStatus } from "../../App";
 
-const AuthVerify = () => {
+
+export interface AuthVerifyProps{
+    setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>
+}
+
+const AuthVerify: React.FC<AuthVerifyProps> = ({setUserStatus}) => {
 
     const addMinutes = (minutes: number) => {
         const dateNow = new Date()
@@ -16,6 +22,18 @@ const AuthVerify = () => {
         if (expDate) {
             if (Date.parse(expDate) < Date.now()) {
                 localStorage.clear();
+
+                // reseting local hook responsible for user status
+                const userStatus: UserStatus = {
+                    userLocalData: {
+                      username: '',
+                      email: '',
+                      fullname: '',
+                      id: 0,
+                    },
+                    isUserSigned: false,
+                  }
+                  setUserStatus(userStatus)
             } else {
                 localStorage.setItem("tokenExpirationDate", addMinutes(20).toString())
             }

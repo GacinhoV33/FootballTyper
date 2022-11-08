@@ -23,7 +23,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    const msg = password != confirmPassword && confirmPassword != null ? "Passwords are not the same." : "";
+    const msg = password !== confirmPassword && confirmPassword !== null ? "Passwords are not the same." : "";
     setPasswordErrorMessage(msg);
   }, [confirmPassword, password]
   )
@@ -52,6 +52,17 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
     e.preventDefault();
     localStorage.setItem("user", "");
     localStorage.setItem("userToken", "");
+
+    const userStatus: UserStatus = {
+      userLocalData: {
+        username: '',
+        email: '',
+        fullname: '',
+        id: 0,
+      },
+      isUserSigned: false,
+    }
+    setUserStatus(userStatus)
     setAuthMode("signin");
   }
 
@@ -62,7 +73,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
   const isDataValid = () => {
     setShowAlert(true);
     var re = /\S+@\S+\.\S+/;
-    if (password != confirmPassword || !re.test(email || "")) {
+    if (password !== confirmPassword || !re.test(email || "")) {
       setIsValid(false);
       return false;
     }
@@ -77,7 +88,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
       return;
     }
 
-    if (authMode == "signup") {
+    if (authMode === "signup") {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -141,7 +152,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
           })
         });
     }
-    else if (authMode == "signin") {
+    else if (authMode === "signin") {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -248,6 +259,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
     )
   }
   else if (authMode === "profile") {
+    const localData = JSON.parse(localStorage.getItem("user") as string)
     return (
       <LoginForm onSubmit={onSubmit} title='Profile'>
         <div>
@@ -255,13 +267,13 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
             You are logged in
           </div>
           <div className="form-group mt-3">
-            <label>Full Name: {(JSON.parse(localStorage.getItem("user") as string)).fullName} </label>
+            <label>Full Name: {localData?.fullName} </label>
           </div>
           <div className="form-group mt-3">
-            <label>User Name: {(JSON.parse(localStorage.getItem("user") as string)).username} </label>
+            <label>User Name: {localData?.username} </label>
           </div>
           <div className="form-group mt-3">
-            <label>Email address: {(JSON.parse(localStorage.getItem("user") as string)).email} </label>
+            <label>Email address: {localData?.email} </label>
           </div>
           <div className="d-grid gap-2 mt-3">
             <button className="btn btn-primary" onClick={handleLogOut}>

@@ -49,11 +49,11 @@ function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
   const [allTeams, setAllTeams] = useState<Team[] | null>(null)
   const [dataTeams, setDataTeams] = useState<any | null>(null);
-  const [allUserBets, setAllUserBets] = useState<Bet[] | undefined>(undefined);
-  const [allUsers, setAllUsers] = useState<User[] | null>(null);
+  const [allUserBets, setAllUserBets] = useState<Bet[] | null>(null);
+  const [allUsers, setAllUsers] = useState<User[] | null>([]);
   const [userStatus, setUserStatus] = useState<UserStatus>({
     userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string)  : userObjInit,
-    isUserSigned: localStorage.getItem('user') !== '' ? true : false
+    isUserSigned: localStorage.getItem('user') !== ''&& localStorage.getItem('user') !== null ? true : false
   })
   useEffect(() => {
     const fetchData = async () => {
@@ -73,10 +73,13 @@ function App() {
           'Authorization': `Bearer ${localStorage.getItem('userToken')}`
         }
       };
+
       const allUsers = await( await fetch('api/TyperUsers', requestAllUsersOptions)).json();
       const userName= JSON.parse(localStorage.getItem('user') as string);
-      const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
-      setAllUserBets(allUserBets);
+      if(userName){
+        const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
+        setAllUserBets(allUserBets);
+      }
       setAllTeams(data)
       setdataGroupMatches(convertMatchesToGroupFormat(allMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
@@ -118,13 +121,14 @@ function App() {
 
   return (
     <UserContext.Provider value={userStatus}>
+      <AuthVerify setUserStatus={setUserStatus}/>
       <div className='app-body'>
         <NavbarComp />
         <Routes>
-          <Route path='/' element={userStatus.isUserSigned ? <Homepage allTeams={allTeams}/> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/' element={<Homepage allTeams={allTeams}/>} />
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== undefined ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
           <Route
             path='/ranking'
             element={
@@ -136,7 +140,6 @@ function App() {
           <Route path='/adminpanel' element={<AdminPanel />} />
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
-        <AuthVerify/>
         {/* <Footer /> */}
 
       </div >

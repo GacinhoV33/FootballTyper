@@ -26,24 +26,25 @@ const NavbarComp = () => {
       </div>
     )
   }
+  console.log(isUserLogged);
   return (
     <Navbar bg='light' expand='lg' style={{height: '8vh', display: 'flex', flexDirection: 'row'}}>
         <div className='navbar-content'>
           <div className='navlinks-body'>
               <Nav className="me-auto">
               <Nav.Link href='/' {...navlinkProps}>
-                <img  className='png-image' src={logo_player} alt='logogogo' width='80' height='70' style={{marginBottom: '1rem'}}/>
+                <img  className='png-image' src={logo_player} alt='logogogo' width='80' height='70'/>
               </Nav.Link>
-              <Nav.Link href="/groupstage" {...navlinkProps} className='nav-hover-item'>
+              <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} {...navlinkProps} className='nav-hover-item'>
                 <Nav.Item>GroupStage</Nav.Item>
               </Nav.Link>
-              <Nav.Link href="/knockout"  {...navlinkProps} className='nav-hover-item'>
+              <Nav.Link href={isUserLogged ? "/knockout" : './Login'}  {...navlinkProps} className='nav-hover-item'>
                 <Nav.Item>Knockout</Nav.Item>
                 </Nav.Link>
-              <Nav.Link href="/yourbets"  {...navlinkProps} className='nav-hover-item'>
+              <Nav.Link href={isUserLogged ? "/yourbets" : './Login'}  {...navlinkProps} className='nav-hover-item'>
                 <Nav.Item>Bets</Nav.Item>
               </Nav.Link>  {/* Think about changing yourbets to mybets*/}
-              <Nav.Link href="/ranking"  {...navlinkProps} className='nav-hover-item'>
+              <Nav.Link href={isUserLogged ? "/ranking" : '/Login'}  {...navlinkProps} className='nav-hover-item'>
                 <Nav.Item>Ranking</Nav.Item>
               </Nav.Link>
               <Nav.Link href="/statistics"  {...navlinkProps} className='nav-hover-item'>

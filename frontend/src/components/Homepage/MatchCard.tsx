@@ -3,7 +3,6 @@ import './MatchCard.scss';
 
 import { CircleFlag } from 'react-circle-flags';
 import CountryDict from '../YourBets/MyBets/CountryDict';
-import Badge from 'react-bootstrap/Badge'
 export interface MatchCardProps {
     homeTeam: string,
     awayTeam: string,

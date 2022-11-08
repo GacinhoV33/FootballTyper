@@ -21,7 +21,7 @@ export interface MatchrowProps {
         homeCountry: string;
         awayCountry: string;
     }>>,
-    userBets?: Bet[] | undefined,
+    userBets: Bet[] | null,
     setBetChange: React.Dispatch<React.SetStateAction<number>>
 }
 
@@ -39,8 +39,8 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     getDayFromDate(date);
 
 
-    const isBetNew = userBets?.filter((bet) => bet.matchId === groupMatch.id)
-    const isBetExisting = isBetNew !== undefined && isBetNew.length !== 0 && isBetNew[0]?.homeTeamScoreBet !== undefined;
+    const isBetNew = userBets !== null && userBets.length > 0 ? userBets.filter((bet) => bet.matchId === groupMatch.id) : null;
+    const isBetExisting = isBetNew !== null && isBetNew.length !== 0 && isBetNew[0].homeTeamScoreBet !== undefined;
     const mainColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).mainColor.value
     const secondColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).secondColor.value
     const thirdColorHome = JSON.parse(countriesColors.get(groupMatch.homeTeam.name as string) as string).thirdColor.value
@@ -73,7 +73,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     const alpha = 0.4;
     const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, ${alpha}), rgba${secondColorHome.slice(0, -1)}, ${alpha}), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, ${alpha}), rgba${secondColorAway.slice(0, -1)}, ${alpha}), rgba${thirdColorAway.slice(0, -1)}, ${alpha}))`
     let colorIcon;
-    if (isBetNew !== undefined && isBetNew.length > 0) {
+    if (isBetNew !== null && isBetNew.length > 0) {
         if (isBetNew[0].betResult !== undefined) {
             if (isBetNew[0].betResult === 2) {
                 colorIcon = 'darkgreen'
