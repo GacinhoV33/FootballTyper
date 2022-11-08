@@ -1,5 +1,6 @@
 import React from 'react'
 import './StadiumCard.scss';
+import Image from 'react-bootstrap/Image'
 
 
 export interface StadiumCardProps {
@@ -15,7 +16,7 @@ const StadiumCard: React.FC<StadiumCardProps> = ({photo, describtion, stadiumSiz
   return (
    
                 <div className='stadium-card'>
-                    <img src={photo} alt={index.toString()} className='' style={{width: 'inherit', height: '33vh', minWidth: '150px', minHeight: '150px'}}/>
+                    <img src={photo} alt={index.toString()} style={{width: '15vw', minWidth: '150px', minHeight: '150px'}}/>
                     <div>
                         Stadium: NAME
 

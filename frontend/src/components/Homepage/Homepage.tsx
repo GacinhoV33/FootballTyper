@@ -27,11 +27,11 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import StadiumCard from './StadiumCard';
 import MatchCard, { MatchCardProps } from './MatchCard';
-export interface HomepageProps{
+export interface HomepageProps {
   allTeams: Team[] | null
 }
 
-export interface Stadium{
+export interface Stadium {
   photo: string,
   stadiumName: string,
   size: number,
@@ -46,9 +46,45 @@ const stadiums = [{
 },
 {
   photo: al_bayt_stadium,
-  stadiumName: 'Ahmed Bin Ali Stadium',
+  stadiumName: 'Al Bayt Stadium',
+  size: 60000,
+  city: 'Al-Chaur',
+},
+{
+  photo: al_thumama_stadium,
+  stadiumName: 'Al Thumama Stadium',
   size: 40000,
-  city: 'Al-Rayyan',
+  city: 'Ad-Dauha',
+},
+{
+  photo: al_wakrah_stadium,
+  stadiumName: 'Al Janoub Stadium',
+  size: 40000,
+  city: 'Ad-Wakrah',
+},
+{
+  photo: education_city_stadium,
+  stadiumName: 'Education City Stadium',
+  size: 40000,
+  city: 'Al-Dauha',
+},
+{
+  photo: khalifa_stadium,
+  stadiumName: 'Khalifa International Stadium',
+  size: 40000,
+  city: 'Al-Dauha',
+},
+{
+  photo: lusail_stadium,
+  stadiumName: 'Lusail Stadium',
+  size: 80000,
+  city: 'Lusail City',
+},
+{
+  photo: stadium_974,
+  stadiumName: 'Stadium 974',
+  size: 40000,
+  city: 'Al-Dauha',
 },
 ]
 
@@ -93,67 +129,65 @@ const dummyMatches: MatchCardProps[] = [{
   date: '2022-11-22T17:00:00',
 },]
 
-const Homepage: React.FC<HomepageProps> = ({allTeams}) => {
-  
+const Homepage: React.FC<HomepageProps> = ({ allTeams }) => {
+
   return (
     <div className='homepage-main'>
-        <div className='flags'>
-          {
-            allTeams?.map(({name}, index) => (
-              <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag'/>
-            ))
-          }
+      <div className='flags'>
+        {
+          allTeams?.map(({ name }, index) => (
+            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag' />
+          ))
+        }
+      </div>
+      <div className='content-body'>
+        <span className='welcome-text'>
+          Welcome in Qatar 2022 Typer
+        </span>
+        <div className='current-matches'>
+          {dummyMatches.map((item, index) => (
+            <MatchCard {...item} />
+          ))}
         </div>
-        <div className='content-body'>
-          <span className='welcome-text'>
-            Welcome in Qatar 2022 Typer
-          </span>
-          <div className='current-matches'>
-              {dummyMatches.map((item, index) => (
-                <MatchCard {...item}/>
-              ))}
-          </div>
-        </div>
+      </div>
 
-        <div className='login-info'>
+      <div className='login-info'>
 
-        </div>
-        <div style={{gridColumn: '3/10', gridRow: '4/11'}}>
+      </div>
+      <div style={{ gridColumn: '2/8', gridRow: '4/11' }}>
 
 
         <h1> Stadiums </h1>
-          <Carousel
-                swipeable={false}
-                draggable={false}
-                showDots={true}
-                responsive={responsive}
-                ssr={true} // means to render carousel on server-side.
-                infinite={true}
-                autoPlay={ false }
-                autoPlaySpeed={1000}
-                keyBoardControl={true}
-                customTransition="all .5"
-                transitionDuration={500}
-                containerClass="carousel-container"
-                removeArrowOnDeviceType={["tablet", "mobile"]}
-                // deviceType={props.deviceType}
-                dotListClass="custom-dot-list-style"
-                itemClass="carousel-item-padding-40-px"
-              >
-                  {/* {[photo4, photo3, photo4, photo3].map((photo, index) => (
-                  <div style={{width: '20vw'}}>
-                    <img src={photo} alt={index.toString()} style={{width: 'inherit', height: '33vh', minWidth: '150px', minHeight: '150px'}}/>
-                    <Button>
-                      Button
-                    </Button>
-                  </div>
-                ))} */}
-                {[photo4, photo3, photo4, photo3].map((photo, index) => (
-                  <StadiumCard photo={photo} index={index} key={index} stadiumName={'Al Khaida'}/>
-                ))}
+        <Carousel
+          swipeable={false}
+          draggable={false}
+          showDots={true}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={5000}
+          keyBoardControl={true}
+          customTransition="all .5"
+          transitionDuration={500}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+        >
+          {stadiums.map(({ photo, stadiumName, city, size }, index) => (
+            <StadiumCard
+              photo={photo}
+              index={index}
+              key={index}
+              stadiumSize={size}
+              stadiumName={stadiumName} 
+              stadiumLocation={city}
+              />
+          ))}
 
-          </Carousel>
-        </div>
+        </Carousel>
+      </div>
     </div>
   )
 }

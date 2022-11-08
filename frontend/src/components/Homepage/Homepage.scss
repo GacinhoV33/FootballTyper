@@ -1,18 +1,18 @@
 .homepage-main{
     background-color: #34568B;
-    height: 100vh;
+    height: 160vh;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(10, 10fr);
     grid-template-rows: repeat(10, 10fr) ;
-    border: 5px solid black;  
+    padding-top: 1rem;
+    padding-left: 2vw;
     .flags{
         grid-column: 1/11;
         grid-row: 1/2;
         flex-direction: row;
         width: 100%;
         justify-content: center;
-        margin-left: 2%;
         .flag{
             padding: 0 0.5%;
             width: 3%;
