@@ -79,13 +79,27 @@ namespace FootballTyperAPI.AzureFunctions
         public static List<Ranking> CreateRanking(IEnumerable<TyperUser> Users)
         {
             var ranking = Users.Select(x => new Ranking() { User = x }).ToList();
-            foreach (var league in Users.Select(x => x.LeaguesStr.Split(",")).SelectMany(x => x).Distinct())
+            foreach (var league in Users.Select(x => JsonSerializer.Deserialize<string[]>(x.LeaguesStr)).SelectMany(x => x).Distinct())
             {
                 var sortedUsers = Users.Where(x => x.LeaguesStr.Contains(league)).OrderByDescending(x => x.TotalPoints);
                 int pos = 1;
                 foreach (var user in sortedUsers)
                 {
-                    ranking.FirstOrDefault(x => x.User == user).LeaguePosition.Add(league, pos++);
+                    int? minPos = null;
+                    var userWithSamePoints = Users.Where(x => x.TotalPoints == user.TotalPoints && x != user).ToList();
+                    if (userWithSamePoints.Any())
+                    {
+                        var rankingUsersWithSamePoints = userWithSamePoints.Select(y => ranking.FirstOrDefault(x => x.User == y)).ToList();
+                        if (rankingUsersWithSamePoints.Any())
+                        {
+                            var existingRankingUsersWithSamePoints = rankingUsersWithSamePoints.Where(x => x.LeaguePosition.ContainsKey(league)).ToList();
+                            if (existingRankingUsersWithSamePoints.Any())
+                            {
+                                minPos = existingRankingUsersWithSamePoints.Min(x => x.LeaguePosition[league]);
+                            }
+                        }
+                    }
+                    ranking.FirstOrDefault(x => x.User == user).LeaguePosition.Add(league, minPos.HasValue ? minPos.Value : pos++);
                 }
             }
             return ranking;
