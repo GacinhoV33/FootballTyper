@@ -148,7 +148,8 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
           <div style={{display: 'flex', flexDirection: 'column'}}>
           {matchesToDisplay ? matchesToDisplay.map((match, index) => (
               <TimeToStartTwo />
-            ))
+            )) 
+            // TODO as one component! 
           : null}
           </div>
           
