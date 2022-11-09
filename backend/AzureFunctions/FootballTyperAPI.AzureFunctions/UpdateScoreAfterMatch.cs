@@ -126,7 +126,8 @@ namespace FootballTyperAPI.AzureFunctions
                 IsMatchProcessed = match.IsMatchProcessed,
                 MatchProcessedDate = match.MatchProcessedDate,
                 Referee = match.Referee,
-                Town = match.Town
+                Town = match.Town,
+                Stage = match.Stage
             };
         }
     }
