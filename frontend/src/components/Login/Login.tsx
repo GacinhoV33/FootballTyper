@@ -153,7 +153,16 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
                 });
               // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
               // );
-
+              const userStatus: UserStatus = {
+                userLocalData: {
+                  username: "",
+                  email: "",
+                  fullname: "",
+                  id: 0,
+                },
+                isUserSigned: true,
+              };
+              setUserStatus(userStatus);
               setShowAlert(false);
               setIsValid(true);
             });
@@ -167,12 +176,12 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               json.message
                 ? json.message
                 : json.errors.Username
-                ? json.errors.Username[0]
-                : json.errors.Password
-                ? json.errors.Password[0]
-                : json.errors.FullName
-                ? json.errors.FullName[0]
-                : ""
+                  ? json.errors.Username[0]
+                  : json.errors.Password
+                    ? json.errors.Password[0]
+                    : json.errors.FullName
+                      ? json.errors.FullName[0]
+                      : ""
             );
           });
         });
@@ -217,8 +226,18 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               );
               setAuthMode("profile");
             });
-          // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
 
+          // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
+          const userStatus: UserStatus = {
+            userLocalData: {
+              username: "",
+              email: "",
+              fullname: "",
+              id: 0,
+            },
+            isUserSigned: true,
+          };
+          setUserStatus(userStatus);
           setShowAlert(false);
           setIsValid(true);
         })
@@ -230,10 +249,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               json.message
                 ? json.message
                 : json.errors.Username
-                ? json.errors.Username[0]
-                : json.errors.Password
-                ? json.errors.Password[0]
-                : ""
+                  ? json.errors.Username[0]
+                  : json.errors.Password
+                    ? json.errors.Password[0]
+                    : ""
             );
           });
         });

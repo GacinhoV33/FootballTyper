@@ -2,7 +2,6 @@ import './App.scss';
 // Components
 import NavbarComp from './components/Navbar/NavbarComp';
 import Homepage from './components/Homepage/Homepage';
-import Footer from './components/Footer/Footer';
 import KnockoutStage from './components/KnockoutStage/KnockoutStage';
 import GroupStage from './components/GroupStage/GroupStage';
 import YourBets from './components/YourBets/YourBets';
@@ -16,8 +15,8 @@ import AuthVerify from './components/AuthVerify/AuthVerify';
 import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
-import { createContext, useContext, useEffect, useState } from 'react';
-import { Router, Route, Routes } from 'react-router-dom';
+import { createContext, useEffect, useState } from 'react';
+import {  Route, Routes } from 'react-router-dom';
 
 
 export type UserLocalStorageData = {
@@ -204,9 +203,10 @@ export interface User {
   totalExactScoreBets: number,
   totalCorrectWinnerBets: number,
   totalWrongBets: number,
-  leauges: string[],
+  leagues: string[],
   id: number,
   lastFiveBets: string,
+  rankStatusDict?: object
 }
 
 export default App;

@@ -1,17 +1,12 @@
-import React, { InputHTMLAttributes, useRef, useState } from 'react';
-import './FilterLeauge.scss';
-import TextField from '@mui/material/TextField';
-// import SearchIcon from "@material-ui/icons/Search";
-// import CloseIcon from "@material-ui/icons/Close";
-import {ImSearch} from 'react-icons/im';
-import {MdClose} from 'react-icons/md';
+import React from 'react';
+import './FilterLeague.scss';
 import Dropdown from 'react-bootstrap/Dropdown';
-export interface FilterLeaugeProps {
+export interface FilterLeagueProps {
   currentFilter: string, 
   setCurrentFilter: React.Dispatch<React.SetStateAction<string>>,
 }
 
-const FilterLeauge: React.FC<FilterLeaugeProps> = ({currentFilter, setCurrentFilter}) => {
+const FilterLeague: React.FC<FilterLeagueProps> = ({currentFilter, setCurrentFilter}) => {
   return (
       <Dropdown style={{paddingBottom: '1rem', marginLeft: '3rem'}}>
         <Dropdown.Toggle variant='secondary' style={{width: '10rem', paddingBottom: '0.2rem'}}>
@@ -29,6 +24,6 @@ const FilterLeauge: React.FC<FilterLeaugeProps> = ({currentFilter, setCurrentFil
   )
 }
 
-export default FilterLeauge;
+export default FilterLeague;
 
 const leaugesNames = ['main', 'clownLeague', 'randomLeague']

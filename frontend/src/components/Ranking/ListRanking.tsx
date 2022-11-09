@@ -10,8 +10,6 @@ import { UserContext } from '../../App';
 import { FaCrown } from 'react-icons/fa';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { BsArrowUp } from 'react-icons/bs';
-import { BsFillTriangleFill } from 'react-icons/bs';
 import { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 
 
@@ -19,13 +17,14 @@ import avatar1 from './avatar1.jpg';
 import avatar2 from './avatar2.png';
 
 export interface ListRankingProps {
-    leauge: string,
+    league: string,
     allUsers: User[],
 }
 
-const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
+const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
     const yesterdayStatus = true;
     const userCtx = useContext(UserContext);
+
     return (
         <div style={{
             minWidth: '600px', width: '100%'
@@ -88,11 +87,15 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                     </tr>
                 </thead>
                 <tbody className='ranking-row-content'>
-                    {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets }, index) => (
+                    {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets, rankStatusDict }, index) =>{ 
+                        type ObjectKey = keyof typeof rankStatusDict;
+                        const leagueName = league as ObjectKey;
+                        const userRankingStatus = rankStatusDict ? rankStatusDict[leagueName] : 0;
+                        return(
                         <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
                             <td style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+                                {userRankingStatus > 0 ? <VscTriangleUp size={10} style={{ color: 'green' }} /> : (userRankingStatus < 0 ? <VscTriangleDown size={10} style={{ color: 'red' }}/> : <p>-</p>)}
                                 <h4>{index + 1}</h4>
-                                {yesterdayStatus ? <VscTriangleUp size={10} style={{ color: 'green' }} /> : <VscTriangleDown size={10} style={{ color: 'red' }} />}
                             </td>
                             <td> {index === 0 ? <FaCrown style={{ color: 'orange' }} size='30' /> : null}</td>
                             <td>
@@ -130,7 +133,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ leauge, allUsers }) => {
                                 }
                             </td>
                         </tr>
-                    ))
+                    )})
                     }
                 </tbody>
             </Table>
