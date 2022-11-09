@@ -63,6 +63,10 @@ public class UserService : IUserService
             {
                 typerUserApi.Leagues = JsonSerializer.Deserialize<string[]>(user.LeaguesStr);
             }
+            if (user.PositionStr != null)
+            {
+                typerUserApi.PositionDict = JsonSerializer.Deserialize<Dictionary<string, int>>(user.PositionStr);
+            }
             typerUsers.Add(typerUserApi);
         }
         return typerUsers;
@@ -95,6 +99,7 @@ public class UserService : IUserService
         // hash password
         user.PasswordHash = BCrypt.HashPassword(model.Password);
 
+        user.LeaguesStr = "[\"main\"]";
         // save user
         _context.TyperUser.Add(user);
         _context.SaveChanges();
