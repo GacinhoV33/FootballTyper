@@ -20,5 +20,6 @@ namespace FootballTyperAPI.Models
         public string? ImgLink { get; set; }
         public string? LastFiveBets { get; set; }
         public string? RankStatus { get; set; }
+        public string? PositionStr { get; set; }
     }
 }

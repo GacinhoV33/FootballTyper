@@ -81,7 +81,10 @@ namespace FootballTyperAPI.AzureFunctions
             var ranking = Users.Select(x => new Ranking() { User = x }).ToList();
             foreach (var league in Users.Select(x => JsonSerializer.Deserialize<string[]>(x.LeaguesStr)).SelectMany(x => x).Distinct())
             {
-                var sortedUsers = Users.Where(x => x.LeaguesStr.Contains(league)).OrderByDescending(x => x.TotalPoints);
+                var sortedUsers = Users.Where(x => x.LeaguesStr.Contains(league))
+                    .OrderByDescending(x => x.TotalPoints)
+                    .ThenByDescending(y => y.TotalExactScoreBets)
+                    .ThenByDescending(z => z.TotalCorrectWinnerBets);
                 int pos = 1;
                 foreach (var user in sortedUsers)
                 {
@@ -109,8 +112,10 @@ namespace FootballTyperAPI.AzureFunctions
         {
             foreach (var user in Users)
             {
-                var posChangeDict = CalcPosChange(prevRanking.FirstOrDefault(x => x.User == user), updatedRanking.FirstOrDefault(x => x.User == user));
+                var userFromUpdateRanking = updatedRanking.FirstOrDefault(x => x.User == user);
+                var posChangeDict = CalcPosChange(prevRanking.FirstOrDefault(x => x.User == user), userFromUpdateRanking);
                 user.RankStatus = JsonSerializer.Serialize(posChangeDict);
+                user.PositionStr = JsonSerializer.Serialize(userFromUpdateRanking.LeaguePosition);
             }
         }
 
