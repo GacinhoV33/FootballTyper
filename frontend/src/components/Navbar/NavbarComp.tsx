@@ -36,33 +36,33 @@ const NavbarComp = () => {
                 <img  className='png-image' src={logo_player} alt='logogogo' width='80' height='70'/>
               </Nav.Link>
               <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>GroupStage</Nav.Item>
+                <Nav.Item className='navbar-text'>GroupStage</Nav.Item>
               </Nav.Link>
               <Nav.Link href={isUserLogged ? "/knockout" : './Login'}  {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>Knockout</Nav.Item>
+                <Nav.Item className='navbar-text'>Knockout</Nav.Item>
                 </Nav.Link>
               <Nav.Link href={isUserLogged ? "/yourbets" : './Login'}  {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>Bets</Nav.Item>
+                <Nav.Item className='navbar-text'>Bets</Nav.Item>
               </Nav.Link>  {/* Think about changing yourbets to mybets*/}
               <Nav.Link href={isUserLogged ? "/ranking" : '/Login'}  {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>Ranking</Nav.Item>
+                <Nav.Item className='navbar-text'>Ranking</Nav.Item>
               </Nav.Link>
               <Nav.Link href="/statistics"  {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>Statistics</Nav.Item>
+                <Nav.Item className='navbar-text'>Statistics</Nav.Item>
               </Nav.Link>
               <Nav.Link href="/rules"  {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>Rules</Nav.Item>
+                <Nav.Item className='navbar-text'>Rules</Nav.Item>
               </Nav.Link>
               <Nav.Link href="/adminpanel"  {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>Admin Panel</Nav.Item>
+                <Nav.Item className='navbar-text'>Admin Panel</Nav.Item>
               </Nav.Link>
               <Nav.Link href='/Login' {...navlinkProps} className='nav-hover-item'>
-                <Nav.Item>{isUserLogged ? profile() : 'Login'}</Nav.Item>
+                <Nav.Item className='navbar-text'>{isUserLogged ? profile() : 'Login'}</Nav.Item>
               </Nav.Link>
           </Nav>
           </div>
           <div style={{paddingRight: '1rem', display: 'flex', alignItems: 'center'}}>  
-              <h1 style={{color: '#809070'}}>W{worldBall}rld Cup starts in </h1>  
+              <h1 style={{color: '#809070', fontSize: '2vw'}}>W{worldBall}rld Cup starts in </h1>  
               <TimeToStartTwo/>
           </div>
         </div>

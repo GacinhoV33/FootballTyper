@@ -34,7 +34,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
     const userToSet = deepcopy(sortedUsers);
     // TODO API for this
     setUsersToDisplay(userToSet)}
-    ,[leaugeFilter])
+    ,[leaugeFilter, allUsers])
   return (
     <div className='ranking-main-body'>
       <div style={{ display: 'flex', justifyContent: 'center' }}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Router } from 'react-router-dom';
 import './Homepage.scss'
 // Components 
@@ -9,17 +9,55 @@ import { CircleFlag } from 'react-circle-flags';
 // import Carousel  from 'react-bootstrap/Carousel';
 
 //photos
-import photo4 from './photo4.png';
-import photo3 from './photo3.jpg';
 
 import amhed_bin_ali_stadium from './ahmed_bin_ali_stadium.jpg';
-import al_bayt_stadium from './al_bayt_stadium.jpg'
+import amhed_bin_ali_stadium2 from './ahmed_bin_ali_stadium2.jpg';
+import amhed_bin_ali_stadium3 from './ahmed_bin_ali_stadium3.jpg';
+import amhed_bin_ali_stadium4 from './ahmed_bin_ali_stadium4.jpg';
+
+import al_bayt_stadium from './al_bayt_stadium.jpg';
+import al_bayt_stadium2 from './al_bayt_stadium2.jpg'
+import al_bayt_stadium3 from './al_bayt_stadium3.jpg'
+import al_bayt_stadium4 from './al_bayt_stadium4.jpg'
+import al_bayt_stadium5 from './al_bayt_stadium5.jpg'
+
 import al_thumama_stadium from './al_thumama_stadium.jpg';
+import al_thumama_stadium2 from './al_thumama_stadium2.jpg';
+import al_thumama_stadium3 from './al_thumama_stadium3.jpg';
+import al_thumama_stadium4 from './al_thumama_stadium4.jpg';
+import al_thumama_stadium5 from './al_thumama_stadium5.jpg';
+
 import al_wakrah_stadium from './al_wakrah_stadium.jpg';
+import al_wakrah_stadium2 from './al_wakrah_stadium2.jpg';
+import al_wakrah_stadium3 from './al_wakrah_stadium3.jpg';
+import al_wakrah_stadium4 from './al_wakrah_stadium4.jpg';
+import al_wakrah_stadium5 from './al_wakrah_stadium5.jpg';
+
 import education_city_stadium from './education_city_stadium.jpg';
+import education_city_stadium2 from './education_city_stadium2.jpg';
+import education_city_stadium3 from './education_city_stadium3.jpg';
+import education_city_stadium4 from './education_city_stadium4.jpg';
+import education_city_stadium5 from './education_city_stadium5.jpg';
+
 import khalifa_stadium from './khalifa_stadium.jpg';
+import khalifa_stadium2 from './khalifa_stadium2.jpg';
+import khalifa_stadium3 from './khalifa_stadium3.jpg';
+import khalifa_stadium4 from './khalifa_stadium4.jpg';
+import khalifa_stadium5 from './khalifa_stadium5.jpg';
+
 import lusail_stadium from './lusail_stadium.jpg';
+import lusail_stadium2 from './lusail_stadium3.jpg';
+import lusail_stadium3 from './lusail_stadium4.jpg';
+import lusail_stadium4 from './lusail_stadium4.jpg';
+import lusail_stadium5 from './lusail_stadium4.jpg';
+
+
 import stadium_974 from './stadium_974.jpg'
+import stadium_9742 from './stadium_9742.jpg'
+import stadium_9743 from './stadium_9743.jpg'
+import stadium_9744 from './stadium_9744.jpg'
+import stadium_9745 from './stadium_9745.jpg'
+
 
 import Button from 'react-bootstrap/Button';
 
@@ -32,56 +70,56 @@ export interface HomepageProps {
 }
 
 export interface Stadium {
-  photo: string,
+  photo: string[],
   stadiumName: string,
   size: number,
   city: string,
 }
 
 const stadiums = [{
-  photo: amhed_bin_ali_stadium,
+  photo: [amhed_bin_ali_stadium, amhed_bin_ali_stadium2, amhed_bin_ali_stadium3, amhed_bin_ali_stadium4],
   stadiumName: 'Ahmed Bin Ali Stadium',
   size: 40000,
   city: 'Al-Rayyan',
 },
 {
-  photo: al_bayt_stadium,
+  photo: [al_bayt_stadium, al_bayt_stadium2, al_bayt_stadium3, al_bayt_stadium4],
   stadiumName: 'Al Bayt Stadium',
   size: 60000,
   city: 'Al-Chaur',
 },
 {
-  photo: al_thumama_stadium,
+  photo: [al_thumama_stadium, al_thumama_stadium2, al_thumama_stadium3, al_thumama_stadium4, al_thumama_stadium5],
   stadiumName: 'Al Thumama Stadium',
   size: 40000,
   city: 'Ad-Dauha',
 },
 {
-  photo: al_wakrah_stadium,
+  photo: [al_wakrah_stadium, al_wakrah_stadium2, al_wakrah_stadium3, al_wakrah_stadium4],
   stadiumName: 'Al Janoub Stadium',
   size: 40000,
   city: 'Ad-Wakrah',
 },
 {
-  photo: education_city_stadium,
+  photo: [education_city_stadium, education_city_stadium2, education_city_stadium3, education_city_stadium4, education_city_stadium5],
   stadiumName: 'Education City Stadium',
   size: 40000,
   city: 'Al-Dauha',
 },
 {
-  photo: khalifa_stadium,
+  photo: [khalifa_stadium, khalifa_stadium2, khalifa_stadium3, khalifa_stadium4, khalifa_stadium5],
   stadiumName: 'Khalifa International Stadium',
   size: 40000,
   city: 'Al-Dauha',
 },
 {
-  photo: lusail_stadium,
+  photo: [lusail_stadium, lusail_stadium2, lusail_stadium3, lusail_stadium4, lusail_stadium5],
   stadiumName: 'Lusail Stadium',
   size: 80000,
   city: 'Lusail City',
 },
 {
-  photo: stadium_974,
+  photo: [stadium_974, stadium_9742, stadium_9743, stadium_9744, stadium_9745],
   stadiumName: 'Stadium 974',
   size: 40000,
   city: 'Al-Dauha',
@@ -130,7 +168,7 @@ const dummyMatches: MatchCardProps[] = [{
 },]
 
 const Homepage: React.FC<HomepageProps> = ({ allTeams }) => {
-
+  const [isAutoPlay, setAutoPlay] = useState<boolean>(true)
   return (
     <div className='homepage-main'>
       <div className='flags'>
@@ -146,7 +184,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams }) => {
         </span>
         <div className='current-matches'>
           {dummyMatches.map((item, index) => (
-            <MatchCard {...item} />
+            <MatchCard {...item} key={index}/>
           ))}
         </div>
       </div>
@@ -154,22 +192,22 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams }) => {
       <div className='login-info'>
 
       </div>
-      <div style={{ gridColumn: '2/8', gridRow: '4/11' }}>
+      <div style={{ gridColumn: '1/11', gridRow: '4/11' }}>
 
 
         <h1> Stadiums </h1>
         <Carousel
-          swipeable={false}
-          draggable={false}
-          showDots={true}
+          swipeable={true}
+          draggable={true}
+          showDots={false}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
           infinite={true}
-          autoPlay={true}
+          autoPlay={isAutoPlay}
           autoPlaySpeed={5000}
           keyBoardControl={true}
           customTransition="all .5"
-          transitionDuration={500}
+          transitionDuration={5500}
           containerClass="carousel-container"
           removeArrowOnDeviceType={["tablet", "mobile"]}
           dotListClass="custom-dot-list-style"
@@ -183,6 +221,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams }) => {
               stadiumSize={size}
               stadiumName={stadiumName} 
               stadiumLocation={city}
+              setAutoPlay={setAutoPlay}
               />
           ))}
 

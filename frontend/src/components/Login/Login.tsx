@@ -133,7 +133,10 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
                       id: data.id,
                       imgLink: data.imgLink,
                       leagues: data.leagues
-                    }));
+                    }
+                    )
+                   
+                    );
                   setAuthMode("profile");
                 })
                 // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
@@ -142,6 +145,8 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
               setShowAlert(false);
               setIsValid(true);
             });
+            // { fullName: fullName, username: userName, password: password, email: email }
+          
         })
         .catch((response) => {
           setIsValid(false);
@@ -190,9 +195,11 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
                   leagues: data.leagues
                 }));
               setAuthMode("profile");
+              setUserStatus({
+                userLocalData: {fullname: (data.fullName as string), username: data.username, id: data.id, email: data.email},
+                isUserSigned: true,
+              })
             })
-            // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
-
           setShowAlert(false);
           setIsValid(true);
         })
