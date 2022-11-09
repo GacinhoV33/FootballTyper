@@ -31,4 +31,4 @@ const FilterLeauge: React.FC<FilterLeaugeProps> = ({currentFilter, setCurrentFil
 
 export default FilterLeauge;
 
-const leaugesNames = ['main', 'clownLeauge', 'randomLeauge']
+const leaugesNames = ['main', 'clownLeague', 'randomLeague']

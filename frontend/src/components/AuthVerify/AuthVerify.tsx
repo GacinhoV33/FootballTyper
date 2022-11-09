@@ -10,8 +10,7 @@ const AuthVerify: React.FC<AuthVerifyProps> = ({setUserStatus}) => {
 
     const addMinutes = (minutes: number) => {
         const dateNow = new Date()
-        dateNow.setSeconds(dateNow.getSeconds() + minutes);
-        // dateNow.setMinutes(dateNow.getMinutes() + minutes);
+        dateNow.setMinutes(dateNow.getMinutes() + minutes);
         return dateNow;
     }
 
@@ -35,7 +34,7 @@ const AuthVerify: React.FC<AuthVerifyProps> = ({setUserStatus}) => {
                   }
                   setUserStatus(userStatus)
             } else {
-                localStorage.setItem("tokenExpirationDate", addMinutes(20).toString())
+                localStorage.setItem("tokenExpirationDate", addMinutes(30).toString())
             }
         }
         else {

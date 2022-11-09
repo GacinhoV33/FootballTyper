@@ -26,7 +26,6 @@ const NavbarComp = () => {
       </div>
     )
   }
-  console.log(isUserLogged);
   return (
     <Navbar bg='light' expand='lg' style={{height: '8vh', display: 'flex', flexDirection: 'row'}}>
         <div className='navbar-content'>

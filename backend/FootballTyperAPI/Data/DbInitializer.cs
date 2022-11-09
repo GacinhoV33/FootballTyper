@@ -1,5 +1,6 @@
 ﻿using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
+using System.Text.Json;
 
 namespace FootballTyperAPI.Data
 {
@@ -15,8 +16,9 @@ namespace FootballTyperAPI.Data
                 FillMatchesTable(context);
             if (!context.Bets.Any())
                 FillBetsTable(context);
-            if (!context.TyperUser.Any(x => x.Username == "User1" || x.Username == "User2"))
-                FillTyperUserTable(context);
+            if (context.TyperUser.Any(x => x.Username == "User1" || x.Username == "User2"))
+                context.TyperUser.RemoveRange(context.TyperUser.Where(x => x.Username == "User1" || x.Username == "User2"));
+            FillTyperUserTable(context);
         }
 
 
@@ -116,18 +118,6 @@ namespace FootballTyperAPI.Data
                 },
                 new Bet()
                 {
-                    AwayTeamScoreBet = 2,
-                    AwayTeamWin = true,
-                    BetDate = DateTime.Now,
-                    BettorUserName = "User2",
-                    HomeAwayDrawn = false,
-                    HomeTeamScoreBet = 0,
-                    HomeTeamWin = false,
-                    Match = context.Matches.Skip(0).Take(1).FirstOrDefault(),
-                    PointsFactor = 1,
-                },
-                new Bet()
-                {
                     AwayTeamScoreBet = 0,
                     AwayTeamWin = false,
                     BetDate = DateTime.Now,
@@ -135,42 +125,54 @@ namespace FootballTyperAPI.Data
                     HomeAwayDrawn = false,
                     HomeTeamScoreBet = 2,
                     HomeTeamWin = true,
-                    Match = context.Matches.Skip(1).Take(1).FirstOrDefault(),
+                    Match = context.Matches.Skip(0).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
                 },
                 new Bet()
                 {
                     AwayTeamScoreBet = 2,
+                    AwayTeamWin = true,
+                    BetDate = DateTime.Now,
+                    BettorUserName = "User2",
+                    HomeAwayDrawn = false,
+                    HomeTeamScoreBet = 0,
+                    HomeTeamWin = false,
+                    Match = context.Matches.Skip(1).Take(1).FirstOrDefault(),
+                    PointsFactor = 1,
+                },
+                new Bet()
+                {
+                    AwayTeamScoreBet = 1,
                     AwayTeamWin = false,
                     BetDate = DateTime.Now,
                     BettorUserName = "User2",
                     HomeAwayDrawn = true,
-                    HomeTeamScoreBet = 2,
+                    HomeTeamScoreBet = 1,
                     HomeTeamWin = false,
                     Match = context.Matches.Skip(2).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
                 },
                 new Bet()
                 {
-                    AwayTeamScoreBet = 2,
-                    AwayTeamWin = false,
+                    AwayTeamScoreBet = 3,
+                    AwayTeamWin = true,
                     BetDate = DateTime.Now,
                     BettorUserName = "User2",
                     HomeAwayDrawn = false,
-                    HomeTeamScoreBet = 3,
-                    HomeTeamWin = true,
+                    HomeTeamScoreBet = 2,
+                    HomeTeamWin = false,
                     Match = context.Matches.Skip(3).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
                 },
                 new Bet()
                 {
-                    AwayTeamScoreBet = 2,
-                    AwayTeamWin = false,
+                    AwayTeamScoreBet = 3,
+                    AwayTeamWin = true,
                     BetDate = DateTime.Now,
                     BettorUserName = "User2",
                     HomeAwayDrawn = false,
-                    HomeTeamScoreBet = 3,
-                    HomeTeamWin = true,
+                    HomeTeamScoreBet = 2,
+                    HomeTeamWin = false,
                     Match = context.Matches.Skip(4).Take(1).FirstOrDefault(),
                     PointsFactor = 1,
                 },
@@ -180,6 +182,7 @@ namespace FootballTyperAPI.Data
         }
         private static void FillTyperUserTable(FootballTyperAPIContext context)
         {
+            var defaultLeagues = new string[] { "main", "clownLeague", "randomLeague" };
             var users = new List<TyperUser>()
             {
                 new TyperUser
@@ -188,7 +191,8 @@ namespace FootballTyperAPI.Data
                     Email = "User1@gmail.com",
                     FullName = "User1 FullName",
                     PasswordHash = "PasswordHash",
-                    ImgLink = "ImgLink"
+                    ImgLink = "ImgLink",
+                    LeaguesStr = JsonSerializer.Serialize(defaultLeagues)
                 },
                 new TyperUser
                 {
@@ -196,7 +200,8 @@ namespace FootballTyperAPI.Data
                     Email = "User2@gmail.com",
                     FullName = "User2 FullName",
                     PasswordHash = "PasswordHash",
-                    ImgLink = "ImgLink"
+                    ImgLink = "ImgLink",
+                    LeaguesStr = JsonSerializer.Serialize(defaultLeagues)
                 }
             };
             context.AddRange(users);

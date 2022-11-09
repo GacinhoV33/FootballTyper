@@ -15,28 +15,25 @@ namespace FootballTyperAPI.AzureFunctions
         [FunctionName("UpdateScoreAfterMatch")]
         public static IActionResult Run(
                 [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UpdateScoreAfterMatch")] HttpRequest req,
-                [Sql("SELECT * FROM [dbo].[Bets]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets,
-                [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
+                [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL AND IsMatchProcessed != 1",
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
                 [Sql("SELECT * FROM [dbo].[Teams]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Team> Teams,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Team> Teams,
                 [Sql("[dbo].[Teams]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] out Team[] outTeams,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] out Team[] outTeams,
                 [Sql("[dbo].[Match]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] out MatchDbSave[] outMatches,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] out MatchDbSave[] outMatches,
                 ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: UpdateScoreAfterMatch");
 
-            UpdateData(Bets, Matches, Teams);
+            UpdateData(Matches, Teams);
             var matchesToReturn = CalculatePointsForEachTeam(Matches, log);
 
             outTeams = Teams.ToArray();
@@ -48,13 +45,8 @@ namespace FootballTyperAPI.AzureFunctions
             return new OkObjectResult(new { Ok = true, Matches = matchesToReturn });
         }
 
-        public static void UpdateData(IEnumerable<Bet> Bets, IEnumerable<Match> Matches, IEnumerable<Team> Teams)
+        public static void UpdateData(IEnumerable<Match> Matches, IEnumerable<Team> Teams)
         {
-            foreach (var bet in Bets)
-            {
-                bet.Match = Matches.FirstOrDefault(x => x.Id == bet.MatchId);
-            }
-
             foreach (var match in Matches)
             {
                 match.HomeTeam = Teams.FirstOrDefault(x => x.Id == match.HomeTeamId);

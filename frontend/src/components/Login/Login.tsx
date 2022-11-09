@@ -1,52 +1,56 @@
-import './Login.scss';
-import React, { useState, useEffect } from 'react'
-import Alert from 'react-bootstrap/Alert';
-import LoginForm from './LoginForm';
-import { UserStatus } from '../../App';
+import "./Login.scss";
+import React, { useState, useEffect } from "react";
+import Alert from "react-bootstrap/Alert";
+import LoginForm from "./LoginForm";
+import { UserStatus } from "../../App";
 
 export interface LoginProps {
-  setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>,
+  setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>;
 }
 
-const Login: React.FC<LoginProps> = ({setUserStatus}) => {
+const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   // const apiURL = 'https://football-typer-api.azurewebsites.net/'
-  const apiURL = '';
-  const [fullName, setFullName] = useState(null);
-  const [userName, setUserName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [authMode, setAuthMode] = useState(localStorage.getItem("user") ? "profile" : "signin");
+  const apiURL = "";
+  const [fullName, setFullName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
+  const [authMode, setAuthMode] = useState(
+    localStorage.getItem("user") ? "profile" : "signin"
+  );
   const [isValid, setIsValid] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    const msg = password !== confirmPassword && confirmPassword !== null ? "Passwords are not the same." : "";
+    const msg =
+      password !== confirmPassword && confirmPassword !== null
+        ? "Passwords are not the same."
+        : "";
     setPasswordErrorMessage(msg);
-  }, [confirmPassword, password]
-  )
+  }, [confirmPassword, password]);
 
   const handleFullNameInputChange = (e: any) => {
     setFullName(e.target.value);
-  }
+  };
 
   const handleUserNameInputChange = (e: any) => {
     setUserName(e.target.value);
-  }
+  };
 
   const handleEmailInputChange = (e: any) => {
     setEmail(e.target.value);
-  }
+  };
 
   const handlePasswordInputChange = (e: any) => {
     setPassword(e.target.value);
-  }
+  };
 
   const handleConfirmPasswordInputChange = (e: any) => {
     setConfirmPassword(e.target.value);
-  }
+  };
 
   const handleLogOut = (e: any) => {
     e.preventDefault();
@@ -55,20 +59,20 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
 
     const userStatus: UserStatus = {
       userLocalData: {
-        username: '',
-        email: '',
-        fullname: '',
+        username: "",
+        email: "",
+        fullname: "",
         id: 0,
       },
       isUserSigned: false,
-    }
-    setUserStatus(userStatus)
+    };
+    setUserStatus(userStatus);
     setAuthMode("signin");
-  }
+  };
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin");
-  }
+  };
 
   const isDataValid = () => {
     setShowAlert(true);
@@ -76,10 +80,14 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
     if (password !== confirmPassword || !re.test(email || "")) {
       setIsValid(false);
       return false;
+    } else if (userName.length > 15) {
+      setIsValid(false);
+      setErrorMsg("Username is too long");
+      return false;
     }
     setIsValid(true);
     return true;
-  }
+  };
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -90,116 +98,127 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
 
     if (authMode === "signup") {
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName: fullName, username: userName, password: password, email: email })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: fullName,
+          username: userName,
+          password: password,
+          email: email,
+        }),
       };
 
-      fetch(apiURL + 'api/TyperUsers/register', requestOptions)
+      fetch(apiURL + "api/TyperUsers/register", requestOptions)
         .then((response) => {
           if (response.ok) {
             return response.json();
           }
           return Promise.reject(response); // 2. reject instead of throw
         })
-        .then(data => {
+        .then((data) => {
           const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: userName, password: password })
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: userName, password: password }),
           };
 
-          fetch(apiURL + 'api/TyperUsers/authenticate', requestOptions)
-            .then(response => response.json())
-            .then(data => {
+          fetch(apiURL + "api/TyperUsers/authenticate", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
               localStorage.setItem("userToken", data.token);
 
               const requestOptions = {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${data.token}`
-                }
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${data.token}`,
+                },
               };
 
               fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                  localStorage.setItem("user", JSON.stringify(
-                    {
+                .then((response) => response.json())
+                .then((data) => {
+                  localStorage.setItem(
+                    "user",
+                    JSON.stringify({
                       username: data.username,
                       email: data.email,
                       fullName: data.fullName,
                       id: data.id,
                       imgLink: data.imgLink,
-                      leagues: data.leagues
-                    }
-                    )
-                   
-                    );
+                      leagues: data.leagues,
+                    })
+                  );
                   setAuthMode("profile");
-                })
-                // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
-                // );
+                });
+              // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
+              // );
 
               setShowAlert(false);
               setIsValid(true);
             });
-            // { fullName: fullName, username: userName, password: password, email: email }
-          
+          // { fullName: fullName, username: userName, password: password, email: email }
         })
         .catch((response) => {
           setIsValid(false);
           setShowAlert(true);
           response.json().then((json: any) => {
-            setErrorMsg(json.message ? json.message : (json.errors.Username ? json.errors.Username[0] : (json.errors.Password ? json.errors.Password[0] : "")));
-
-          })
+            setErrorMsg(
+              json.message
+                ? json.message
+                : json.errors.Username
+                ? json.errors.Username[0]
+                : json.errors.Password
+                ? json.errors.Password[0]
+                : json.errors.FullName
+                ? json.errors.FullName[0]
+                : ""
+            );
+          });
         });
-    }
-    else if (authMode === "signin") {
+    } else if (authMode === "signin") {
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: userName, password: password })
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: userName, password: password }),
       };
 
-      fetch(apiURL + 'api/TyperUsers/authenticate', requestOptions)
+      fetch(apiURL + "api/TyperUsers/authenticate", requestOptions)
         .then((response) => {
           if (response.ok) {
             return response.json();
           }
           return Promise.reject(response);
         })
-        .then(data => {
+        .then((data) => {
           localStorage.setItem("userToken", data.token);
 
           const requestOptions = {
-            method: 'GET',
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${data.token}`
-            }
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${data.token}`,
+            },
           };
 
           fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-              localStorage.setItem("user", JSON.stringify(
-                {
+            .then((response) => response.json())
+            .then((data) => {
+              localStorage.setItem(
+                "user",
+                JSON.stringify({
                   username: data.username,
                   email: data.email,
                   fullName: data.fullName,
                   id: data.id,
                   imgLink: data.imgLink,
-                  leagues: data.leagues
-                }));
+                  leagues: data.leagues,
+                })
+              );
               setAuthMode("profile");
-              setUserStatus({
-                userLocalData: {fullname: (data.fullName as string), username: data.username, id: data.id, email: data.email},
-                isUserSigned: true,
-              })
-            })
+            });
+          // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
+
           setShowAlert(false);
           setIsValid(true);
         })
@@ -207,26 +226,35 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
           setShowAlert(true);
           setIsValid(false);
           response.json().then((json: any) => {
-            setErrorMsg(json.message ? json.message : (json.errors.Username ? json.errors.Username[0] : (json.errors.Password ? json.errors.Password[0] : "")));
-          })
+            setErrorMsg(
+              json.message
+                ? json.message
+                : json.errors.Username
+                ? json.errors.Username[0]
+                : json.errors.Password
+                ? json.errors.Password[0]
+                : ""
+            );
+          });
         });
     }
   }
 
   if (authMode === "signin") {
     return (
-      <LoginForm onSubmit={onSubmit} title='Sign In'>
+      <LoginForm onSubmit={onSubmit} title="Sign In">
         <div>
-          {showAlert
-            ? (
-              isValid
-                ?
-                <Alert variant="success">Hurray! We have send your request for registration.</Alert>
-                :
-                <Alert variant="danger">Oops! Wrong data. <br></br> {errorMsg}</Alert>
+          {showAlert ? (
+            isValid ? (
+              <Alert variant="success">
+                Hurray! We have send your request for registration.
+              </Alert>
+            ) : (
+              <Alert variant="danger">
+                Oops! Wrong data. <br></br> {errorMsg}
+              </Alert>
             )
-            : null
-          }
+          ) : null}
           <div className="text-center">
             Not registered yet?{" "}
             <span className="link-primary" onClick={changeAuthMode}>
@@ -262,17 +290,13 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
             </p> */}
         </div>
       </LoginForm>
-
-    )
-  }
-  else if (authMode === "profile") {
-    const localData = JSON.parse(localStorage.getItem("user") as string)
+    );
+  } else if (authMode === "profile") {
+    const localData = JSON.parse(localStorage.getItem("user") as string);
     return (
-      <LoginForm onSubmit={onSubmit} title='Profile'>
+      <LoginForm onSubmit={onSubmit} title="Profile">
         <div>
-          <div className="text-center">
-            You are logged in
-          </div>
+          <div className="text-center">You are logged in</div>
           <div className="form-group mt-3">
             <label>Full Name: {localData?.fullName} </label>
           </div>
@@ -289,22 +313,23 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
           </div>
         </div>
       </LoginForm>
-    )
+    );
   }
 
   return (
-    <LoginForm onSubmit={onSubmit} title='Sign Up'>
+    <LoginForm onSubmit={onSubmit} title="Sign Up">
       <div>
-        {showAlert
-          ? (
-            isValid
-              ?
-              <Alert variant="success">Hurray! We have send your request for registration.</Alert>
-              :
-              <Alert variant="danger">Oops! Correct wrong data. <br></br> {errorMsg}</Alert>
+        {showAlert ? (
+          isValid ? (
+            <Alert variant="success">
+              Hurray! We have send your request for registration.
+            </Alert>
+          ) : (
+            <Alert variant="danger">
+              Oops! Correct wrong data. <br></br> {errorMsg}
+            </Alert>
           )
-          : null
-        }
+        ) : null}
         <div className="text-center">
           Already registered?{" "}
           <span className="link-primary" onClick={changeAuthMode}>
@@ -373,7 +398,7 @@ const Login: React.FC<LoginProps> = ({setUserStatus}) => {
           </p> */}
       </div>
     </LoginForm>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

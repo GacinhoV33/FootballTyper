@@ -7,13 +7,13 @@ using FootballTyperAPI.Data;
 using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
 using FootballTyperAPI.Models.Users;
-
+using System.Text.Json;
 public interface IUserService
 {
     AuthenticateResponse Authenticate(AuthenticateRequest model);
-    IEnumerable<TyperUser> GetAll();
+    IEnumerable<TyperUserApi> GetAll();
     TyperUser GetById(int id);
-    TyperUser GetByUsername(string username);
+    TyperUserApi GetByUsername(string username);
     void Register(RegisterRequest model);
     void Update(int id, UpdateRequest model);
     void Delete(int id);
@@ -49,9 +49,23 @@ public class UserService : IUserService
         return response;
     }
 
-    public IEnumerable<TyperUser> GetAll()
+    public IEnumerable<TyperUserApi> GetAll()
     {
-        return _context.TyperUser;
+        var typerUsers = new List<TyperUserApi>();
+        foreach (var user in _context.TyperUser)
+        {
+            var typerUserApi = _mapper.Map(user, new TyperUserApi());
+            if (user.RankStatus != null)
+            {
+                typerUserApi.RankStatusDict = JsonSerializer.Deserialize<Dictionary<string, int>>(user.RankStatus);
+            }
+            if (user.LeaguesStr != null)
+            {
+                typerUserApi.Leagues = JsonSerializer.Deserialize<string[]>(user.LeaguesStr);
+            }
+            typerUsers.Add(typerUserApi);
+        }
+        return typerUsers;
     }
 
     public TyperUser GetById(int id)
@@ -59,9 +73,9 @@ public class UserService : IUserService
         return getUser(id);
     }
 
-    public TyperUser GetByUsername(string username)
+    public TyperUserApi GetByUsername(string username)
     {
-        var user = _context.TyperUser.FirstOrDefault(x => x.Username == username);
+        var user = GetAll().FirstOrDefault(x => x.Username == username);
         if (user == null) throw new KeyNotFoundException("User not found");
         return user;
     }

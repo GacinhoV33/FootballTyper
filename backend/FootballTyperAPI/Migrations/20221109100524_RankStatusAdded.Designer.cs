@@ -4,6 +4,7 @@ using FootballTyperAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FootballTyperAPI.Migrations
 {
     [DbContext(typeof(FootballTyperAPIContext))]
-    partial class FootballTyperAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20221109100524_RankStatusAdded")]
+    partial class RankStatusAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,7 +196,7 @@ namespace FootballTyperAPI.Migrations
                     b.Property<string>("LastFiveBets")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LeaguesStr")
+                    b.Property<string>("Leagues")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")

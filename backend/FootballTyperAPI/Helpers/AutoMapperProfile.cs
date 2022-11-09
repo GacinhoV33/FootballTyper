@@ -37,8 +37,9 @@ public class AutoMapperProfile : Profile
 
         // Bet -> GetBetRequest
         CreateMap<Bet, GetBetRequest>();
-        //// GetBetRequest -> Bet
-        //CreateMap<GetBetRequest, Bet>();
+
+        //TyperUser->TyperUserApi
+        CreateMap<TyperUser, TyperUserApi>();
 
     }
 }
