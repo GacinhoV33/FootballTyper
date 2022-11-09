@@ -126,7 +126,7 @@ function App() {
       <div className='app-body'>
         <NavbarComp />
         <Routes>
-          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches}/> : <LoadingLayout componentName='Homepage'/>}/>
+          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage'/>}/>
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={groupStageReturn()} />
           <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
@@ -194,6 +194,7 @@ export interface Match {
   matchNumber: number,
   roundNumber: number,
   isMatchValid: boolean,
+  stage: number
 }
 
 

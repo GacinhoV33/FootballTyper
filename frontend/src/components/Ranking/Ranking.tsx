@@ -32,8 +32,11 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   const sortedUsers = leagueUsers?.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
   useEffect(() =>{
     const userToSet = deepcopy(sortedUsers);
+    // if(filter === 'groupStage'){
+      // userToSet.filter((match) => match.stage)
+    // }
     setUsersToDisplay(userToSet)}
-    ,[leagueFilter, allUsers])
+    ,[leagueFilter, allUsers, filter])
   return (
     <div className='ranking-main-body'>
       <div style={{ display: 'flex', justifyContent: 'center' }}>

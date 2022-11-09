@@ -27,7 +27,7 @@ const NavbarComp = () => {
     )
   }
   return (
-    <Navbar bg='light' expand='lg' style={{height: '8vh', display: 'flex', flexDirection: 'row'}}>
+    <Navbar bg='light' expand='lg' style={{height: '8vh', display: 'flex', flexDirection: 'row', opacity: '1', zIndex: '255', position: 'sticky', top: '0'}}>
         <div className='navbar-content'>
           <div className='navlinks-body'>
               <Nav className="me-auto">

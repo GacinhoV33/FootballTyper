@@ -124,7 +124,8 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
   const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
   const sortedMatches = validMatches !== null? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
   const matchesToDisplay = sortedMatches !== null ? sortedMatches.splice(0, 4) : null;
-  const [isAutoPlay, setAutoPlay] = useState<boolean>(true)
+  const [isAutoPlay, setAutoPlay] = useState<boolean>(true);
+  console.log(matchesToDisplay)
   return (
     <div className='homepage-main'>
       <div className='flags'>
@@ -140,18 +141,19 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
         </span>
         <div className='current-matches'>
           <div style={{display: 'flex', flexDirection: 'column'}}>
-            {matchesToDisplay ? matchesToDisplay.map((match, index) => (
-              <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index}/>
-            )) : null}
-           
-          </div>
-          <div style={{display: 'flex', flexDirection: 'column'}}>
-          {matchesToDisplay ? matchesToDisplay.map((match, index) => (
-              <TimeToStartTwo />
+            {matchesToDisplay && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
+              <div style={{display: 'flex'}}>
+                <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index}/>
+                <div style={{flexGrow: '2'}}> 
+                 <TimeToStartTwo /> 
+                </div>
+              </div>
             )) 
-            // TODO as one component! 
-          : null}
+            : 
+            // TODO minwitdh of time
+            null}
           </div>
+         
           
          
         </div>
