@@ -67,6 +67,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
 
   const correctScores = allUserBets.filter((bet) => bet.betResult === 2);
   const correctResult = allUserBets.filter((bet) => bet.betResult === 1);
+  const wrongBets = allUserBets.filter((bet) => bet.betResult === 0);
   return (
 
     <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
@@ -83,7 +84,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
               <CircularProgressbar
                 value={correctScores.length}
                 maxValue={allUserBets.length}
-                text={`${allUserBets.length !== 0 ? Number(correctScores.length / allUserBets.length * 100).toPrecision(3) : 0}%`}
+                text={`${allUserBets.length !== 0 ? Number(correctScores.length / allUserBets.length * 100).toPrecision(3) : 0.00}%`}
                 styles={buildStyles({ pathColor: 'green', textColor: 'green' })} />
             </div>
           </div>
@@ -94,14 +95,14 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
               <CircularProgressbar
                 value={correctResult.length} 
                 maxValue={allUserBets.length} 
-                text={`${allUserBets.length !== 0 ? Number(correctResult.length / allUserBets.length * 100).toPrecision(3) : 0}%`} 
+                text={`${allUserBets.length !== 0 ? Number(correctResult.length / allUserBets.length * 100).toPrecision(3) : 0.00}%`} 
                 styles={buildStyles({ pathColor: 'darkgreen', textColor: 'darkgreen' })} />
             </div>
             <div className='circular-bar-sizing'>
               <h6 style={{ color: '#11A0F0' }}>Wrong</h6>
               <CircularProgressbar
-                value={allUserBets.length - correctResult.length} maxValue={allUserBets.length}
-                text={`${allUserBets.length !== 0 ? Number((allUserBets.length - correctResult.length) / allUserBets.length * 100).toPrecision(3) : 0}%`}
+                value={wrongBets.length/ allUserBets.length * 100} maxValue={allUserBets.length}
+                text={`${allUserBets.length !== 0 ? Number((wrongBets.length/ allUserBets.length * 100)).toPrecision(3) : 0.00}%`}
                 styles={buildStyles({ pathColor: 'red', textColor: 'red', })} />
             </div>
           </div>

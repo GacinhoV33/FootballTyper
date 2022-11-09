@@ -2,7 +2,9 @@
   background-color: rgba(255, 255, 255, 0.1);
   display: inline-block;
   text-align: center;
-  width: 400px;
+  width: 20vw;
+  max-height: 4.15vw;
+  background: transparent;
 }
 
 .col-4{
@@ -20,10 +22,10 @@
 }
 
 .box p {
-  font-size: calc(16px + 2vmin);
+  font-size: calc(1.5vw);
   margin: 0;
 }
 
 .text {
-  font-size: 14px;
+  font-size: 1.2vw;
 }

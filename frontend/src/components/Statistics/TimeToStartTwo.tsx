@@ -9,7 +9,7 @@ const DAY = HOUR * 24;
 
 
 
-const TimeToStart2: React.FC = () => {
+const TimeToStartTwo: React.FC = () => {
     const deadline = new Date("2022-11-20T17:00:00.738Z").toString()
     const parsedDeadline = useMemo(() => Date.parse(deadline), [deadline]);
     const [time, setTime] = useState(parsedDeadline - Date.now());
@@ -42,4 +42,4 @@ const TimeToStart2: React.FC = () => {
     );
 };
 
-export default TimeToStart2;
+export default TimeToStartTwo;

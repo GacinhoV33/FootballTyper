@@ -46,7 +46,8 @@ export const UserContext = createContext<UserStatus>({ userLocalData: userObjIni
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
-  const [allTeams, setAllTeams] = useState<Team[] | null>(null)
+  const [allTeams, setAllTeams] = useState<Team[] | null>(null);
+  const [allMatches, setAllMatches] = useState<Match[] | null>(null)
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allUserBets, setAllUserBets] = useState<Bet[] | null>(null);
   const [allUsers, setAllUsers] = useState<User[] | null>([]);
@@ -74,11 +75,12 @@ function App() {
       };
 
       const allUsers = await( await fetch('api/TyperUsers', requestAllUsersOptions)).json();
-      const userName= JSON.parse(localStorage.getItem('user') as string);
+      const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : '';
       if(userName){
         const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
         setAllUserBets(allUserBets);
       }
+      setAllMatches(allMatches);
       setAllTeams(data)
       setdataGroupMatches(convertMatchesToGroupFormat(allMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
@@ -124,7 +126,7 @@ function App() {
       <div className='app-body'>
         <NavbarComp />
         <Routes>
-          <Route path='/' element={<Homepage allTeams={allTeams}/>} />
+          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches}/> : <LoadingLayout componentName='Homepage'/>}/>
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={groupStageReturn()} />
           <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
@@ -210,89 +212,3 @@ export interface User {
 }
 
 export default App;
-// export const dummyData: User[] = [
-//   {
-//     name: 'user1234',
-//     // email: string, TODO?
-//     imgLink: 'imgPath', //TODO?  
-//     totalPoints: 50,
-//     totalExactScoreBet: 1,
-//     totalCorrectWinnerBet: 5,
-//     totalWrongBet: 6,
-//     leauges: ['main', 'clownLeauge'],
-//     id: 21312,
-//     lastFiveBets: [2, 1, 0, 0, 1],
-//   },
-//   {
-//     name: 'user13',
-//     // email: string, TODO?
-//     imgLink: 'imgPath', //TODO?  
-//     totalPoints: 30,
-//     totalExactScoreBet: 2,
-//     totalCorrectWinnerBet: 0,
-//     totalWrongBet: 6,
-//     leauges: ['main'],
-//     id: 21312,
-//     lastFiveBets: [2, 1, 0, 0, 1],
-//   },
-//   {
-//     name: 'user1111',
-//     // email: string, TODO?
-//     imgLink: 'imgPath', //TODO?  
-//     totalPoints: 31,
-//     totalExactScoreBet: 2,
-//     totalCorrectWinnerBet: 1,
-//     totalWrongBet: 14,
-//     leauges: ['main'],
-//     id: 21313,
-//     lastFiveBets: [2, 1, 0, 0, 1],
-//   },
-//   {
-//     name: 'user1',
-//     // email: string, TODO?
-//     imgLink: 'imgPath', //TODO?  
-//     totalPoints: 11,
-//     totalExactScoreBet: 2,
-//     totalCorrectWinnerBet: 5,
-//     totalWrongBet: 6,
-//     leauges: ['main', 'clownLeauge'],
-//     id: 21314,
-//     lastFiveBets: [2, 1, 0, 0, 1],
-//   },
-//   {
-//     name: 'user1',
-//     // email: string, TODO?
-//     imgLink: 'imgPath', //TODO?  
-//     totalPoints: 24,
-//     totalExactScoreBet: 2,
-//     totalCorrectWinnerBet: 4,
-//     totalWrongBet: 6,
-//     leauges: ['main',],
-//     id: 21315,
-//     lastFiveBets: [2, 1, 0, 0, 1],
-//   },
-//   {
-//     name: 'user1',
-//     // email: string, TODO?
-//     imgLink: 'imgPath', //TODO?  
-//     totalPoints: 50,
-//     totalExactScoreBet: 3,
-//     totalCorrectWinnerBet: 5,
-//     totalWrongBet: 6,
-//     leauges: ['main', 'clownLeauge'],
-//     id: 21316,
-//     lastFiveBets: [2, 1, 0, 0, 1],
-//   },
-//   {
-//     name: 'user1',
-//     // email: string, TODO?
-//     imgLink: 'imgPath', //TODO?  
-//     totalPoints: 54,
-//     totalExactScoreBet: 1,
-//     totalCorrectWinnerBet: 3,
-//     totalWrongBet: 1,
-//     leauges: ['main', 'clownLeauge'],
-//     id: 21317,
-//     lastFiveBets: [2, 1, 0, 0, 1],
-//   },
-// ]

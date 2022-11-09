@@ -8,10 +8,12 @@
     margin: 2% 0;
     border-radius: 3vw;
     background: lightcoral;
+    font-size: 150%;
+    min-width: 520px;
+
 }
 
 .team{
-    font-size: 1.8vw;
     font-weight: 600;
 }
 
@@ -21,9 +23,8 @@
 
 .vs-pill{
     grid-column: 6/7;
-    position: absolute;
-    right: 48%;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .left-team{

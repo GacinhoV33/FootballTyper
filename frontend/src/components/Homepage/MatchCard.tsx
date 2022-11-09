@@ -3,6 +3,8 @@ import './MatchCard.scss';
 
 import { CircleFlag } from 'react-circle-flags';
 import CountryDict from '../YourBets/MyBets/CountryDict';
+import {GiDervishSwords} from 'react-icons/gi';
+
 export interface MatchCardProps {
     homeTeam: string,
     awayTeam: string,
@@ -26,7 +28,7 @@ const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date }) => {
             
             <div className='vs-pill'>
                 <div style={{ height: '6vh', width: '4vw', fontSize: '1.75vw', textAlign: 'center', alignItems: 'center', borderRadius: '1vw', background: '#a176c1' }}>
-                    VS
+                    <GiDervishSwords size={30}/>
                 </div>
             </div>
 

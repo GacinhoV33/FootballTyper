@@ -21,7 +21,7 @@
     }
     
     .content-body{
-        grid-column: 2/10;
+        grid-column: 1/9;
         grid-row: 2/3;
         justify-content: center;
         // align-items: center;
@@ -39,7 +39,10 @@
 
 .current-matches{
     display: flex;
-    flex-direction: column;
-    // border: 5px solid black;
-    width: 60%;
+    flex-direction: row;
+    width: 75%;
 }
+
+// .time-to-start{
+//     grid-column: 9/10;
+// }
