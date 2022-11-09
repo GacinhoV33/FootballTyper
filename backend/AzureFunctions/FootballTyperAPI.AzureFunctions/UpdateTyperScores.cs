@@ -25,20 +25,20 @@ namespace FootballTyperAPI.AzureFunctions
         public static IActionResult Run(
                 [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UpdateTyperScores")] HttpRequest req,
                 [Sql("SELECT * FROM [dbo].[Bets]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets,
                 [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
                 [Sql("SELECT * FROM [dbo].[TyperUser]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] IEnumerable<TyperUser> Users,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] IEnumerable<TyperUser> Users,
                 [Sql("[dbo].[Bets]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] out BetDbSave[] outBets,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] out BetDbSave[] outBets,
                 [Sql("[dbo].[TyperUser]",
-            CommandType = System.Data.CommandType.Text,
-            ConnectionStringSetting = "SqlConnectionString")] out TyperUser[] outUsers,
+                    CommandType = System.Data.CommandType.Text,
+                    ConnectionStringSetting = "SqlConnectionString")] out TyperUser[] outUsers,
                 ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
@@ -163,13 +163,13 @@ namespace FootballTyperAPI.AzureFunctions
                 if (matchResult.HomeTeamScore == bet.HomeTeamScoreBet)
                 {
                     bet.BetResult = ScoreEnum.CorrectScoreBet;
-                    user.TotalPoints += (int)ScoreEnum.CorrectScoreBet;
+                    user.TotalPoints += ScoreHelper.GetPointsByScoreResultAndStage(ScoreEnum.CorrectScoreBet, bet.Match.Stage);
                     user.TotalExactScoreBets += 1;
                 }
                 else
                 {
                     bet.BetResult = ScoreEnum.CorrectOutcome;
-                    user.TotalPoints += (int)ScoreEnum.CorrectOutcome;
+                    user.TotalPoints += ScoreHelper.GetPointsByScoreResultAndStage(ScoreEnum.CorrectOutcome, bet.Match.Stage);
                     user.TotalCorrectWinnerBets += 1;
                 }
 
@@ -179,13 +179,13 @@ namespace FootballTyperAPI.AzureFunctions
                 if (matchResult.HomeTeamScore == bet.HomeTeamScoreBet && matchResult.AwayTeamScore == bet.AwayTeamScoreBet)
                 {
                     bet.BetResult = ScoreEnum.CorrectScoreBet;
-                    user.TotalPoints += (int)ScoreEnum.CorrectScoreBet;
+                    user.TotalPoints += ScoreHelper.GetPointsByScoreResultAndStage(ScoreEnum.CorrectScoreBet, bet.Match.Stage);
                     user.TotalExactScoreBets += 1;
                 }
                 else
                 {
                     bet.BetResult = ScoreEnum.CorrectOutcome;
-                    user.TotalPoints += (int)ScoreEnum.CorrectOutcome;
+                    user.TotalPoints += ScoreHelper.GetPointsByScoreResultAndStage(ScoreEnum.CorrectOutcome, bet.Match.Stage);
                     user.TotalCorrectWinnerBets += 1;
                 }
 
@@ -195,13 +195,13 @@ namespace FootballTyperAPI.AzureFunctions
                 if (matchResult.HomeTeamScore == bet.HomeTeamScoreBet && matchResult.AwayTeamScore == bet.AwayTeamScoreBet)
                 {
                     bet.BetResult = ScoreEnum.CorrectScoreBet;
-                    user.TotalPoints += (int)ScoreEnum.CorrectScoreBet;
+                    user.TotalPoints += ScoreHelper.GetPointsByScoreResultAndStage(ScoreEnum.CorrectScoreBet, bet.Match.Stage);
                     user.TotalExactScoreBets += 1;
                 }
                 else
                 {
                     bet.BetResult = ScoreEnum.CorrectOutcome;
-                    user.TotalPoints += (int)ScoreEnum.CorrectOutcome;
+                    user.TotalPoints += ScoreHelper.GetPointsByScoreResultAndStage(ScoreEnum.CorrectOutcome, bet.Match.Stage);
                     user.TotalCorrectWinnerBets += 1;
                 }
             }
@@ -209,7 +209,7 @@ namespace FootballTyperAPI.AzureFunctions
             {
                 //maybe minus points?
                 bet.BetResult = (int)ScoreEnum.WrongBet;
-                user.TotalPoints -= (int)ScoreEnum.WrongBet;
+                user.TotalPoints -= ScoreHelper.GetPointsByScoreResultAndStage(ScoreEnum.WrongBet, bet.Match.Stage);
                 user.TotalWrongBets += 1;
             }
 

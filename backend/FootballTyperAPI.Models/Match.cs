@@ -41,5 +41,7 @@ namespace FootballTyperAPI.Models
         public bool IsMatchProcessed { get; set; }
 
         public DateTime MatchProcessedDate { get; set; }
+
+        public Stage? Stage { get; set; }
     }
 }
