@@ -1,9 +1,9 @@
 import React from 'react';
 import './FiltersMyBets.scss';
 import Button from 'react-bootstrap/Button';
+import deepcopy from 'deepcopy';
 
 //@ts-ignore
-import * as deepcopy from 'deepcopy';
 
 export type BetFilters = 'All' | 'Correct' | 'Wrong' | 'GroupStage' | 'KnockoutStage' | 'Active' | 'Past';
 const filterTypes: BetFilters[] = ['All', 'Correct', 'Wrong', 'GroupStage', 'KnockoutStage', 'Active', 'Past' ]
@@ -18,64 +18,91 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({ activeFilters, setActiveF
     const index = newFilters.indexOf(filter);
 
     if (index > -1) {
-      newFilters.splice(index, 1);
+      newFilters.length === 1 ? newFilters = ['All'] : newFilters.splice(index, 1);
       setActiveFilters(newFilters);
     }
     else {
+      const correctIdx = newFilters.indexOf('Correct');
+      const wrongIdx = newFilters.indexOf('Wrong')
+      const groupstageIdx = newFilters.indexOf('GroupStage')
+      const knockoutIdx = newFilters.indexOf('KnockoutStage')
+      const activeIdx = newFilters.indexOf('Active')
+      const pastIdx = newFilters.indexOf('Past')
+      const allIdx = newFilters.indexOf('All')
       if (filter === 'Correct') {
-        const wrongIdx = newFilters.indexOf('Wrong');
+        if (wrongIdx !== -1) {
+          newFilters.splice(wrongIdx, 1);
+        }
+        if (allIdx !== -1) {
+          newFilters.splice(allIdx, 1);
+        }
+        newFilters.push(filter);
+        setActiveFilters(newFilters);
+      }
+      else if(filter === 'Past'){
+        if (activeIdx !== -1) {
+          newFilters.splice(activeIdx, 1);
+        }
+        if (allIdx !== -1) {
+          newFilters.splice(allIdx, 1);
+        }
+        if (correctIdx !== -1) {
+          newFilters.splice(correctIdx, 1);
+        }  
         if (wrongIdx !== -1) {
           newFilters.splice(wrongIdx, 1);
         }
         newFilters.push(filter);
         setActiveFilters(newFilters);
       }
-      else if(filter === 'Past'){
-        const correctIdx = newFilters.indexOf('Active');
-        const correctIdx2 = newFilters.indexOf('All');
-
-        if (correctIdx !== -1) {
-          newFilters.splice(correctIdx, 1);
-        }
-        if (correctIdx2 !== -1) {
-          newFilters.splice(correctIdx2, 1);
-        }
-        newFilters.push(filter);
-        setActiveFilters(newFilters);
-      }
       else if(filter === 'Active'){
-        const correctIdx = newFilters.indexOf('Past');
-        const correctIdx2 = newFilters.indexOf('All');
-
+        if (pastIdx !== -1) {
+          newFilters.splice(pastIdx, 1);
+        }
+        if (allIdx !== -1) {
+          newFilters.splice(allIdx, 1);
+        }
         if (correctIdx !== -1) {
           newFilters.splice(correctIdx, 1);
-        }
-        if (correctIdx2 !== -1) {
-          newFilters.splice(correctIdx2, 1);
+        }  
+        if (wrongIdx !== -1) {
+          newFilters.splice(wrongIdx, 1);
         }
         newFilters.push(filter);
         setActiveFilters(newFilters);
     }
       else if (filter === 'Wrong') {
-        const correctIdx = newFilters.indexOf('Correct');
         if (correctIdx !== -1) {
           newFilters.splice(correctIdx, 1);
+        }
+        if (allIdx !== -1) {
+          newFilters.splice(allIdx, 1);
+        }
+        if (activeIdx !== -1) {
+          newFilters.splice(activeIdx, 1);
+        }
+        if (pastIdx !== -1) {
+          newFilters.splice(pastIdx, 1);
         }
         newFilters.push(filter);
         setActiveFilters(newFilters);
       }
       else if (filter === 'KnockoutStage') {
-        const groupStageIdx = newFilters.indexOf('GroupStage');
-        if (groupStageIdx !== -1) {
-          newFilters.splice(groupStageIdx, 1);
+        if (groupstageIdx !== -1) {
+          newFilters.splice(groupstageIdx, 1);
+        }
+        if (allIdx !== -1) {
+          newFilters.splice(allIdx, 1);
         }
         newFilters.push(filter);
         setActiveFilters(newFilters);
       }
       else if (filter === 'GroupStage') {
-        const knockoutStageIdx = newFilters.indexOf('KnockoutStage');
-        if (knockoutStageIdx !== -1) {
-          newFilters.splice(knockoutStageIdx, 1);
+        if (knockoutIdx !== -1) {
+          newFilters.splice(knockoutIdx, 1);
+        }
+        if (allIdx !== -1) {
+          newFilters.splice(allIdx, 1);
         }
         newFilters.push(filter);
         setActiveFilters(newFilters);

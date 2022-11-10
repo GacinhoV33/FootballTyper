@@ -1,0 +1,51 @@
+.match-card{
+    width: 100%;
+    background: white;
+    border: 2px solid #EEEEEE;
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(11, 1fr);
+    margin: 2% 0;
+    border-radius: 3vw;
+    background: #554466;
+    font-size: 150%;
+    min-width: 520px;
+}
+
+.team{
+    color: #DECEDE;
+    font-weight: 600;
+}
+
+.right-team{
+    grid-column: 9/12;
+}
+
+.vs-pill{
+    grid-column: 6/7;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-team{
+    grid-column: 1/4;
+    text-align: right;
+}
+
+.left-flag{
+    grid-column: 4/5;
+    display: flex;
+    justify-content: center;
+}
+
+.right-flag{
+    grid-column: 8/9;
+    // align-items: right; 
+    display: flex;
+    justify-content: center;
+}
+
+.flag{
+    width: 2.5vw;
+    height: 2.5vw;
+}

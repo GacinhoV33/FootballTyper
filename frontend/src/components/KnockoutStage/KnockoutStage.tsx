@@ -14,14 +14,17 @@ const dummyData = {
 
 const KnockoutStage = () => {
   return (
-    <div className='dev-class-knockout'>
-      <MatchBet {...dummyData}/>
-      <MatchBet {...dummyData}/>
-      <MatchBet {...dummyData}/>
-      <MatchBet {...dummyData}/>
-      <MatchBet {...dummyData}/>
-      <MatchBet {...dummyData}/>
+    <div>
+      
     </div>
+    // <div className='dev-class-knockout'>
+    //   <MatchBet {...dummyData}/>
+    //   <MatchBet {...dummyData}/>
+    //   <MatchBet {...dummyData}/>
+    //   <MatchBet {...dummyData}/>
+    //   <MatchBet {...dummyData}/>
+    //   <MatchBet {...dummyData}/>
+    // </div>
 
 
   )

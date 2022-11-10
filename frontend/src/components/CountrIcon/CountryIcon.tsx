@@ -1,7 +1,7 @@
 import React from 'react';
 import "./CountryIcon.scss";
 import ReactCountryFlag from 'react-country-flag';
-import {CountryDict}  from '../Matchrow/Matchrow'
+import CountryDict from '../YourBets/MyBets/CountryDict';
 
 type IconSize = 'sm' | 'md' | 'lg';
 interface CountryIconProps {
@@ -33,19 +33,5 @@ const CountryIcon = ({size = 'lg', countryName = 'PL'} : CountryIconProps) => {
     </div>
   )
 }
-
-// let CountryDict = new Map<string , string>();
-// CountryDict.set('Poland', 'pl')
-// CountryDict.set('USA', 'us')
-// CountryDict.set('Ecuador', 'ec')
-// CountryDict.set('Netherland', 'nl')
-// CountryDict.set('Qatar', 'qa')
-// CountryDict.set('Senegal', 'sn')
-// CountryDict.set('Greece', 'gr')
-// CountryDict.set('Denmark', 'dk')
-// CountryDict.set('Greece', 'gr')
-
-// export CountryDict;
-
 
 export default CountryIcon;

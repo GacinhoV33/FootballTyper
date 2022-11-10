@@ -44,7 +44,7 @@ namespace FootballTyperAPI.Controllers
             return Ok(new { message = "Registration successful", userId = registeredUser.Id });
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAll()
         {

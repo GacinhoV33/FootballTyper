@@ -1,0 +1,29 @@
+.image-container{
+    :hover{
+        cursor: pointer;
+    }
+}
+
+.bottom-card{
+    background: whitesmoke;
+    width: 31vw;
+    height: 15vh;
+    padding: 0 0.5vw;
+
+}
+
+.stadium-text-name{
+    text-align: center;
+}
+
+.stadium-text-city{
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.stadium-text-size{
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}

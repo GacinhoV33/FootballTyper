@@ -2,7 +2,6 @@ import './App.scss';
 // Components
 import NavbarComp from './components/Navbar/NavbarComp';
 import Homepage from './components/Homepage/Homepage';
-import Footer from './components/Footer/Footer';
 import KnockoutStage from './components/KnockoutStage/KnockoutStage';
 import GroupStage from './components/GroupStage/GroupStage';
 import YourBets from './components/YourBets/YourBets';
@@ -10,23 +9,52 @@ import Ranking from './components/Ranking/Ranking';
 import Statistics from './components/Statistics/Statistics';
 import Rules from './components/Rules/Rules';
 import Login from './components/Login/Login';
-import Profil from './components/Profil/Profil';
+import AdminPanel from './components/AdminPanel/AdminPanel';
 import LoadingLayout from './components/LoadingLayout/LoadingLayout';
+import AuthVerify from './components/AuthVerify/AuthVerify';
 import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
 import { createContext, useEffect, useState } from 'react';
-import { Router, Route, Routes } from 'react-router-dom';
+import {  Route, Routes } from 'react-router-dom';
 
+
+export type UserLocalStorageData = {
+  username: string,
+  email: string,
+  fullname: string,
+  id: number,
+  imgLink?: string,
+  leauges?: string[],
+}
 // This component contains whole logic, all main components and it's the manager of whole application
-export const UserContext = createContext('userNotLogged');
+export type UserStatus = {
+  userLocalData: UserLocalStorageData ,
+  isUserSigned: boolean,
+}
 
+const userObjInit: UserLocalStorageData | null = {
+  username: 'no-user',
+  email: 'no-email',
+  fullname: 'no-fullname',
+  id: 0,
+  imgLink: 'none',
+  leauges: ['none'],
+}
+
+export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
+  const [allTeams, setAllTeams] = useState<Team[] | null>(null);
+  const [allMatches, setAllMatches] = useState<Match[] | null>(null)
   const [dataTeams, setDataTeams] = useState<any | null>(null);
-  const [allBets, setAllBets] = useState<Bet[] | null>(null);
-
+  const [allUserBets, setAllUserBets] = useState<Bet[] | null>(null);
+  const [allUsers, setAllUsers] = useState<User[] | null>([]);
+  const [userStatus, setUserStatus] = useState<UserStatus>({
+    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string)  : userObjInit,
+    isUserSigned: localStorage.getItem('user') !== ''&& localStorage.getItem('user') !== null ? true : false
+  })
   useEffect(() => {
     const fetchData = async () => {
 
@@ -35,43 +63,87 @@ function App() {
       // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
       // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
 
-      const GroupMatches = await (await fetch('api/Matches/Group')).json();
-      // const /api/Teams
-      const data = await (await fetch('api/Teams')).json();
-      const allBets = await (await fetch('api/Bets')).json();
 
-      setdataGroupMatches(convertMatchesToGroupFormat(GroupMatches));
+      const allMatches = await (await fetch('api/Matches')).json(); 
+      const data = await (await fetch('api/Teams')).json();
+      const requestAllUsersOptions = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+        }
+      };
+
+      const allUsers = await( await fetch('api/TyperUsers', requestAllUsersOptions)).json();
+      const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : '';
+      if(userName){
+        const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
+        setAllUserBets(allUserBets);
+      }
+      setAllMatches(allMatches);
+      setAllTeams(data)
+      setdataGroupMatches(convertMatchesToGroupFormat(allMatches));
       setDataTeams(convertTeamsToGroupFormat(data));
-      setAllBets(allBets);
-      console.log(allBets);
+      setAllUsers(allUsers);
     }
     fetchData();
+
   }, []);
 
+  const rankingReturn = () => {
+    if(allUsers && userStatus.isUserSigned && Array.isArray(allUsers)){
+      return  <Ranking allUsers={allUsers}/>
+    }
+    else if(allUsers && !userStatus.isUserSigned){
+      return <h1>State when user not logged but want to see ranking</h1>
+    }
+    else{
+      return <LoadingLayout componentName='Ranking'/>
+    }
+  }
+
+  const groupStageReturn = () => {
+    if(!userStatus.isUserSigned){
+      return(
+        <Login setUserStatus={setUserStatus} />
+      )
+    }
+    else if(dataTeams){
+      return(
+        <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} />
+      )
+  }
+    else{
+      return(
+        <LoadingLayout componentName='Group Stage' />
+      )
+    }
+  }
+
   return (
-    <UserContext.Provider value={'user123'}>
-    <div className='app-body'>
-      <NavbarComp />
-      <Routes>
-        <Route path='/' element={<Homepage />} />
-        <Route path='/knockout' element={<KnockoutStage />} />
-        <Route path='/groupstage' element={dataTeams ? <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} /> : <LoadingLayout componentName='Group Stage'/>} />
-        <Route path='/yourbets' element={allBets ? <YourBets userName='testUser1' allBets={allBets} /> : <LoadingLayout componentName='My bets'/>} />  {/* in future remove allBets because of huge number of bets!!! TODO*/}
-        <Route
-          path='/ranking'
-          element={
-            <Ranking
-              allUsers={dummyData}
-            />
-          }
-        />
-        <Route path='/statistics' element={<Statistics />} />
-        <Route path='/rules' element={<Rules />} />
-        <Route path='/Login' element={<Login />} /> 
-        <Route path='/profil' element={<Profil />} />
-      </Routes >
-      <Footer />
-    </div >
+    <UserContext.Provider value={userStatus}>
+      <AuthVerify setUserStatus={setUserStatus}/>
+      <div className='app-body'>
+        <NavbarComp />
+        <Routes>
+          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage'/>}/>
+          <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/groupstage' element={groupStageReturn()} />
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
+          <Route
+            path='/ranking'
+            element={
+              rankingReturn()
+            }
+          />
+          <Route path='/statistics' element={<Statistics />} />
+          <Route path='/rules' element={<Rules />} />
+          <Route path='/adminpanel' element={<AdminPanel />} />
+          <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
+        </Routes >
+        {/* <Footer /> */}
+
+      </div >
     </UserContext.Provider>
   );
 }
@@ -80,7 +152,7 @@ function convertMatchesToGroupFormat(data: any) {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
   let tab: any = [];
   for (let i = 0; i < 8; i++) {
-    const result = data.filter((match: any) => match.group === letters[i])
+    const result = data.filter((match: any) => match.group ? match.group[6] === letters[i] : false)
     tab.push(result)
   }
   return tab
@@ -122,106 +194,22 @@ export interface Match {
   matchNumber: number,
   roundNumber: number,
   isMatchValid: boolean,
+  stage: number
 }
 
 
-export interface User{
-  name: string,
+export interface User {
+  username: string,
   // email: string, TODO?
   imgLink: string, //TODO?  
   totalPoints: number,
-  totalExactScoreBet: number,
-  totalCorrectWinnerBet: number,
-  totalWrongBet: number,
-  leauges: string[],
+  totalExactScoreBets: number,
+  totalCorrectWinnerBets: number,
+  totalWrongBets: number,
+  leagues: string[],
   id: number,
-  lastFiveBets: number[],
+  lastFiveBets: string,
+  rankStatusDict?: object
 }
 
 export default App;
-export const dummyData: User[] = [
-  {
-    name: 'user123',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 50,
-    totalExactScoreBet: 1,
-    totalCorrectWinnerBet: 5,
-    totalWrongBet: 6,
-    leauges: ['main', 'clownLeauge'],
-    id: 21312,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user13',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 30,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 0,
-    totalWrongBet: 6,
-    leauges: ['main'],
-    id: 21312,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1111',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 31,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 1,
-    totalWrongBet: 14,
-    leauges: ['main'],
-    id: 21313,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 11,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 5,
-    totalWrongBet: 6,
-    leauges: ['main', 'clownLeauge'],
-    id: 21314,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 24,
-    totalExactScoreBet: 2,
-    totalCorrectWinnerBet: 4,
-    totalWrongBet: 6,
-    leauges: ['main',],
-    id: 21315,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 50,
-    totalExactScoreBet: 3,
-    totalCorrectWinnerBet: 5,
-    totalWrongBet: 6,
-    leauges: ['main', 'clownLeauge'],
-    id: 21316,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-  {
-    name: 'user1',
-    // email: string, TODO?
-    imgLink: 'imgPath', //TODO?  
-    totalPoints: 54,
-    totalExactScoreBet: 1,
-    totalCorrectWinnerBet: 3,
-    totalWrongBet: 1,
-    leauges: ['main', 'clownLeauge'],
-    id: 21317,
-    lastFiveBets: [2, 1, 0, 0, 1],
-  },
-]

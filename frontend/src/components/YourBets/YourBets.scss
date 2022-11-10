@@ -1,0 +1,42 @@
+.leftBar-yourbets{
+    position: fixed;
+    grid-column: 1/3;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 2rem;
+    text-align: center;
+    @media (max-width: 1500px) {
+        display: none;
+    }
+}
+
+.rightBar-yourbets{
+    grid-column: 11/13;
+    align-items: flex-start;
+    padding: 0 2.5rem;
+    text-align: center;
+    color: #CCCCCC;
+    @media (max-width: 1500px) {
+        display: none;
+    }
+}
+
+.circular-bar-sizing{
+    width: 8rem;
+    height: 8rem;
+    padding: 0 0.5rem;
+    margin-bottom: 3rem;
+}
+
+.bets-main-content{
+    grid-column: 3/11;
+    scroll-behavior: 'smooth';
+}
+
+.my-bets-main{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    background-image: url('../Homepage/background.jfif');
+    min-height: 92vh;
+}

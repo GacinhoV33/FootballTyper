@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Match } from '../../App';
 import './GroupStage.scss';
 
 // components
 import GroupStageMatches from './GroupStageMatches/GroupStageMatches';
-import GroupStagePlayerStatistics from './GroupStagePlayerStatistics/GroupStagePlayerStatistics';
 import GroupSwitch from './GroupSwitch/GroupSwitch';
 import GroupTable from './GroupTable/GroupTable';
 // interfaces
@@ -12,36 +12,25 @@ import LeftBar from './LeftBar/LeftBar';
 import RightBar from './RightBar/RightBar';
 // Fetch: In this component we should use data from context that contains info about groups 
 
-export interface GroupMatch {
-  homeTeam: string,
-  awayTeam: string, 
-  homeTeamScore: number, 
-  awayTeamScore: number, 
-  date: string,
-  stadium: string, 
-  referee: string, 
-  group: string,
-}
-
 export interface GroupStageProps {
   groupMatches: any,
   dataTeams: any
 }
 
 const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
- 
   let letterToNumber = new Map<string , string>();
   for(let i = 0; i<8 ; i++) {
     letterToNumber.set(groupLetters[i], `${i}`);
   }
   const [currentGroup, setCurrentGroup] = useState<string>("A");
   const [currentGroupData, setCurrentGroupData] = useState<GroupTableItem[] | null>(null)
-  const [currentGroupMatches, setCurrentGroupMatches] = useState<GroupMatch[] | null>(null);
+  const [currentGroupMatches, setCurrentGroupMatches] = useState<Match[] | null>(null);
   const [chosenCountries, setChosenCountries] = useState<{homeCountry: string, awayCountry: string}>({homeCountry: 'none', awayCountry: 'none'});
   useEffect(() => {
+    const currentGrMatches = groupMatches[Number(letterToNumber.get(currentGroup))]
+    currentGrMatches.sort((match1: any, match2: any) => new Date(match1.date).getTime() - new Date(match2.date).getTime())
     setCurrentGroupMatches(groupMatches[Number(letterToNumber.get(currentGroup))])
     setCurrentGroupData(dataTeams[Number(letterToNumber.get(currentGroup))])
-
   }, [currentGroup])
 
   const reloadData = (letter: string) => {
@@ -70,7 +59,6 @@ const GroupStage: React.FC<GroupStageProps> = ({groupMatches, dataTeams}) => {
           chosenCountries={chosenCountries}
           setChosenCountries={setChosenCountries}
         />
-        <GroupStagePlayerStatistics/>
       </div>
       <div className='group-stage-right'>
         <RightBar chosenCountries={chosenCountries} currentGroup={currentGroup}/>

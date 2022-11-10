@@ -118,8 +118,8 @@ namespace FootballTyperAPI.Controllers
             return _context.Bets.Any(e => e.Id == id);
         }
 
-        // GET: api/Bets/User/{id}
-        [HttpGet("User/{userId}")]
+        // GET: api/Bets/User/Id/{id}
+        [HttpGet("User/Id/{userId}")]
         public async Task<ActionResult<IEnumerable<Bet>>> GetBetByUserId(int userId)
         {
             var user = _context.TyperUser.FirstOrDefault(x => x.Id == userId);
@@ -142,10 +142,10 @@ namespace FootballTyperAPI.Controllers
         {
             var userBets = (await _context.GetAllBets()).Where(x => x.BettorUserName == username).ToList();
 
-            if (!userBets.Any())
-            {
-                return NotFound();
-            }
+            //if (!userBets.Any())
+            //{
+            //   return Array.Empty<Bet>();
+            //}
 
             return userBets;
         }

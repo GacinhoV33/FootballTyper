@@ -1,5 +1,44 @@
-.dev-class{
-    border: 1px solid #101010;
-    background-color: #DDAAFA;
-    text-align: center;
+.homepage-main{
+    // background-color: #34568B;
+    background-image: url('./background.jfif');
+    height: 160vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(10, 10fr);
+    grid-template-rows: repeat(10, 10fr) ;
+    padding-top: 1rem;
+    padding-left: 2vw;
+    .flags{
+        grid-column: 1/11;
+        grid-row: 1/2;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        .flag{
+            padding: 0 0.5%;
+            width: 3%;
+            min-width: 40px;
+        }
+    }
+    
+    .content-body{
+        grid-column: 1/9;
+        grid-row: 2/3;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        .welcome-text{
+            font-weight: 800;
+            font-size: 2.2vw;
+        }
+    }
+
+   
+
+}
+
+.current-matches{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
 }

@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballTyperAPI", "FootballTyperAPI.csproj", "{86AAD4D9-C68B-470E-8B31-AD8E755158E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI", "FootballTyperAPI.csproj", "{86AAD4D9-C68B-470E-8B31-AD8E755158E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.Models", "..\FootballTyperAPI.Models\FootballTyperAPI.Models.csproj", "{497DC862-82E0-4682-B55C-839495B4F355}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.AzureFunctions", "..\AzureFunctions\FootballTyperAPI.AzureFunctions\FootballTyperAPI.AzureFunctions.csproj", "{278726A7-A521-4021-96EE-FE5FF69479BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{86AAD4D9-C68B-470E-8B31-AD8E755158E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86AAD4D9-C68B-470E-8B31-AD8E755158E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86AAD4D9-C68B-470E-8B31-AD8E755158E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{497DC862-82E0-4682-B55C-839495B4F355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{497DC862-82E0-4682-B55C-839495B4F355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{497DC862-82E0-4682-B55C-839495B4F355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{497DC862-82E0-4682-B55C-839495B4F355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{278726A7-A521-4021-96EE-FE5FF69479BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{278726A7-A521-4021-96EE-FE5FF69479BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{278726A7-A521-4021-96EE-FE5FF69479BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{278726A7-A521-4021-96EE-FE5FF69479BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

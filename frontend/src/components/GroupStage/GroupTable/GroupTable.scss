@@ -14,3 +14,21 @@
     flex-direction: row;
     justify-content: center;
 }
+
+.textCenter{
+    td{
+        display: table-cell;
+        vertical-align: middle;
+        color: white;
+    }
+ 
+    .goals{
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
+
+
+th{
+    color: white;
+}

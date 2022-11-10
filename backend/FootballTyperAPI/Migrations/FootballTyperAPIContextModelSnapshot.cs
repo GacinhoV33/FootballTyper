@@ -39,6 +39,12 @@ namespace FootballTyperAPI.Migrations
                     b.Property<DateTime>("BetDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("BetProcessedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("BetResult")
+                        .HasColumnType("int");
+
                     b.Property<string>("BettorUserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -52,42 +58,20 @@ namespace FootballTyperAPI.Migrations
                     b.Property<bool>("HomeTeamWin")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsBetProcessed")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MatchId")
                         .HasColumnType("int");
 
                     b.Property<float>("PointsFactor")
                         .HasColumnType("real");
 
-                    b.Property<bool?>("SuccessfulBet")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MatchId");
 
                     b.ToTable("Bets", (string)null);
-                });
-
-            modelBuilder.Entity("FootballTyperAPI.Models.League", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TyperUserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TyperUserId");
-
-                    b.ToTable("League");
                 });
 
             modelBuilder.Entity("FootballTyperAPI.Models.Match", b =>
@@ -116,6 +100,9 @@ namespace FootballTyperAPI.Migrations
                     b.Property<int>("HomeTeamScore")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsMatchProcessed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,10 +110,16 @@ namespace FootballTyperAPI.Migrations
                     b.Property<int>("MatchNumber")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("MatchProcessedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Referee")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoundNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Stage")
                         .HasColumnType("int");
 
                     b.Property<string>("Town")
@@ -153,6 +146,12 @@ namespace FootballTyperAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Drawn")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoalsAgainst")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoalsFor")
                         .HasColumnType("int");
 
                     b.Property<string>("Group")
@@ -195,8 +194,20 @@ namespace FootballTyperAPI.Migrations
                     b.Property<string>("ImgLink")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LastFiveBets")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LeaguesStr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PositionStr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RankStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalCorrectWinnerBets")
@@ -231,13 +242,6 @@ namespace FootballTyperAPI.Migrations
                     b.Navigation("Match");
                 });
 
-            modelBuilder.Entity("FootballTyperAPI.Models.League", b =>
-                {
-                    b.HasOne("FootballTyperAPI.Models.TyperUser", null)
-                        .WithMany("Leagues")
-                        .HasForeignKey("TyperUserId");
-                });
-
             modelBuilder.Entity("FootballTyperAPI.Models.Match", b =>
                 {
                     b.HasOne("FootballTyperAPI.Models.Team", "AwayTeam")
@@ -251,11 +255,6 @@ namespace FootballTyperAPI.Migrations
                     b.Navigation("AwayTeam");
 
                     b.Navigation("HomeTeam");
-                });
-
-            modelBuilder.Entity("FootballTyperAPI.Models.TyperUser", b =>
-                {
-                    b.Navigation("Leagues");
                 });
 #pragma warning restore 612, 618
         }
