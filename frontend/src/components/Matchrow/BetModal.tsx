@@ -29,7 +29,6 @@ const BetModal: React.FC<BetModalProps> = ({ showBet, handleClose, modalValue, g
         if(userBets){
             betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
         }
-        // const betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
         if (betId.length > 0 && userBets) {
             const putRequestOptions = {
                 method: 'PUT',
