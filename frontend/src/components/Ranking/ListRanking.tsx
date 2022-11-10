@@ -26,11 +26,9 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
     const userCtx = useContext(UserContext);
 
     return (
-        <div style={{
-            minWidth: '600px', width: '100%'
-        }}>
+        <div className='ranking-table'>
             <Table striped>
-                <thead>
+                <thead className='table-main'>
                     <tr>
                         <th style={{ width: '30px' }}>Rank</th>
                         <td style={{ width: '30px' }}></td>
@@ -93,8 +91,13 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                         const userRankingStatus = rankStatusDict ? rankStatusDict[leagueName] : 0;
                         return(
                         <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 5px 10px lightblue', alignItems: 'center', border: '1px solid lightgreen' } : { alignItems: 'center' }}>
-                            <td style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-                                {userRankingStatus > 0 ? <VscTriangleUp size={10} style={{ color: 'green' }} /> : (userRankingStatus < 0 ? <VscTriangleDown size={10} style={{ color: 'red' }}/> : <p>-</p>)}
+                            <td style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                                {
+                                userRankingStatus > 0 ? <VscTriangleUp size={10} style={{ color: 'green' }} /> : 
+                                (userRankingStatus < 0 ? <VscTriangleDown size={10} style={{ color: 'red' }}/> 
+                                : <p>-</p>)
+                                }
+                                {/* <p style={{fontSize: '2vh', fontWeight: '450',  margin: '0 0 !important' , padding: '0 0 !important' }}>{index + 1}</p> */}
                                 <h4>{index + 1}</h4>
                             </td>
                             <td> {index === 0 ? <FaCrown style={{ color: 'orange' }} size='30' /> : null}</td>
@@ -124,9 +127,9 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                                                 case 0:
                                                     return <ImCross style={{ color: 'red', margin: '0 0.45rem' }} size='20' key={index} />
                                                 case 1:
-                                                    return <BsCheck style={{ color: 'green' }} size='40' key={index} />
+                                                    return <BsCheck style={{ color: 'lightgreen' }} size='40' key={index} />
                                                 case 2:
-                                                    return <BiCheckDouble style={{ color: 'lightgreen' }} size='40' key={index} />
+                                                    return <BiCheckDouble style={{ color: 'green' }} size='40' key={index} />
                                             }
                                         })
                                         : null

@@ -27,7 +27,7 @@ const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date }) => {
             </div>
             
             <div className='vs-pill'>
-                <div style={{ height: '6vh', width: '4vw', fontSize: '1.75vw', textAlign: 'center', alignItems: 'center', borderRadius: '1vw', background: '#a176c1' }}>
+                <div style={{ height: '6vh', width: '4vw', fontSize: '1.75vw', textAlign: 'center', alignItems: 'center', borderRadius: '1vw', color: 'white'}}>
                     <GiDervishSwords size={30}/>
                 </div>
             </div>

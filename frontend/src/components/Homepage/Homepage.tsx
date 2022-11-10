@@ -8,7 +8,6 @@ import { Team } from '../../App';
 import { CircleFlag } from 'react-circle-flags';
 // import Carousel  from 'react-bootstrap/Carousel';
 //photos
-
 import amhed_bin_ali_stadium from './ahmed_bin_ali_stadium.jpg';
 import amhed_bin_ali_stadium2 from './ahmed_bin_ali_stadium2.jpg';
 import amhed_bin_ali_stadium3 from './ahmed_bin_ali_stadium3.jpg';
@@ -65,11 +64,11 @@ import "react-multi-carousel/lib/styles.css";
 import StadiumCard from './StadiumCard';
 import MatchCard, { MatchCardProps } from './MatchCard';
 import { Match } from '../../App'
-import TimeToStartTwo from '../Statistics/TimeToStartTwo';
+import TimeToStartTwo from '../Statistics/TimeToStart';
 
 export interface HomepageProps {
   allTeams: Team[] | null,
-  allMatches: Match[] | null, 
+  allMatches: Match[] | null,
 }
 
 export interface Stadium {
@@ -122,7 +121,7 @@ const dummyMatches: MatchCardProps[] = [{
 
 const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
   const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
-  const sortedMatches = validMatches !== null? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
+  const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
   const matchesToDisplay = sortedMatches !== null ? sortedMatches.splice(0, 4) : null;
   const [isAutoPlay, setAutoPlay] = useState<boolean>(true);
   console.log(matchesToDisplay)
@@ -131,7 +130,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
       <div className='flags'>
         {
           allTeams?.map(({ name }, index) => (
-            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag' />
+            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag'/>
           ))
         }
       </div>
@@ -140,25 +139,25 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
           Welcome in Qatar 2022 Typer
         </span>
         <div className='current-matches'>
-          <div style={{display: 'flex', flexDirection: 'column'}}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {matchesToDisplay && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
-              <div style={{display: 'flex'}}>
-                <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index}/>
-                <div style={{flexGrow: '2'}}> 
-                 <TimeToStartTwo /> 
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} />
+                <div >
+                  <TimeToStartTwo date={match.date} whiteColor/>
                 </div>
               </div>
-            )) 
-            : 
-            // TODO minwitdh of time
-            null}
+            ))
+              :
+              // TODO minwitdh of time
+              null}
           </div>
-         
-          
-         
+
+
+
         </div>
         <div className='time-to-start'>
-            
+
         </div>
       </div>
 
@@ -192,10 +191,10 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
               index={index}
               key={index}
               stadiumSize={size}
-              stadiumName={stadiumName} 
+              stadiumName={stadiumName}
               stadiumLocation={city}
               setAutoPlay={setAutoPlay}
-              />
+            />
           ))}
 
         </Carousel>
