@@ -1,44 +1,56 @@
-.homepage-main{
+.homepage-main {
     // background-color: #34568B;
     background-image: url('./background.jfif');
     height: 160vh;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(10, 10fr);
-    grid-template-rows: repeat(10, 10fr) ;
+    grid-template-rows: repeat(10, 10fr);
     padding-top: 1rem;
     padding-left: 2vw;
-    .flags{
+
+    .flags {
         grid-column: 1/11;
         grid-row: 1/2;
         flex-direction: row;
         width: 100%;
         justify-content: center;
-        .flag{
+
+        .flag {
             padding: 0 0.5%;
             width: 3%;
             min-width: 40px;
         }
     }
-    
-    .content-body{
-        grid-column: 1/9;
+
+    .content-body {
+        grid-column: 1/11;
         grid-row: 2/3;
         justify-content: center;
         display: flex;
         flex-direction: column;
-        .welcome-text{
+        .welcome-text {
             font-weight: 800;
             font-size: 2.2vw;
+            color: #EEE;
+        }
+
+        .middle-content {
+            display: flex;
+            gap: 3%;
+            align-items: center;
+           
+
+            .current-matches {
+                display: flex;
+                flex-direction: row;
+                width: 55%;
+            }
+
+            .news-component{
+                width: 40%;
+                height: 40vh;
+            }
         }
     }
-
-   
-
-}
-
-.current-matches{
-    display: flex;
-    flex-direction: row;
-    width: 70%;
 }
