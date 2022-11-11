@@ -65,6 +65,7 @@ import StadiumCard from './StadiumCard';
 import MatchCard, { MatchCardProps } from './MatchCard';
 import { Match } from '../../App'
 import TimeToStartTwo from '../Statistics/TimeToStart';
+import News from './News';
 
 export interface HomepageProps {
   allTeams: Team[] | null,
@@ -130,7 +131,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
       <div className='flags'>
         {
           allTeams?.map(({ name }, index) => (
-            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag'/>
+            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag' />
           ))
         }
       </div>
@@ -138,33 +139,31 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
         <span className='welcome-text'>
           Welcome in Qatar 2022 Typer
         </span>
-        <div className='current-matches'>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {matchesToDisplay && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className='middle-content'>
+          <div className='current-matches'>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {matchesToDisplay && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} />
-                <div >
-                  <TimeToStartTwo date={match.date} whiteColor/>
+                  <div >
+                    <TimeToStartTwo date={match.date} whiteColor />
+                  </div>
                 </div>
-              </div>
-            ))
-              :
-              // TODO minwitdh of time
-              null}
+              ))
+                :
+                // TODO minwitdh of time
+                null}
+            </div>
           </div>
-
-
-
+          <div className='news-component'>
+            <News />
+          </div>
         </div>
-        <div className='time-to-start'>
 
-        </div>
       </div>
 
-      <div className='login-info'>
 
-      </div>
-      <div style={{ gridColumn: '1/11', gridRow: '4/11' }}>
+      <div style={{ gridColumn: '1/11', gridRow: '3/10' }}>
 
 
         <h1> Stadiums </h1>
