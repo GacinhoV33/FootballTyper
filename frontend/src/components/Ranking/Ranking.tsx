@@ -46,7 +46,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', minWidth: '500px', maxWidth: '1000px', width: '100%' }}>
+      <div style={{ display: 'flex', minWidth: '500px', maxWidth: '1000px', width: '100%'}}>
         <ListRanking allUsers={usersToDisplay} league={leagueFilter} />
       </div>
     </div>

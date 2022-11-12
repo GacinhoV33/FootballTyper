@@ -72,44 +72,44 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
   const totalNumberOfEndBets = correctScores.length + correctResult.length + wrongBets.length;
   return (
 
-    <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+    <div className='my-bets-main'>
       <FiltersMyBets activeFilters={filterMyBets} setActiveFilters={setFilterMyBets} />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)' }}>
         <div className='leftBar-yourbets'>
           <div style={{ display: 'flex' }}>
             <div className='circular-bar-sizing'>
-              <h6 style={{ color: '#11A0F0' }}>All Bets</h6>
-              <CircularProgressbar value={11} maxValue={48} text={`${allUserBets.length}/48`} />
+              <h6 style={{ color: '#CCCCCC' }}>All Bets</h6>
+              <CircularProgressbar value={11} maxValue={48} text={`${allUserBets.length}/48`} styles={buildStyles({textColor: '#CCCCCC'})}/>
             </div>
             <div className='circular-bar-sizing'>
-              <h6 style={{ color: '#11A0F0', display: 'inlineBlock' }}>Correct Score</h6>
+              <h6 style={{ color: '#CCCCCC', display: 'inlineBlock' }}>Correct Score</h6>
               <CircularProgressbar
                 value={correctScores.length}
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0 ? Number(correctScores.length / totalNumberOfEndBets).toFixed(4) * 100 : 0.00}%`}
-                styles={buildStyles({ pathColor: 'green', textColor: 'green' })} />
+                styles={buildStyles({ pathColor: 'green', textColor: '#CCCCCC' })} />
             </div>
           </div>
           <div style={{ display: 'flex' }}>
 
             <div className='circular-bar-sizing'>
-              <h6 style={{ color: '#11A0F0' }}>Correct Result</h6>
+              <h6 style={{ color: '#CCCCCC' }}>Correct Result</h6>
               <CircularProgressbar
                 value={correctResult.length} 
                 maxValue={totalNumberOfEndBets} 
                 //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0 ? Number(correctResult.length / totalNumberOfEndBets).toFixed(4) * 100 : 0.00}%`} 
-                styles={buildStyles({ pathColor: 'darkgreen', textColor: 'darkgreen' })} />
+                styles={buildStyles({ pathColor: 'darkgreen', textColor: '#CCCCCC' })} />
             </div>
             <div className='circular-bar-sizing'>
-              <h6 style={{ color: '#11A0F0' }}>Wrong</h6>
+              <h6 style={{ color: '#CCCCCC' }}>Wrong</h6>
               <CircularProgressbar
                 value={wrongBets.length} 
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0 ? Number(wrongBets.length/ totalNumberOfEndBets).toFixed(4) * 100 : 0.00}%`}
-                styles={buildStyles({ pathColor: 'red', textColor: 'red', })} />
+                styles={buildStyles({ pathColor: 'red', textColor: '#CCCCCC', })} />
             </div>
           </div>
         </div>

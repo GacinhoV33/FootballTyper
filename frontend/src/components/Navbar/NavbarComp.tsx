@@ -5,7 +5,7 @@ import "./NavbarComp.scss";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import TimeToStartTwo from '../Statistics/TimeToStartTwo';
+import TimeToStartTwo from '../Statistics/TimeToStart';
 import {BiFootball} from 'react-icons/bi';
 import logo_player from '../LoadingLayout/logo_player_alpha.png';
 import { UserContext } from '../../App';

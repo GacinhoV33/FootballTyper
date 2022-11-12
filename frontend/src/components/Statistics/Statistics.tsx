@@ -16,7 +16,7 @@ import {
   ArcElement,
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
-import TimeToStartTwo from './TimeToStartTwo';
+import TimeToStartTwo from './TimeToStart';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);

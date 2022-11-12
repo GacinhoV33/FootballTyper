@@ -29,7 +29,7 @@ const GroupTable = ({groupTableData, groupTableName, chosenCountries, setChosenC
   groupTableData?.sort((team2, team1) => team1.points - team2.points ? team1.points - team2.points : (team1.goalsFor - team1.goalsAgainst) - (team2.goalsFor - team2.goalsAgainst) )  
   return (
     <div className='body-table'>
-      <Table striped style={{tableLayout: 'fixed'}}>
+      <Table style={{tableLayout: 'fixed'}}>
         <thead >
           <tr>
               <th style={{width: '5%'}}></th>

@@ -15,6 +15,7 @@
     align-items: flex-start;
     padding: 0 2.5rem;
     text-align: center;
+    color: #CCCCCC;
     @media (max-width: 1500px) {
         display: none;
     }
@@ -30,4 +31,12 @@
 .bets-main-content{
     grid-column: 3/11;
     scroll-behavior: 'smooth';
+}
+
+.my-bets-main{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    background-image: url('../Homepage/background.jfif');
+    min-height: 92vh;
 }

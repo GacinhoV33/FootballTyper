@@ -1,11 +1,16 @@
-.dev-class-knockout{
-    border: 1px solid #101010;
-    // background-color: #00FF00;
-    text-align: center;
-    border-radius: 20x;
-    padding: 0 10px;
+.knockout-main{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    // justify-content: center;
+    background-image: url('../Homepage/background.jfif');
+    min-height: 92vh;
+}
+
+.dSPpqb{
+    justify-content: center;
+}
+
+.round-styles{
+    color: white !important;
+    font-size: 4vh;
+    text-align: center;
+    
 }
