@@ -2,6 +2,7 @@ import "./Login.scss";
 import React, { useState, useEffect } from "react";
 import Alert from "react-bootstrap/Alert";
 import LoginForm from "./LoginForm";
+import FileUpload from '../FIleUpload/FileUpload';
 import { UserStatus } from "../../App";
 
 export interface LoginProps {
@@ -176,12 +177,12 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               json.message
                 ? json.message
                 : json.errors.Username
-                  ? json.errors.Username[0]
-                  : json.errors.Password
-                    ? json.errors.Password[0]
-                    : json.errors.FullName
-                      ? json.errors.FullName[0]
-                      : ""
+                ? json.errors.Username[0]
+                : json.errors.Password
+                ? json.errors.Password[0]
+                : json.errors.FullName
+                ? json.errors.FullName[0]
+                : ""
             );
           });
         });
@@ -249,10 +250,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               json.message
                 ? json.message
                 : json.errors.Username
-                  ? json.errors.Username[0]
-                  : json.errors.Password
-                    ? json.errors.Password[0]
-                    : ""
+                ? json.errors.Username[0]
+                : json.errors.Password
+                ? json.errors.Password[0]
+                : ""
             );
           });
         });
@@ -325,6 +326,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           <div className="form-group mt-3">
             <label>Email address: {localData?.email} </label>
           </div>
+          <FileUpload></FileUpload>
           <div className="d-grid gap-2 mt-3">
             <button className="btn btn-primary" onClick={handleLogOut}>
               Log out

@@ -42,6 +42,7 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 // configure DI for application services
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
 var app = builder.Build();
 app.UseCors();
