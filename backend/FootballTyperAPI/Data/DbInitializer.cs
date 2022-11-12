@@ -190,18 +190,18 @@ namespace FootballTyperAPI.Data
                     Username = "User1",
                     Email = "User1@gmail.com",
                     FullName = "User1 FullName",
-                    PasswordHash = "PasswordHash",
-                    ImgLink = "ImgLink",
-                    LeaguesStr = JsonSerializer.Serialize(defaultLeagues)
+                    PasswordHash = "$2a$11$K3jhOqkDOoCpcYsoVyBluOHTibnNx24bZxl39OUSF0spmSJeuUrF.",
+                    ImgLink = "User1.jpg",
+                    LeaguesStr = JsonSerializer.Serialize(defaultLeagues.Take(2))
                 },
                 new TyperUser
                 {
                     Username = "User2",
                     Email = "User2@gmail.com",
                     FullName = "User2 FullName",
-                    PasswordHash = "PasswordHash",
-                    ImgLink = "ImgLink",
-                    LeaguesStr = JsonSerializer.Serialize(defaultLeagues)
+                    PasswordHash = "$2a$11$K3jhOqkDOoCpcYsoVyBluOHTibnNx24bZxl39OUSF0spmSJeuUrF.",
+                    ImgLink = "User2.jpg",
+                    LeaguesStr = JsonSerializer.Serialize(defaultLeagues.Take(3))
                 }
             };
             context.AddRange(users);

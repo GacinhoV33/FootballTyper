@@ -2,7 +2,7 @@ import "./Login.scss";
 import React, { useState, useEffect } from "react";
 import Alert from "react-bootstrap/Alert";
 import LoginForm from "./LoginForm";
-import FileUpload from '../FIleUpload/FileUpload';
+import UploadProfilePicture from '../ProfilePicture/UploadProfilePicture';
 import { UserStatus } from "../../App";
 
 export interface LoginProps {
@@ -326,7 +326,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           <div className="form-group mt-3">
             <label>Email address: {localData?.email} </label>
           </div>
-          <FileUpload></FileUpload>
+          <UploadProfilePicture></UploadProfilePicture>
           <div className="d-grid gap-2 mt-3">
             <button className="btn btn-primary" onClick={handleLogOut}>
               Log out

@@ -2,8 +2,10 @@
 using FootballTyperAPI.Data;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace FootballTyperAPI.Controllers
 {
@@ -28,31 +30,88 @@ namespace FootballTyperAPI.Controllers
             {
                 if (fileModel.File.ContentType.StartsWith("image/") || fileModel.File.ContentType.StartsWith("application/octet-stream"))
                 {
-                    UploadToBlobStorage(fileModel);
+                    using (Image img = Image.FromStream(fileModel.File.OpenReadStream()))
+                    {
+                        Bitmap resizedImage = CalcDimAndResizeImage(img);
 
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            SetupStream(resizedImage, memoryStream);
+                            UploadToBlobStorage(fileModel, memoryStream);
+                        }
+                    }
                     return Ok(new { msg = "Profile picture saved successfully" });
                 }
                 else
                 {
                     return BadRequest(new { msg = "Only images are allowed!" });
                 }
-
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
-        private void UploadToBlobStorage(FileModel fileModel)
+        private Bitmap CalcDimAndResizeImage(Image img)
+        {
+            var maxDim = img.Height > img.Width ? img.Height : img.Width;
+            float ratio = (float)maxDim / 160;
+            Bitmap resultImage = ResizeImg(img, (int)(img.Width / ratio), (int)(img.Height / ratio));
+            return resultImage;
+        }
+
+        private void SetupStream(Bitmap resultImage, MemoryStream memoryStream)
+        {
+            ImageCodecInfo myImageCodecInfo = GetEncoderInfo("image/jpeg");
+            var myEncoder = Encoder.Quality;
+            var myEncoderParameter = new EncoderParameter(myEncoder, 25L);
+            var myEncoderParameters = new EncoderParameters(1);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+            resultImage.Save(memoryStream, myImageCodecInfo, myEncoderParameters);
+            memoryStream.Position = 0;
+        }
+
+        private void UploadToBlobStorage(FileModel fileModel, MemoryStream img)
         {
             string containerName = "imgs";
             var containerClient = new BlobContainerClient(
                 _config.GetConnectionString("FootballTyperStorageAccout"),
                 containerName);
             BlobClient blobClient = containerClient.GetBlobClient(fileModel.FileName);
-            blobClient.Upload(fileModel.File.OpenReadStream(), true);
+            blobClient.Upload(img, true);
+        }
+
+        private Bitmap ResizeImg(Image image, int width, int height)
+        {
+
+            var dest_Rect = new Rectangle(0, 0, width, height);
+            var dest_Image = new Bitmap(width, height);
+
+            dest_Image.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(dest_Image))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, dest_Rect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+            return dest_Image;
+        }
+
+        private ImageCodecInfo GetEncoderInfo(String mimeType)
+        {
+            ImageCodecInfo[] encoders;
+            encoders = ImageCodecInfo.GetImageEncoders();
+            return encoders.Where(x => x.MimeType == mimeType).First();
         }
 
         private ActionResult SaveLocally(FileModel fileModel)
@@ -66,7 +125,6 @@ namespace FootballTyperAPI.Controllers
                     {
                         fileModel.File.CopyTo(stream);
                     }
-
                     return Ok(new { msg = "Profile picture saved successfully" });
                 }
                 else
@@ -79,32 +137,5 @@ namespace FootballTyperAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
-        //// PUT api/<FileController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<FileController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
-
-        //// GET: api/<FileController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET api/<FileController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
     }
 }

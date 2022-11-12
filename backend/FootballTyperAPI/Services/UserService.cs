@@ -15,7 +15,8 @@ public interface IUserService
     TyperUser GetById(int id);
     TyperUserApi GetByUsername(string username);
     void Register(RegisterRequest model);
-    void Update(int id, UpdateRequest model);
+    void UpdatePassword(int id, UpdateRequest model);
+    void UpdateImgLink(int id, UpdateImgLinkRequest model);
     void Delete(int id);
 }
 
@@ -105,7 +106,7 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    public void Update(int id, UpdateRequest model)
+    public void UpdatePassword(int id, UpdateRequest model)
     {
         var user = getUser(id);
 
@@ -116,6 +117,20 @@ public class UserService : IUserService
         // hash password if it was entered
         if (!string.IsNullOrEmpty(model.Password))
             user.PasswordHash = BCrypt.HashPassword(model.Password);
+
+        // copy model to user and save
+        _mapper.Map(model, user);
+        _context.TyperUser.Update(user);
+        _context.SaveChanges();
+    }
+
+    public void UpdateImgLink(int id, UpdateImgLinkRequest model)
+    {
+        var user = getUser(id);
+
+        // validate
+        if (model.Username != user.Username && _context.TyperUser.Any(x => x.Username == model.Username))
+            throw new AppException("There is no user: '" + model.Username);
 
         // copy model to user and save
         _mapper.Map(model, user);

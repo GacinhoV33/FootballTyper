@@ -63,10 +63,19 @@ namespace FootballTyperAPI.Controllers
 
 
         //[AllowAnonymous]
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateRequest model)
+        [HttpPut("Password/{id}")]
+        public IActionResult UpdatePassword(int id, UpdateRequest model)
         {
-            _userService.Update(id, model);
+            _userService.UpdatePassword(id, model);
+            return Ok(new { message = "User updated successfully" });
+        }
+
+
+        //[AllowAnonymous]
+        [HttpPut("ImgLink/{id}")]
+        public IActionResult UpdateImgLink(int id, [FromBody] UpdateImgLinkRequest model)
+        {
+            _userService.UpdateImgLink(id, model);
             return Ok(new { message = "User updated successfully" });
         }
 
