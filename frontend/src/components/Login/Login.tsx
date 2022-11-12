@@ -2,7 +2,7 @@ import "./Login.scss";
 import React, { useState, useEffect } from "react";
 import Alert from "react-bootstrap/Alert";
 import LoginForm from "./LoginForm";
-import UploadProfilePicture from '../ProfilePicture/UploadProfilePicture';
+import UploadProfilePicture from "../ProfilePicture/UploadProfilePicture";
 import { UserStatus } from "../../App";
 
 export interface LoginProps {
@@ -10,8 +10,6 @@ export interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
-  // const apiURL = 'https://football-typer-api.azurewebsites.net/'
-  const apiURL = "";
   const [fullName, setFullName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -109,7 +107,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
         }),
       };
 
-      fetch(apiURL + "api/TyperUsers/register", requestOptions)
+      fetch(
+        process.env.REACT_APP_API_URL + "api/TyperUsers/register",
+        requestOptions
+      )
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -123,7 +124,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
             body: JSON.stringify({ username: userName, password: password }),
           };
 
-          fetch(apiURL + "api/TyperUsers/authenticate", requestOptions)
+          fetch(
+            process.env.REACT_APP_API_URL + "api/TyperUsers/authenticate",
+            requestOptions
+          )
             .then((response) => response.json())
             .then((data) => {
               localStorage.setItem("userToken", data.token);
@@ -136,7 +140,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
                 },
               };
 
-              fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
+              fetch(
+                process.env.REACT_APP_API_URL + `api/TyperUsers/${data.id}`,
+                requestOptions
+              )
                 .then((response) => response.json())
                 .then((data) => {
                   localStorage.setItem(
@@ -193,7 +200,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
         body: JSON.stringify({ username: userName, password: password }),
       };
 
-      fetch(apiURL + "api/TyperUsers/authenticate", requestOptions)
+      fetch(
+        process.env.REACT_APP_API_URL + "api/TyperUsers/authenticate",
+        requestOptions
+      )
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -211,7 +221,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
             },
           };
 
-          fetch(apiURL + `api/TyperUsers/${data.id}`, requestOptions)
+          fetch(
+            process.env.REACT_APP_API_URL + `api/TyperUsers/${data.id}`,
+            requestOptions
+          )
             .then((response) => response.json())
             .then((data) => {
               localStorage.setItem(

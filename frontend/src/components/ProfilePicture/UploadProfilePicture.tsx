@@ -1,10 +1,10 @@
-import React, { useState, useReducer} from "react";
+import React, { useState, useReducer } from "react";
 import ProfilePicture from "./ProfilePicture";
 
 const UploadProfilePicture = () => {
   const [file, setFile] = useState<any>();
   const [fileName, setFileName] = useState<any>();
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   //   const apiUrl = "http://localhost:44302/";
   const apiUrl = "";
 
@@ -30,18 +30,21 @@ const UploadProfilePicture = () => {
     setFileName(e.target.files[0].name);
   };
 
-  const uploadFile = async (e: any) => {
-    console.log(file);
+  const uploadFile = async () => {
     if (validateFileType()) {
       let newImgLink = user.username + "." + getExt(fileName);
       const formData = new FormData();
       formData.append("File", file);
       formData.append("FileName", newImgLink);
+
       const postRequestOptions = {
         method: "POST",
         body: formData,
       };
-      sendHttpRequest("api/File", postRequestOptions);
+      sendHttpRequest(
+        process.env.REACT_APP_API_URL + "api/File",
+        postRequestOptions
+      );
 
       const putRequestOptions = {
         method: "PUT",
@@ -54,7 +57,10 @@ const UploadProfilePicture = () => {
           imgLink: newImgLink,
         }),
       };
-      sendHttpRequest(`api/TyperUsers/ImgLink/${user.id}`, putRequestOptions);
+      sendHttpRequest(
+        process.env.REACT_APP_API_URL + `api/TyperUsers/ImgLink/${user.id}`,
+        putRequestOptions
+      );
 
       localStorage.setItem(
         "user",

@@ -18,7 +18,6 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 import { createContext, useEffect, useState } from 'react';
 import {  Route, Routes } from 'react-router-dom';
 
-
 export type UserLocalStorageData = {
   username: string,
   email: string,
@@ -58,14 +57,8 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
 
-      // const GroupMatches = await (await fetch('https://football-typer-api.azurewebsites.net/api/Matches/Group')).json();
-      // // const /api/Teams
-      // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
-      // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
-
-
-      const allMatches = await (await fetch('api/Matches')).json(); 
-      const data = await (await fetch('api/Teams')).json();
+      const allMatches = await (await fetch(process.env.REACT_APP_API_URL + 'api/Matches')).json(); 
+      const data = await (await fetch(process.env.REACT_APP_API_URL + 'api/Teams')).json();
       const requestAllUsersOptions = {
         method: 'GET',
         headers: {
@@ -74,10 +67,10 @@ function App() {
         }
       };
 
-      const allUsers = await( await fetch('api/TyperUsers', requestAllUsersOptions)).json();
+      const allUsers = await( await fetch(process.env.REACT_APP_API_URL + 'api/TyperUsers', requestAllUsersOptions)).json();
       const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : '';
       if(userName){
-        const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
+        const allUserBets = await (await fetch(process.env.REACT_APP_API_URL + `api/Bets/User/${userName.username}`)).json(); 
         setAllUserBets(allUserBets);
       }
       setAllMatches(allMatches);
