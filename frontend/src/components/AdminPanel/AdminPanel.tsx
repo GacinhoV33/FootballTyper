@@ -96,6 +96,22 @@ const AdminPanel = () => {
     sendHttpRequest("api/PlayKnockoutStageQuarterfinals");
   };
 
+  const handleInitSemifinals = () => {
+    sendHttpRequest("api/InitializeKnockoutStageSemifinals");
+  };
+
+  const handlePlaySemifinals = () => {
+    sendHttpRequest("api/PlayKnockoutStageSemifinals");
+  };
+
+  const handleInitFinals = () => {
+    sendHttpRequest("api/InitializeKnockoutStageFinals");
+  };
+
+  const handlePlayFinals = () => {
+    sendHttpRequest("api/PlayKnockoutStageFinals");
+  };
+
   return (
     <div>
       <div
@@ -234,6 +250,38 @@ const AdminPanel = () => {
         >
           {" "}
           Play <b>Quarterfinals</b> stage
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handleInitSemifinals}
+        >
+          {" "}
+          Initialize <b>Semifinals</b> stage
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handlePlaySemifinals}
+        >
+          {" "}
+          Play <b>Semifinals</b> stage
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handleInitFinals}
+        >
+          {" "}
+          Initialize <b>Finals</b> stage
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handlePlayFinals}
+        >
+          {" "}
+          Play <b>Finals</b> stage
         </button>
 
       </div>

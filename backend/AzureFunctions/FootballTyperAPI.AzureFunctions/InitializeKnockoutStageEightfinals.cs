@@ -45,7 +45,7 @@ namespace Company.Function
             }
             else
             {
-                log.LogInformation("Cannot fill Knockout matches. Teams or Matches table is empty");
+                log.LogInformation("Cannot fill eightfinal matches. Teams or Matches table is empty");
                 outMatches = null;
             }
 

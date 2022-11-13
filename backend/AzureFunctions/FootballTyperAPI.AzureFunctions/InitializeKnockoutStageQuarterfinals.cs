@@ -38,7 +38,7 @@ namespace Company.Function
             }
             else
             {
-                log.LogInformation("Cannot fill Knockout matches. Teams or Matches table is empty");
+                log.LogInformation("Cannot fill quarterfinal matches. Teams or Matches table is empty");
                 outMatches = null;
             }
             return new OkObjectResult(new { Ok = true });

@@ -32,8 +32,8 @@ namespace Company.Function
             {
                 foreach (var match in EightfinalMatches)
                 {
-                    match.AwayTeamScore = Random.Shared.Next(0, 3);
-                    match.HomeTeamScore = Random.Shared.Next(0, 3);
+                    match.AwayTeamScore = Random.Shared.Next(0, 2);
+                    match.HomeTeamScore = Random.Shared.Next(3, 5);
                     match.Date = DateTime.Now;
                     log.LogInformation($"ID of match played: {match.Id}. Result: [{match.AwayTeamId}] {match.AwayTeamScore} - {match.HomeTeamScore} [{match.HomeTeamId}]");
                 }
