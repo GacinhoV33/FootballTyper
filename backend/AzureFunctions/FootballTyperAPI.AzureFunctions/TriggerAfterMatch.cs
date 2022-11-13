@@ -18,7 +18,7 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: TriggerAfterMatch");
 
-            var result = await Get("api/UpdateScoreAfterMatch");
+            //var result = await Get("api/UpdateScoreAfterMatch");
 
             log.LogInformation($"Ending execution of: TriggerAfterMatch");
             log.LogInformation($"-------------------------------------------------------------------------");

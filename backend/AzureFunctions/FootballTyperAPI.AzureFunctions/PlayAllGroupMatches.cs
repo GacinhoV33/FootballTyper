@@ -10,11 +10,11 @@ using System.Linq;
 
 namespace FootballTyperAPI.AzureFunctions
 {
-    public static class PlayAllMatches
+    public static class PlayAllGroupMatches
     {
-        [FunctionName("PlayAllMatches")]
+        [FunctionName("PlayAllGroupMatches")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "PlayAllMatches")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "PlayAllGroupMatches")] HttpRequest req,
             [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL",
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] IEnumerable<MatchDbSave> Matches,
@@ -25,7 +25,7 @@ namespace FootballTyperAPI.AzureFunctions
         {
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
-            log.LogInformation($"Starting execution of: PlayAllMatches");
+            log.LogInformation($"Starting execution of: PlayAllGroupMatches");
 
             if (Matches.Count() > 0)
             {
@@ -43,7 +43,7 @@ namespace FootballTyperAPI.AzureFunctions
             }
 
             outMatches = Matches.ToArray();
-            log.LogInformation($"Ending execution of: PlayAllMatches");
+            log.LogInformation($"Ending execution of: PlayAllGroupMatches");
             log.LogInformation($"-------------------------------------------------------------------------");
             return new OkObjectResult(new { Ok = true });
         }

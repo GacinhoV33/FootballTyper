@@ -44,8 +44,8 @@ const AdminPanel = () => {
     sendHttpRequest("api/PlayMatch");
   };
 
-  const handlePlayAllMathes = () => {
-    sendHttpRequest("api/PlayAllMatches");
+  const PlayAllGroupMatches = () => {
+    sendHttpRequest("api/PlayAllGroupMatches");
   };
 
   const handleCleanDatabase = () => {
@@ -75,52 +75,29 @@ const AdminPanel = () => {
   const handleInitializeTableBets = () => {
     sendHttpRequest("api/InitializeTableBets");
   };
+
   const handleInitializeDatabase = () => {
     sendHttpRequest("api/InitializeDatabase");
   };
 
+  const handleInitEightfinals = () => {
+    sendHttpRequest("api/InitializeKnockoutStageEightfinals");
+  };
+
+  const handleInitQuarterfinals = () => {
+    sendHttpRequest("api/InitializeKnockoutStageQuarterfinals");
+  };
+
+  const handlePlayEightfinals = () => {
+    sendHttpRequest("api/PlayKnockoutStageEightfinals");
+  };
+
+  const handlePlayQuarterfinals = () => {
+    sendHttpRequest("api/PlayKnockoutStageQuarterfinals");
+  };
+
   return (
     <div>
-      {/* <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleCleanDatabase}> Clean whole database</button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleCleanTableTeams}> Clean table <b>Teams</b></button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleCleanTableMatches}> Clean table <b>Matches</b></button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleCleanTableBets}> Clean table <b>Bets</b></button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleInitializeDatabase}> Initialize Database</button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleInitializeTableTeams}> Initialize table <b>Teams</b></button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleInitializeTableMatches}> Initialize table <b>Matches</b></button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleInitializeTableBets}> Initialize table <b>Bets</b></button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handlePlayMatch}> Play match</button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handlePlayAllMathes}> Play all matches</button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleUpdateMatchScores}> Update <b>Match</b> scores</button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleUpdateUserScores}> Update <b>User</b> scores</button>
-      </div>
-      <div style={{ float: 'left', clear: 'left' }}>
-        <button style={{ margin: '10px', padding: '10px' }} onClick={handleResetUserScores}> Reset <b>User</b> scores</button>
-      </div> */}
-
       <div
         className="btn-group btn-matrix"
         role="group"
@@ -133,6 +110,7 @@ const AdminPanel = () => {
           {" "}
           Clean whole database
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleCleanTableTeams}
@@ -140,6 +118,7 @@ const AdminPanel = () => {
           {" "}
           Clean table <b>Teams</b>
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleCleanTableMatches}
@@ -147,6 +126,7 @@ const AdminPanel = () => {
           {" "}
           Clean table <b>Matches</b>
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleCleanTableBets}
@@ -154,6 +134,7 @@ const AdminPanel = () => {
           {" "}
           Clean table <b>Bets</b>
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleInitializeDatabase}
@@ -161,6 +142,7 @@ const AdminPanel = () => {
           {" "}
           Initialize Database
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleInitializeTableTeams}
@@ -168,6 +150,7 @@ const AdminPanel = () => {
           {" "}
           Initialize table <b>Teams</b>
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleInitializeTableMatches}
@@ -175,6 +158,7 @@ const AdminPanel = () => {
           {" "}
           Initialize table <b>Matches</b>
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleInitializeTableBets}
@@ -182,17 +166,20 @@ const AdminPanel = () => {
           {" "}
           Initialize table <b>Bets</b>
         </button>
+
         <button className="btn btn-outline-primary" onClick={handlePlayMatch}>
           {" "}
-          Play match
+          Play <b>Group</b> match
         </button>
+
         <button
           className="btn btn-outline-primary"
-          onClick={handlePlayAllMathes}
+          onClick={PlayAllGroupMatches}
         >
           {" "}
-          Play all matches
+          Play all <b>Group</b> matches
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleUpdateMatchScores}
@@ -200,6 +187,7 @@ const AdminPanel = () => {
           {" "}
           Update <b>Match</b> scores
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleUpdateUserScores}
@@ -207,6 +195,7 @@ const AdminPanel = () => {
           {" "}
           Update <b>User</b> scores
         </button>
+
         <button
           className="btn btn-outline-primary"
           onClick={handleResetUserScores}
@@ -214,6 +203,39 @@ const AdminPanel = () => {
           {" "}
           Reset <b>User</b> scores
         </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handleInitEightfinals}
+        >
+          {" "}
+          Initialize <b>Eightfinals</b> stage
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handlePlayEightfinals}
+        >
+          {" "}
+          Play <b>Eightfinals</b> stage
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handleInitQuarterfinals}
+        >
+          {" "}
+          Initialize <b>Quarterfinals</b> stage
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={handlePlayQuarterfinals}
+        >
+          {" "}
+          Play <b>Quarterfinals</b> stage
+        </button>
+
       </div>
     </div>
   );
