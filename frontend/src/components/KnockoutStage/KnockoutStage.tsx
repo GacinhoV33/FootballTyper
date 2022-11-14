@@ -2,30 +2,26 @@ import React from 'react'
 import MatchBet from './MatchBet/MatchBet';
 import './KnockoutStage.scss';
 import { CircleFlag } from 'react-circle-flags';
-// import { Bracket, IRoundProps } from 'react-brackets';
 import { Bracket, IRoundProps, Seed, SeedItem, SeedTeam, IRenderSeedProps } from 'react-brackets';
 import { text } from 'stream/consumers';
 import Button from 'react-bootstrap/Button';
-
-// import React from 'react';
-const dummyData = {
-  firstCountryName: 'Poland', // Country Type?
-  secondCountryName: 'Germany',
-  firstCountryScore: '2', // Score type? 
-  secondCountryScore: '1',
-  firstCountryCode: 'es',
-  secondCountryCode: 'pl',
-}
+import { Match } from '../../App';
+import trofeum from './trofeum.png';
 
 
 
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
-
+  const isMatchPlayed = seed.isMatchPlayed;
+  // console.log(isMatchPlayed)
   // mobileBreakpoint is required to be passed down to a seed
   return (
     <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 14, width: '20vw' }}>
+      {seed.id === 15 ? <img src={trofeum} style={{zIndex: '0', width: '250px', height: '350px', position: 'absolute', top: '5vh'}}/>
+      : null
+      }
+      
       <SeedItem style={{display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
         <div>
           <SeedTeam style={{ color: 'red' }}>
@@ -40,7 +36,6 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
               <CircleFlag countryCode='es' height='30' />
               {seed.teams[1]?.name || 'NO TEAM '}
             </div>
-            {/* icon of ??? TODO */}
           </SeedTeam>
         </div>
         <div style={{paddingRight: '1vw'}}>
@@ -54,7 +49,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
 };
 
 export interface KnockoutStageProps {
-
+  allMatches: Match[] | null,
 }
 
 // export type RoundTitleProps = {
@@ -69,9 +64,10 @@ export interface KnockoutStageProps {
 //   )
 // }
 
-const KnockoutStage: React.FC<KnockoutStageProps> = ({ }) => {
+const KnockoutStage: React.FC<KnockoutStageProps> = ({allMatches}) => {
   return (
     <div className='knockout-main'>
+      {/* //@ts-ignore */}
       <Bracket rounds={rounds} renderSeedComponent={CustomSeed} roundClassName={'round-styles'} />
     </div>
   )
@@ -88,41 +84,49 @@ const rounds: IRoundProps[] = [
         id: 1,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team B' }],
+        isMatchPlayed: false,
       },
       {
         id: 2,
         date: new Date().toDateString(),
         teams: [{ name: 'Team C' }, { name: 'Team D' }],
+        isMatchPlayed: true,
       },
       {
         id: 3,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team B' }],
+        isMatchPlayed: true,
       },
       {
         id: 4,
         date: new Date().toDateString(),
         teams: [{ name: 'Team C' }, { name: 'Team D' }],
+        isMatchPlayed: true,
       },
       {
         id: 5,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team B' }],
+        isMatchPlayed: true,
       },
       {
         id: 6,
         date: new Date().toDateString(),
         teams: [{ name: 'Team C' }, { name: 'Team D' }],
+        isMatchPlayed: true,
       },
       {
         id: 7,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team B' }],
+        isMatchPlayed: true,
       },
       {
         id: 8,
         date: new Date().toDateString(),
         teams: [{ name: 'Team C' }, { name: 'Team D' }],
+        isMatchPlayed: true,
       },
     ],
   },
@@ -133,21 +137,29 @@ const rounds: IRoundProps[] = [
         id: 9,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team C' }],
+        isMatchPlayed: true,
+
       },
       {
         id: 10,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team C' }],
+        isMatchPlayed: true,
+
       },
       {
         id: 11,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team C' }],
+        isMatchPlayed: true,
+
       },
       {
         id: 12,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team C' }],
+        isMatchPlayed: true,
+
       },
     ],
   },
@@ -158,11 +170,15 @@ const rounds: IRoundProps[] = [
         id: 13,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team C' }],
+        isMatchPlayed: true,
+
       },
       {
         id: 14,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team C' }],
+        isMatchPlayed: true,
+
       },
     ],
   },
@@ -173,6 +189,7 @@ const rounds: IRoundProps[] = [
         id: 15,
         date: new Date().toDateString(),
         teams: [{ name: 'Team A' }, { name: 'Team C' }],
+        isMatchPlayed: true,
       }
     ],
   },

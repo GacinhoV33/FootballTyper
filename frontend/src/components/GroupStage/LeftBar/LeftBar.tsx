@@ -13,18 +13,17 @@ export interface LeftBarProps {
 const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
     return (
         <LeftBarAnimation>
-            <h2 style={{ textAlign: 'center' }}>Top Scores</h2>
+            <h2 style={{ textAlign: 'center', color: '#DDD'}}>Top Scores</h2>
             <Table>
-                <tbody>
+                <tbody className='groupstage-player-statistics'>
                     {dummyPlayerData.map(({ playerName, goals, assists, team, yellowCards, redCards, imgPath }, index) => {
                         
-                        const gradString = `linear-gradient(to right, rgba(255, 10, 10, 0.7), yellow)`;
                         return(
-                        <tr style={{textAlign: 'center', backgroundImage: gradString}} key={index}>
+                        <tr style={{textAlign: 'center'}} key={index}>
                             <td style={{fontWeight: '500'}}>{index + 1}</td>
                             <td style={{textAlign: 'left'}}>{playerName}</td>
-                            <td><BiFootball size={20} />{goals}</td>
-                            <td> <span style={{fontWeight: '500', color: 'chocolate'}}>A</span> {assists} </td>
+                            <td><BiFootball size={20} style={{color: '#777'}}/>{goals}</td>
+                            <td> <span style={{fontWeight: '500', color: '#CCC'}}>A</span> {assists} </td>
                             <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
                             <td><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
                         </tr>

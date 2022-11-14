@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { Route, Router } from 'react-router-dom';
 import './Homepage.scss'
 // Components 
@@ -6,7 +6,7 @@ import Layout from '../Layout/Layout';
 import CountryDict from '../YourBets/MyBets/CountryDict';
 import { Team } from '../../App';
 import { CircleFlag } from 'react-circle-flags';
-// import Carousel  from 'react-bootstrap/Carousel';
+import Iframe from 'react-iframe'
 //photos
 import amhed_bin_ali_stadium from './ahmed_bin_ali_stadium.jpg';
 import amhed_bin_ali_stadium2 from './ahmed_bin_ali_stadium2.jpg';
@@ -56,7 +56,8 @@ import stadium_9743 from './stadium_9743.jpg'
 import stadium_9744 from './stadium_9744.jpg'
 import stadium_9745 from './stadium_9745.jpg'
 
-
+import ball from './ball.png';
+import czesiu from './Czesiu.png';
 import Button from 'react-bootstrap/Button';
 
 import Carousel from "react-multi-carousel";
@@ -97,28 +98,6 @@ const responsive = {
   }
 };
 
-
-const dummyMatches: MatchCardProps[] = [{
-  homeTeam: 'Poland',
-  awayTeam: 'Spain',
-  date: '2022-11-20T17:00:00',
-},
-{
-  homeTeam: 'Germany',
-  awayTeam: 'Argentina',
-  date: '2022-11-20T18:00:00',
-},
-{
-  homeTeam: 'Netherlands',
-  awayTeam: 'Mexico',
-  date: '2022-11-21T19:00:00',
-},
-{
-  homeTeam: 'Switzerland',
-  awayTeam: 'England',
-  date: '2022-11-22T17:00:00',
-},]
-
 const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
   const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
@@ -130,44 +109,57 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
       <div className='flags'>
         {
           allTeams?.map(({ name }, index) => (
-            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag'/>
+            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag' />
           ))
         }
       </div>
       <div className='content-body'>
         <span className='welcome-text'>
-          Welcome in Qatar 2022 Typer
+          Welcome to Qatar 2022 Typer
+          <img src={ball} style={{height: '7vh'}}/>
         </span>
-        <div className='current-matches'>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {matchesToDisplay && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+
+          <div className='current-matches'>
+
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {matchesToDisplay && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} />
-                <div >
-                  <TimeToStartTwo date={match.date} whiteColor/>
+                  <div >
+                    <TimeToStartTwo date={match.date} whiteColor />
+                  </div>
                 </div>
-              </div>
-            ))
-              :
-              // TODO minwitdh of time
-              null}
+              ))
+                :
+                // TODO minwitdh of time
+                null}
+            </div>
           </div>
-
-
-
+          <div className='ball-video'>
+          <span className='ball-text'>Good Luck & Enjoy </span>
+          <Iframe 
+              url="https://www.youtube.com/embed/71sqkgaUncI"
+              width="640px"
+              height="320px"
+              id=""
+              className=""
+              display="block"
+              position="relative"
+              
+            />
+            {/* <span className='ball-text'> Al Rihla </span>
+            <img src={ball} style={{ width: '10vw' }} />
+            <img src={czesiu}/> */}
+          </div>
         </div>
-        <div className='time-to-start'>
 
-        </div>
-      </div>
-
-      <div className='login-info'>
 
       </div>
       <div style={{ gridColumn: '1/11', gridRow: '4/11' }}>
 
 
-        <h1> Stadiums </h1>
+        <h1 style={{ color: '#EEE', textAlign: 'center', paddingBottom: '5vh' }}> Stadiums </h1>
         <Carousel
           swipeable={true}
           draggable={true}
@@ -255,3 +247,20 @@ const stadiums = [{
   city: 'Al-Dauha',
 },
 ]
+
+interface IframeHTMLAttributes<T> extends HTMLAttributes<T> {
+  allow?: string;
+  allowFullScreen?: boolean;
+  allowTransparency?: boolean;
+  frameBorder?: number | string;
+  height?: number | string;
+  marginHeight?: number;
+  marginWidth?: number;
+  name?: string;
+  sandbox?: string;
+  scrolling?: string;
+  seamless?: boolean;
+  src?: string;
+  srcDoc?: string;
+  width?: number | string;
+}

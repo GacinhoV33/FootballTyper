@@ -11,6 +11,8 @@
 }
 
 .rightBar-yourbets{
+    position: fixed;
+    right: 2vw;
     grid-column: 11/13;
     align-items: flex-start;
     padding: 0 2.5rem;

@@ -19,13 +19,16 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allUserBets)
   const userData = allUsers?.filter((user) => user.id === userCtx.userLocalData.id);
 
+  const [totalNumberOfEndBets, setTotalNumberOfEndBets] = useState<number>(allUserBets.length)
+  const [correctScores, setCorrectScores] = useState<Bet[]>(allUserBets.filter((bet: Bet) => bet.betResult === 2));
+  const [correctResult, setCorrectResult] = useState<Bet[]>(allUserBets.filter((bet: Bet) => bet.betResult === 1));
+  const [wrongBets, setWrongBets] = useState<Bet[]>(allUserBets.filter((bet: Bet) => bet.betResult === 0 && bet.betResult !== null));
   useEffect(
 
     () => {
       allUserBets.sort((bet1, bet2) => new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime())
       function sortMyBets() {
         let currentBets = deepcopy(allUserBets);
-        console.log(currentBets)
 
         if (filterMyBets.indexOf('GroupStage') !== -1 && allUserBets) {
           currentBets = currentBets.filter((bet) => bet.match.group !== 'Knockout')      // #TODO how to verify that match is groupstage
@@ -53,6 +56,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
         setBetsToShow(currentBets);
       }
       sortMyBets()
+
     }
     , [filterMyBets]);
 
@@ -63,13 +67,10 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
       setBetsToShow(allUserBets);
     }
     getUserBets();
+    
+    console.log('total', totalNumberOfEndBets)
   }, [])
 
-  
-  const correctScores = allUserBets.filter((bet) => bet.betResult === 2);
-  const correctResult = allUserBets.filter((bet) => bet.betResult === 1);
-  const wrongBets = allUserBets.filter((bet) => bet.betResult === 0 && bet.betResult !== null);
-  const totalNumberOfEndBets = correctScores.length + correctResult.length + wrongBets.length;
   return (
 
     <div className='my-bets-main'>
@@ -87,7 +88,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 value={correctScores.length}
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
-                text={`${totalNumberOfEndBets !== 0 ? Number(correctScores.length / totalNumberOfEndBets).toFixed(4) * 100 : 0.00}%`}
+                text={`${totalNumberOfEndBets !== 0 ? (Number(correctScores.length / totalNumberOfEndBets).toFixed(4) * 100).toString().slice(0, 5) : 0.00}%`}
                 styles={buildStyles({ pathColor: 'green', textColor: '#CCCCCC' })} />
             </div>
           </div>
@@ -99,7 +100,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 value={correctResult.length} 
                 maxValue={totalNumberOfEndBets} 
                 //@ts-ignore
-                text={`${totalNumberOfEndBets !== 0 ? Number(correctResult.length / totalNumberOfEndBets).toFixed(4) * 100 : 0.00}%`} 
+                text={`${totalNumberOfEndBets !== 0 ? (Number(correctResult.length / totalNumberOfEndBets).toFixed(4) * 100).toString().slice(0, 5) : 0.00}%`} 
                 styles={buildStyles({ pathColor: 'darkgreen', textColor: '#CCCCCC' })} />
             </div>
             <div className='circular-bar-sizing'>
@@ -108,7 +109,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 value={wrongBets.length} 
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
-                text={`${totalNumberOfEndBets !== 0 ? Number(wrongBets.length/ totalNumberOfEndBets).toFixed(4) * 100 : 0.00}%`}
+                text={`${totalNumberOfEndBets !== 0 ? (Number(wrongBets.length/ totalNumberOfEndBets).toFixed(4) * 100).toString().slice(0, 5) : 0.00}%`}
                 styles={buildStyles({ pathColor: 'red', textColor: '#CCCCCC', })} />
             </div>
           </div>
@@ -118,7 +119,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
         </div>
         <div className='rightBar-yourbets'>
           <h1>Points: {userData ? userData[0].totalPoints : '2'}</h1>
-
         </div>
 
       </div>
