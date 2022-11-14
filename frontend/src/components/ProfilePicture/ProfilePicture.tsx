@@ -1,28 +1,16 @@
 import React, { useState } from "react";
+import { VscDebugConsole } from "react-icons/vsc";
 
-const ProfilePicture = () => {
-  const getProfilePictureLink = () => {
-    const user = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user") as string)
-      : "";
-    console.log("User: ", user);
+const ProfilePicture = (props: any) => {
 
-    let profilePictureLink = "defaultProfilePicture.jpg";
-    if (user) {
-      if (user.imgLink !== null) {
-        profilePictureLink = user.imgLink;
-      }
-    }
-    return `https://footballtypersa.blob.core.windows.net/imgs/${profilePictureLink}`;
-  };
-
+  let profilePictureLink = "defaultProfilePicture.jpg";
   return (
-      <div>
-        <img
-          style={{ width: "160px", height: "160px", margin: "10px" }}
-          src={getProfilePictureLink()}
-        />
-      </div>
+    <div>
+      <img
+        style={{ width: "160px", height: "160px", margin: "10px" }}
+        src={`https://footballtypersa.blob.core.windows.net/imgs/${props.imgLink ? props.imgLink : profilePictureLink}`}
+      />
+    </div>
   );
 };
 
