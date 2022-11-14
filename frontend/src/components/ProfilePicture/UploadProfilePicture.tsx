@@ -4,7 +4,6 @@ import ProfilePicture from "./ProfilePicture";
 const UploadProfilePicture = () => {
   const [file, setFile] = useState<any>();
   const [fileName, setFileName] = useState<any>();
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   //   const apiUrl = "http://localhost:44302/";
   const apiUrl = "";
 
@@ -12,8 +11,9 @@ const UploadProfilePicture = () => {
     ? JSON.parse(localStorage.getItem("user") as string)
     : "";
 
-  const sendHttpRequest = (path: string, requestOptions: any) => {
-    fetch(apiUrl + path, requestOptions)
+  const [imgBlobLink, setImgBlobLink] = useState<string>(user.imgLink);
+  const sendHttpRequest = async (path: string, requestOptions: any) => {
+    await fetch(apiUrl + path, requestOptions)
       .then((response) => {
         console.log("Response: ", response);
         if (response.ok) {
@@ -25,14 +25,14 @@ const UploadProfilePicture = () => {
       });
   };
 
-  const saveFile = (e: any) => {
+  const saveFile = async (e: any) => {
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name);
   };
 
   const uploadFile = async () => {
     if (validateFileType()) {
-      let newImgLink = user.username + "." + getExt(fileName);
+      let newImgLink = user.username + "__" + new Date().toLocaleTimeString() + "." + getExt(fileName);
       const formData = new FormData();
       formData.append("File", file);
       formData.append("FileName", newImgLink);
@@ -41,7 +41,7 @@ const UploadProfilePicture = () => {
         method: "POST",
         body: formData,
       };
-      sendHttpRequest(
+      await sendHttpRequest(
         process.env.REACT_APP_API_URL + "api/File",
         postRequestOptions
       );
@@ -57,7 +57,7 @@ const UploadProfilePicture = () => {
           imgLink: newImgLink,
         }),
       };
-      sendHttpRequest(
+      await sendHttpRequest(
         process.env.REACT_APP_API_URL + `api/TyperUsers/ImgLink/${user.id}`,
         putRequestOptions
       );
@@ -73,7 +73,7 @@ const UploadProfilePicture = () => {
           leagues: user.leagues,
         })
       );
-      forceUpdate();
+      setImgBlobLink(newImgLink);
     }
   };
 
@@ -105,10 +105,10 @@ const UploadProfilePicture = () => {
         style={{ margin: "10px" }}
         type="button"
         value="Upload Profile Picture"
-        onClick={uploadFile}
+        onClick={async () => await uploadFile()}
       />
 
-      <ProfilePicture />
+      <ProfilePicture imgLink={imgBlobLink} />
     </div>
   );
 };
