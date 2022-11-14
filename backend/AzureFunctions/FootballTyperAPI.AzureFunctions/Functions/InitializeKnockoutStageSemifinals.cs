@@ -1,4 +1,5 @@
 using FootballTyperAPI.AzureFunctions;
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace Company.Function
                 UpdateData(QuarterfinalMatches, Teams);
                 FillSemifinalMatches(QuarterfinalMatches, SemifinalMatches);
 
-                outMatches = SemifinalMatches.Select(x => UpdateScoreAfterMatch.MapMatch(x)).ToArray();
+                outMatches = SemifinalMatches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();
             }
             else
             {

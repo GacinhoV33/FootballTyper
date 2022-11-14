@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace FootballTyperAPI.Helpers
+namespace FootballTyperAPI.Common
 {
     public static class TeamHelper
     {

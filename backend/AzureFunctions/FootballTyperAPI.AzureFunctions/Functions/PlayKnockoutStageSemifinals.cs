@@ -1,4 +1,5 @@
 using FootballTyperAPI.AzureFunctions;
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,7 @@ namespace Company.Function
                     match.Date = DateTime.Now;
                     log.LogInformation($"ID of match played: {match.Id}. Result: [{match.AwayTeamId}] {match.AwayTeamScore} - {match.HomeTeamScore} [{match.HomeTeamId}]");
                 }
-                outMatches = SemifinalMatches.Select(x => UpdateScoreAfterMatch.MapMatch(x)).ToArray();
+                outMatches = SemifinalMatches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();
             }
             else
             {

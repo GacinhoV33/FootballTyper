@@ -1,4 +1,5 @@
 using FootballTyperAPI.AzureFunctions;
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace Company.Function
                 Dictionary<string, List<TeamAndPosition>> teamAndPositionDict = CreateTeamAndPositionDict(Teams);
                 FillEightfinalMatches(KnockoutMatches, teamAndPositionDict);
 
-                outMatches = KnockoutMatches.Select(x => UpdateScoreAfterMatch.MapMatch(x)).ToArray();
+                outMatches = KnockoutMatches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();
             }
             else
             {

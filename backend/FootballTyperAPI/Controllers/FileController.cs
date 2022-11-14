@@ -56,7 +56,7 @@ namespace FootballTyperAPI.Controllers
         private Bitmap CalcDimAndResizeImage(Image img)
         {
             var maxDim = img.Height > img.Width ? img.Height : img.Width;
-            float ratio = (float)maxDim / 160;
+            float ratio = (float)maxDim / 320;
             Bitmap resultImage = ResizeImg(img, (int)(img.Width / ratio), (int)(img.Height / ratio));
             return resultImage;
         }

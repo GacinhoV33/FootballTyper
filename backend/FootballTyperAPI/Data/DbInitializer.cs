@@ -1,4 +1,4 @@
-﻿using FootballTyperAPI.Helpers;
+﻿using FootballTyperAPI.Common;
 using FootballTyperAPI.Models;
 using System.Text.Json;
 

@@ -1,5 +1,5 @@
-﻿using FootballTyperAPI.Data;
-using FootballTyperAPI.Helpers;
+﻿using FootballTyperAPI.Common;
+using FootballTyperAPI.Data;
 using FootballTyperAPI.Models;
 using FootballTyperAPI.Models.Api;
 using Microsoft.AspNetCore.Mvc;
@@ -121,22 +121,8 @@ namespace FootballTyperAPI.Controllers
                 return NotFound();
             }
 
-            return groupMatches.Select(m => MapMatch(m)).ToList();
+            return groupMatches.Select(m => Mappers.MapMatch(m)).ToList();
         }
 
-        private MatchApi MapMatch(Match match)
-        {
-            return new MatchApi()
-            {
-                HomeTeam = match.HomeTeam?.Name,
-                AwayTeam = match.AwayTeam?.Name,
-                HomeTeamScore = match.HomeTeamScore,
-                AwayTeamScore = match.AwayTeamScore,
-                Group = match.Group?.Replace("Group ", ""),
-                Stadium = match.Location,
-                Date = match.Date,
-                Referee = match.Referee
-            };
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Data;
 using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;

@@ -1,3 +1,4 @@
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,7 @@ namespace FootballTyperAPI.AzureFunctions
             }
 
             outUsers = Users.ToArray();
-            outBets = Bets.Select(x => UpdateTyperScores.MapBet(x)).ToArray();
+            outBets = Bets.Select(x => Mappers.MapBet(x)).ToArray();
 
             log.LogInformation($"Ending execution of: ResetTyperScores");
             log.LogInformation($"-------------------------------------------------------------------------");

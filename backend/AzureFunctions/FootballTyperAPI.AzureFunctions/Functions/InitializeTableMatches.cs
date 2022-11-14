@@ -1,5 +1,4 @@
-using FootballTyperAPI.AzureFunctions;
-using FootballTyperAPI.Helpers;
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +31,7 @@ namespace Company.Function
                     match.HomeTeamId = match.HomeTeam.Id;
                     match.AwayTeamId = match.AwayTeam.Id;
                 }
-                outMatches = matches.Select(x => UpdateScoreAfterMatch.MapMatch(x)).ToArray();
+                outMatches = matches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();
             }
             else
             {

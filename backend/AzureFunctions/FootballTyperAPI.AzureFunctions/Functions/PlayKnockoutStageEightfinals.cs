@@ -1,4 +1,5 @@
 using FootballTyperAPI.AzureFunctions;
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,37 +12,37 @@ using System.Linq;
 
 namespace Company.Function
 {
-    public static class PlayKnockoutStageFinals
+    public static class PlayKnockoutStageEightfinals
     {
 
-        [FunctionName("PlayKnockoutStageFinals")]
+        [FunctionName("PlayKnockoutStageEightfinals")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "PlayKnockoutStageFinals")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "PlayKnockoutStageEightfinals")] HttpRequest req,
             [Sql("SELECT * FROM [dbo].[Teams]",
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Team> Teams,
-            [Sql("SELECT * FROM [dbo].[Match] WHERE RoundNumber = 7 ORDER BY Id ASC",
+            [Sql("SELECT * FROM [dbo].[Match] WHERE RoundNumber = 4 ORDER BY Id ASC",
                 CommandType = System.Data.CommandType.Text,
-                ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> FinalMatches,
+                ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> EightfinalMatches,
             [Sql("[dbo].[Match]",
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] out MatchDbSave[] outMatches,
             ILogger log)
         {
-            if (Teams.Any() && FinalMatches.Any())
+            if (Teams.Any() && EightfinalMatches.Any())
             {
-                foreach (var match in FinalMatches)
+                foreach (var match in EightfinalMatches)
                 {
                     match.AwayTeamScore = Random.Shared.Next(0, 2);
                     match.HomeTeamScore = Random.Shared.Next(3, 5);
                     match.Date = DateTime.Now;
                     log.LogInformation($"ID of match played: {match.Id}. Result: [{match.AwayTeamId}] {match.AwayTeamScore} - {match.HomeTeamScore} [{match.HomeTeamId}]");
                 }
-                outMatches = FinalMatches.Select(x => UpdateScoreAfterMatch.MapMatch(x)).ToArray();
+                outMatches = EightfinalMatches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();
             }
             else
             {
-                log.LogInformation("Cannot play Final matches. Teams or Matches table is empty");
+                log.LogInformation("Cannot play Quarterfinal matches. Teams or Matches table is empty");
                 outMatches = null;
             }
             return new OkObjectResult(new { Ok = true });
