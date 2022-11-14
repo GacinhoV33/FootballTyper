@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { Route, Router } from 'react-router-dom';
 import './Homepage.scss'
 // Components 
@@ -6,7 +6,7 @@ import Layout from '../Layout/Layout';
 import CountryDict from '../YourBets/MyBets/CountryDict';
 import { Team } from '../../App';
 import { CircleFlag } from 'react-circle-flags';
-// import Carousel  from 'react-bootstrap/Carousel';
+import Iframe from 'react-iframe'
 //photos
 import amhed_bin_ali_stadium from './ahmed_bin_ali_stadium.jpg';
 import amhed_bin_ali_stadium2 from './ahmed_bin_ali_stadium2.jpg';
@@ -56,7 +56,8 @@ import stadium_9743 from './stadium_9743.jpg'
 import stadium_9744 from './stadium_9744.jpg'
 import stadium_9745 from './stadium_9745.jpg'
 
-
+import ball from './ball.png';
+import czesiu from './Czesiu.png';
 import Button from 'react-bootstrap/Button';
 
 import Carousel from "react-multi-carousel";
@@ -98,28 +99,6 @@ const responsive = {
   }
 };
 
-
-const dummyMatches: MatchCardProps[] = [{
-  homeTeam: 'Poland',
-  awayTeam: 'Spain',
-  date: '2022-11-20T17:00:00',
-},
-{
-  homeTeam: 'Germany',
-  awayTeam: 'Argentina',
-  date: '2022-11-20T18:00:00',
-},
-{
-  homeTeam: 'Netherlands',
-  awayTeam: 'Mexico',
-  date: '2022-11-21T19:00:00',
-},
-{
-  homeTeam: 'Switzerland',
-  awayTeam: 'England',
-  date: '2022-11-22T17:00:00',
-},]
-
 const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
   const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
@@ -137,10 +116,13 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
       </div>
       <div className='content-body'>
         <span className='welcome-text'>
-          Welcome in Qatar 2022 Typer
+          Welcome to Qatar 2022 Typer
+          <img src={ball} style={{ height: '7vh' }} />
         </span>
-        <div className='middle-content'>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+
           <div className='current-matches'>
+
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {matchesToDisplay && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -155,48 +137,57 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
                 null}
             </div>
           </div>
-          <div className='news-component'>
-            <News />
+          <div className='ball-video'>
+            <span className='ball-text'>Good Luck & Enjoy </span>
+            <Iframe
+              url="https://www.youtube.com/embed/71sqkgaUncI"
+              width="640px"
+              height="320px"
+              id=""
+              className=""
+              display="block"
+              position="relative"
+
+            />
           </div>
         </div>
 
-      </div>
+
+        <div style={{ gridColumn: '1/11', gridRow: '3/10' }}>
 
 
-      <div style={{ gridColumn: '1/11', gridRow: '3/10' }}>
+          <h1 style={{ color: '#EEE', textAlign: 'center', paddingBottom: '5vh' }}> Stadiums </h1>
+          <Carousel
+            swipeable={true}
+            draggable={true}
+            showDots={false}
+            responsive={responsive}
+            ssr={true} // means to render carousel on server-side.
+            infinite={true}
+            autoPlay={isAutoPlay}
+            autoPlaySpeed={5000}
+            keyBoardControl={true}
+            customTransition="all .5"
+            transitionDuration={5500}
+            containerClass="carousel-container"
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            dotListClass="custom-dot-list-style"
+            itemClass="carousel-item-padding-40-px"
+          >
+            {stadiums.map(({ photo, stadiumName, city, size }, index) => (
+              <StadiumCard
+                photo={photo}
+                index={index}
+                key={index}
+                stadiumSize={size}
+                stadiumName={stadiumName}
+                stadiumLocation={city}
+                setAutoPlay={setAutoPlay}
+              />
+            ))}
 
-
-        <h1> Stadiums </h1>
-        <Carousel
-          swipeable={true}
-          draggable={true}
-          showDots={false}
-          responsive={responsive}
-          ssr={true} // means to render carousel on server-side.
-          infinite={true}
-          autoPlay={isAutoPlay}
-          autoPlaySpeed={5000}
-          keyBoardControl={true}
-          customTransition="all .5"
-          transitionDuration={5500}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          dotListClass="custom-dot-list-style"
-          itemClass="carousel-item-padding-40-px"
-        >
-          {stadiums.map(({ photo, stadiumName, city, size }, index) => (
-            <StadiumCard
-              photo={photo}
-              index={index}
-              key={index}
-              stadiumSize={size}
-              stadiumName={stadiumName}
-              stadiumLocation={city}
-              setAutoPlay={setAutoPlay}
-            />
-          ))}
-
-        </Carousel>
+          </Carousel>
+        </div>
       </div>
     </div>
   )
@@ -254,3 +245,20 @@ const stadiums = [{
   city: 'Al-Dauha',
 },
 ]
+
+interface IframeHTMLAttributes<T> extends HTMLAttributes<T> {
+  allow?: string;
+  allowFullScreen?: boolean;
+  allowTransparency?: boolean;
+  frameBorder?: number | string;
+  height?: number | string;
+  marginHeight?: number;
+  marginWidth?: number;
+  name?: string;
+  sandbox?: string;
+  scrolling?: string;
+  seamless?: boolean;
+  src?: string;
+  srcDoc?: string;
+  width?: number | string;
+}

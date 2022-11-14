@@ -17,7 +17,7 @@ const NavbarComp = () => {
     marginRight: '2px'
   }}
   const isUserLogged = useContext(UserContext).isUserSigned;
-  const worldBall = <BiFootball size={28} style={{color: '#807090'}}/>;
+  const worldBall = <BiFootball size={28} style={{color: 'rgb(138, 21, 56)'}}/>;
   const profile = () => {
     return (
       <div style={{display: 'flex', alignItems:'center'}}>
@@ -61,7 +61,7 @@ const NavbarComp = () => {
           </Nav>
           </div>
           <div style={{paddingRight: '1rem', display: 'flex', alignItems: 'center'}}>  
-              <h1 style={{color: '#809070', fontSize: '2vw'}}>W{worldBall}rld Cup starts in </h1>  
+              <h1 style={{color: '#888', fontSize: '2vw'}}>W{worldBall}rld Cup starts in </h1>  
               <TimeToStartTwo/>
           </div>
         </div>
