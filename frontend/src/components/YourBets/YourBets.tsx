@@ -119,7 +119,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                   totalNumberOfEndBets !== 0
                     ? Number(
                         (correctScores.length / totalNumberOfEndBets) * 100
-                      ).toPrecision(4)
+                      ).toFixed(2)
                     : 0.0
                 }%`}
                 styles={buildStyles({
@@ -140,7 +140,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                   totalNumberOfEndBets !== 0
                     ? Number(
                         (correctResult.length / totalNumberOfEndBets) * 100
-                      ).toPrecision(4)
+                      ).toFixed(2)
                     : 0.0
                 }%`}
                 styles={buildStyles({
@@ -159,7 +159,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                   totalNumberOfEndBets !== 0
                     ? Number(
                         (wrongBets.length / totalNumberOfEndBets) * 100
-                      ).toPrecision(4)
+                      ).toFixed(2)
                     : 0.0
                 }%`}
                 styles={buildStyles({ pathColor: "red", textColor: "#CCCCCC" })}
