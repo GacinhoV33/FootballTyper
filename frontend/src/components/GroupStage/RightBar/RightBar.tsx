@@ -18,12 +18,11 @@ const RightBar: React.FC<RightBarProps> = ({chosenCountries, currentGroup}) => {
   return (
     <RightBarAnimation>
       <div style={{display: 'flex'}}>
-        <h2 style={{textAlign: 'left'}}>Top Scores</h2>
-        <h3 style={{textAlign: 'center'}}> GROUP {currentGroup} </h3>
+        <h2 style={{textAlign: 'center', color: '#DDD'}}> GROUP {currentGroup} </h2>
       </div>
     
     <Table>
-        <tbody>
+        <tbody className='right-bar-statistics'>
         {dummyPlayerData.map(({playerName, goals, assists, team, yellowCards, redCards, imgPath} : Player, index: number) => (
             <tr style={{textAlign: 'center'}} key={index}>
               <td style={{fontWeight: '500'}}>{index+1}</td>
