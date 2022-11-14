@@ -236,7 +236,7 @@ const stadiums = [{
   size: 40000,
   city: 'Al-Dauha',
   opened: '15 June 2020',
-  architect: 'Fenwick Iribarren Architects & Pattern Design'
+  architect: 'Fenwick Iribarren Architects'
 },
 {
   photo: [khalifa_stadium, khalifa_stadium2, khalifa_stadium3, khalifa_stadium4, khalifa_stadium5],
