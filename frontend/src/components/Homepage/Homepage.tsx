@@ -143,9 +143,8 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
               url="https://www.youtube.com/embed/71sqkgaUncI"
               width="640px"
               height="320px"
-              id=""
-              className=""
-              display="block"
+              className="iframe-styling"
+              // display="block"
               position="relative"
 
             />
@@ -174,7 +173,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
             dotListClass="custom-dot-list-style"
             itemClass="carousel-item-padding-40-px"
           >
-            {stadiums.map(({ photo, stadiumName, city, size }, index) => (
+            {stadiums.map(({ photo, stadiumName, city, size, opened, architect }, index) => (
               <StadiumCard
                 photo={photo}
                 index={index}
@@ -183,6 +182,8 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
                 stadiumName={stadiumName}
                 stadiumLocation={city}
                 setAutoPlay={setAutoPlay}
+                opened={opened}
+                architect={architect}
               />
             ))}
 
@@ -201,48 +202,65 @@ const stadiums = [{
   stadiumName: 'Ahmed Bin Ali Stadium',
   size: 40000,
   city: 'Al-Rayyan',
+  opened: '18 December 2020',
+  architect: 'Pattern Design'
+
 },
 {
   photo: [al_bayt_stadium, al_bayt_stadium2, al_bayt_stadium3, al_bayt_stadium4],
   stadiumName: 'Al Bayt Stadium',
   size: 60000,
   city: 'Al-Chaur',
+  opened: '30 November 2021',
+  architect: '-'
 },
 {
   photo: [al_thumama_stadium, al_thumama_stadium2, al_thumama_stadium3, al_thumama_stadium4, al_thumama_stadium5],
   stadiumName: 'Al Thumama Stadium',
   size: 40000,
   city: 'Ad-Dauha',
+  opened: '21 October 2021',
+  architect: 'Ibrahim M. Jaidah'
 },
 {
   photo: [al_wakrah_stadium, al_wakrah_stadium2, al_wakrah_stadium3, al_wakrah_stadium4],
   stadiumName: 'Al Janoub Stadium',
   size: 40000,
   city: 'Ad-Wakrah',
+  opened: '16 May 2019',
+  architect: 'Zaha Hadid'
 },
 {
   photo: [education_city_stadium, education_city_stadium2, education_city_stadium3, education_city_stadium4, education_city_stadium5],
   stadiumName: 'Education City Stadium',
   size: 40000,
   city: 'Al-Dauha',
+  opened: '15 June 2020',
+  architect: 'Fenwick Iribarren Architects & Pattern Design'
 },
 {
   photo: [khalifa_stadium, khalifa_stadium2, khalifa_stadium3, khalifa_stadium4, khalifa_stadium5],
   stadiumName: 'Khalifa International Stadium',
   size: 40000,
   city: 'Al-Dauha',
+  opened: '1976(2017)',
+  architect: 'Dar Al-Handasah'
 },
 {
   photo: [lusail_stadium, lusail_stadium2, lusail_stadium3, lusail_stadium4, lusail_stadium5],
   stadiumName: 'Lusail Stadium',
   size: 80000,
   city: 'Lusail City',
+  opened: '22 November 2021',
+  architect: 'Foster + Partners & Populous'
 },
 {
   photo: [stadium_974, stadium_9742, stadium_9743, stadium_9744, stadium_9745],
   stadiumName: 'Stadium 974',
   size: 40000,
   city: 'Al-Dauha',
+  opened: '30 November 2021',
+  architect: 'Fenwick Iribarren Architects'
 },
 ]
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MatchBet from './MatchBet/MatchBet';
 import './KnockoutStage.scss';
 import { CircleFlag } from 'react-circle-flags';
@@ -65,6 +65,10 @@ export interface KnockoutStageProps {
 // }
 
 const KnockoutStage: React.FC<KnockoutStageProps> = ({allMatches}) => {
+  function createData(){
+    // const knock
+  }
+  
   return (
     <div className='knockout-main'>
       {/* //@ts-ignore */}
