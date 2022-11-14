@@ -7,43 +7,45 @@ import { text } from 'stream/consumers';
 import Button from 'react-bootstrap/Button';
 import { Match } from '../../App';
 import trofeum from './trofeum.png';
+import CountryDict from '../YourBets/MyBets/CountryDict';
 
 
 
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
-  const isMatchPlayed = seed.isMatchPlayed;
+  const wonTeam = seed.isMatchPlayed as number;
+  const styleWonTeam = {color: 'gold', fontWeight: '500', fontSize: '2vh'};
   // console.log(isMatchPlayed)
   // mobileBreakpoint is required to be passed down to a seed
   return (
     <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 14, width: '20vw' }}>
-      {seed.id === 15 ? <img src={trofeum} style={{zIndex: '0', width: '250px', height: '350px', position: 'absolute', top: '5vh'}}/>
-      : null
+      {seed.id === 15 ? <img src={trofeum} style={{ zIndex: '0', width: '250px', height: '350px', position: 'absolute', top: '5vh' }} />
+        : null
       }
-      
-      <SeedItem style={{display: 'flex', alignItems:'center', justifyContent:'space-between'}}>
-        <div>
-          <SeedTeam style={{ color: 'red' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
-              <CircleFlag countryCode='pl' height='30' />
-              {seed.teams[0]?.name || 'NO TEAM '}
-            </div>
+     <SeedItem style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <SeedTeam style={wonTeam == 0 ? styleWonTeam : undefined}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
+                <CircleFlag countryCode={CountryDict.get(seed.teams[0].name as string) as string} height='30' />
+                {seed.teams[0]?.name || '-'}
+              </div>
 
-          </SeedTeam>
-          <SeedTeam>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
-              <CircleFlag countryCode='es' height='30' />
-              {seed.teams[1]?.name || 'NO TEAM '}
-            </div>
-          </SeedTeam>
-        </div>
-        <div style={{paddingRight: '1vw'}}>
-          <Button>
-            Bet
-          </Button>
-        </div>
-      </SeedItem>
+            </SeedTeam>
+            <SeedTeam style={wonTeam == 1 ? styleWonTeam : undefined}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
+                <CircleFlag countryCode={CountryDict.get(seed.teams[1].name as string) as string} height='30' />
+                {seed.teams[1]?.name || '-'}
+              </div>
+            </SeedTeam>
+          </div>
+          <div style={{ paddingRight: '1vw' }}>
+            <Button>
+              Bet
+            </Button>
+          </div>
+        </SeedItem>
+
     </Seed>
   );
 };
@@ -52,27 +54,92 @@ export interface KnockoutStageProps {
   allMatches: Match[] | null,
 }
 
-// export type RoundTitleProps = {
-//   title: string | Element,
-//   roundIdx: number,
-// }
-// const RoundTitle: React.FC<RoundTitleProps> = ({title, roundIdx}) => {
-//   return(
-//     <h3 style={{color: 'white'}}>
-//         {title}
-//     </h3>
-//   )
-// }
+const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
+  function createData() {
+    const oneEightMatches = allMatches?.filter((match) => match.stage === 1);
+    const seedsOneEight = oneEightMatches !== null && oneEightMatches !== undefined ? oneEightMatches.map((match) => {
+      return (
+        {
+          id: match.id,
+          date: match.date,
+          teams: [{ name: match.homeTeam ? match.homeTeam.name : ''}, { name: match.awayTeam ? match.awayTeam.name : ''}],
+          isMatchPlayed: match.isMatchValid,
+        }
+      )
+    }
+    ) : null;
 
-const KnockoutStage: React.FC<KnockoutStageProps> = ({allMatches}) => {
-  function createData(){
-    // const knock
+    const quarterMatches = allMatches?.filter((match) => match.stage === 2);
+    const seedsQuarter = quarterMatches !== null && quarterMatches !== undefined ? quarterMatches.map((match) => {
+      return (
+        {
+          id: match.id,
+          date: match.date,
+          teams: [{ name: match.homeTeam ? match.homeTeam.name : ''}, { name: match.awayTeam ? match.awayTeam.name : ''}],
+          isMatchPlayed: match.isMatchValid,
+        }
+      )
+    }
+    ) : null;
+
+    const semiMatches = allMatches?.filter((match) => match.stage === 3);
+    const seedsSemi = semiMatches !== null && semiMatches !== undefined ? semiMatches.map((match) => {
+      return (
+        {
+          id: match.id,
+          date: match.date,
+          teams: [{ name: match.homeTeam ? match.homeTeam.name : ''}, { name: match.awayTeam ? match.awayTeam.name : ''}],
+          isMatchPlayed: match.isMatchValid,
+        }
+      )
+    }
+    ) : null;
+
+    const final = allMatches?.filter((match) => match.matchNumber === 64);
+    const seedsFinal = final !== null && final !== undefined ? final.map((match) => {
+      return (
+        {
+          id: match.id,
+          date: match.date,
+          teams: [{ name: match.homeTeam ? match.homeTeam.name : ''}, { name: match.awayTeam ? match.awayTeam.name : ''}],
+          isMatchPlayed: match.isMatchValid,
+        }
+      )
+    }
+    ) : null;
+
+    if (seedsOneEight && seedsQuarter && seedsSemi && seedsFinal) {
+      const rounds: IRoundProps[] = [
+        {
+          title: '1/8',
+          seeds: seedsOneEight
+        },
+        {
+          title: 'Quarter Final',
+          seeds: seedsQuarter,
+        },
+        {
+          title: 'Semi Final',
+          seeds: seedsSemi,
+        },
+        {
+          title: 'Final',
+          seeds: seedsFinal,
+        },
+      ]
+      return rounds;
+    }
   }
-  
+
+  // const [rounds, setRounds] = useState()
+  const rounds = createData();
   return (
     <div className='knockout-main'>
-      {/* //@ts-ignore */}
-      <Bracket rounds={rounds} renderSeedComponent={CustomSeed} roundClassName={'round-styles'} />
+      {
+        rounds !== undefined && rounds !== null
+          ? <Bracket rounds={rounds} renderSeedComponent={CustomSeed} roundClassName={'round-styles'} />
+          : null
+      }
     </div>
   )
 }
@@ -80,7 +147,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({allMatches}) => {
 export default KnockoutStage;
 
 
-const rounds: IRoundProps[] = [
+const roundsFall: IRoundProps[] = [
   {
     title: '1/8',
     seeds: [
