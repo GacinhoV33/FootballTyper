@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./GroupStageMatches.scss";
 import Matchrow from "../../Matchrow/Matchrow";
-// import { GroupMatch } from '../GroupStage';
 import { Match, UserContext } from "../../../App";
 import Spinner from "react-bootstrap/Spinner";
 import { Bet } from "../../YourBets/MyBets/MyBets";

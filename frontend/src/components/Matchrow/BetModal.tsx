@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Match, UserContext } from "../../App";
@@ -34,61 +34,66 @@ const BetModal: React.FC<BetModalProps> = ({
 }) => {
   const userName = useContext(UserContext).userLocalData?.username;
   let betId: Bet[] = [];
-  console.log(groupMatch)
+  const input1 = useRef<HTMLInputElement | null>(null);
+  const input2 = useRef<HTMLInputElement | null>(null);
+
   function handleSubmit() {
-    if (userBets) {
-      betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
-    }
-    if (betId.length > 0 && userBets) {
-      const putRequestOptions = {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: betId[0].id,
-          homeTeamScoreBet: Number(modalValue.homeScore),
-          awayTeamScoreBet: Number(modalValue.awayScore),
-          betDate: new Date(),
-        }),
-      };
-      fetch(
-        process.env.REACT_APP_API_URL + `api/Bets/${betId[0].id}`,
-        putRequestOptions
-      ).then((response) => {
-        if (response.ok) {
-          setBetChange((prev) => prev + 1);
-        }
-      });
-    } else {
-      const postRequestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          homeTeamScoreBet: modalValue.homeScore,
-          awayTeamScoreBet: modalValue.awayScore,
-          matchId: groupMatch.id,
-          bettorUserName: userName,
-          betDate: new Date(),
-        }),
-      };
+    if (input1.current?.value !== '' && input2.current?.value !== '') {
+      if (userBets) {
+        betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
+      }
+      if (betId.length > 0 && userBets) {
+        const putRequestOptions = {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: betId[0].id,
+            homeTeamScoreBet: Number(modalValue.homeScore),
+            awayTeamScoreBet: Number(modalValue.awayScore),
+            betDate: new Date(),
+          }),
+        };
+        fetch(
+          process.env.REACT_APP_API_URL + `api/Bets/${betId[0].id}`,
+          putRequestOptions
+        ).then((response) => {
+          if (response.ok) {
+            setBetChange((prev) => prev + 1);
+          }
+        });
+      } else {
+        const postRequestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            homeTeamScoreBet: modalValue.homeScore,
+            awayTeamScoreBet: modalValue.awayScore,
+            matchId: groupMatch.id,
+            bettorUserName: userName,
+            betDate: new Date(),
+          }),
+        };
 
-      fetch(
-        process.env.REACT_APP_API_URL + "api/Bets",
-        postRequestOptions
-      ).then((response) => {
-        if (response.ok) {
-          setBetChange((prev) => prev + 1);
-          return response.json();
-        }
+        fetch(
+          process.env.REACT_APP_API_URL + "api/Bets",
+          postRequestOptions
+        ).then((response) => {
+          if (response.ok) {
+            setBetChange((prev) => prev + 1);
+            return response.json();
+          }
 
-        return Promise.reject(response);
-      });
+          return Promise.reject(response);
+        });
+      }
+      handleClose();
+      setAlert(true);
+      setTimeout(() => {
+        setAlert(false);
+      }, 3000);
     }
-    handleClose();
-    setAlert(true);
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000);
   }
+
   return (
     <Modal show={showBet} onHide={handleClose} centered>
       <Modal.Title className="modal-header">
@@ -113,6 +118,7 @@ const BetModal: React.FC<BetModalProps> = ({
           className="input-score no-spin"
           maxLength={2}
           type="number"
+          ref={input1}
           onChange={(e) =>
             setModalValue({
               homeScore: e.target.value,
@@ -124,6 +130,7 @@ const BetModal: React.FC<BetModalProps> = ({
         <input
           className="input-score no-spin"
           maxLength={2}
+          ref={input2}
           type="number"
           onChange={(e) =>
             setModalValue({
@@ -141,8 +148,7 @@ const BetModal: React.FC<BetModalProps> = ({
         }}
       >
         <Button style={{ width: "8rem" }} size="sm" onClick={handleSubmit}>
-          {" "}
-          Submit{" "}
+          Submit
         </Button>
       </div>
     </Modal>
