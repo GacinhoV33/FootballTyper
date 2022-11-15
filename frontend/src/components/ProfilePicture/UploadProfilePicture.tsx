@@ -32,7 +32,7 @@ const UploadProfilePicture = () => {
 
   const uploadFile = async () => {
     if (validateFileType()) {
-      let newImgLink = user.username + "__" + new Date().toLocaleTimeString() + "." + getExt(fileName);
+      let newImgLink = "https://footballtypersa.blob.core.windows.net/imgs/" + user.username + "__" + new Date().toLocaleTimeString() + "." + getExt(fileName);
       const formData = new FormData();
       formData.append("File", file);
       formData.append("FileName", newImgLink);

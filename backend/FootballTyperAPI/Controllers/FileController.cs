@@ -78,7 +78,7 @@ namespace FootballTyperAPI.Controllers
             var containerClient = new BlobContainerClient(
                 _config.GetConnectionString("FootballTyperStorageAccout"),
                 containerName);
-            BlobClient blobClient = containerClient.GetBlobClient(fileModel.FileName);
+            BlobClient blobClient = containerClient.GetBlobClient(fileModel.FileName.Split("/").LastOrDefault());
             blobClient.Upload(img, true);
         }
 

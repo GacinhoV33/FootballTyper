@@ -120,7 +120,6 @@ public class UserService : IUserService
 
             _context.TyperUser.Add(user);
             _context.SaveChanges();
-            //user = _context.TyperUser.Where(x => x.Email == model.Email).FirstOrDefault();
         }
 
         return new GoogleLoginResponse { user = user, userToken = _jwtUtils.GenerateToken(user) };

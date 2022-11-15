@@ -191,7 +191,7 @@ namespace FootballTyperAPI.Data
                     Email = "User1@gmail.com",
                     FullName = "User1 FullName",
                     PasswordHash = "$2a$11$K3jhOqkDOoCpcYsoVyBluOHTibnNx24bZxl39OUSF0spmSJeuUrF.",
-                    ImgLink = "User1.jpg",
+                    ImgLink = "https://footballtypersa.blob.core.windows.net/imgs/User1.jpg",
                     LeaguesStr = JsonSerializer.Serialize(defaultLeagues.Take(2))
                 },
                 new TyperUser
@@ -200,7 +200,7 @@ namespace FootballTyperAPI.Data
                     Email = "User2@gmail.com",
                     FullName = "User2 FullName",
                     PasswordHash = "$2a$11$K3jhOqkDOoCpcYsoVyBluOHTibnNx24bZxl39OUSF0spmSJeuUrF.",
-                    ImgLink = "User2.jpg",
+                    ImgLink = "https://footballtypersa.blob.core.windows.net/imgs/User2.jpg",
                     LeaguesStr = JsonSerializer.Serialize(defaultLeagues.Take(3))
                 }
             };

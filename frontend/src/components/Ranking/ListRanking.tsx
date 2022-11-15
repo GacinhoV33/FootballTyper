@@ -23,7 +23,6 @@ export interface ListRankingProps {
 
 const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
     const userCtx = useContext(UserContext);
-    const blobLink = `https://footballtypersa.blob.core.windows.net/imgs/`;
     return (
         <div className='ranking-table'>
             <Table striped>
@@ -107,7 +106,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                                         overlay={
                                             <Tooltip style={{ opacity: '1' }}>
                                                 {imgLink !== 'ImgLink' && imgLink !== null
-                                                    ? <img src={blobLink + imgLink} style={{ height: '15vh', width: '15vh', borderRadius: '7.5vh' }} alt={index.toString()} />
+                                                    ? <img src={imgLink} style={{ height: '15vh', width: '15vh', borderRadius: '7.5vh' }} alt={index.toString()} />
                                                     : null
                                                 }
                                                 <div >{username}</div>
@@ -115,7 +114,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                                         }
                                         placement='top-start'
                                     >
-                                        <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '0.9vw' }} src={imgLink ? blobLink + imgLink : undefined} alt={username} />
+                                        <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '0.9vw' }} src={imgLink ? imgLink : undefined} alt={username} />
                                     </OverlayTrigger>
                                     {username}
                                 </td>
