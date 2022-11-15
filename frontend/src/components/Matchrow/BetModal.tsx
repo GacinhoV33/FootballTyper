@@ -34,6 +34,7 @@ const BetModal: React.FC<BetModalProps> = ({
 }) => {
   const userName = useContext(UserContext).userLocalData?.username;
   let betId: Bet[] = [];
+  console.log(groupMatch)
   function handleSubmit() {
     if (userBets) {
       betId = userBets.filter((bet) => bet.matchId === groupMatch.id);

@@ -8,57 +8,55 @@ import { Team } from '../../App';
 import { CircleFlag } from 'react-circle-flags';
 import Iframe from 'react-iframe'
 //photos
-import amhed_bin_ali_stadium from './ahmed_bin_ali_stadium.jpg';
-import amhed_bin_ali_stadium2 from './ahmed_bin_ali_stadium2.jpg';
-import amhed_bin_ali_stadium3 from './ahmed_bin_ali_stadium3.jpg';
-import amhed_bin_ali_stadium4 from './ahmed_bin_ali_stadium4.jpg';
+import amhed_bin_ali_stadium from './images/ahmed_bin_ali_stadium.jpg';
+import amhed_bin_ali_stadium2 from './images/ahmed_bin_ali_stadium2.jpg';
+import amhed_bin_ali_stadium3 from './images/ahmed_bin_ali_stadium3.jpg';
+import amhed_bin_ali_stadium4 from './images/ahmed_bin_ali_stadium4.jpg';
 
-import al_bayt_stadium from './al_bayt_stadium.jpg';
-import al_bayt_stadium2 from './al_bayt_stadium2.jpg'
-import al_bayt_stadium3 from './al_bayt_stadium3.jpg'
-import al_bayt_stadium4 from './al_bayt_stadium4.jpg'
-import al_bayt_stadium5 from './al_bayt_stadium5.jpg'
+import al_bayt_stadium from './images/al_bayt_stadium.jpg';
+import al_bayt_stadium2 from './images/al_bayt_stadium2.jpg'
+import al_bayt_stadium3 from './images/al_bayt_stadium3.jpg'
+import al_bayt_stadium4 from './images/al_bayt_stadium4.jpg'
+import al_bayt_stadium5 from './images/al_bayt_stadium5.jpg'
 
-import al_thumama_stadium from './al_thumama_stadium.jpg';
-import al_thumama_stadium2 from './al_thumama_stadium2.jpg';
-import al_thumama_stadium3 from './al_thumama_stadium3.jpg';
-import al_thumama_stadium4 from './al_thumama_stadium4.jpg';
-import al_thumama_stadium5 from './al_thumama_stadium5.jpg';
+import al_thumama_stadium from './images/al_thumama_stadium.jpg';
+import al_thumama_stadium2 from './images/al_thumama_stadium2.jpg';
+import al_thumama_stadium3 from './images/al_thumama_stadium3.jpg';
+import al_thumama_stadium4 from './images/al_thumama_stadium4.jpg';
+import al_thumama_stadium5 from './images/al_thumama_stadium5.jpg';
 
-import al_wakrah_stadium from './al_wakrah_stadium.jpg';
-import al_wakrah_stadium2 from './al_wakrah_stadium2.jpg';
-import al_wakrah_stadium3 from './al_wakrah_stadium3.jpg';
-import al_wakrah_stadium4 from './al_wakrah_stadium4.jpg';
-import al_wakrah_stadium5 from './al_wakrah_stadium5.jpg';
+import al_wakrah_stadium from './images/al_wakrah_stadium.jpg';
+import al_wakrah_stadium2 from './images/al_wakrah_stadium2.jpg';
+import al_wakrah_stadium3 from './images/al_wakrah_stadium3.jpg';
+import al_wakrah_stadium4 from './images/al_wakrah_stadium4.jpg';
+import al_wakrah_stadium5 from './images/al_wakrah_stadium5.jpg';
 
-import education_city_stadium from './education_city_stadium.jpg';
-import education_city_stadium2 from './education_city_stadium2.jpg';
-import education_city_stadium3 from './education_city_stadium3.jpg';
-import education_city_stadium4 from './education_city_stadium4.jpg';
-import education_city_stadium5 from './education_city_stadium5.jpg';
+import education_city_stadium from './images/education_city_stadium.jpg';
+import education_city_stadium2 from './images/education_city_stadium2.jpg';
+import education_city_stadium3 from './images/education_city_stadium3.jpg';
+import education_city_stadium4 from './images/education_city_stadium4.jpg';
+import education_city_stadium5 from './images/education_city_stadium5.jpg';
 
-import khalifa_stadium from './khalifa_stadium.jpg';
-import khalifa_stadium2 from './khalifa_stadium2.jpg';
-import khalifa_stadium3 from './khalifa_stadium3.jpg';
-import khalifa_stadium4 from './khalifa_stadium4.jpg';
-import khalifa_stadium5 from './khalifa_stadium5.jpg';
+import khalifa_stadium from './images/khalifa_stadium.jpg';
+import khalifa_stadium2 from './images/khalifa_stadium2.jpg';
+import khalifa_stadium3 from './images/khalifa_stadium3.jpg';
+import khalifa_stadium4 from './images/khalifa_stadium4.jpg';
+import khalifa_stadium5 from './images/khalifa_stadium5.jpg';
 
-import lusail_stadium from './lusail_stadium.jpg';
-import lusail_stadium2 from './lusail_stadium3.jpg';
-import lusail_stadium3 from './lusail_stadium4.jpg';
-import lusail_stadium4 from './lusail_stadium4.jpg';
-import lusail_stadium5 from './lusail_stadium4.jpg';
+import lusail_stadium from './images/lusail_stadium.jpg';
+import lusail_stadium2 from './images/lusail_stadium3.jpg';
+import lusail_stadium3 from './images/lusail_stadium4.jpg';
+import lusail_stadium4 from './images/lusail_stadium4.jpg';
+import lusail_stadium5 from './images/lusail_stadium4.jpg';
 
 
-import stadium_974 from './stadium_974.jpg'
-import stadium_9742 from './stadium_9742.jpg'
-import stadium_9743 from './stadium_9743.jpg'
-import stadium_9744 from './stadium_9744.jpg'
-import stadium_9745 from './stadium_9745.jpg'
+import stadium_974 from './images/stadium_974.jpg'
+import stadium_9742 from './images/stadium_9742.jpg'
+import stadium_9743 from './images/stadium_9743.jpg'
+import stadium_9744 from './images/stadium_9744.jpg'
+import stadium_9745 from './images/stadium_9745.jpg'
 
-import ball from './ball.png';
-import czesiu from './Czesiu.png';
-import Button from 'react-bootstrap/Button';
+import ball from './images/ball.png';
 
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -152,10 +150,10 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
         </div>
 
 
-        <div style={{ gridColumn: '1/11', gridRow: '3/10' }}>
+        <div style={{ gridColumn: '1/11', gridRow: '3/10', marginTop: '3vh'}}>
 
 
-          <h1 style={{ color: '#EEE', textAlign: 'center', paddingBottom: '5vh' }}> Stadiums </h1>
+          <h1 style={{ color: '#EEE', textAlign: 'center',  }}> Stadiums </h1>
           <Carousel
             swipeable={true}
             draggable={true}
@@ -171,7 +169,6 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
             containerClass="carousel-container"
             removeArrowOnDeviceType={["tablet", "mobile"]}
             dotListClass="custom-dot-list-style"
-            itemClass="carousel-item-padding-40-px"
           >
             {stadiums.map(({ photo, stadiumName, city, size, opened, architect }, index) => (
               <StadiumCard

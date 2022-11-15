@@ -10,8 +10,8 @@ import trofeum from './trofeum.png';
 import CountryDict from '../YourBets/MyBets/CountryDict';
 import BetModal from '../Matchrow/BetModal';
 import { Bet } from '../YourBets/MyBets/MyBets';
-
-
+import styled, { keyframes } from 'styled-components';
+import Alert from 'react-bootstrap/Alert';
 
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
   // breakpoint passed to Bracket component
@@ -61,7 +61,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
           handleClose={handleClose}
           modalValue={modalValue}
           setModalValue={setModalValue}
-          groupMatch={seed.groupmatch}
+          groupMatch={seed.groupMatch}
           setAlert={setShowAlert}
           setBetChange={setBetChange}
           userBets={seed.userBets}
@@ -69,7 +69,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
           : null
       }
 
-      {/* {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >= 0 && Number(modalValue.awayScore) >= 0 && Number(modalValue.awayScore) < 100) ?
+      {showAlert ? ((Number(modalValue.homeScore) < 100 && Number(modalValue.homeScore) >= 0 && Number(modalValue.awayScore) >= 0 && Number(modalValue.awayScore) < 100) ?
         <AlertAnimation >
           <Alert variant='success'>
             <Alert.Heading>Success!</Alert.Heading>
@@ -84,7 +84,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
           </Alert>
         </AlertAnimation>
 
-      ) : null} */}
+      ) : null}
 
 
     </Seed>
@@ -120,7 +120,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           id: match.id,
           date: match.date,
           teams: [{ name: match.homeTeam ? match.homeTeam.name : '' }, { name: match.awayTeam ? match.awayTeam.name : '' }],
-          isMatchPlayed: !match.isMatchValid,
+          isMatchPlayed: match.isMatchValid,
           groupMatch: match,
           userBets: userBets,
         }
@@ -135,7 +135,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           id: match.id,
           date: match.date,
           teams: [{ name: match.homeTeam ? match.homeTeam.name : '' }, { name: match.awayTeam ? match.awayTeam.name : '' }],
-          isMatchPlayed: !match.isMatchValid,
+          isMatchPlayed: match.isMatchValid,
           groupMatch: match,
           userBets: userBets,
         }
@@ -150,7 +150,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           id: match.id,
           date: match.date,
           teams: [{ name: match.homeTeam ? match.homeTeam.name : '' }, { name: match.awayTeam ? match.awayTeam.name : '' }],
-          isMatchPlayed: !match.isMatchValid,
+          isMatchPlayed: match.isMatchValid,
           groupMatch: match,
           userBets: userBets,
         }
@@ -165,7 +165,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           id: match.id,
           date: match.date,
           teams: [{ name: match.homeTeam ? match.homeTeam.name : '' }, { name: match.awayTeam ? match.awayTeam.name : '' }],
-          isMatchPlayed: !match.isMatchValid,
+          isMatchPlayed: match.isMatchValid,
           groupMatch: match,
           userBets: userBets,
         }
@@ -330,3 +330,23 @@ const roundsFall: IRoundProps[] = [
     ],
   },
 ];
+
+const alertAnimation = keyframes`
+from{
+    opacity: 1;
+    transform: translateY(-10px);
+}
+to{
+    opacity: 0.1;
+    transform: translateY(0px);
+}
+`
+const AlertAnimation = styled.div`
+animation-name: ${alertAnimation};
+animation-duration: 5s;
+width: 15%;
+height: 8vh;
+position: fixed;
+bottom: 3rem;
+right: 2rem;
+`
