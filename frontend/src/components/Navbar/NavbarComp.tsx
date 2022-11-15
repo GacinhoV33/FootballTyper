@@ -50,9 +50,9 @@ const NavbarComp = () => {
             <Nav.Link href="/rules" className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Rules</Nav.Item>
             </Nav.Link>
-            {/* <Nav.Link href="/adminpanel"  {...navlinkProps} className='nav-hover-item'>
+            <Nav.Link href="/adminpanel" className='nav-hover-item'>
                 <Nav.Item className='navbar-text'>Admin Panel</Nav.Item>
-              </Nav.Link> */}
+              </Nav.Link>
             <Nav.Link href='/Login' className='nav-hover-item'>
               <Nav.Item className='navbar-text'>{isUserLogged ? profile() : 'Login'}</Nav.Item>
             </Nav.Link>
