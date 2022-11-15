@@ -18,8 +18,6 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 import { createContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import GoogleLoginButton from './components/Login/GoogleLoginButton';
-
 export type UserLocalStorageData = {
   username: string,
   email: string,
