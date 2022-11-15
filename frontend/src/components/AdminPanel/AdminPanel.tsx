@@ -15,7 +15,7 @@ const AdminPanel = () => {
 
     fetch(apiUrl + path, requestOptions)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.ok) {
           return response.json();
         }
@@ -24,7 +24,7 @@ const AdminPanel = () => {
         if (path !== "api/PlayMatch") {
           alert(path);
         }
-        console.log(data);
+        // console.log(data);
       });
   };
 

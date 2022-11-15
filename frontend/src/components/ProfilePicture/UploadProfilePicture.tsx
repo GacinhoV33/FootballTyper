@@ -15,14 +15,14 @@ const UploadProfilePicture = () => {
   const sendHttpRequest = async (path: string, requestOptions: any) => {
     await fetch(apiUrl + path, requestOptions)
       .then((response) => {
-        console.log("Response: ", response);
+        // console.log("Response: ", response);
         if (response.ok) {
           return response.json();
         }
-      })
-      .then((data) => {
-        console.log(data);
       });
+    // .then((data) => {
+    //   console.log(data);
+    // });
   };
 
   const saveFile = async (e: any) => {

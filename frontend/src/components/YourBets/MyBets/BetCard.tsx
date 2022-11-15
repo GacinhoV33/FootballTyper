@@ -29,8 +29,8 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
       ? bet.betResult === 1
         ? `0 1px 10px lightgreen`
         : bet.betResult === 2
-        ? "0 1px 10px darkgreen"
-        : `0 1px 10px red`
+          ? "0 1px 10px darkgreen"
+          : `0 1px 10px red`
       : undefined;
 
   const isAfterTime = new Date(bet.match.date) < new Date();
@@ -75,12 +75,12 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
             if (response.ok) {
               return response;
             }
-            console.log("reject");
+            // console.log("reject");
             return Promise.reject(response);
-          })
-          .then((data) => {
-            console.log(data);
           });
+        // .then((data) => {
+        //   console.log(data);
+        // });
       }
     } catch (e) {
       console.log(e);
