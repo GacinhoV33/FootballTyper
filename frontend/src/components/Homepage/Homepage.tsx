@@ -140,8 +140,6 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
             <span className='ball-text'>Good Luck & Enjoy </span>
             <Iframe
               url="https://www.youtube.com/embed/71sqkgaUncI"
-              // width="640px"
-              // height="320px"
               className="iframe-styling"
               // display="block"
               position="relative"
@@ -151,7 +149,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
         </div>
 
 
-        <div style={{ gridColumn: '1/11', gridRow: '3/10', marginTop: '3vh' }}>
+        <div style={{ gridColumn: '1/11', gridRow: '3/10', marginTop: '3vh', justifyContent: 'center' }}>
 
 
           <h1 style={{ color: '#EEE', textAlign: 'center', }}> Stadiums </h1>

@@ -3,11 +3,16 @@ import useFirebase from '../../useFirebase';
 import "./ProviderLogin.scss"
 import GoogleLogo from './google-logo.png'
 
-const GoogleLogin = (props: any) => {
-    const { handleGoogleSignIn: handleGoogleSignIn } = useFirebase();
+export interface GoogleLoginProps{
+    setAuthMode: React.Dispatch<React.SetStateAction<string>>,
+}
+
+const GoogleLogin: React.FC<GoogleLoginProps> = ({setAuthMode}) => {
+    const { handleGoogleSignIn: handleGoogleSignIn } = useFirebase(setAuthMode);
     const onClickPrevent = (e: any) => {
         e.preventDefault();
         handleGoogleSignIn();
+        // setAuthMode()
         // props.handleGoogleSignIn();
     }
     return (

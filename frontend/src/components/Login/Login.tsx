@@ -309,8 +309,8 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               Sign Up
             </span>
           </div>
-          <GoogleLogin></GoogleLogin>
-          <FacebookLogin></FacebookLogin>
+          <GoogleLogin setAuthMode={setAuthMode}/>
+          <FacebookLogin/>
           <div className="form-group mt-3">
             <label>Username or email</label>
             <input

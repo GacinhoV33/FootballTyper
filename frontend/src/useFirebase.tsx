@@ -1,16 +1,28 @@
 
-import { app } from './service_firebase';
+// import { app } from './service_firebase';
 import React from 'react'
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyAw3O-R4E5uB82wl8_3qhUtRzmNoOQ-Fb4",
+  authDomain: "football-typer-9706a.firebaseapp.com",
+  projectId: "football-typer-9706a",
+  storageBucket: "football-typer-9706a.appspot.com",
+  messagingSenderId: "774861746098",
+  appId: "1:774861746098:web:1cd784a7e731aa1daabeab",
+  measurementId: "G-YL1YM2DQFG"
+};
 
-function useFirebase() {
+export const app = initializeApp(firebaseConfig);
+
+function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) {
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
 
   const handleGoogleSignIn = () => {
     let returnValue = false;
-    const auth = getAuth();
+    const auth = getAuth(app);
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user;
@@ -53,7 +65,7 @@ function useFirebase() {
             );
 
             localStorage.setItem("userToken", data.userToken);
-            returnValue = true;
+            setAuthMode('profile');
           });
 
       }).catch((error) => {
@@ -69,7 +81,6 @@ function useFirebase() {
         // ...
 
       });
-      return returnValue;
   }
 
   // const handleFacebookSignIn = () => {
