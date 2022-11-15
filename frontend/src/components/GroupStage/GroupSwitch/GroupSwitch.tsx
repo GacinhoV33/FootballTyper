@@ -13,7 +13,8 @@ interface GroupSwitchProps {
 const GroupSwitch = ({groupLetters, currentGroup, setCurrentGroup}: GroupSwitchProps) => {
   return (
     <SwitchAnimation>
-    <Pagination size='lg' >
+      <div className='pag-groupstage'>
+      <Pagination size='lg' >
       {groupLetters.map((letter, index) => (
         <Pagination.Item 
         key={letter} 
@@ -25,7 +26,9 @@ const GroupSwitch = ({groupLetters, currentGroup, setCurrentGroup}: GroupSwitchP
         </Pagination.Item>
       ))}
     </Pagination>
+    </div>
     </SwitchAnimation>
+    
 
     )
 }
