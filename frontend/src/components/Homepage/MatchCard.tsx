@@ -23,17 +23,17 @@ const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date }) => {
             </div>
             
             <div className='left-flag'>
-                <CircleFlag className='flag' countryCode={CountryDict.get(homeTeam) as string} />
+                <CircleFlag className='flag-matchcard' countryCode={CountryDict.get(homeTeam) as string} />
             </div>
             
             <div className='vs-pill'>
-                <div style={{ height: '6vh', width: '4vw', fontSize: '1.75vw', textAlign: 'center', alignItems: 'center', borderRadius: '1vw', color: 'white'}}>
-                    <GiDervishSwords size={30}/>
+                <div style={{display: 'flex', height: '6vh', width: '4vw', fontSize: '1.75vw', textAlign: 'center', alignItems: 'center', borderRadius: '1vw', color: 'white', justifyContent: 'center'}}>
+                    <GiDervishSwords style={{height: '4vh', minHeight: '40px', minWidth: '30px'}}/>
                 </div>
             </div>
 
             <div className='right-flag'>
-                <CircleFlag className='flag' countryCode={CountryDict.get(awayTeam) as string} />
+                <CircleFlag className='flag-matchcard' countryCode={CountryDict.get(awayTeam) as string} />
             </div>
 
             <div className='team right-team'>

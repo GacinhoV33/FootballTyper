@@ -30,7 +30,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
   }
   return (
     <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 14, width: '20vw' }}>
-      {seed.id === 15 ? <img src={trofeum} style={{ zIndex: '0', width: '250px', height: '350px', position: 'absolute', top: '5vh' }} />
+      {seed.groupMatch.matchNumber === 64 ? <img src={trofeum} style={{ zIndex: '0', width: '250px', height: '350px', position: 'absolute', top: '5vh' }} />
         : null
       }
       <SeedItem style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -97,7 +97,6 @@ export interface KnockoutStageProps {
 }
 
 const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
-
   const [userBets, setUserBets] = useState<Bet[] | null>(null);
   const userCtx = useContext(UserContext);
   useEffect(() => {

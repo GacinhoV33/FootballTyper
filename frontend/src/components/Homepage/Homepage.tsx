@@ -2,7 +2,6 @@ import React, { HTMLAttributes, useState } from 'react';
 import { Route, Router } from 'react-router-dom';
 import './Homepage.scss'
 // Components 
-import Layout from '../Layout/Layout';
 import CountryDict from '../YourBets/MyBets/CountryDict';
 import { Team } from '../../App';
 import { CircleFlag } from 'react-circle-flags';
@@ -102,13 +101,12 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
   const matchesToDisplay = sortedMatches !== null ? sortedMatches.splice(0, 4) : null;
   const [isAutoPlay, setAutoPlay] = useState<boolean>(true);
-  console.log(matchesToDisplay)
   return (
     <div className='homepage-main'>
       <div className='flags'>
         {
           allTeams?.map(({ name }, index) => (
-            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag' />
+            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag'/>
           ))
         }
       </div>
@@ -124,9 +122,9 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
 
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {matchesToDisplay && matchesToDisplay.length !== 0 && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div className='match-card-homepage' key={index}>
                   <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} />
-                  <div >
+                  <div className='time-to-start-navbar'>
                     <TimeToStartTwo date={match.date} whiteColor />
                   </div>
                 </div>
@@ -139,9 +137,8 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
           <div className='ball-video'>
             <span className='ball-text'>Good Luck & Enjoy </span>
             <Iframe
-              url="https://www.youtube.com/embed/71sqkgaUncI"
+              url="https://www.youtube.com/embed/pRpeEdMmmQ0"
               className="iframe-styling"
-              // display="block"
               position="relative"
 
             />
