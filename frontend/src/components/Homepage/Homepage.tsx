@@ -106,7 +106,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
       <div className='flags'>
         {
           allTeams?.map(({ name }, index) => (
-            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag'/>
+            <CircleFlag countryCode={CountryDict.get(name) as string} key={index} className='flag' />
           ))
         }
       </div>
@@ -150,37 +150,40 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
 
 
           <h1 style={{ color: '#EEE', textAlign: 'center', }}> Stadiums </h1>
-          <Carousel
-            swipeable={true}
-            draggable={true}
-            showDots={false}
-            responsive={responsive}
-            ssr={true} // means to render carousel on server-side.
-            infinite={true}
-            autoPlay={isAutoPlay}
-            autoPlaySpeed={5000}
-            keyBoardControl={true}
-            customTransition="all .5"
-            transitionDuration={5500}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={["tablet", "mobile"]}
-            dotListClass="custom-dot-list-style"
-          >
-            {stadiums.map(({ photo, stadiumName, city, size, opened, architect }, index) => (
-              <StadiumCard
-                photo={photo}
-                index={index}
-                key={index}
-                stadiumSize={size}
-                stadiumName={stadiumName}
-                stadiumLocation={city}
-                setAutoPlay={setAutoPlay}
-                opened={opened}
-                architect={architect}
-              />
-            ))}
+          <div className='carousel-media'>
+            <Carousel
+              swipeable={true}
+              draggable={true}
+              showDots={false}
+              responsive={responsive}
+              ssr={true} // means to render carousel on server-side.
+              infinite={true}
+              autoPlay={isAutoPlay}
+              autoPlaySpeed={5000}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={5500}
+              containerClass="carousel-container"
+              removeArrowOnDeviceType={["tablet", "mobile"]}
+              dotListClass="custom-dot-list-style"
+            >
+              {stadiums.map(({ photo, stadiumName, city, size, opened, architect }, index) => (
+                <StadiumCard
+                  photo={photo}
+                  index={index}
+                  key={index}
+                  stadiumSize={size}
+                  stadiumName={stadiumName}
+                  stadiumLocation={city}
+                  setAutoPlay={setAutoPlay}
+                  opened={opened}
+                  architect={architect}
+                />
+              ))}
 
-          </Carousel>
+            </Carousel>
+          </div>
+
         </div>
       </div>
     </div>
