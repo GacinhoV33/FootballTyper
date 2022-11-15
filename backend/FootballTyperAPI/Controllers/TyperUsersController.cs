@@ -45,6 +45,14 @@ namespace FootballTyperAPI.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("googleLogin")]
+        public IActionResult GoogleLogin(GoogleLoginRequest model)
+        {
+            var response = _userService.GoogleLogin(model);
+            return Ok(response);
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAll()
         {

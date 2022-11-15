@@ -4,6 +4,11 @@ import Alert from "react-bootstrap/Alert";
 import LoginForm from "./LoginForm";
 import UploadProfilePicture from "../ProfilePicture/UploadProfilePicture";
 import { UserStatus } from "../../App";
+import GoogleLogin from './GoogleLogin'
+import FacebookLogin from "./FacebookLogin";
+// import useFirebase from '../../useFirebase';
+// import { app } from '../../service_firebase';
+// import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 
 export interface LoginProps {
   setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>;
@@ -22,6 +27,15 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // const handleProviderAuthLogin = () => {
+  //   // const { handleGoogleSignIn: handleGoogleSignIn } = useFirebase();
+  //   // if(handleGoogleSignIn()){
+  //   //   setAuthMode("profile");
+  //   // }
+  // }
+
+
 
   useEffect(() => {
     const msg =
@@ -55,6 +69,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
     e.preventDefault();
     localStorage.setItem("user", "");
     localStorage.setItem("userToken", "");
+    localStorage.setItem("tokenExpirationDate", "");
 
     const userStatus: UserStatus = {
       userLocalData: {
@@ -184,12 +199,12 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               json.message
                 ? json.message
                 : json.errors.Username
-                ? json.errors.Username[0]
-                : json.errors.Password
-                ? json.errors.Password[0]
-                : json.errors.FullName
-                ? json.errors.FullName[0]
-                : ""
+                  ? json.errors.Username[0]
+                  : json.errors.Password
+                    ? json.errors.Password[0]
+                    : json.errors.FullName
+                      ? json.errors.FullName[0]
+                      : ""
             );
           });
         });
@@ -263,10 +278,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               json.message
                 ? json.message
                 : json.errors.Username
-                ? json.errors.Username[0]
-                : json.errors.Password
-                ? json.errors.Password[0]
-                : ""
+                  ? json.errors.Username[0]
+                  : json.errors.Password
+                    ? json.errors.Password[0]
+                    : ""
             );
           });
         });
@@ -294,6 +309,8 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               Sign Up
             </span>
           </div>
+          <GoogleLogin></GoogleLogin>
+          <FacebookLogin></FacebookLogin>
           <div className="form-group mt-3">
             <label>Username or email</label>
             <input

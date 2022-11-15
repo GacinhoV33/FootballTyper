@@ -54,5 +54,8 @@ public class AutoMapperProfile : Profile
         //TyperUser->TyperUserApi
         CreateMap<TyperUser, TyperUserApi>();
 
+        // GoogleLoginRequest -> User
+        CreateMap<GoogleLoginRequest, TyperUser>();
+
     }
 }

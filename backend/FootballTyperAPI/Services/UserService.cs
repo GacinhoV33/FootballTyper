@@ -15,6 +15,7 @@ public interface IUserService
     TyperUser GetById(int id);
     TyperUserApi GetByUsername(string username);
     void Register(RegisterRequest model);
+    GoogleLoginResponse GoogleLogin(GoogleLoginRequest model);
     void UpdatePassword(int id, UpdateRequest model);
     void UpdateImgLink(int id, UpdateImgLinkRequest model);
     void Delete(int id);
@@ -104,6 +105,25 @@ public class UserService : IUserService
         // save user
         _context.TyperUser.Add(user);
         _context.SaveChanges();
+    }
+
+    public GoogleLoginResponse GoogleLogin(GoogleLoginRequest model)
+    {
+        var user = _context.TyperUser.Where(x => x.Email == model.Email).FirstOrDefault();
+        if (user == null)
+        {
+            user = _mapper.Map<TyperUser>(model);
+
+            user.Username = model.Email.Split("@").First();
+            user.PasswordHash = "$2a$11$k4t7IrJ2ffsFNK2Sh0/nveZbPPI1/oYgnls.0O9LHcy0hIDt03Ya2";
+            user.LeaguesStr = "[\"main\"]";
+
+            _context.TyperUser.Add(user);
+            _context.SaveChanges();
+            //user = _context.TyperUser.Where(x => x.Email == model.Email).FirstOrDefault();
+        }
+
+        return new GoogleLoginResponse { user = user, userToken = _jwtUtils.GenerateToken(user) };
     }
 
     public void UpdatePassword(int id, UpdateRequest model)

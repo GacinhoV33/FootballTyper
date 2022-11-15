@@ -16,7 +16,9 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
 import { createContext, useEffect, useState } from 'react';
-import {  Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+
+import GoogleLogin from './components/Login/GoogleLogin';
 
 export type UserLocalStorageData = {
   username: string,
@@ -28,7 +30,7 @@ export type UserLocalStorageData = {
 }
 // This component contains whole logic, all main components and it's the manager of whole application
 export type UserStatus = {
-  userLocalData: UserLocalStorageData ,
+  userLocalData: UserLocalStorageData,
   isUserSigned: boolean,
 }
 
@@ -51,13 +53,13 @@ function App() {
   const [allUserBets, setAllUserBets] = useState<Bet[] | null>(null);
   const [allUsers, setAllUsers] = useState<User[] | null>([]);
   const [userStatus, setUserStatus] = useState<UserStatus>({
-    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string)  : userObjInit,
-    isUserSigned: localStorage.getItem('user') !== ''&& localStorage.getItem('user') !== null ? true : false
+    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string) : userObjInit,
+    isUserSigned: localStorage.getItem('user') !== '' && localStorage.getItem('user') !== null ? true : false
   })
   useEffect(() => {
     const fetchData = async () => {
 
-      const allMatches = await (await fetch(process.env.REACT_APP_API_URL + 'api/Matches')).json(); 
+      const allMatches = await (await fetch(process.env.REACT_APP_API_URL + 'api/Matches')).json();
       const data = await (await fetch(process.env.REACT_APP_API_URL + 'api/Teams')).json();
       const requestAllUsersOptions = {
         method: 'GET',
@@ -67,10 +69,10 @@ function App() {
         }
       };
 
-      const allUsers = await( await fetch(process.env.REACT_APP_API_URL + 'api/TyperUsers', requestAllUsersOptions)).json();
+      const allUsers = await (await fetch(process.env.REACT_APP_API_URL + 'api/TyperUsers', requestAllUsersOptions)).json();
       const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : '';
-      if(userName){
-        const allUserBets = await (await fetch(process.env.REACT_APP_API_URL + `api/Bets/User/${userName.username}`)).json(); 
+      if (userName) {
+        const allUserBets = await (await fetch(process.env.REACT_APP_API_URL + `api/Bets/User/${userName.username}`)).json();
         setAllUserBets(allUserBets);
       }
       setAllMatches(allMatches);
@@ -84,30 +86,30 @@ function App() {
   }, []);
 
   const rankingReturn = () => {
-    if(allUsers && userStatus.isUserSigned && Array.isArray(allUsers)){
-      return  <Ranking allUsers={allUsers}/>
+    if (allUsers && userStatus.isUserSigned && Array.isArray(allUsers)) {
+      return <Ranking allUsers={allUsers} />
     }
-    else if(allUsers && !userStatus.isUserSigned){
+    else if (allUsers && !userStatus.isUserSigned) {
       return <h1>State when user not logged but want to see ranking</h1>
     }
-    else{
-      return <LoadingLayout componentName='Ranking'/>
+    else {
+      return <LoadingLayout componentName='Ranking' />
     }
   }
 
   const groupStageReturn = () => {
-    if(!userStatus.isUserSigned){
-      return(
+    if (!userStatus.isUserSigned) {
+      return (
         <Login setUserStatus={setUserStatus} />
       )
     }
-    else if(dataTeams){
-      return(
+    else if (dataTeams) {
+      return (
         <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} />
       )
-  }
-    else{
-      return(
+    }
+    else {
+      return (
         <LoadingLayout componentName='Group Stage' />
       )
     }
@@ -139,7 +141,19 @@ function App() {
       </div >
     </UserContext.Provider>
   );
+  // return (
+  //   <div className='app-body'>
+  //         <NavbarComp />
+  //         <Routes>
+          
+  //           <Route path='/GoogleLogin' element={<GoogleLogin/>} />
+  //         </Routes >
+  //         {/* <Footer /> */}
+  
+  //       </div >
+  // )
 }
+
 
 function convertMatchesToGroupFormat(data: any) {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
