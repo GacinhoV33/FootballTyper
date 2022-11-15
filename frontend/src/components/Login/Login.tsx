@@ -4,11 +4,8 @@ import Alert from "react-bootstrap/Alert";
 import LoginForm from "./LoginForm";
 import UploadProfilePicture from "../ProfilePicture/UploadProfilePicture";
 import { UserStatus } from "../../App";
-import GoogleLogin from './GoogleLogin'
+import GoogleLoginButton from './GoogleLoginButton'
 import FacebookLogin from "./FacebookLogin";
-// import useFirebase from '../../useFirebase';
-// import { app } from '../../service_firebase';
-// import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 
 export interface LoginProps {
   setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>;
@@ -27,15 +24,6 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState("");
-
-  // const handleProviderAuthLogin = () => {
-  //   // const { handleGoogleSignIn: handleGoogleSignIn } = useFirebase();
-  //   // if(handleGoogleSignIn()){
-  //   //   setAuthMode("profile");
-  //   // }
-  // }
-
-
 
   useEffect(() => {
     const msg =
@@ -130,7 +118,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           if (response.ok) {
             return response.json();
           }
-          return Promise.reject(response); // 2. reject instead of throw
+          return Promise.reject(response);
         })
         .then((data) => {
           const requestOptions = {
@@ -174,8 +162,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
                   );
                   setAuthMode("profile");
                 });
-              // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true})
-              // );
+
               const userStatus: UserStatus = {
                 userLocalData: {
                   username: "",
@@ -189,7 +176,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               setShowAlert(false);
               setIsValid(true);
             });
-          // { fullName: fullName, username: userName, password: password, email: email }
+
         })
         .catch((response) => {
           setIsValid(false);
@@ -256,7 +243,6 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               setAuthMode("profile");
             });
 
-          // .then(() => setUserStatus({userName: userName as unknown as string, isUserSigned: true}));
           const userStatus: UserStatus = {
             userLocalData: {
               username: "",
@@ -309,8 +295,8 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               Sign Up
             </span>
           </div>
-          <GoogleLogin setAuthMode={setAuthMode}/>
-          <FacebookLogin/>
+          <GoogleLoginButton setAuthMode={setAuthMode} />
+          {/* <FacebookLogin /> */}
           <div className="form-group mt-3">
             <label>Username or email</label>
             <input
