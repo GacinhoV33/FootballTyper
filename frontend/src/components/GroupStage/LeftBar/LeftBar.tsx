@@ -71,17 +71,17 @@ export interface Player {
 export const dummyPlayerData: Player[] = [
     {
         playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
+        goals: 0,
+        assists: 0,
         team: 'Portugal',
-        yellowCards: 2,
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },
     {
         playerName: 'Leo Messi',
-        goals: 2,
-        assists: 3,
+        goals: 0,
+        assists: 0,
         team: 'Argentina',
         yellowCards: 0,
         redCards: 0,
@@ -90,36 +90,36 @@ export const dummyPlayerData: Player[] = [
     {
         playerName: 'Neymar Jr',
         goals: 0,
-        assists: 1,
+        assists: 0,
         team: 'Brasil',
-        yellowCards: 1,
-        redCards: 1,
-        imgPath: 'noPath'
-    },
-    {
-        playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
-        team: 'Portugal',
-        yellowCards: 2,
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },
     {
-        playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
-        team: 'Portugal',
-        yellowCards: 2,
+        playerName: 'Robert Lewandowski',
+        goals: 0,
+        assists: 0,
+        team: 'Poland',
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },
     {
-        playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
-        team: 'Portugal',
-        yellowCards: 2,
+        playerName: 'Karim Benzema',
+        goals: 0,
+        assists: 0,
+        team: 'France',
+        yellowCards: 0,
+        redCards: 0,
+        imgPath: 'noPath'
+    },
+    {
+        playerName: 'Kylian Mbappe',
+        goals: 0,
+        assists: 0,
+        team: 'France',
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },

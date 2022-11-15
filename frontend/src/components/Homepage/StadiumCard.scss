@@ -4,12 +4,18 @@
     }
 }
 
+.image-stadium{
+   width: 31vw; 
+   height: 20vw;
+}
+
+
+
 .bottom-card{
     background: whitesmoke;
     width: 31vw;
     height: 12vh;
     padding: 0 0.5vw;
-
 }
 
 .info{
@@ -25,18 +31,48 @@
 }
 
 .stadium-text-name{
+    font-size: 1.5vw;
+    font-weight: 600;
     margin-left: 1vw;
-    text-align: left;
+    text-align: center;
 }
 
 .stadium-text-city{
     display: flex;
     align-items: center;
     gap: 0.5vw;
+    font-size: 0.75vw;
 }
 
 .stadium-text-size{
     display: flex;
     align-items: center;
     gap: 0.5vw;
+    font-size: 0.75vw;
+
+}
+
+.opened{
+    font-size: 0.75vw;
+}
+
+.architect{
+    font-size: 0.75vw;
+}
+
+@media (max-width: 900px){
+    .image-stadium{
+        width: 95vw; 
+        height: 30vh;
+     }
+
+     .bottom-card{
+        width: 95vw;
+    }
+}
+
+@media (max-width: 900px){
+    .bottom-card{
+        height: 6vw;
+    }
 }

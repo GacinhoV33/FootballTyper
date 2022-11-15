@@ -42,11 +42,11 @@ const StadiumCard: React.FC<StadiumCardProps> = ({ photo, describtion, stadiumSi
 
     <div className='stadium-card' >
       <div onClick={() => handleClick()} className='image-container'>
-        <img src={currentPhoto} alt={index.toString()} style={{ width: '31vw', height: '20vw' }} />
+        <img src={currentPhoto} alt={index.toString()} className='image-stadium' />
       </div>
       <div className='bottom-card'>
         <div className='stadium-text-name'>
-          <h4>{stadiumName}</h4>
+          <span>{stadiumName}</span>
         </div>
         <div className='info'>
           <div className='row'>
