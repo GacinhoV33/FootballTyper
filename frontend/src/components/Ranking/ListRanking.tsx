@@ -91,11 +91,11 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
 
                         return (
                             <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 10px 10px lightblue', alignItems: 'center' } : { alignItems: 'center' }}>
-                                <td style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', margin: '0 0 !important', padding: '0px 0px !important' }}>
+                                <td style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: '0 0 !important', padding: '0px 0px !important' }}>
                                     {
                                         userRankingStatus > 0 ? <VscTriangleUp style={{ color: 'green' }} size={10} /> :
                                             (userRankingStatus < 0 ? <VscTriangleDown size={10} style={{ color: 'red', margin: '0 0 !important', padding: '0px 0px !important' }} />
-                                                : <span style={{ marginBottom: '0px !important', padding: '0px 0px !important' }}>-</span>)
+                                                : undefined)
                                     }
                                     <h3>{index + 1}</h3>
                                 </td>

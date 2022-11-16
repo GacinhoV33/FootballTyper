@@ -16,7 +16,10 @@ import Alert from 'react-bootstrap/Alert';
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
-  const wonTeam = seed.isMatchPlayed as number;
+  // const wonTeam = seed.isMatchPlayed as number;
+  const wonTeam = seed.groupMatch.homeTeamScore > seed.groupMatch.awayTeamScore ? 1 : 0;
+  // seed.groupMatch;
+  console.log(seed.groupMatch)
   const styleWonTeam = { color: 'gold', fontWeight: '500', fontSize: '2vh' };
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);

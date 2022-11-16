@@ -116,10 +116,11 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
           Welcome to Qatar 2022 Typer
           <img src={ball} style={{ height: '7vh' }} />
         </span>
+        <h2 className='soon-matches'> Soon matches </h2>
+
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
 
           <div className='current-matches'>
-
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {matchesToDisplay && matchesToDisplay.length !== 0 && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
                 <div className='match-card-homepage' key={index}>

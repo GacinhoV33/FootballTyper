@@ -5,6 +5,7 @@
     height: 92vh;
 }
 
+
 .group-stage-center{
     flex-direction: column;
     flex-grow: 12;
@@ -23,4 +24,22 @@
 .group-stage-right{
     flex-grow: 1;
     gap: 2%;   
+}
+
+@media (max-width: 900px){
+    .group-stage-left{
+        display: none;
+    }
+    .group-stage-right{
+        display: none;
+    }
+
+    .group-stage{
+        height: 130vh;
+    }
+
+    .group-stage-center{
+        width: 100%;
+        flex-grow: 300;
+    }
 }

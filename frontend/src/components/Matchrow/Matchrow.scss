@@ -2,19 +2,6 @@
     text-align: center;
 }
 
-.main-match-body{
-    height: 4.5rem;
-    border: 2px solid #CCCCCC;
-    border-radius: 5px;
-    // box-shadow: #222342;
-    padding: 0.75rem;
-    margin: 0.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
 .alert-body2{
     width: 15%;
     height: 10vh;
@@ -29,6 +16,27 @@
     :hover{
         opacity: 90%;
     };
+
+    .match-content{
+        height: 7.5vh;
+        width: 98%;
+        border: 2px solid #CCCCCC;
+        border-radius: 5px;
+        box-shadow: #222342;
+        padding: 0.75rem;
+        margin: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        .flag-matchrow{
+            width: 4.5vh;
+        }
+    }
+
+    @media (max-width: 900px){
+
+    }
 }
 
 .input-score{

@@ -2,6 +2,7 @@ import React from 'react';
 import './GroupSwitch.scss';
 import Pagination from 'react-bootstrap/Pagination';
 import styled, { keyframes } from "styled-components";
+import {isMobile} from 'react-device-detect';
 
 interface GroupSwitchProps {
   groupLetters: string[],
@@ -9,12 +10,11 @@ interface GroupSwitchProps {
   setCurrentGroup: (letter: string) => void,
 }
 
-
 const GroupSwitch = ({groupLetters, currentGroup, setCurrentGroup}: GroupSwitchProps) => {
   return (
     <SwitchAnimation>
       <div className='pag-groupstage'>
-      <Pagination size='lg' >
+      <Pagination size={isMobile ? 'sm' : 'lg'}>
       {groupLetters.map((letter, index) => (
         <Pagination.Item 
         key={letter} 

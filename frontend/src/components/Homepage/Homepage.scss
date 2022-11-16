@@ -69,12 +69,23 @@
             }
 
         }
-
+        
+        .soon-matches{
+            color: #EEE; 
+            text-align: center;
+        }
+        @media (min-width: 900px){
+            .soon-matches{
+                display: none;
+            }
+        }
         .current-matches {
             display: flex;
             flex-direction: row;
             width: 60%;
             justify-content: center;
+
+           
         }
 
         .iframe-styling {
@@ -88,7 +99,7 @@
 
 @media (max-width: 900px){
     .homepage-main{
-        height: 110vh;
+        height: 120vh;
     }
     
 }
