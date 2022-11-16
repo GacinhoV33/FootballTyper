@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from "react";
 import ProfilePicture from "./ProfilePicture";
+import './UploadProfilePicture.scss';
 
 const UploadProfilePicture = () => {
   const [file, setFile] = useState<any>();
@@ -95,21 +96,21 @@ const UploadProfilePicture = () => {
 
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <ProfilePicture imgLink={imgBlobLink} />
       <input
-        style={{ margin: "1vh" }}
+        style={{ margin: "1vh"}}
         type="file"
         onChange={saveFile}
         accept="image/*"
       />
 
       <input
-        style={{ margin: "10px" }}
+        className="upload-button"
         type="button"
         value="Upload Profile Picture"
         onClick={async () => await uploadFile()}
       />
 
-      <ProfilePicture imgLink={imgBlobLink} />
     </div>
   );
 };

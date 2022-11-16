@@ -5,7 +5,7 @@ const ProfilePicture = (props: any) => {
   return (
     <div>
       <img
-        style={{ width: "160px", height: "160px", margin: "10px" }}
+        style={{ width: "160px", height: "160px", margin: "10px", borderRadius: '80px', border: '2px solid black' }}
         src={props.imgLink ? props.imgLink : profilePictureLink}
       />
     </div>

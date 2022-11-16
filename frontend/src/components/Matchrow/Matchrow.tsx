@@ -8,12 +8,14 @@ import styled, { keyframes } from "styled-components";
 import { Bet } from '../YourBets/MyBets/MyBets';
 import { Match } from '../../App';
 import CountryDict from '../YourBets/MyBets/CountryDict';
+import CountryDictShortcuts from '../YourBets/CountryDictShortcuts';
 import countriesColors from '../AnimatedLetters/CountriesColors';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { BsCheck, BsCheckCircle } from 'react-icons/bs';
 import { ImCross } from 'react-icons/im';
 import { BiCheckDouble } from 'react-icons/bi';
+import { isMobile } from 'react-device-detect';
 export interface MatchrowProps {
     groupMatch: Match,
     chosenCountries: { homeCountry: string, awayCountry: string },
@@ -115,23 +117,29 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                             </OverlayTrigger>
                             {
                                 groupMatch.homeTeamScore === -1 ?
-                                    <h3 style={{ color: textColor }}>?</h3> :
-                                    <h3 style={{ color: textColor }}>{groupMatch.homeTeamScore}</h3>
+                                    <span style={{ color: textColor, fontSize: '3.5vh' }}>?</span> :
+                                    <span style={{ color: textColor, fontSize: '3.5vh' }}>{groupMatch.homeTeamScore}</span>
                             }
                         </div>
 
                     </div>
                     <div style={{ flex: '6', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-                        <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '11px', color: textColor }}>
+                        <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '1.1vh', color: textColor }}>
                             {date} {day} {hour.slice(0, 5)}
                         </p>
-                        <h4 style={{ paddingTop: '0', color: textColor }}>
-                            {groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}
-                        </h4>
+                        <span style={{ paddingTop: '0', color: textColor, fontSize: '2.5vh', fontWeight: '500' }}>
+
+                            {isMobile ?
+                                <span>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
+                                <span>{groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}</span>
+                            }
+                        </span>
                     </div>
                     <div style={{ flex: '1' }}>
                         <div style={{ display: 'flex' }}>
-                            {groupMatch.awayTeamScore === -1 ? <h3 style={{ color: textColor }}>?</h3> : <h3 style={{ color: textColor }}>{groupMatch.awayTeamScore}</h3>}
+                            {groupMatch.awayTeamScore === -1
+                                ? <span style={{ color: textColor, fontSize: '3.5vh' }}>?</span>
+                                : <span style={{ color: textColor, fontSize: '3.5vh' }}>{groupMatch.awayTeamScore}</span>}
                             <OverlayTrigger
                                 placement='top'
                                 overlay={
@@ -147,7 +155,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     </div>
 
                     <div style={{ flex: '1', display: 'flex', justifyContent: 'right' }}>
-                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string}  className='flag-matchrow' />
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} className='flag-matchrow' />
                     </div>
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
@@ -156,7 +164,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                 <Button
                                     onClick={handleOpen}
                                     variant={isBetExisting ? 'warning' : 'primary'}
-                                    style={{ width: '3.5rem', opacity: buttonOpacity }}
+                                    style={isMobile ? {width: '7.5vh', opacity: buttonOpacity, height: '5vh'} : { width: '5.5vh', opacity: buttonOpacity }}
                                     disabled={groupMatch.isMatchValid}
                                 >
                                     {isBetExisting ? 'Edit' : 'Bet'}

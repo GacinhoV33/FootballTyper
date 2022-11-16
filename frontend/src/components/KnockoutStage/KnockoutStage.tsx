@@ -13,13 +13,16 @@ import { Bet } from '../YourBets/MyBets/MyBets';
 import styled, { keyframes } from 'styled-components';
 import Alert from 'react-bootstrap/Alert';
 
-const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
+export interface CustomIRenderSeedProps extends IRenderSeedProps{
+  setBetChange: React.Dispatch<React.SetStateAction<number>>,
+}
+
+const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex}: IRenderSeedProps) => {
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
   // const wonTeam = seed.isMatchPlayed as number;
   const wonTeam = seed.groupMatch.homeTeamScore > seed.groupMatch.awayTeamScore ? 1 : 0;
   // seed.groupMatch;
-  console.log(seed.groupMatch)
   const styleWonTeam = { color: 'gold', fontWeight: '500', fontSize: '2vh' };
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -28,8 +31,13 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
 
   const isBetAllowed = (!seed.isMatchPlayed) && seed.teams[0].name !== '' && seed.teams[1].name !== ''; //TODO set time
 
+  const isBetNew = seed.userBets !== null && seed.userBets.length > 0 ? seed.userBets.filter((bet: Bet) => bet.matchId === seed.groupMatch.id) : null;
+  const isBetExisting = isBetNew !== null && isBetNew.length !== 0 && isBetNew[0].homeTeamScoreBet !== undefined;
   function handleClose() {
     setShowModal(false);
+  }
+  function handleBet() {
+    setShowModal(true);
   }
   return (
     <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 14, width: '20vw' }}>
@@ -53,8 +61,12 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
           </SeedTeam>
         </div>
         <div style={{ paddingRight: '1vw' }}>
-          <Button onClick={() => setShowModal(true)} disabled={!isBetAllowed}>
-            Bet
+          <Button
+            variant={isBetExisting ? 'warning' : 'primary'}
+            onClick={() => handleBet()}
+            disabled={!isBetAllowed}
+          >
+            {isBetExisting ? 'Edit' : 'Bet'}
           </Button>
         </div>
       </SeedItem>
@@ -102,6 +114,7 @@ export interface KnockoutStageProps {
 const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
   const [userBets, setUserBets] = useState<Bet[] | null>(null);
   const userCtx = useContext(UserContext);
+  const [betChange2, setBetChange2] = useState<number>(0);
   useEffect(() => {
     const getUserBets = async () => {
       const userName = userCtx.userLocalData
@@ -179,19 +192,23 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
       const rounds: IRoundProps[] = [
         {
           title: '1/8',
-          seeds: seedsOneEight
+          seeds: seedsOneEight,
+          setBetChange: setBetChange2
         },
         {
           title: 'Quarter Final',
           seeds: seedsQuarter,
+          setBetChange: setBetChange2
         },
         {
           title: 'Semi Final',
           seeds: seedsSemi,
+          setBetChange: setBetChange2
         },
         {
           title: 'Final',
           seeds: seedsFinal,
+          setBetChange: setBetChange2
         },
       ]
       return rounds;
@@ -204,7 +221,12 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     <div className='knockout-main'>
       {
         rounds !== undefined && rounds !== null
-          ? <Bracket rounds={rounds} renderSeedComponent={CustomSeed} roundClassName={'round-styles'} />
+          ? <Bracket
+            rounds={rounds}
+            renderSeedComponent={CustomSeed}
+            roundClassName={'round-styles'}
+            
+          />
           : null
       }
     </div>

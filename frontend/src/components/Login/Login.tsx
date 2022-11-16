@@ -6,7 +6,7 @@ import UploadProfilePicture from "../ProfilePicture/UploadProfilePicture";
 import { UserStatus } from "../../App";
 import GoogleLoginButton from './GoogleLoginButton'
 import FacebookLogin from "./FacebookLogin";
-
+import Button from 'react-bootstrap/Button';
 export interface LoginProps {
   setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>;
 }
@@ -295,7 +295,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               Sign Up
             </span>
           </div>
-          <div style={{display: 'flex', justifyContent: 'center', margin: '2vh 0'}}>
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '2vh 0' }}>
             <GoogleLoginButton setAuthMode={setAuthMode} />
           </div>
           {/* <FacebookLogin /> */}
@@ -334,21 +334,23 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
     return (
       <LoginForm onSubmit={onSubmit} title="Profile">
         <div>
-          <div className="text-center">You are logged in</div>
-          <div className="form-group mt-3">
-            <label style={{fontSize: '2vh'}}>{localData?.fullName} </label>
-          </div>
-          <div className="form-group mt-3">
-            <label>User Name: {localData?.username} </label>
-          </div>
-          <div className="form-group mt-3">
-            <label>Email address: {localData?.email} </label>
+          <div className="form-group mt-3 text-center">
+            <div className="text-center">You are logged in</div>
+            <label style={{ fontSize: '4vh' }}>{localData?.fullName} </label>
+
+
           </div>
           <UploadProfilePicture></UploadProfilePicture>
+          {/* <div className="form-group mt-3">
+            <label>User Name: {localData?.username} </label>
+          </div> */}
+          {/* <div className="form-group mt-3">
+            <label>Email address: {localData?.email} </label>
+          </div> */}
           <div className="d-grid gap-2 mt-3">
-            <button className="btn btn-primary" onClick={handleLogOut}>
+            <Button className="btn btn-primary" onClick={handleLogOut}>
               Log out
-            </button>
+            </Button>
           </div>
         </div>
       </LoginForm>

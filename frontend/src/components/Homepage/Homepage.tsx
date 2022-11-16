@@ -116,7 +116,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
           Welcome to Qatar 2022 Typer
           <img src={ball} style={{ height: '7vh' }} />
         </span>
-        <h2 className='soon-matches'> Soon matches </h2>
+        <h2 className='soon-matches'> Soon</h2>
 
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
 
