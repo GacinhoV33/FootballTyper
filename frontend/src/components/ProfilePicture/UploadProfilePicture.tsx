@@ -1,9 +1,10 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useRef } from "react";
 import ProfilePicture from "./ProfilePicture";
 
 const UploadProfilePicture = () => {
   const [file, setFile] = useState<any>();
   const [fileName, setFileName] = useState<any>();
+  const ref = useRef<HTMLInputElement>(null);
   //   const apiUrl = "http://localhost:44302/";
   const apiUrl = "";
 
@@ -13,22 +14,26 @@ const UploadProfilePicture = () => {
 
   const [imgBlobLink, setImgBlobLink] = useState<string>(user.imgLink);
   const sendHttpRequest = async (path: string, requestOptions: any) => {
-    await fetch(apiUrl + path, requestOptions)
-      .then((response) => {
-        // console.log("Response: ", response);
-        if (response.ok) {
-          return response.json();
-        }
-      });
+    await fetch(apiUrl + path, requestOptions).then((response) => {
+      // console.log("Response: ", response);
+      if (response.ok) {
+        return response.json();
+      }
+    });
     // .then((data) => {
     //   console.log(data);
     // });
   };
 
-
   const uploadFile = async () => {
     if (validateFileType()) {
-      let newImgLink = "https://footballtypersa.blob.core.windows.net/imgs/" + user.username + "__" + new Date().toLocaleTimeString() + "." + getExt(fileName);
+      let newImgLink =
+        "https://footballtypersa.blob.core.windows.net/imgs/" +
+        user.username +
+        "__" +
+        new Date().toLocaleTimeString() +
+        "." +
+        getExt(fileName);
       const formData = new FormData();
       formData.append("File", file);
       formData.append("FileName", newImgLink);
@@ -94,12 +99,24 @@ const UploadProfilePicture = () => {
   };
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <button style={{ marginTop: "1vh" }} onClick={() => ref.current?.click()}>
+        Select Profile Picture
+      </button>
       <input
-        style={{ margin: "1vh" }}
+        id="filePicker"
+        style={{ margin: "1vh", display: "none" }}
         type="file"
         onChange={saveFile}
         accept="image/*"
+        ref={ref}
       />
 
       <input
