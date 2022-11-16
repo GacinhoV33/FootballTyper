@@ -25,10 +25,6 @@ const UploadProfilePicture = () => {
     // });
   };
 
-  const saveFile = async (e: any) => {
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
-  };
 
   const uploadFile = async () => {
     if (validateFileType()) {
@@ -77,6 +73,11 @@ const UploadProfilePicture = () => {
     }
   };
 
+  const saveFile = async (e: any) => {
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
+  };
+
   const validateFileType = () => {
     var extFile = getExt(fileName);
     if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
@@ -93,9 +94,9 @@ const UploadProfilePicture = () => {
   };
 
   return (
-    <div>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       <input
-        style={{ margin: "10px" }}
+        style={{ margin: "1vh" }}
         type="file"
         onChange={saveFile}
         accept="image/*"

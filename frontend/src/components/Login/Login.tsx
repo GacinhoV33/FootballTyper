@@ -295,7 +295,9 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               Sign Up
             </span>
           </div>
-          <GoogleLoginButton setAuthMode={setAuthMode} />
+          <div style={{display: 'flex', justifyContent: 'center', margin: '2vh 0'}}>
+            <GoogleLoginButton setAuthMode={setAuthMode} />
+          </div>
           {/* <FacebookLogin /> */}
           <div className="form-group mt-3">
             <label>Username or email</label>
@@ -334,7 +336,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
         <div>
           <div className="text-center">You are logged in</div>
           <div className="form-group mt-3">
-            <label>Full Name: {localData?.fullName} </label>
+            <label style={{fontSize: '2vh'}}>{localData?.fullName} </label>
           </div>
           <div className="form-group mt-3">
             <label>User Name: {localData?.username} </label>
