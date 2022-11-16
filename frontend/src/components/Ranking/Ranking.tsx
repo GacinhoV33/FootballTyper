@@ -40,13 +40,13 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   return (
     <div className='ranking-main-body'>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <FilterRanking activeFilter={filter} setActiveFilter={setFilter} />
           <FilterLeauge currentFilter={leagueFilter} setCurrentFilter={setLeagueFilter} />
         </div>
       </div>
 
-      <div style={{ display: 'flex', minWidth: '500px', width: '75%'}}>
+      <div className='list-ranking'>
         <ListRanking allUsers={usersToDisplay} league={leagueFilter} />
       </div>
     </div>

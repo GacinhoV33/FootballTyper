@@ -8,14 +8,14 @@ export interface FilterLeagueProps {
 
 const FilterLeague: React.FC<FilterLeagueProps> = ({currentFilter, setCurrentFilter}) => {
   return (
-      <Dropdown style={{paddingBottom: '1rem', marginLeft: '3rem'}}>
-        <Dropdown.Toggle variant='secondary' style={{width: '10rem', paddingBottom: '0.2rem'}}>
+      <Dropdown style={{paddingBottom: '1.5vh', marginLeft: '1vw'}}>
+        <Dropdown.Toggle variant='secondary' className='dropdown-rank-button'>
           {currentFilter}
         </Dropdown.Toggle>
         
-        <Dropdown.Menu>
+        <Dropdown.Menu className='dropdown-rank-menu'>
           {leaugesNames.map((name, index) => (
-            <Dropdown.Item onClick={() => setCurrentFilter(name)} key={name}>
+            <Dropdown.Item onClick={() => setCurrentFilter(name)} key={name} className='dropdown-rank-item'>
                 {name}
             </Dropdown.Item>
           ))}

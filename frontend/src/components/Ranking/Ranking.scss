@@ -1,5 +1,11 @@
-.ranking-main-body{
+.ranking-main-body {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
+}
+
+.list-ranking {
+    display: flex;
+    // min-width: 500px;
+    width: 75%
 }
