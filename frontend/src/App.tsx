@@ -133,9 +133,10 @@ function App() {
               rankingReturn()
             }
           />
-          <Route path='/statistics' element={<Statistics />} />
+          {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/statistics' element={<Statistics />} />}
           <Route path='/rules' element={<Rules />} />
-          <Route path='/adminpanel' element={<AdminPanel />} />
+          {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/adminpanel' element={<AdminPanel />} />}
+
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
         {/* <Footer /> */}
