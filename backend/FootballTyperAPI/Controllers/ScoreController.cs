@@ -80,5 +80,21 @@ namespace FootballTyperAPI.Controllers
             return Ok(users);
         }
 
+        // GET: api/Score/All/main
+        [HttpGet("All/{league}")]
+        public IActionResult GetAllMatchesRanking(string league)
+        {
+            var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
+            var bets = _context.Bets;
+            ScoreHelper.UpdateData(bets, _context.Matches);
+
+            var allLeagueMatches = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName));
+
+            ScoreHelper.CleanUsersData(users);
+            ScoreHelper.CalculatePointsForEachUser(allLeagueMatches, users);
+            ScoreHelper.UpdateLastFiveUserBets(allLeagueMatches, users);
+            return Ok(users);
+        }
+
     }
 }
