@@ -1,11 +1,12 @@
 import "./Login.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Alert from "react-bootstrap/Alert";
 import LoginForm from "./LoginForm";
 import UploadProfilePicture from "../ProfilePicture/UploadProfilePicture";
-import { UserStatus } from "../../App";
+import { UserContext, UserStatus } from "../../App";
 import GoogleLoginButton from './GoogleLoginButton'
 import FacebookLogin from "./FacebookLogin";
+import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 export interface LoginProps {
   setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>;
@@ -13,6 +14,7 @@ export interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [fullName, setFullName] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -24,7 +26,66 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [fullNameModal, setFullNameModal] = useState<string>('');
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const modalRef = useRef<HTMLInputElement | null>(null);
+  const userCtx = useContext(UserContext);
+
+
+  const sendHttpRequest = async (path: string, requestOptions: any) => {
+    await fetch(API_URL + path, requestOptions).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    });
+  };
+
+  function handleCloseModal() {
+    setShowModal(false);
+  }
+
+  useEffect(() => {
+    modalRef.current?.focus();
+  }, []);
+
+  async function handleSubmitModal() {
+    if (modalRef.current !== null && modalRef.current !== undefined) {
+      setFullNameModal(modalRef.current.value);
+      const putRequestOptions = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+        body: JSON.stringify({
+          username: userCtx.userLocalData.username,
+          fullName: fullNameModal,
+        }),
+      };
+      await sendHttpRequest(
+        API_URL + `api/TyperUsers/FullName/${userCtx.userLocalData.id}`,
+        putRequestOptions
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          username: userCtx.userLocalData.username,
+          email: userCtx.userLocalData.email,
+          fullName: fullNameModal,
+          id: userCtx.userLocalData.id,
+          imgLink: userCtx.userLocalData.imgLink,
+          leagues: userCtx.userLocalData.leagues,
+        })
+      );
+    }
+    else {
+      setFullNameModal(fullName);
+    }
+    console.log(fullNameModal);
+
+    setShowModal(false);
+  }
 
   useEffect(() => {
     const msg =
@@ -327,7 +388,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           {/* <p className="text-center mt-2">
               Forgot <a href="#">password?</a>
             </p> */}
-      </div>
+        </div>
       </LoginForm>
     );
   } else if (authMode === "profile") {
@@ -338,21 +399,43 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           <div className="form-group mt-3 text-center">
             <div className="text-center">You are logged in as</div>
             <label style={{ fontSize: '4vh' }}>{localData?.fullName} </label>
-
-
+          </div>
+          <div className="text-center">
+            <Button
+              style={{ height: '4vh' }}
+              onClick={() => setShowModal(true)}
+            >
+              Change display name
+            </Button>
           </div>
           <UploadProfilePicture></UploadProfilePicture>
-          {/* <div className="form-group mt-3">
-            <label>User Name: {localData?.username} </label>
-          </div> */}
-          {/* <div className="form-group mt-3">
-            <label>Email address: {localData?.email} </label>
-          </div> */}
           <div className="d-grid gap-2 mt-3">
-            <Button className="btn btn-primary" onClick={handleLogOut}>
+            <Button className="btn btn-primary" onClick={async () => handleLogOut}>
               Log out
             </Button>
           </div>
+          {showModal ?
+            <Modal show={showModal} onHide={handleCloseModal} centered >
+              <Modal.Title className="modal-header" id='modal-fullname'>
+                Enter new display name
+              </Modal.Title>
+              <Modal.Body>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '5%' }}>
+                  <input placeholder={'New name...'} value={fullNameModal}
+                    ref={modalRef}
+                    onChange={(e) =>
+                      setFullNameModal(e.target.value)
+                    } />
+                  <Button
+                    onClick={handleSubmitModal}
+                  >
+                    Submit
+                  </Button>
+                </div>
+
+              </Modal.Body>
+            </Modal>
+            : null}
         </div>
       </LoginForm>
     );
@@ -379,6 +462,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           </span>
         </div>
         <div className="form-group mt-3">
+
           <label>Full Name</label>
           <input
             id="fullName"
