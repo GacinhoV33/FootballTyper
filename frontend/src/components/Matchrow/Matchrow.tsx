@@ -164,7 +164,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                 <Button
                                     onClick={handleOpen}
                                     variant={isBetExisting ? 'warning' : 'primary'}
-                                    style={isMobile ? {width: '7.5vh', opacity: buttonOpacity, height: '5vh'} : { width: '5.5vh', opacity: buttonOpacity }}
+                                    style={isMobile ? { width: '7.5vh', opacity: buttonOpacity, height: '5vh' } : { width: '5.5vh', opacity: buttonOpacity, minWidth: '2.5rem', height: '4vh' }}
                                     disabled={groupMatch.isMatchValid}
                                 >
                                     {isBetExisting ? 'Edit' : 'Bet'}
@@ -233,7 +233,15 @@ to{
     transform: translateY(0px);
 }
 `
-const AlertAnimation = styled.div`
+const AlertAnimation = isMobile ? styled.div`
+animation-name: ${alertAnimation};
+animation-duration: 5s;
+width: 70%;
+height: 7vh;
+position: fixed;
+bottom: 5%;
+right: 15%;
+` : styled.div`
 animation-name: ${alertAnimation};
 animation-duration: 5s;
 width: 15%;
