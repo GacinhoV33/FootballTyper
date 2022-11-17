@@ -25,12 +25,12 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
     function sortMyBets() {
       let currentBets = deepcopy(allUserBets);
 
-      if (filterMyBets.indexOf("GroupStage") !== -1 && allUserBets) {
+      if (filterMyBets.indexOf("Group") !== -1 && allUserBets) {
         currentBets = currentBets.filter(
           (bet) => bet.match.stage === 0  
         );
       }
-      if (filterMyBets.indexOf("KnockoutStage") !== -1 && allUserBets) {
+      if (filterMyBets.indexOf("Knockout") !== -1 && allUserBets) {
         currentBets = currentBets.filter(
           (bet) => bet.match.stage > 0
         );

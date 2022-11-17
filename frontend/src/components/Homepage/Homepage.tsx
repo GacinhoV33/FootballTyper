@@ -157,13 +157,13 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
               draggable={true}
               showDots={false}
               responsive={responsive}
-              ssr={true} // means to render carousel on server-side.
+              // ssr={true} // means to render carousel on server-side.
               infinite={true}
               autoPlay={isAutoPlay}
               autoPlaySpeed={5000}
               keyBoardControl={true}
-              customTransition="all .5"
-              transitionDuration={5500}
+              // customTransition="all .5"
+              transitionDuration={1500}
               containerClass="carousel-container"
               removeArrowOnDeviceType={["tablet", "mobile"]}
               dotListClass="custom-dot-list-style"
