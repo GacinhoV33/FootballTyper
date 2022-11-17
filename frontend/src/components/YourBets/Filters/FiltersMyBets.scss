@@ -1,4 +1,4 @@
-.filter-box{
+.filter-box {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -6,7 +6,20 @@
     margin-top: 1rem;
 }
 
-.filter-active{
+.filter-active {
     border: 3px solid #a1a1c1 !important;
     box-shadow: #111131;
+}
+
+.filter-button {
+    margin: 0.5vw;
+    border-radius: 1.2vw;
+    width: 8.2vw;
+
+}
+
+@media (max-width: 900px) {
+    .filter-button {
+        width: 22vw;
+    }
 }

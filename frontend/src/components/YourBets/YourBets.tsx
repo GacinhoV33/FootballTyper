@@ -15,17 +15,13 @@ export interface YourBetsProps {
 }
 const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
   const userCtx = useContext(UserContext);
-  const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>([]);
+  const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>(['All']);
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allUserBets);
   const userData = allUsers?.filter(
     (user) => user.id === userCtx.userLocalData.id
   );
 
   useEffect(() => {
-    allUserBets.sort(
-      (bet1, bet2) =>
-        new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime()
-    );
     function sortMyBets() {
       let currentBets = deepcopy(allUserBets);
 
@@ -62,6 +58,11 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
       if (filterMyBets.indexOf("All") !== -1) {
         currentBets = deepcopy(allUserBets);
       }
+
+      currentBets.sort(
+        (bet1, bet2) =>
+          new Date(bet1.match.date).getTime() - new Date(bet2.match.date).getTime()
+      );
       setBetsToShow(currentBets);
     }
     sortMyBets();
@@ -75,6 +76,10 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
       const allUserBets = await (
         await fetch(process.env.REACT_APP_API_URL + `api/Bets/User/${userName}`)
       ).json();
+      allUserBets?.sort(
+        (bet1: Bet, bet2: Bet) =>
+          new Date(bet1.match.date).getTime() - new Date(bet2.match.date).getTime()
+      );
       setBetsToShow(allUserBets);
     };
     getUserBets();

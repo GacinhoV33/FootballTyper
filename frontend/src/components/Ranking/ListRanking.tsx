@@ -28,8 +28,8 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
             <Table striped>
                 <thead className='table-main'>
                     <tr>
-                        <th style={{ width: '30px' }}>Rank</th>
-                        <td style={{ width: '30px' }}></td>
+                        <th className='rank-row'>Rank</th>
+                        <th className='empty-row'></th>
                         <th> User </th>
                         <th> Points </th>
                         <OverlayTrigger
@@ -90,16 +90,16 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                         // const avatar = imgLink ? 
 
                         return (
-                            <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 10px 10px lightblue', alignItems: 'center' } : { alignItems: 'center' }}>
-                                <td style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: '0 0 !important', padding: '0px 0px !important' }}>
+                            <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 10px 10px lightblue', alignItems: 'center', height: '100%'} : { alignItems: 'center' }}>
+                                <td style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: '0 0 !important', padding: '0px 0px !important' }}>
                                     {
-                                        userRankingStatus > 0 ? <VscTriangleUp style={{ color: 'green' }} size={10} /> :
-                                            (userRankingStatus < 0 ? <VscTriangleDown size={10} style={{ color: 'red', margin: '0 0 !important', padding: '0px 0px !important' }} />
+                                        userRankingStatus > 0 ? <VscTriangleUp style={{ color: 'green', height: '1.2vh'}}  /> :
+                                            (userRankingStatus < 0 ? <VscTriangleDown style={{ color: 'red', margin: '0 0 !important', padding: '0px 0px !important', height: '1.2vh' }} />
                                                 : undefined)
                                     }
-                                    <h3>{index + 1}</h3>
+                                    <span style={{fontSize: '3.5vh', fontWeight: '500'}}>{index + 1}</span>
                                 </td>
-                                <td> {index === 0 ? <FaCrown style={{ color: 'orange', alignItems: 'center' }} size='25' /> : null}</td>
+                                <td> {index === 0 ? <FaCrown style={{ color: 'orange', alignItems: 'center', height: '2.2vh', width: '2.2vh', padding: '0 0 !important'}}  /> : null}</td>
                                 <td>
 
                                     <OverlayTrigger
@@ -109,30 +109,31 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                                                     ? <img src={imgLink} style={{ height: '15vh', width: '15vh', borderRadius: '7.5vh' }} alt={index.toString()} />
                                                     : null
                                                 }
-                                                <div >{username}</div>
+                                                <div>{username}</div>
                                             </Tooltip>
                                         }
                                         placement='top-start'
                                     >
-                                        <Avatar style={{ height: '30px', width: '30px', float: 'left', marginRight: '0.9vw' }} src={imgLink ? imgLink : undefined} alt={username} />
+                                        <Avatar style={{ height: '4vh', width: '4vh', float: 'left', marginRight: '0.9vw' }} src={imgLink ? imgLink : undefined} alt={username} />
                                     </OverlayTrigger>
-                                    {username}
+
+                                    <span style={userCtx.userLocalData?.username === username ? {fontWeight: '700', fontSize: '2.5vh'} : {fontSize: '2.5vh'}}>{username}</span>
                                 </td>
-                                <td> {totalPoints}</td>
-                                <td> {totalExactScoreBets}</td>
-                                <td> {totalCorrectWinnerBets}</td>
-                                <td> {totalWrongBets}</td>
+                                <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalPoints}</td>
+                                <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalExactScoreBets}</td>
+                                <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalCorrectWinnerBets}</td>
+                                <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalWrongBets}</td>
                                 <td style={{ textAlign: 'center' }}>
                                     {
                                         lastFiveBets !== "" ?
                                             lastFiveBets?.split(',').map(Number).map((userBet, index) => {
                                                 switch (userBet) {
                                                     case 0:
-                                                        return <ImCross style={{ color: 'red', margin: '0 0.5vw' }} size='20' key={index} />
+                                                        return <ImCross style={{ color: 'red', margin: '0 0.5vw', width: '1.25vw', height: '1.25vw' }} key={index} />
                                                     case 1:
-                                                        return <BsCheck style={{ color: 'lightgreen' }} size='40' key={index} />
+                                                        return <BsCheck style={{ color: 'lightgreen', width: '2.25vw', height: '2.25vw' }} key={index} />
                                                     case 2:
-                                                        return <BiCheckDouble style={{ color: 'green' }} size='40' key={index} />
+                                                        return <BiCheckDouble style={{ color: 'green', width: '2.25vw', height: '2.25vw' }} key={index} />
                                                 }
                                             })
                                             : null

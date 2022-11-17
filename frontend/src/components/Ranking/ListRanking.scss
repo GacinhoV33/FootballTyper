@@ -4,6 +4,10 @@
     th{
         color: #010101;
     }
+
+    td{
+        vertical-align: middle;
+    }
 }
 
 .tooltip-main{
@@ -12,5 +16,24 @@
 
 .tooltip-main > .tooltip-inner{
     opacity: 1;
+}
 
+.rank-row{
+    width: 2vw;
+    height: 100%;
+}
+
+.empty-row{
+    width: 2vw;
+    height: 100%;
+}
+
+@media (max-width: 900px){
+    .empty-row{
+        width: none;
+    }
+
+    .rank-row{
+        width: none;
+    }
 }

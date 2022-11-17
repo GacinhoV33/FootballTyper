@@ -5,6 +5,12 @@
     height: 92vh;
 }
 
+@media (max-width: 1400px){
+    .group-stage{
+        height: 110vh;
+    }
+}
+
 
 .group-stage-center{
     flex-direction: column;

@@ -1,7 +1,6 @@
     
 .dropdown-rank-button{
     width: 10vw;
-    // margin-left: 1vw;
 }
 
 .dropdown-rank-menu{
@@ -16,4 +15,11 @@
     width: 90%;
     
     border-bottom: 1px solid #555;
+}
+
+@media (max-width: 900px){
+    
+    .dropdown-rank-button{
+        width: 20vw;
+    }
 }

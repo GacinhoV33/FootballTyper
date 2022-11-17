@@ -27,7 +27,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   const [usersToDisplay, setUsersToDisplay] = useState<User[]>(allUsers);
 
   const leagueUsers = allUsers.filter((user) => user.leagues?.indexOf(leagueFilter) !== -1); //TODO when Api correct delete question mark because there's always at least one leauge
-  
+  console.log(allUsers)
   
   const sortedUsers = leagueUsers?.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
   useEffect(() =>{
