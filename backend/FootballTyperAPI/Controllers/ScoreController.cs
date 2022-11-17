@@ -30,8 +30,8 @@ namespace FootballTyperAPI.Controllers
             {
                 return NotFound(new { msg = $"No users in this league: {league}" });
             }
-            var bets = _context.Bets;
-            ScoreHelper.UpdateData(bets, _context.Matches);
+            var bets = _context.Bets.ToList();
+            ScoreHelper.UpdateData(bets, _context.Matches.ToList());
             var yesterdayAndToday = new int[] { DateTime.Today.DayOfYear - 1, DateTime.Today.DayOfYear };
             var lastDayBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName) && yesterdayAndToday.Contains(x.Match.Date.DayOfYear));
             if (!bets.Any())
@@ -53,8 +53,8 @@ namespace FootballTyperAPI.Controllers
         public IActionResult GetGroupstageRanking(string league)
         {
             var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
-            var bets = _context.Bets;
-            ScoreHelper.UpdateData(bets, _context.Matches);
+            var bets = _context.Bets.ToList();
+            ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
             var groupStageBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName) && x.Match.Stage == Stage.Group);
 
@@ -69,8 +69,8 @@ namespace FootballTyperAPI.Controllers
         public IActionResult GetKnockoutRanking(string league)
         {
             var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
-            var bets = _context.Bets;
-            ScoreHelper.UpdateData(bets, _context.Matches);
+            var bets = _context.Bets.ToList();
+            ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
             var knockoutBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName) && x.Match.Stage > Stage.Group);
 
@@ -85,8 +85,8 @@ namespace FootballTyperAPI.Controllers
         public IActionResult GetAllMatchesRanking(string league)
         {
             var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
-            var bets = _context.Bets;
-            ScoreHelper.UpdateData(bets, _context.Matches);
+            var bets = _context.Bets.ToList();
+            ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
             var allLeagueMatches = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName));
 

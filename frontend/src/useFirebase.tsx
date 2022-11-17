@@ -28,7 +28,6 @@ function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) 
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user;
-        // console.log("user", user);
 
         const requestOptions = {
           method: "POST",
@@ -46,14 +45,12 @@ function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) 
         )
           .then((response) => {
             if (response.ok) {
-              console.log("response: ", response);
               return response.json();
 
             }
             return Promise.reject(response);
           })
           .then((data) => {
-            // console.log("data: ", data);
             localStorage.setItem(
               "user",
               JSON.stringify({

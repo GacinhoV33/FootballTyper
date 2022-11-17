@@ -39,7 +39,7 @@ const UploadProfilePicture = () => {
         body: formData,
       };
       await sendHttpRequest(
-        API_URL + "api/File",
+        "api/File",
         postRequestOptions
       );
 
@@ -55,7 +55,7 @@ const UploadProfilePicture = () => {
         }),
       };
       await sendHttpRequest(
-        API_URL + `api/TyperUsers/ImgLink/${user.id}`,
+        `api/TyperUsers/ImgLink/${user.id}`,
         putRequestOptions
       );
 

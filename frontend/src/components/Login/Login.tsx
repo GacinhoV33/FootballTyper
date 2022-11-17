@@ -30,8 +30,8 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
   const modalRef = useRef<HTMLInputElement | null>(null);
   const user = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user") as string)
-  : "";
+    ? JSON.parse(localStorage.getItem("user") as string)
+    : "";
 
 
   const sendHttpRequest = async (path: string, requestOptions: any) => {
@@ -65,7 +65,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
         }),
       };
       await sendHttpRequest(
-        API_URL + `api/TyperUsers/FullName/${user.id}`,
+        `api/TyperUsers/FullName/${user.id}`,
         putRequestOptions
       );
 
@@ -84,7 +84,6 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
     else {
       setFullNameModal(fullName);
     }
-    console.log(fullNameModal);
 
     setShowModal(false);
   }
@@ -118,7 +117,6 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   };
 
   const handleLogOut = (e: any) => {
-    console.log("CHUJ");
     e.preventDefault();
     localStorage.setItem("user", "");
     localStorage.setItem("userToken", "");

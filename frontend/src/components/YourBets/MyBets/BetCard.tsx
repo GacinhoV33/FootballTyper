@@ -77,12 +77,8 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
             if (response.ok) {
               return response;
             }
-            // console.log("reject");
             return Promise.reject(response);
           });
-        // .then((data) => {
-        //   console.log(data);
-        // });
       }
     } catch (e) {
       console.log(e);
