@@ -4,8 +4,8 @@ using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using Microsoft.Extensions.Azure;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<FootballTyperAPIContext>(options =>
@@ -26,8 +26,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "https://football-typer-api.azurewebsites.net",
-                "https://footballtyperapi.azure-api.net", "https://football-typer-frontend.azurewebsites.net")
+            policy.WithOrigins("http://localhost:3000",
+                "https://typer2022.azurewebsites.net",
+                "https://football-typer-frontend.azurewebsites.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
