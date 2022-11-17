@@ -89,11 +89,9 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   return (
     <CardAnimation>
       <Card
+        className="card-style-body"
         style={{
-          borderRadius: "25px",
           boxShadow: betString,
-          height: "105%",
-          minWidth: "280px",
         }}
       >
         <Card.Header
@@ -107,18 +105,17 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           <div style={{ display: "flex" }}>
             <CircleFlag
               countryCode={CountryDict.get(bet.match.homeTeam.name) as string}
-              style={{ paddingRight: "1.5rem" }}
-              height="75"
+              className='flag-my-bets'
             />
           </div>
-          <h3>
+          <span className="score-text">
             {bet.match.homeTeamScore !== -1 ? bet.match.homeTeamScore : "?"} :{" "}
             {bet.match.awayTeamScore !== -1 ? bet.match.awayTeamScore : "?"}
-          </h3>
+          </span>
           <CircleFlag
             countryCode={CountryDict.get(bet.match.awayTeam.name) as string}
-            style={{ paddingLeft: "1.5rem" }}
-            height="75"
+            className='flag-my-bets'
+
           />
         </Card.Header>
         <Card.Body className="bet-card-body">
@@ -179,11 +176,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
               >
                 <BsFillCalendarDateFill size={20} />
                 <span
-                  style={{
-                    fontWeight: "500",
-                    marginRight: "0.4rem",
-                    paddingLeft: "0.4rem",
-                  }}
+                  className='bet-card-text'
                 >
                   {date}
                 </span>
@@ -197,11 +190,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
               >
                 <AiFillClockCircle size={20} />
                 <span
-                  style={{
-                    fontWeight: "500",
-                    marginRight: "0.4rem",
-                    paddingLeft: "0.4rem",
-                  }}
+                  className='bet-card-text'
                 >
                   {hour.slice(0, 5)}
                 </span>
@@ -214,7 +203,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 }}
               >
                 <HiBuildingStorefront size={20} />
-                <h6 style={{ paddingLeft: "0.4rem" }}>{bet.match.location}</h6>
+                <span className='bet-card-text'>{bet.match.location}</span>
               </div>
               <div
                 style={{
@@ -226,14 +215,14 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
               >
                 <IoPersonSharp size={20} />
                 {/* {bet.match.referee} */}
-                <h6 style={{ paddingLeft: "0.4rem" }}>Szymon Marciniak</h6>
+                <span className='bet-card-text'>Szymon Marciniak</span>
               </div>
               <div style={{ gridColumn: "1/4" }}>
                 {bet.homeTeamScore && bet.awayTeamScore ? (
                   <h4 style={{ textAlign: "center" }}>5 points</h4> // Style points TODO
                 ) : (
                   <Button
-                    style={{ width: "100%", marginTop: "1rem" }}
+                    style={{ width: "100%" }}
                     disabled={betDisabled || !afterDeadline}
                     onClick={handleSave}
                     variant={
@@ -243,6 +232,11 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                     {betDisabled || !afterDeadline ? "Saved" : "Save"}
                   </Button>
                 )}
+              </div>
+              <div style={{ gridColumn: "1/4" }}>
+                <div style={{height: '3vh'}}>
+
+                </div>
               </div>
             </div>
           </Card.Text>

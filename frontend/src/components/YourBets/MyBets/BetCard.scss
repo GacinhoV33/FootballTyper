@@ -5,6 +5,13 @@
     
 }
 
+.card-style-body{
+        border-radius: 1.5vw;
+        // box-shadow: betString,
+        height: 100%;
+        min-width: 280px;
+}
+
 .bet-input{
     font-size: 2rem;
     font-weight: 500; 
@@ -13,6 +20,32 @@
     border: 2px solid #050900;
     text-align: center;
     margin: 0 1.2rem;
+
+}
+
+.bet-card-text{
+    font-weight: 600;
+    margin-left: 1vw;
+}
+
+.flag-my-bets{
+    width: 4.5vw;
+    margin: 0 1vw;
+}
+
+@media (max-width: 900px){
+    .flag-my-bets{
+        width: 12vw;
+    }
+
+    .card-style-body{
+        height: 100%;
+    }
+}
+
+.score-text{
+    font-size: 3vh;
+    font-weight: 600;
 
 }
 

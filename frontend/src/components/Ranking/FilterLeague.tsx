@@ -10,13 +10,13 @@ const FilterLeague: React.FC<FilterLeagueProps> = ({currentFilter, setCurrentFil
   return (
       <Dropdown style={{paddingBottom: '1.5vh', marginLeft: '1vw'}}>
         <Dropdown.Toggle variant='secondary' className='dropdown-rank-button'>
-          {currentFilter}
+          {currentFilter === 'main' ? 'Main' : 'Clown'}
         </Dropdown.Toggle>
         
         <Dropdown.Menu className='dropdown-rank-menu'>
           {leaugesNames.map((name, index) => (
             <Dropdown.Item onClick={() => setCurrentFilter(name)} key={name} className='dropdown-rank-item'>
-                {name}
+                {leagueNamesDisplay[index]}
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
@@ -26,4 +26,5 @@ const FilterLeague: React.FC<FilterLeagueProps> = ({currentFilter, setCurrentFil
 
 export default FilterLeague;
 
-const leaugesNames = ['main', 'clownLeague', 'randomLeague']
+const leaugesNames = ['main', 'clownLeague']
+const leagueNamesDisplay = ['Main', 'Clown']

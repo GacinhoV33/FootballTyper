@@ -120,8 +120,7 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({ activeFilters, setActiveF
           active={activeFilters.indexOf(filterName) !== -1}
           key={filterName}
           onClick={() => handleFilterChange(filterName)}
-          style={{ margin: '0.5rem', borderRadius: '2rem', width: '10rem' }}
-          className={activeFilters.indexOf(filterName) !== -1 ? 'filter-active' : undefined}
+          className={activeFilters.indexOf(filterName) !== -1 ? 'filter-active filter-button' : 'filter-button'}
         >
           {filterName}
         </Button>
