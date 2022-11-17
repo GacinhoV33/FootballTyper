@@ -18,6 +18,11 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 import { createContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+
+import ReactGA from 'react-ga';
+const TRACKING_ID = "G-31K4T82HLF"; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
+
 export type UserLocalStorageData = {
   username: string,
   email: string,
