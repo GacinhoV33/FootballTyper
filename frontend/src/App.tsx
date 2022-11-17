@@ -24,7 +24,7 @@ export type UserLocalStorageData = {
   fullname: string,
   id: number,
   imgLink?: string,
-  leauges?: string[],
+  leagues?: string[],
 }
 // This component contains whole logic, all main components and it's the manager of whole application
 export type UserStatus = {
@@ -38,7 +38,7 @@ const userObjInit: UserLocalStorageData | null = {
   fullname: 'no-fullname',
   id: 0,
   imgLink: 'none',
-  leauges: ['none'],
+  leagues: ['none'],
 }
 
 export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
@@ -218,7 +218,8 @@ export interface User {
   leagues: string[],
   id: number,
   lastFiveBets: string,
-  rankStatusDict?: object
+  rankStatusDict?: object,
+  fullName: string,
 }
 
 export default App;

@@ -83,7 +83,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                     </tr>
                 </thead>
                 <tbody className='ranking-row-content'>
-                    {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets, rankStatusDict, imgLink }, index) => {
+                    {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets, rankStatusDict, imgLink, fullName }, index) => {
                         type ObjectKey = keyof typeof rankStatusDict;
                         const leagueName = league as ObjectKey;
                         const userRankingStatus = rankStatusDict ? rankStatusDict[leagueName] : 0;
@@ -109,7 +109,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                                                     ? <img src={imgLink} style={{ height: '15vh', width: '15vh', borderRadius: '7.5vh' }} alt={index.toString()} />
                                                     : null
                                                 }
-                                                <div>{username}</div>
+                                                <div>{fullName}</div>
                                             </Tooltip>
                                         }
                                         placement='top-start'
@@ -117,7 +117,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                                         <Avatar style={{ height: '4vh', width: '4vh', float: 'left', marginRight: '0.9vw' }} src={imgLink ? imgLink : undefined} alt={username} />
                                     </OverlayTrigger>
 
-                                    <span style={userCtx.userLocalData?.username === username ? {fontWeight: '700', fontSize: '2.5vh'} : {fontSize: '2.5vh'}}>{username}</span>
+                                    <span style={userCtx.userLocalData?.username === username ? {fontWeight: '700', fontSize: '2.5vh'} : {fontSize: '2.5vh'}}>{fullName}</span>
                                 </td>
                                 <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalPoints}</td>
                                 <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalExactScoreBets}</td>
