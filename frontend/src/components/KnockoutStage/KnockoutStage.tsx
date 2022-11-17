@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from 'react'
 import MatchBet from './MatchBet/MatchBet';
 import './KnockoutStage.scss';
@@ -217,7 +218,6 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     }
   }
 
-  // const [rounds, setRounds] = useState()
   const rounds = createData();
   return (
     <div className='knockout-main'>

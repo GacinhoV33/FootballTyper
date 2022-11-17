@@ -1,8 +1,9 @@
 
 // import { app } from './service_firebase';
-import React from 'react'
+import React, { useContext } from 'react'
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
+import { UserContext } from './App';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAw3O-R4E5uB82wl8_3qhUtRzmNoOQ-Fb4",
@@ -19,7 +20,7 @@ export const app = initializeApp(firebaseConfig);
 function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) {
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
-
+  const userCtx = useContext(UserContext)
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   const handleGoogleSignIn = () => {
@@ -62,7 +63,7 @@ function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) 
                 leagues: data.user.leagues,
               })
             );
-
+            // userCtx.isUserSigned
             localStorage.setItem("userToken", data.userToken);
             setAuthMode('profile');
           });

@@ -15,13 +15,15 @@ import { MdOutlineHorizontalRule } from 'react-icons/md';
 
 import avatar1 from './avatar1.jpg';
 import avatar2 from './avatar2.png';
+import { RankingFilters } from './Ranking';
 
 export interface ListRankingProps {
     league: string,
     allUsers: User[],
+    filter: RankingFilters
 }
 
-const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
+const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) => {
     const userCtx = useContext(UserContext);
     return (
         <div className='ranking-table'>
@@ -87,17 +89,18 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league }) => {
                         type ObjectKey = keyof typeof rankStatusDict;
                         const leagueName = league as ObjectKey;
                         const userRankingStatus = rankStatusDict ? rankStatusDict[leagueName] : 0;
-                        // const avatar = imgLink ? 
-
                         return (
                             <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 10px 10px lightblue', alignItems: 'center', height: '100%'} : { alignItems: 'center' }}>
-                                <td style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end', margin: '0 0 !important', padding: '0px 0px !important' }}>
+                                <td style={{ margin: 'auto 0 !important', padding: '0px 0px !important', textAlign: 'right'}}>
+                                    <div style={{}}>
                                     {
-                                        userRankingStatus > 0 ? <VscTriangleUp style={{ color: 'green', height: '1.2vh'}}  /> :
-                                            (userRankingStatus < 0 ? <VscTriangleDown style={{ color: 'red', margin: '0 0 !important', padding: '0px 0px !important', height: '1.2vh' }} />
+                                        userRankingStatus > 0 &&  filter === 'general' ? <VscTriangleUp style={{ color: 'green', height: '1.2vh', margin: 'auto 0 !important'}}  /> :
+                                            (userRankingStatus < 0 && filter === 'general' ? <VscTriangleDown style={{ color: 'red', margin: '0 0 !important', padding: '0px 0px !important', height: '1.2vh' }} />
                                                 : undefined)
                                     }
                                     <span style={{fontSize: '3.5vh', fontWeight: '500'}}>{index + 1}</span>
+                                    </div>
+
                                 </td>
                                 <td> {index === 0 ? <FaCrown style={{ color: 'orange', alignItems: 'center', height: '2.2vh', width: '2.2vh', padding: '0 0 !important'}}  /> : null}</td>
                                 <td>

@@ -112,7 +112,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
       </div>
 
       <div className='list-ranking'>
-        <ListRanking allUsers={usersToDisplay} league={leagueFilter} />
+        <ListRanking allUsers={usersToDisplay} league={leagueFilter} filter={filter}/>
       </div>
     </div>
 

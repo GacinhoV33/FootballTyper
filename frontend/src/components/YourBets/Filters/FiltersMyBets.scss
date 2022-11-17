@@ -7,19 +7,21 @@
 }
 
 .filter-active {
-    border: 3px solid #a1a1c1 !important;
+    border: 3px solid #a1a1c1;
     box-shadow: #111131;
 }
 
-.filter-button {
+.filter-button-cus{
     margin: 0.5vw;
     border-radius: 1.2vw;
-    width: 8.2vw;
+    width: 9.2vw;
 
 }
 
 @media (max-width: 900px) {
-    .filter-button {
-        width: 22vw;
+    .filter-button-cus{
+        width: 13vw;
+        font-size: 1.5vw;
+        text-align: center;
     }
 }

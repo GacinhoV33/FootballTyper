@@ -46,7 +46,7 @@ const userObjInit: UserLocalStorageData | null = {
   leagues: ['none'],
 }
 
-export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
+export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false,  });
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
@@ -95,7 +95,7 @@ function App() {
       return <Ranking allUsers={allUsers} />
     }
     else if (allUsers && !userStatus.isUserSigned) {
-      return <h1>State when user not logged but want to see ranking</h1>
+      return <Login setUserStatus={setUserStatus} />
     }
     else {
       return <LoadingLayout componentName='Ranking' />

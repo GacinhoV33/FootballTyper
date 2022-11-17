@@ -19,9 +19,7 @@ const GoogleLoginButton: React.FC<GoogleLoginProps> = ({ setAuthMode }) => {
     }
 
     return (
-        // <div className='container'>
             <GoogleButton onClick={onClickPrevent} disabled={false}>Sign in with Google</GoogleButton>
-        // </div>
     )
 
 }

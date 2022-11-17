@@ -31,14 +31,24 @@
 }
 
 .bets-main-content{
-    grid-column: 3/11;
+    grid-column: 1/12;
     scroll-behavior: 'smooth';
 }
 
 .my-bets-main{
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     flex-direction: column;
     background-image: url('../Homepage/images/background.jfif');
     min-height: 92vh;
+}
+
+@media (max-width: 900px){
+    .my-bets-main{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
 }

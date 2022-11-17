@@ -41,14 +41,14 @@ const Rules = () => {
   return (
 
     <div>
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', justifyContent: 'center', marginTop: '2vh'}}>
         <Pagination>
           {items}
         </Pagination>
       </div>
       
       <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
-        <div style={{width: '70%', }}>
+        <div style={{width: '70%'}}>
         { 
           currentSection === 'Rules' && accordionTitles.map((title, index) => (
             <Accordion key={index}>
