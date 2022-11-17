@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FootballTyperAPI.Models.Users;
 
-public class UpdateImgLinkRequest
+public class UpdateFullNameRequest
 {
     [Required]
-    public string Username { get; set; }
+    public int Id { get; set; }
 
     [Required]
-    public string ImgLink { get; set; }
+    public string FullName { get; set; }
 }

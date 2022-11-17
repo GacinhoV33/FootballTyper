@@ -29,7 +29,9 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [fullNameModal, setFullNameModal] = useState<string>('');
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
   const modalRef = useRef<HTMLInputElement | null>(null);
-  const userCtx = useContext(UserContext);
+  const user = localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user") as string)
+  : "";
 
 
   const sendHttpRequest = async (path: string, requestOptions: any) => {
@@ -58,24 +60,24 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
         body: JSON.stringify({
-          username: userCtx.userLocalData.username,
-          fullName: fullNameModal,
+          Id: user.id,
+          FullName: fullNameModal,
         }),
       };
       await sendHttpRequest(
-        API_URL + `api/TyperUsers/FullName/${userCtx.userLocalData.id}`,
+        API_URL + `api/TyperUsers/FullName/${user.id}`,
         putRequestOptions
       );
 
       localStorage.setItem(
         "user",
         JSON.stringify({
-          username: userCtx.userLocalData.username,
-          email: userCtx.userLocalData.email,
+          username: user.username,
+          email: user.email,
           fullName: fullNameModal,
-          id: userCtx.userLocalData.id,
-          imgLink: userCtx.userLocalData.imgLink,
-          leagues: userCtx.userLocalData.leagues,
+          id: user.id,
+          imgLink: user.imgLink,
+          leagues: user.leagues,
         })
       );
     }
@@ -116,6 +118,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   };
 
   const handleLogOut = (e: any) => {
+    console.log("CHUJ");
     e.preventDefault();
     localStorage.setItem("user", "");
     localStorage.setItem("userToken", "");
@@ -410,7 +413,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           </div>
           <UploadProfilePicture></UploadProfilePicture>
           <div className="d-grid gap-2 mt-3">
-            <Button className="btn btn-primary" onClick={async () => handleLogOut}>
+            <Button className="btn btn-primary" onClick={handleLogOut}>
               Log out
             </Button>
           </div>

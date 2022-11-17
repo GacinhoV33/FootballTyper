@@ -87,6 +87,14 @@ namespace FootballTyperAPI.Controllers
             return Ok(new { message = "User updated successfully" });
         }
 
+        //[AllowAnonymous]
+        [HttpPut("FullName/{id}")]
+        public IActionResult UpdateFullName(int id, [FromBody] UpdateFullNameRequest model)
+        {
+            _userService.UpdateFullName(id, model);
+            return Ok(new { message = "User updated successfully" });
+        }
+
 
         //[AllowAnonymous]
         [HttpDelete("{id}")]
