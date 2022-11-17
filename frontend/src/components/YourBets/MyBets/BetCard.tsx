@@ -43,7 +43,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
     ? bet.match.date.split("T")
     : ["1999-20-11", "00:00"];
   const userName = useContext(UserContext).userLocalData?.username;
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   function handleSave() {
     try {
@@ -236,7 +236,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 )}
               </div>
               <div style={{ gridColumn: "1/4" }}>
-                <div style={{height: '3vh'}}>
+                <div style={{ height: '3vh' }}>
 
                 </div>
               </div>

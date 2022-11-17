@@ -24,7 +24,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   useEffect(() => {
     const msg =

@@ -13,11 +13,11 @@ import { Bet } from '../YourBets/MyBets/MyBets';
 import styled, { keyframes } from 'styled-components';
 import Alert from 'react-bootstrap/Alert';
 
-export interface CustomIRenderSeedProps extends IRenderSeedProps{
+export interface CustomIRenderSeedProps extends IRenderSeedProps {
   setBetChange: React.Dispatch<React.SetStateAction<number>>,
 }
 
-const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex}: IRenderSeedProps) => {
+const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
   // const wonTeam = seed.isMatchPlayed as number;
@@ -115,7 +115,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
   const [userBets, setUserBets] = useState<Bet[] | null>(null);
   const userCtx = useContext(UserContext);
   const [betChange2, setBetChange2] = useState<number>(0);
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   useEffect(() => {
     const getUserBets = async () => {
@@ -227,7 +227,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
             rounds={rounds}
             renderSeedComponent={CustomSeed}
             roundClassName={'round-styles'}
-            
+
           />
           : null
       }

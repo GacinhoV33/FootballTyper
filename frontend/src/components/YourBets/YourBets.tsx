@@ -20,7 +20,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
   const userData = allUsers?.filter(
     (user) => user.id === userCtx.userLocalData.id
   );
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   useEffect(() => {
     function sortMyBets() {

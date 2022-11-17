@@ -36,7 +36,7 @@ const BetModal: React.FC<BetModalProps> = ({
   let betId: Bet[] = [];
   const input1 = useRef<HTMLInputElement | null>(null);
   const input2 = useRef<HTMLInputElement | null>(null);
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   function handleSubmit() {
     if (input1.current?.value !== '' && input2.current?.value !== '') {

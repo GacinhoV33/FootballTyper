@@ -7,7 +7,7 @@ const UploadProfilePicture = () => {
   const [fileName, setFileName] = useState<any>();
   const ref = useRef<HTMLInputElement>(null);
   //   const apiUrl = "http://localhost:44302/";
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string)

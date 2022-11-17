@@ -45,7 +45,7 @@ const NavbarComp = () => {
             <Nav.Link href={isUserLogged ? "/ranking" : '/Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Ranking</Nav.Item>
             </Nav.Link>
-            {Boolean(process.env.REACT_APP_IS_IT_PRODUCTION_VERSION) === true &&
+            {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' &&
               <Nav.Link href={isUserLogged ? "/statistics" : '/Login'} className='nav-hover-item'>
                 <Nav.Item className='navbar-text'>Statistics</Nav.Item>
               </Nav.Link>
@@ -53,7 +53,7 @@ const NavbarComp = () => {
             <Nav.Link href="/rules" className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Rules</Nav.Item>
             </Nav.Link>
-            {Boolean(process.env.REACT_APP_IS_IT_PRODUCTION_VERSION) === true &&
+            {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' &&
               <Nav.Link href="/adminpanel" className='nav-hover-item'>
                 <Nav.Item className='navbar-text'>Admin Panel</Nav.Item>
               </Nav.Link>

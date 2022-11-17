@@ -23,7 +23,7 @@ const GroupStageMatches = ({
   const userCtx = useContext(UserContext);
   const [userBets, setUserBets] = useState<Bet[] | null>(null);
   const [betChange, setBetChange] = useState<number>(0);
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   useEffect(() => {
     const getUserBets = async () => {
