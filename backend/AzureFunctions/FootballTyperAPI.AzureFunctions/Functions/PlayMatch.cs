@@ -29,7 +29,8 @@ namespace FootballTyperAPI.AzureFunctions
 
             if (Matches.Count() > 0)
             {
-                var match = Matches.ElementAt(Random.Shared.Next(0, Matches.Count()));
+                var notPlayedMatches = Matches.Where(x => x.AwayTeamScore < 0);
+                var match = notPlayedMatches.ElementAt(Random.Shared.Next(0, notPlayedMatches.Count()));
                 match.AwayTeamScore = Random.Shared.Next(0, 3);
                 match.HomeTeamScore = Random.Shared.Next(0, 3);
                 match.Date = DateTime.Now;

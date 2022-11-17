@@ -29,7 +29,8 @@ namespace FootballTyperAPI.AzureFunctions
 
             if (Matches.Count() > 0)
             {
-                foreach (var match in Matches)
+                var notPlayedMatches = Matches.Where(x => x.AwayTeamScore < 0);
+                foreach (var match in notPlayedMatches)
                 {
                     match.AwayTeamScore = Random.Shared.Next(0, 3);
                     match.HomeTeamScore = Random.Shared.Next(0, 3);

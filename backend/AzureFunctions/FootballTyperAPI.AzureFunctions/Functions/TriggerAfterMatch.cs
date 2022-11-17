@@ -12,7 +12,7 @@ namespace FootballTyperAPI.AzureFunctions
     {
         [FunctionName("TriggerAfterMatch")]
         //public async Task Run([TimerTrigger("*/15 * * * * *")] TimerInfo myTimer, ILogger log)
-        public static async Task Run([TimerTrigger("0 0 0 * * *")] TimerInfo myTimer, ILogger log)
+        public static async Task Run([TimerTrigger("0 0 0 0 * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
@@ -27,7 +27,7 @@ namespace FootballTyperAPI.AzureFunctions
         public static async Task<HttpResponseMessage> Get(string path)
         {
             using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("x-functions-key", Environment.GetEnvironmentVariable("FunctionKey"));
+            //client.DefaultRequestHeaders.Add("x-functions-key", Environment.GetEnvironmentVariable("FunctionKey"));
             client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("HostUrl"));
             return await client.GetAsync(path);
         }

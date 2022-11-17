@@ -1,8 +1,12 @@
+import { userInfo } from "os";
 import React from "react";
 import "./AdminPanel.scss";
 
 const AdminPanel = () => {
   const apiUrl = "http://localhost:7071/";
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") as string)
+    : "";
 
   const sendHttpRequest = (path: string) => {
     const requestOptions = {
@@ -10,6 +14,7 @@ const AdminPanel = () => {
       headers: {
         "x-functions-key":
           "G1uaxlb3uCKf158UEaBePBvi5ict7uEadlZ8yLM0kcC8AzFu_wE0zg==",
+        "userName": user.username
       },
     };
 
@@ -112,6 +117,14 @@ const AdminPanel = () => {
     sendHttpRequest("api/PlayKnockoutStageFinals");
   };
 
+  const betAllMatches = () => {
+    sendHttpRequest("api/BetAllMatches");
+  };
+
+  const betFiveMatches = () => {
+    sendHttpRequest("api/BetFiveMatches");
+  };
+
   return (
     <div>
       <div
@@ -181,6 +194,22 @@ const AdminPanel = () => {
         >
           {" "}
           Initialize table <b>Bets</b>
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={betAllMatches}
+        >
+          {" "}
+          Bet <b>All</b> Matches
+        </button>
+
+        <button
+          className="btn btn-outline-primary"
+          onClick={betFiveMatches}
+        >
+          {" "}
+          Bet <b>Five</b> Matches
         </button>
 
         <button className="btn btn-outline-primary" onClick={handlePlayMatch}>
