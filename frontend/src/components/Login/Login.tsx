@@ -327,7 +327,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           {/* <p className="text-center mt-2">
               Forgot <a href="#">password?</a>
             </p> */}
-        </div>
+      </div>
       </LoginForm>
     );
   } else if (authMode === "profile") {
@@ -336,7 +336,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
       <LoginForm onSubmit={onSubmit} title="Profile">
         <div>
           <div className="form-group mt-3 text-center">
-            <div className="text-center">You are logged in</div>
+            <div className="text-center">You are logged in as</div>
             <label style={{ fontSize: '4vh' }}>{localData?.fullName} </label>
 
 

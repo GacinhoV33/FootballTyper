@@ -3,8 +3,6 @@ import ProfilePicture from "./ProfilePicture";
 import './UploadProfilePicture.scss';
 
 const UploadProfilePicture = () => {
-  const [file, setFile] = useState<any>();
-  const [fileName, setFileName] = useState<any>();
   const ref = useRef<HTMLInputElement>(null);
   //   const apiUrl = "http://localhost:44302/";
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
@@ -16,27 +14,24 @@ const UploadProfilePicture = () => {
   const [imgBlobLink, setImgBlobLink] = useState<string>(user.imgLink);
   const sendHttpRequest = async (path: string, requestOptions: any) => {
     await fetch(API_URL + path, requestOptions).then((response) => {
-      // console.log("Response: ", response);
       if (response.ok) {
         return response.json();
       }
     });
-    // .then((data) => {
-    //   console.log(data);
-    // });
   };
 
-  const uploadFile = async () => {
-    if (validateFileType()) {
+  const uploadFile = async (e: any) => {
+    let uploadedImage = e.target.files[0];
+    if (validateFileType(uploadedImage.name)) {
       let newImgLink =
         "https://footballtypersa.blob.core.windows.net/imgs/" +
         user.username +
         "__" +
         new Date().toLocaleTimeString() +
         "." +
-        getExt(fileName);
+        getExt(uploadedImage.name);
       const formData = new FormData();
-      formData.append("File", file);
+      formData.append("File", uploadedImage);
       formData.append("FileName", newImgLink);
 
       const postRequestOptions = {
@@ -79,12 +74,7 @@ const UploadProfilePicture = () => {
     }
   };
 
-  const saveFile = async (e: any) => {
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
-  };
-
-  const validateFileType = () => {
+  const validateFileType = (fileName: string) => {
     var extFile = getExt(fileName);
     if (extFile == "jpg" || extFile == "jpeg" || extFile == "png") {
       return true;
@@ -108,25 +98,19 @@ const UploadProfilePicture = () => {
         justifyContent: "center",
       }}
     >
-      <button style={{ marginTop: "1vh" }} onClick={() => ref.current?.click()}>
-        Select Profile Picture
+      <ProfilePicture imgLink={imgBlobLink}></ProfilePicture>
+      <button
+        className="upload-button" onClick={() => ref.current?.click()}>
+        Upload a profile picture
       </button>
       <input
         id="filePicker"
         style={{ margin: "1vh", display: "none" }}
         type="file"
-        onChange={saveFile}
+        onChange={uploadFile}
         accept="image/*"
         ref={ref}
       />
-
-      <input
-        className="upload-button"
-        type="button"
-        value="Upload Profile Picture"
-        onClick={async () => await uploadFile()}
-      />
-
     </div>
   );
 };
