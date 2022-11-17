@@ -43,6 +43,8 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
     ? bet.match.date.split("T")
     : ["1999-20-11", "00:00"];
   const userName = useContext(UserContext).userLocalData?.username;
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
   function handleSave() {
     try {
       if (
@@ -68,7 +70,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
         };
 
         fetch(
-          process.env.REACT_APP_API_URL + `api/Bets/${bet.id}`,
+          API_URL + `api/Bets/${bet.id}`,
           putRequestOptions
         )
           .then((response) => {

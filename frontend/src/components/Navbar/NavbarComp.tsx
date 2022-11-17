@@ -18,11 +18,12 @@ const NavbarComp = () => {
   const profile = () => {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <CgProfile className='profile-icon-navbar'/>
+        <CgProfile className='profile-icon-navbar' />
         Profile
       </div>
     )
   }
+
   return (
     <Navbar bg='light' className='navbar-main' fixed='top'>
       <div className='navbar-content'>
@@ -30,7 +31,7 @@ const NavbarComp = () => {
           <Nav className="me-auto">
             <Nav.Link href='/'>
 
-              <img className='png-image' src={logo_player} alt='logogogo'/>
+              <img className='png-image' src={logo_player} alt='logogogo' />
             </Nav.Link>
             <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>GroupStage</Nav.Item>
@@ -44,15 +45,19 @@ const NavbarComp = () => {
             <Nav.Link href={isUserLogged ? "/ranking" : '/Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Ranking</Nav.Item>
             </Nav.Link>
-            {/* <Nav.Link href={isUserLogged ? "/statistics" : '/Login'} className='nav-hover-item'>
-              <Nav.Item className='navbar-text'>Statistics</Nav.Item>
-            </Nav.Link> */}
+            {Boolean(process.env.REACT_APP_IS_IT_PRODUCTION_VERSION) === true &&
+              <Nav.Link href={isUserLogged ? "/statistics" : '/Login'} className='nav-hover-item'>
+                <Nav.Item className='navbar-text'>Statistics</Nav.Item>
+              </Nav.Link>
+            }
             <Nav.Link href="/rules" className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Rules</Nav.Item>
             </Nav.Link>
-            <Nav.Link href="/adminpanel" className='nav-hover-item'>
+            {Boolean(process.env.REACT_APP_IS_IT_PRODUCTION_VERSION) === true &&
+              <Nav.Link href="/adminpanel" className='nav-hover-item'>
                 <Nav.Item className='navbar-text'>Admin Panel</Nav.Item>
               </Nav.Link>
+            }
             <Nav.Link href='/Login' className='nav-hover-item'>
               <Nav.Item className='navbar-text'>{isUserLogged ? profile() : 'Login'}</Nav.Item>
             </Nav.Link>

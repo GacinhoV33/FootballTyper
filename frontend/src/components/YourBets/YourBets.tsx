@@ -20,6 +20,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
   const userData = allUsers?.filter(
     (user) => user.id === userCtx.userLocalData.id
   );
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   useEffect(() => {
     function sortMyBets() {
@@ -27,7 +28,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
 
       if (filterMyBets.indexOf("GroupStage") !== -1 && allUserBets) {
         currentBets = currentBets.filter(
-          (bet) => bet.match.stage === 0  
+          (bet) => bet.match.stage === 0
         );
       }
       if (filterMyBets.indexOf("KnockoutStage") !== -1 && allUserBets) {
@@ -74,7 +75,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
         ? userCtx.userLocalData.username
         : "";
       const allUserBets = await (
-        await fetch(process.env.REACT_APP_API_URL + `api/Bets/User/${userName}`)
+        await fetch(API_URL + `api/Bets/User/${userName}`)
       ).json();
       allUserBets?.sort(
         (bet1: Bet, bet2: Bet) =>
@@ -119,13 +120,12 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 value={correctScores.length}
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
-                text={`${
-                  totalNumberOfEndBets !== 0
+                text={`${totalNumberOfEndBets !== 0
                     ? Number(
-                        (correctScores.length / totalNumberOfEndBets) * 100
-                      ).toFixed(2)
+                      (correctScores.length / totalNumberOfEndBets) * 100
+                    ).toFixed(2)
                     : 0.0
-                }%`}
+                  }%`}
                 styles={buildStyles({
                   pathColor: "green",
                   textColor: "#CCCCCC",
@@ -140,13 +140,12 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 value={correctResult.length}
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
-                text={`${
-                  totalNumberOfEndBets !== 0
+                text={`${totalNumberOfEndBets !== 0
                     ? Number(
-                        (correctResult.length / totalNumberOfEndBets) * 100
-                      ).toFixed(2)
+                      (correctResult.length / totalNumberOfEndBets) * 100
+                    ).toFixed(2)
                     : 0.0
-                }%`}
+                  }%`}
                 styles={buildStyles({
                   pathColor: "darkgreen",
                   textColor: "#CCCCCC",
@@ -159,13 +158,12 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 value={wrongBets.length}
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
-                text={`${
-                  totalNumberOfEndBets !== 0
+                text={`${totalNumberOfEndBets !== 0
                     ? Number(
-                        (wrongBets.length / totalNumberOfEndBets) * 100
-                      ).toFixed(2)
+                      (wrongBets.length / totalNumberOfEndBets) * 100
+                    ).toFixed(2)
                     : 0.0
-                }%`}
+                  }%`}
                 styles={buildStyles({ pathColor: "red", textColor: "#CCCCCC" })}
               />
             </div>

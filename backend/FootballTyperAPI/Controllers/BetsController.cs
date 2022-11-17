@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FootballTyperAPI.Common;
 using FootballTyperAPI.Data;
-using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
 using FootballTyperAPI.Models.Bets;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +62,14 @@ namespace FootballTyperAPI.Controllers
                 return NotFound();
             }
 
+            if (bet.Match != null)
+            {
+                if (bet.Match.Date <= DateTime.Now)
+                {
+                    return BadRequest(new { msg = "Cannot add a bet after a match has been played" });
+                }
+            }
+
             _mapper.Map(betModel, bet);
             _context.Entry(bet).State = EntityState.Modified;
 
@@ -93,6 +100,13 @@ namespace FootballTyperAPI.Controllers
             var bet = new Bet();
             _context.Bets.Add(_mapper.Map(betModel, bet));
             bet.Match = (await _context.GetAllMatches()).FirstOrDefault(x => x.Id == bet.MatchId) ?? new Match();
+            if (bet.Match != null)
+            {
+                if (bet.Match.Date <= DateTime.Now)
+                {
+                    return BadRequest(new { msg = "Cannot add a bet after a match has been played" });
+                }
+            }
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBet", new { id = bet.Id }, bet);

@@ -7,7 +7,7 @@ const UploadProfilePicture = () => {
   const [fileName, setFileName] = useState<any>();
   const ref = useRef<HTMLInputElement>(null);
   //   const apiUrl = "http://localhost:44302/";
-  const apiUrl = "";
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string)
@@ -15,7 +15,7 @@ const UploadProfilePicture = () => {
 
   const [imgBlobLink, setImgBlobLink] = useState<string>(user.imgLink);
   const sendHttpRequest = async (path: string, requestOptions: any) => {
-    await fetch(apiUrl + path, requestOptions).then((response) => {
+    await fetch(API_URL + path, requestOptions).then((response) => {
       // console.log("Response: ", response);
       if (response.ok) {
         return response.json();
@@ -44,7 +44,7 @@ const UploadProfilePicture = () => {
         body: formData,
       };
       await sendHttpRequest(
-        process.env.REACT_APP_API_URL + "api/File",
+        API_URL + "api/File",
         postRequestOptions
       );
 
@@ -60,7 +60,7 @@ const UploadProfilePicture = () => {
         }),
       };
       await sendHttpRequest(
-        process.env.REACT_APP_API_URL + `api/TyperUsers/ImgLink/${user.id}`,
+        API_URL + `api/TyperUsers/ImgLink/${user.id}`,
         putRequestOptions
       );
 

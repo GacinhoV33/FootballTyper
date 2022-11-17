@@ -23,13 +23,15 @@ const GroupStageMatches = ({
   const userCtx = useContext(UserContext);
   const [userBets, setUserBets] = useState<Bet[] | null>(null);
   const [betChange, setBetChange] = useState<number>(0);
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
   useEffect(() => {
     const getUserBets = async () => {
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
       const allUserBets = await (
-        await fetch(process.env.REACT_APP_API_URL + `api/Bets/User/${userName}`)
+        await fetch(API_URL + `api/Bets/User/${userName}`)
       ).json();
       setUserBets(allUserBets);
     };

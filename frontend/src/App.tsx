@@ -54,11 +54,13 @@ function App() {
     userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string) : userObjInit,
     isUserSigned: localStorage.getItem('user') !== '' && localStorage.getItem('user') !== null ? true : false
   })
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
   useEffect(() => {
     const fetchData = async () => {
 
-      const allMatches = await (await fetch(process.env.REACT_APP_API_URL + 'api/Matches')).json();
-      const data = await (await fetch(process.env.REACT_APP_API_URL + 'api/Teams')).json();
+      const allMatches = await (await fetch(API_URL + 'api/Matches')).json();
+      const data = await (await fetch(API_URL + 'api/Teams')).json();
       const requestAllUsersOptions = {
         method: 'GET',
         headers: {
@@ -67,10 +69,10 @@ function App() {
         }
       };
 
-      const allUsers = await (await fetch(process.env.REACT_APP_API_URL + 'api/TyperUsers', requestAllUsersOptions)).json();
+      const allUsers = await (await fetch(API_URL + 'api/TyperUsers', requestAllUsersOptions)).json();
       const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : '';
       if (userName) {
-        const allUserBets = await (await fetch(process.env.REACT_APP_API_URL + `api/Bets/User/${userName.username}`)).json();
+        const allUserBets = await (await fetch(API_URL + `api/Bets/User/${userName.username}`)).json();
         setAllUserBets(allUserBets);
       }
       setAllMatches(allMatches);
@@ -115,16 +117,16 @@ function App() {
 
   return (
     <UserContext.Provider value={userStatus}>
-      <AuthVerify setUserStatus={setUserStatus}/>
+      <AuthVerify setUserStatus={setUserStatus} />
       <div className='app-body'>
         <NavbarComp />
         {/* placeholder for Navbar */}
-        <div style={{height: '8vh'}}></div> 
+        <div style={{ height: '8vh' }}></div>
         <Routes>
-          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage'/>}/>
-          <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches}/> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage' />} />
+          <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} /> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
           <Route
             path='/ranking'
             element={
@@ -145,11 +147,11 @@ function App() {
   //   <div className='app-body'>
   //         <NavbarComp />
   //         <Routes>
-          
+
   //           <Route path='/GoogleLogin' element={<GoogleLogin/>} />
   //         </Routes >
   //         {/* <Footer /> */}
-  
+
   //       </div >
   // )
 }

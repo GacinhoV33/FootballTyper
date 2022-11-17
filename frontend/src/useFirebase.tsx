@@ -20,6 +20,8 @@ function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) 
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
 
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
   const handleGoogleSignIn = () => {
     let returnValue = false;
     const auth = getAuth(app);
@@ -39,7 +41,7 @@ function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) 
         };
 
         fetch(
-          process.env.REACT_APP_API_URL + "api/TyperUsers/googleLogin",
+          API_URL + "api/TyperUsers/googleLogin",
           requestOptions
         )
           .then((response) => {

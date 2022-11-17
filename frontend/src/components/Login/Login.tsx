@@ -24,6 +24,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   useEffect(() => {
     const msg =
@@ -111,7 +112,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
       };
 
       fetch(
-        process.env.REACT_APP_API_URL + "api/TyperUsers/register",
+        API_URL + "api/TyperUsers/register",
         requestOptions
       )
         .then((response) => {
@@ -128,7 +129,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           };
 
           fetch(
-            process.env.REACT_APP_API_URL + "api/TyperUsers/authenticate",
+            API_URL + "api/TyperUsers/authenticate",
             requestOptions
           )
             .then((response) => response.json())
@@ -144,7 +145,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               };
 
               fetch(
-                process.env.REACT_APP_API_URL + `api/TyperUsers/${data.id}`,
+                API_URL + `api/TyperUsers/${data.id}`,
                 requestOptions
               )
                 .then((response) => response.json())
@@ -203,7 +204,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
       };
 
       fetch(
-        process.env.REACT_APP_API_URL + "api/TyperUsers/authenticate",
+        API_URL + "api/TyperUsers/authenticate",
         requestOptions
       )
         .then((response) => {
@@ -224,7 +225,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           };
 
           fetch(
-            process.env.REACT_APP_API_URL + `api/TyperUsers/${data.id}`,
+            API_URL + `api/TyperUsers/${data.id}`,
             requestOptions
           )
             .then((response) => response.json())
