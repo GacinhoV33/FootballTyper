@@ -102,7 +102,10 @@ namespace FootballTyperAPI.Common
                 if (!bet.IsBetProcessed)
                 {
                     var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
-                    CalculateResultPointsForUserByBet(bet, user, log);
+                    if (bet.Match.IsMatchValid)
+                    {
+                        CalculateResultPointsForUserByBet(bet, user, log);
+                    }
                     betsToReturn.Add(bet);
                 }
             }
@@ -114,7 +117,10 @@ namespace FootballTyperAPI.Common
             foreach (var bet in Bets)
             {
                 var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
-                CalculateResultPointsForUserByBet(bet, user);
+                if (bet.Match.IsMatchValid)
+                {
+                    CalculateResultPointsForUserByBet(bet, user);
+                }
             }
         }
 

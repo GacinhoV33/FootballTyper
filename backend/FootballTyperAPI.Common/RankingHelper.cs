@@ -15,6 +15,10 @@ namespace FootballTyperAPI.Common
                     .ThenByDescending(y => y.TotalExactScoreBets)
                     .ThenByDescending(z => z.TotalCorrectWinnerBets);
                 int pos = 1;
+                if(sortedUsers.All(x => x.TotalPoints == 0))
+                {
+                    pos = 0;
+                }
                 foreach (var user in sortedUsers)
                 {
                     int? minPos = null;
@@ -53,7 +57,7 @@ namespace FootballTyperAPI.Common
             var rankStat = new Dictionary<string, int>();
             foreach (var league in updatedRanking.LeaguePosition.Keys)
             {
-                rankStat.Add(league, updatedRanking.LeaguePosition[league] - prevRanking.LeaguePosition[league]);
+                rankStat.Add(league, prevRanking.LeaguePosition[league] - updatedRanking.LeaguePosition[league]);
             }
             return rankStat;
         }

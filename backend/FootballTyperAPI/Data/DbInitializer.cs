@@ -18,7 +18,7 @@ namespace FootballTyperAPI.Data
                 FillBetsTable(context);
             if (context.TyperUser.Any(x => x.Username == "User1" || x.Username == "User2"))
                 context.TyperUser.RemoveRange(context.TyperUser.Where(x => x.Username == "User1" || x.Username == "User2"));
-            FillTyperUserTable(context);
+            //FillTyperUserTable(context);
         }
 
 
