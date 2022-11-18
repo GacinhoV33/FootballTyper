@@ -28,7 +28,8 @@ namespace FootballTyperAPI.Controllers
             var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
             if (!users.Any())
             {
-                return NotFound(new { msg = $"No users in this league: {league}" });
+                //return NotFound(new { msg = $"No users in this league: {league}" });
+                return Ok(new List<TyperUserApi>());
             }
             var bets = _context.Bets.ToList();
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
@@ -53,6 +54,11 @@ namespace FootballTyperAPI.Controllers
         public IActionResult GetGroupstageRanking(string league)
         {
             var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
+            if (!users.Any())
+            {
+                //return NotFound(new { msg = $"No users in this league: {league}" });
+                return Ok(new List<TyperUserApi>());
+            }
             var bets = _context.Bets.ToList();
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
@@ -73,6 +79,11 @@ namespace FootballTyperAPI.Controllers
         public IActionResult GetKnockoutRanking(string league)
         {
             var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
+            if (!users.Any())
+            {
+                //return NotFound(new { msg = $"No users in this league: {league}" });
+                return Ok(new List<TyperUserApi>());
+            }
             var bets = _context.Bets.ToList();
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
@@ -93,6 +104,11 @@ namespace FootballTyperAPI.Controllers
         public IActionResult GetAllMatchesRanking(string league)
         {
             var users = _userService.GetAll().Where(x => x.Leagues.Contains(league));
+            if (!users.Any())
+            {
+                //return NotFound(new { msg = $"No users in this league: {league}" });
+                return Ok(new List<TyperUserApi>());
+            }
             var bets = _context.Bets.ToList();
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
