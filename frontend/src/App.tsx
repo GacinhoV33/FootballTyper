@@ -16,10 +16,9 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
 import { createContext, useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
-
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ReactGA from 'react-ga';
+
 const TRACKING_ID = "G-31K4T82HLF"; // OUR_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 
@@ -90,6 +89,11 @@ function App() {
     fetchData();
 
   }, []);
+
+  // Ga setup
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, [])
 
   const rankingReturn = () => {
     if (allUsers && userStatus.isUserSigned && Array.isArray(allUsers)) {
