@@ -36,6 +36,8 @@ namespace FootballTyperAPI.AzureFunctions
             var betsList = new List<BetDbSave>();
             UpdateData(Matches, Teams);
             var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => x.BettorUserName == playerUsername).Select(y => y.MatchId);
+            //foreach (var username in new string[]{"danielgacek97", "User1", "User2"})
+            //foreach (var username in new string[]{"gacek.filip12", "User1", "User2"})
             foreach (var username in new string[]{"User1", "User2"})
             {
                 if (Matches.Count() > 0)
