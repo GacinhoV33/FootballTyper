@@ -127,7 +127,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
                                                         return <BsCheck style={{ color: 'lightgreen', width: '2.25vw', height: '2.25vw' }} key={index} />
                                                     case 2:
                                                         return <BiCheckDouble style={{ color: 'green', width: '2.25vw', height: '2.25vw' }} key={index} />
-                                                }c
+                                                }
                                             })
                                             : null
                                     }
