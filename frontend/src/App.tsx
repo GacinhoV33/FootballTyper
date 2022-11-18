@@ -54,7 +54,6 @@ function App() {
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allUserBets, setAllUserBets] = useState<Bet[] | null>(null);
   const [allUsers, setAllUsers] = useState<User[] | null>([]);
-  console.log(allMatches)
   const [userStatus, setUserStatus] = useState<UserStatus>({
     userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string) : userObjInit,
     isUserSigned: localStorage.getItem('user') !== '' && localStorage.getItem('user') !== null ? true : false
