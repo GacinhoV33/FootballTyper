@@ -39,9 +39,11 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
             <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>GroupStage</Nav.Item>
             </Nav.Link>
-            <Nav.Link href={isUserLogged ? "/knockout" : './Login'} className='nav-hover-item'>
-              <Nav.Item className='navbar-text'>Knockout</Nav.Item>
-            </Nav.Link>
+            {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' &&
+              <Nav.Link href={isUserLogged ? "/knockout" : './Login'} className='nav-hover-item'>
+                <Nav.Item className='navbar-text'>Knockout</Nav.Item>
+              </Nav.Link>
+            }
             <Nav.Link href={isUserLogged ? "/yourbets" : './Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Bets</Nav.Item>
             </Nav.Link>  {/* Think about changing yourbets to mybets*/}
@@ -84,15 +86,15 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
 
 export default NavbarComp;
 
-function currentDay(){
+function currentDay() {
   const currentDate = new Date();
   const month = currentDate.getMonth();
   const day = currentDate.getDate();
   let currentDay = -1
-  if(month === 11){
+  if (month === 11) {
     currentDay = day - 20;
   }
-  else if(month === 12){
+  else if (month === 12) {
     currentDay = day + 11
   }
   return currentDay;
