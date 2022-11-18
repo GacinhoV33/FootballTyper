@@ -85,24 +85,24 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
                     </tr>
                 </thead>
                 <tbody className='ranking-row-content'>
-                    {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets, rankStatusDict, imgLink, fullName }, index) => {
+                    {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets, rankStatusDict, imgLink, fullName, positionDict }, index) => {
                         type ObjectKey = keyof typeof rankStatusDict;
                         const leagueName = league as ObjectKey;
                         const userRankingStatus = rankStatusDict ? rankStatusDict[leagueName] : 0;
                         return (
                             <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '2px 2px 5px 5px lightblue', alignItems: 'center', height: '100%' } : { alignItems: 'center' }}>
                                 <td style={{ margin: 'auto 0 !important', padding: '0px 0px !important', textAlign: 'right' }}>
-                                    <div style={{}}>
+                                    <div>
                                         {
                                             userRankingStatus > 0 && filter === 'general' ? <VscTriangleUp style={{ color: 'green', height: '1.2vh', margin: 'auto 0 !important' }} /> :
                                                 (userRankingStatus < 0 && filter === 'general' ? <VscTriangleDown style={{ color: 'red', margin: '0 0 !important', padding: '0px 0px !important', height: '1.2vh' }} />
                                                     : undefined)
                                         }
-                                        <span style={{ fontSize: '3.5vh', fontWeight: '500' }}>{index + 1}</span>
+                                        <span style={{ fontSize: '3.5vh', fontWeight: '500' }}>{positionDict[leagueName]}</span>
                                     </div>
 
                                 </td>
-                                <td> {index === 0 ? <FaCrown style={{ color: 'orange', alignItems: 'center', height: '2.2vh', width: '2.2vh', padding: '0 0 !important' }} /> : null}</td>
+                                <td> {positionDict[leagueName] === 1 ? <FaCrown style={{ color: 'orange', alignItems: 'center', height: '2.2vh', width: '2.2vh', padding: '0 0 !important' }} /> : null}</td>
 
                                 <td>
 
