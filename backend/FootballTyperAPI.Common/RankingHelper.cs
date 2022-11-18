@@ -5,7 +5,7 @@ namespace FootballTyperAPI.Common
 {
     public static class RankingHelper
     {
-        public static List<Ranking> CreateRanking(IEnumerable<TyperUser> Users)
+        public static List<Ranking> CreateRanking(IEnumerable<TyperUser> Users, int startPos = 0)
         {
             var ranking = Users.Select(x => new Ranking() { User = x }).ToList();
             foreach (var league in Users.Select(x => JsonSerializer.Deserialize<string[]>(x.LeaguesStr)).SelectMany(x => x).Distinct())
@@ -17,7 +17,7 @@ namespace FootballTyperAPI.Common
                 int pos = 1;
                 if (sortedUsers.All(x => x.TotalPoints == 0))
                 {
-                    pos = 0;
+                    pos = startPos;
                 }
                 foreach (var user in sortedUsers)
                 {
