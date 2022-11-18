@@ -6,6 +6,7 @@ import { CircleFlag } from "react-circle-flags";
 import "./BetModal.scss";
 import { Bet } from "../YourBets/MyBets/MyBets";
 import CountryDict from "../YourBets/MyBets/CountryDict";
+import { isMobile } from "react-device-detect";
 export interface BetModalProps {
   showBet: boolean;
   handleClose: () => void;
@@ -103,10 +104,23 @@ const BetModal: React.FC<BetModalProps> = ({
           countryCode={CountryDict.get(groupMatch.homeTeam.name) as string}
           style={{ marginRight: "1.5rem" }}
         />
-        <h4 className="modal-title">
-          {" "}
-          {groupMatch.homeTeam.name} vs {groupMatch.awayTeam.name}
-        </h4>
+        {isMobile ?
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div>
+              {groupMatch.homeTeam.name}
+            </div>
+            <div>
+              vs
+            </div>
+            <div>
+              {groupMatch.awayTeam.name}
+            </div>
+          </div>
+          : <h4 className="modal-title">
+            {" "}
+            {groupMatch.homeTeam.name} vs {groupMatch.awayTeam.name}
+          </h4>}
+
         <CircleFlag
           height="45"
           countryCode={CountryDict.get(groupMatch.awayTeam.name) as string}

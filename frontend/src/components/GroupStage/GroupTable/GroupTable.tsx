@@ -6,6 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import countriesColors from '../../AnimatedLetters/CountriesColors';
 import { isMobile } from 'react-device-detect';
 import CountryDictShortcuts from '../../YourBets/CountryDictShortcuts';
+import ReactCountryFlag from 'react-country-flag';
+import CountryDict from '../../YourBets/MyBets/CountryDict';
+
 export interface GroupTableItem {
   name: string,
   points: number,
@@ -59,8 +62,14 @@ const GroupTable = ({ groupTableData, groupTableName, chosenCountries, setChosen
                 style={name === chosenCountries.homeCountry || name === chosenCountries.awayCountry ? gradString : undefined}
               >
                 <td style={{ height: '6vh' }}><h5 style={{ paddingTop: '0.4rem' }}>{index + 1}.</h5></td>
-                <td style={isMobile ? { textAlign: 'right' } : undefined}> <CountryIcon size={isMobile ? 'sm' : 'lg'} countryName={name} />  </td>
-                <td style={{ fontWeight: '600', textAlign: 'center' }}>
+                <td style={isMobile ? { textAlign: 'right' } : undefined}>
+                  <ReactCountryFlag
+                    style={isMobile ? {width: '5vw', height: '4vw'} : {width: '3vw', height: '3vh'}}
+                    countryCode={CountryDict.get(name) ? CountryDict.get(name) as string : 'pl'}
+                    svg />
+                </td>
+                {/* <td style={isMobile ? { textAlign: 'right' } : undefined}> <CountryIcon size={isMobile ? 'sm' : 'lg'} countryName={name} />  </td> */}
+                <td style={{ fontWeight: '600', textAlign: 'left'}}>
                   {isMobile ? CountryDictShortcuts.get(name) : name}
                 </td>
                 <td><strong>{won}</strong></td>

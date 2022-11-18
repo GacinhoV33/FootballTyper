@@ -13,13 +13,19 @@ import CountryDict from "./CountryDict";
 import { UserContext } from "../../../App";
 export interface BetCardProps {
   bet: Bet;
+  setUpdateBet: React.Dispatch<React.SetStateAction<number>>
+
 }
 
-const BetCard: React.FC<BetCardProps> = ({ bet }) => {
+const BetCard: React.FC<BetCardProps> = ({ bet, setUpdateBet }) => {
   const [baseBet, setBaseBet] = useState<{ homeBet: number; awayBet: number }>({
     homeBet: bet.homeTeamScoreBet,
     awayBet: bet.awayTeamScoreBet,
   });
+
+  // const [homePlaceholder, setHomePlaceholder] = useState<string>(bet.homeTeamScoreBet.toString());
+  // const [awayPlaceholder, setAwayPlaceholder] = useState<string>(bet.awayTeamScoreBet.toString())
+
   const [currentBet, setCurrentBet] = useState<{
     homeBet: number;
     awayBet: number;
@@ -46,13 +52,13 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   const points = bet.betResult === 0 ? 0 : (bet.betResult === 1 ? 2 : 4);
-  const pointsFactor = bet.match.stage === 0 ? 1 : 
-  (bet.match.stage === 1 ? 1.5 : 
-    (bet.match.stage === 2 ? 2.0 : 
-      (bet.match.stage === 3 ? 2.5 : 
-        (bet.match.stage === 4 && bet.match.id == 63 ? 3 : 2.5))))
-      
-  function handleSave() {
+  const pointsFactor = bet.match.stage === 0 ? 1 :
+    (bet.match.stage === 1 ? 1.5 :
+      (bet.match.stage === 2 ? 2.0 :
+        (bet.match.stage === 3 ? 2.5 :
+          (bet.match.stage === 4 && bet.match.id == 63 ? 3 : 2.5))))
+
+  async function handleSave() {
     try {
       if (
         currentBet.homeBet < 100 &&
@@ -75,16 +81,30 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           }),
         };
 
-        fetch(
+        const response = await fetch(
           API_URL + `api/Bets/${bet.id}`,
           putRequestOptions
-        )
-          .then((response) => {
-            if (response.ok) {
-              return response;
-            }
-            return Promise.reject(response);
-          });
+        ).then((response) => {
+          if (response.ok) {
+            return response;
+          }
+          return Promise.reject(response);
+        });
+        // if (response.ok) {
+        //   setUpdateBet(prev => prev + 1);
+        //   return response
+        // } else {
+        //   console.log('api error')
+        // }
+        // .then((response) => {
+        //   if (response.ok) {
+        //     return response;
+        //   }
+        //   return Promise.reject(response);
+        // });
+        // setHomePlaceholder(currentBet.homeBet.toString())
+        // setAwayPlaceholder(currentBet.awayBet.toString())
+
       }
     } catch (e) {
       console.log(e);
@@ -228,7 +248,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                   <Button
                     style={{ width: "100%" }}
                     disabled={betDisabled || !afterDeadline}
-                    onClick={handleSave}
+                    onClick={async () => handleSave()}
                     variant={
                       betDisabled || !afterDeadline ? "success" : "primary"
                     }

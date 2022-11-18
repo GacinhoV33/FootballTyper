@@ -164,7 +164,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                 <Button
                                     onClick={handleOpen}
                                     variant={isBetExisting ? 'warning' : 'primary'}
-                                    style={isMobile ? { width: '7.5vh', opacity: buttonOpacity, height: '5vh' } : { width: '5.5vh', opacity: buttonOpacity, minWidth: '2.5rem', height: '4vh' }}
+                                    style={isMobile ? { width: '7.5vh', opacity: buttonOpacity, height: '5vh' } : { width: '5.5vh', opacity: buttonOpacity, minWidth: '3.5rem', minHeight: '3.5vh', height: '4vh' }}
                                     disabled={groupMatch.isMatchValid}
                                 >
                                     {isBetExisting ? 'Edit' : 'Bet'}
