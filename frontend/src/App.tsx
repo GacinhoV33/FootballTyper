@@ -218,6 +218,7 @@ export interface User {
   id: number,
   lastFiveBets: string,
   rankStatusDict?: object,
+  positionDict?: any,
   fullName: string,
 }
 
