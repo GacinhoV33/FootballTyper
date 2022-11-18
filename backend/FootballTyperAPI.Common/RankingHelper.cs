@@ -15,14 +15,19 @@ namespace FootballTyperAPI.Common
                     .ThenByDescending(y => y.TotalExactScoreBets)
                     .ThenByDescending(z => z.TotalCorrectWinnerBets);
                 int pos = 1;
-                if(sortedUsers.All(x => x.TotalPoints == 0))
+                if (sortedUsers.All(x => x.TotalPoints == 0))
                 {
                     pos = 0;
                 }
                 foreach (var user in sortedUsers)
                 {
+                    int posToAdd = 1;
                     int? minPos = null;
-                    var userWithSamePoints = Users.Where(x => x.TotalPoints == user.TotalPoints && x != user).ToList();
+                    var userWithSamePoints = Users.Where(x => x.TotalPoints == user.TotalPoints
+                        && x != user
+                        && x.TotalCorrectWinnerBets == user.TotalCorrectWinnerBets
+                        && x.TotalExactScoreBets == user.TotalExactScoreBets)
+                        .ToList();
                     if (userWithSamePoints.Any())
                     {
                         var rankingUsersWithSamePoints = userWithSamePoints.Select(y => ranking.FirstOrDefault(x => x.User == y)).ToList();
@@ -32,10 +37,12 @@ namespace FootballTyperAPI.Common
                             if (existingRankingUsersWithSamePoints.Any())
                             {
                                 minPos = existingRankingUsersWithSamePoints.Min(x => x.LeaguePosition[league]);
+                                posToAdd = existingRankingUsersWithSamePoints.Count() - 1;
                             }
                         }
                     }
-                    ranking.FirstOrDefault(x => x.User == user).LeaguePosition.Add(league, minPos.HasValue ? minPos.Value : pos++);
+                    ranking.FirstOrDefault(x => x.User == user).LeaguePosition.Add(league, minPos.HasValue ? minPos.Value : pos);
+                    pos += posToAdd;
                 }
             }
             return ranking;
@@ -57,7 +64,15 @@ namespace FootballTyperAPI.Common
             var rankStat = new Dictionary<string, int>();
             foreach (var league in updatedRanking.LeaguePosition.Keys)
             {
-                rankStat.Add(league, prevRanking.LeaguePosition[league] - updatedRanking.LeaguePosition[league]);
+                if ((prevRanking.LeaguePosition[league] == 0) && (prevRanking.LeaguePosition[league] - updatedRanking.LeaguePosition[league] < 0))
+                {
+                    //rankStat.Add(league, updatedRanking.LeaguePosition[league] - prevRanking.LeaguePosition[league]);
+                    rankStat.Add(league, 0);
+                }
+                else
+                {
+                    rankStat.Add(league, prevRanking.LeaguePosition[league] - updatedRanking.LeaguePosition[league]);
+                }
             }
             return rankStat;
         }

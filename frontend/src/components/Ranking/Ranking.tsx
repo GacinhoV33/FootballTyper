@@ -4,7 +4,7 @@ import './Ranking.scss';
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FilterRanking from './FilterRanking';
-import FilterLeauge from './FilterLeague';
+import FilterLeague from './FilterLeague';
 import ListRanking from './ListRanking';
 import { User } from '../../App';
 import deepcopy from 'deepcopy';
@@ -107,7 +107,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <FilterRanking activeFilter={filter} setActiveFilter={setFilter} />
-          <FilterLeauge currentFilter={leagueFilter} setCurrentFilter={setLeagueFilter} />
+          <FilterLeague currentFilter={leagueFilter} setCurrentFilter={setLeagueFilter} />
         </div>
       </div>
 

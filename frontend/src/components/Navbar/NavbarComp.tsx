@@ -40,7 +40,7 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
             <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>GroupStage</Nav.Item>
             </Nav.Link>
-            {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && !isMobile ?
+            { !isMobile ?
               <Nav.Link href={isUserLogged ? "/knockout" : './Login'} className='nav-hover-item'>
                 <Nav.Item className='navbar-text'>Knockout</Nav.Item>
               </Nav.Link> : null  
