@@ -130,7 +130,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                         <span style={{ paddingTop: '0', color: textColor, fontSize: '2.5vh', fontWeight: '500' }}>
 
                             {isMobile ?
-                                <span>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
+                                <span style={{fontSize: '2.2vh'}}>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
                                 <span>{groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}</span>
                             }
                         </span>

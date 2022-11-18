@@ -55,6 +55,7 @@ function App() {
   const [dataTeams, setDataTeams] = useState<any | null>(null);
   const [allUserBets, setAllUserBets] = useState<Bet[] | null>(null);
   const [allUsers, setAllUsers] = useState<User[] | null>([]);
+  console.log(allMatches)
   const [userStatus, setUserStatus] = useState<UserStatus>({
     userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string) : userObjInit,
     isUserSigned: localStorage.getItem('user') !== '' && localStorage.getItem('user') !== null ? true : false
@@ -131,7 +132,7 @@ function App() {
           <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage' />} />
           <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} /> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} /> : <LoadingLayout componentName='My bets' />} /> 
           <Route
             path='/ranking'
             element={
@@ -209,14 +210,13 @@ export interface Match {
   matchNumber: number,
   roundNumber: number,
   isMatchValid: boolean,
-  stage: number
+  stage: number,
 }
 
 
 export interface User {
   username: string,
-  // email: string, TODO?
-  imgLink: string, //TODO?  
+  imgLink: string,
   totalPoints: number,
   totalExactScoreBets: number,
   totalCorrectWinnerBets: number,

@@ -12,7 +12,10 @@
 
 .tooltip-main{
     opacity: 1;
+    background: red;
 }
+
+
 
 .tooltip-main > .tooltip-inner{
     opacity: 1;
@@ -28,6 +31,18 @@
     height: 100%;
 }
 
+.tooltip{
+    background: white;
+    border-radius: 50%;
+    border: 2px solid #CCC;
+}
+
+.tooltip-inner{
+    background: white;
+    border-radius: 50%;
+}
+
+
 @media (max-width: 900px){
     .empty-row{
         width: none;
@@ -37,3 +52,4 @@
         width: none;
     }
 }
+

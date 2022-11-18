@@ -5,6 +5,7 @@
     align-items: center;
     padding: 0 2rem;
     text-align: center;
+    left: 0.75vw;
     @media (max-width: 1500px) {
         display: none;
     }
@@ -31,7 +32,7 @@
 }
 
 .bets-main-content{
-    grid-column: 1/12;
+    grid-column: 3/11;
     scroll-behavior: 'smooth';
 }
 
@@ -50,5 +51,9 @@
         align-items: center;
         flex-direction: column;
         justify-content: flex-start;
+    }
+
+    .bets-main-content{
+        grid-column: 1/12;
     }
 }

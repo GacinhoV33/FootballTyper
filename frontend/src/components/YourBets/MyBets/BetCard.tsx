@@ -27,10 +27,10 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const betString =
     bet.betResult !== undefined && bet.betResult !== null
       ? bet.betResult === 1
-        ? `0 1px 10px lightgreen`
+        ? `2px 1px 10px lightgreen`
         : bet.betResult === 2
-          ? "0 1px 10px darkgreen"
-          : `0 1px 10px red`
+          ? "2px 1px 10px darkgreen"
+          : `2px 1px 10px red`
       : undefined;
 
   const isAfterTime = new Date(bet.match.date) < new Date();
@@ -45,6 +45,13 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const userName = useContext(UserContext).userLocalData?.username;
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
+  const points = bet.betResult === 0 ? 0 : (bet.betResult === 1 ? 2 : 4);
+  const pointsFactor = bet.match.stage === 0 ? 1 : 
+  (bet.match.stage === 1 ? 1.5 : 
+    (bet.match.stage === 2 ? 2.0 : 
+      (bet.match.stage === 3 ? 2.5 : 
+        (bet.match.stage === 4 && bet.match.id == 63 ? 3 : 2.5))))
+      
   function handleSave() {
     try {
       if (
@@ -52,7 +59,6 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
         currentBet.awayBet < 100 &&
         new Date() < new Date(bet.match.date)
       ) {
-        //TODO change on bet date
         setBaseBet({
           homeBet: currentBet.homeBet,
           awayBet: currentBet.awayBet,
@@ -216,8 +222,8 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 <span className='bet-card-text'>Szymon Marciniak</span>
               </div>
               <div style={{ gridColumn: "1/4" }}>
-                {bet.homeTeamScore && bet.awayTeamScore ? (
-                  <h4 style={{ textAlign: "center" }}>5 points</h4> // Style points TODO
+                {bet.betResult !== null ? (
+                  <h4 style={{ textAlign: "center" }}>{points * pointsFactor} points</h4> // Style points TODO
                 ) : (
                   <Button
                     style={{ width: "100%" }}

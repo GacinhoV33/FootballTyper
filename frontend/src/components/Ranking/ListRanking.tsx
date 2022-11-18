@@ -88,9 +88,9 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
                     {allUsers.map(({ totalPoints, username, totalCorrectWinnerBets, totalWrongBets, totalExactScoreBets, lastFiveBets, rankStatusDict, imgLink, fullName }, index) => {
                         type ObjectKey = keyof typeof rankStatusDict;
                         const leagueName = league as ObjectKey;
-                        const userRankingStatus = rankStatusDict ? rankStatusDict[leagueName] : 0;
+                        const userRankingStatus = rankStatusDict ? rankStatusDict[leagueName] : 0; 
                         return (
-                            <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '0 10px 10px lightblue', alignItems: 'center', height: '100%'} : { alignItems: 'center' }}>
+                            <tr key={index} style={userCtx.userLocalData?.username === username ? { boxShadow: '2px 2px 5px 5px lightblue', alignItems: 'center', height: '100%'} : { alignItems: 'center' }}>
                                 <td style={{ margin: 'auto 0 !important', padding: '0px 0px !important', textAlign: 'right'}}>
                                     <div style={{}}>
                                     {
@@ -103,25 +103,26 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
 
                                 </td>
                                 <td> {index === 0 ? <FaCrown style={{ color: 'orange', alignItems: 'center', height: '2.2vh', width: '2.2vh', padding: '0 0 !important'}}  /> : null}</td>
-                                <td>
-
-                                    <OverlayTrigger
+                                <OverlayTrigger
                                         overlay={
                                             <Tooltip style={{ opacity: '1' }}>
                                                 {imgLink !== 'ImgLink' && imgLink !== null
                                                     ? <img src={imgLink} style={{ height: '15vh', width: '15vh', borderRadius: '7.5vh' }} alt={index.toString()} />
                                                     : null
                                                 }
-                                                <div>{fullName}</div>
                                             </Tooltip>
                                         }
                                         placement='top-start'
                                     >
+                                <td>
+
+                                 
                                         <Avatar style={{ height: '4vh', width: '4vh', float: 'left', marginRight: '0.9vw' }} src={imgLink ? imgLink : undefined} alt={username} />
-                                    </OverlayTrigger>
 
                                     <span style={userCtx.userLocalData?.username === username ? {fontWeight: '700', fontSize: '2.5vh'} : {fontSize: '2.5vh'}}>{fullName}</span>
                                 </td>
+                                </OverlayTrigger>
+
                                 <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalPoints}</td>
                                 <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalExactScoreBets}</td>
                                 <td style={userCtx.userLocalData?.username === username ? {fontWeight: '700'} : undefined}> {totalCorrectWinnerBets}</td>

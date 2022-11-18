@@ -422,7 +422,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               </Modal.Title>
               <Modal.Body>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '5%' }}>
-                  <input placeholder={'New name...'} value={fullNameModal}
+                  <input 
+                    placeholder={'New name...'} 
+                    value={fullNameModal}
+                    maxLength={20}
                     ref={modalRef}
                     onChange={(e) =>
                       setFullNameModal(e.target.value)
