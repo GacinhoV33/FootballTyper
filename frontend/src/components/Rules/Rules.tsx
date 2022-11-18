@@ -17,9 +17,9 @@ const faqContent: {title: string, body: string}[] = [
   {title: 'Can I see bets of other players?', body: `No it's not possible. We disabled this feature to avoid situation where you copy bet of your opponent.`},
   {title: 'I forgot to bet on time. What can I do?', body: 'Unluckily in this kind of situation you just lost opportunity to win points. '},
   {title: `I bet a game but system show wrong bet/I bet a correct score but don't receive points.`, body: `We don't covering situation quite like this, but if it would happen, please inform admin. There's a record of all actions made by users in our database and after verification we may fix issue.`},
-  {title: `I've seen a bug`, body: `If you have seen a bug, please contact admin. Your message should contain screenshot and describtion of problem.`}]
+  {title: `I've seen a bug`, body: `If you have seen a bug, please contact admin. Your message should contain screenshot and description of problem.`}]
 const paginationTitles: RulesSectionType[] = ['Rules', 'FAQ']
-export type RulesSectionType = 'Rules' | 'FAQ' 
+export type RulesSectionType = 'Rules' | 'FAQ'
 
 
 const Rules = () => {
