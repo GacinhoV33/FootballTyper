@@ -44,11 +44,14 @@ namespace FootballTyperAPI.AzureFunctions
                 user.LastFiveBets = "";
 
                 var positionDict = new Dictionary<string, int>();
+                var rankDict = new Dictionary<string, int>();
                 foreach (var league in JsonSerializer.Deserialize<string[]>(user.LeaguesStr))
                 {
                     positionDict.Add(league, 1);
+                    rankDict.Add(league, 0);
                 }
                 user.PositionStr = JsonSerializer.Serialize(positionDict);
+                user.RankStatus = JsonSerializer.Serialize(rankDict);
             }
 
             foreach (var bet in Bets)

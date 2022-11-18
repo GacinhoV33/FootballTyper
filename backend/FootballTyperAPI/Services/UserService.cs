@@ -103,6 +103,9 @@ public class UserService : IUserService
         user.PasswordHash = BCrypt.HashPassword(model.Password);
 
         user.LeaguesStr = "[\"main\"]";
+        user.PositionStr = "{\"main\":100}";
+        user.RankStatus = "{\"main\":0}";
+
         // save user
         _context.TyperUser.Add(user);
         _context.SaveChanges();

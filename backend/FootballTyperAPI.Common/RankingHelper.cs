@@ -66,8 +66,8 @@ namespace FootballTyperAPI.Common
             {
                 if ((prevRanking.LeaguePosition[league] == 0) && (prevRanking.LeaguePosition[league] - updatedRanking.LeaguePosition[league] < 0))
                 {
-                    //rankStat.Add(league, updatedRanking.LeaguePosition[league] - prevRanking.LeaguePosition[league]);
-                    rankStat.Add(league, 0);
+                    rankStat.Add(league, updatedRanking.LeaguePosition[league] - prevRanking.LeaguePosition[league]);
+                    //rankStat.Add(league, 0);
                 }
                 else
                 {

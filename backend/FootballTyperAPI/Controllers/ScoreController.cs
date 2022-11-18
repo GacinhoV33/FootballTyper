@@ -53,7 +53,7 @@ namespace FootballTyperAPI.Controllers
             }
             ScoreHelper.CalculatePointsForEachUser(lastDayBets, users);
             var typerUsersApi = MapTyperUserApiToTyperUser(users);
-            var rankingList = RankingHelper.CreateRanking(typerUsersApi);
+            var rankingList = RankingHelper.CreateRanking(typerUsersApi, startPos: 1);
             foreach (var user in users)
             {
                 user.PositionDict = rankingList.First(x => x.User.Id == user.Id).LeaguePosition;
@@ -94,7 +94,7 @@ namespace FootballTyperAPI.Controllers
             }
             ScoreHelper.CalculatePointsForEachUser(groupStageBets, users);
             var typerUsersApi = MapTyperUserApiToTyperUser(users);
-            var rankingList = RankingHelper.CreateRanking(typerUsersApi);
+            var rankingList = RankingHelper.CreateRanking(typerUsersApi, startPos: 1);
             foreach (var user in users)
             {
                 user.PositionDict = rankingList.First(x => x.User.Id == user.Id).LeaguePosition;
@@ -131,7 +131,7 @@ namespace FootballTyperAPI.Controllers
             }
             ScoreHelper.CalculatePointsForEachUser(knockoutBets, users);
             var typerUsersApi = MapTyperUserApiToTyperUser(users);
-            var rankingList = RankingHelper.CreateRanking(typerUsersApi);
+            var rankingList = RankingHelper.CreateRanking(typerUsersApi, startPos: 1);
             foreach (var user in users)
             {
                 user.PositionDict = rankingList.First(x => x.User.Id == user.Id).LeaguePosition;
@@ -171,15 +171,15 @@ namespace FootballTyperAPI.Controllers
             var bets = _context.Bets.ToList();
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
-            var allLeagueMatches = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName));
+            var allLeagueBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName));
             ScoreHelper.CleanUsersData(users);
-            if (!allLeagueMatches.Any())
+            if (!allLeagueBets.Any())
             {
                 //return NotFound(new { msg = $"No bets in this league: {league}" });
                 return Ok(users);
             }
-            ScoreHelper.CalculatePointsForEachUser(allLeagueMatches, users);
-            ScoreHelper.UpdateLastFiveUserBets(allLeagueMatches, users);
+            ScoreHelper.CalculatePointsForEachUser(allLeagueBets, users);
+            ScoreHelper.UpdateLastFiveUserBets(allLeagueBets, users);
             return Ok(users);
         }
 
