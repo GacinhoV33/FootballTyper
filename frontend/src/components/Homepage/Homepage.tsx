@@ -62,7 +62,7 @@ import "react-multi-carousel/lib/styles.css";
 import StadiumCard from './StadiumCard';
 import MatchCard, { MatchCardProps } from './MatchCard';
 import { Match } from '../../App'
-import TimeToStartTwo from '../Statistics/TimeToStart';
+import TimeToStart from '../Statistics/TimeToStart';
 import News from './News';
 
 export interface HomepageProps {
@@ -126,7 +126,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
                 <div className='match-card-homepage' key={index}>
                   <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} stadium={match.location}/>
                   <div className='time-to-start-navbar'>
-                    <TimeToStartTwo date={match.date} whiteColor />
+                    <TimeToStart date={match.date} whiteColor />
                   </div>
                 </div>
               ))
