@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace FootballTyperAPI.AzureFunctions
 {
@@ -24,7 +25,7 @@ namespace FootballTyperAPI.AzureFunctions
                 ConnectionStringSetting = "SqlConnectionString")] out TyperUser[] outUsers,
             [Sql("SELECT * FROM [dbo].[Bets]",
                 CommandType = System.Data.CommandType.Text,
-                ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets, 
+                ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets,
             [Sql("[dbo].[Bets]",
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] out BetDbSave[] outBets,
@@ -41,6 +42,13 @@ namespace FootballTyperAPI.AzureFunctions
                 user.TotalExactScoreBets = 0;
                 user.TotalWrongBets = 0;
                 user.LastFiveBets = "";
+
+                var positionDict = new Dictionary<string, int>();
+                foreach (var league in JsonSerializer.Deserialize<string[]>(user.LeaguesStr))
+                {
+                    positionDict.Add(league, 1);
+                }
+                user.PositionStr = JsonSerializer.Serialize(positionDict);
             }
 
             foreach (var bet in Bets)
