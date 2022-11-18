@@ -21,7 +21,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
     (user) => user.id === userCtx.userLocalData.id
   );
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
-  const [updateBet, setUpdateBet] = useState<number>(0);
 
 
   useEffect(() => {
@@ -29,64 +28,52 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
-        
+
       const allUserBets = await (
         await fetch(API_URL + `api/Bets/User/${userName}`)
       ).json();
-      
-      function sortMyBets() {
-        let currentBets = deepcopy(allUserBets);
-  
-        if (filterMyBets.indexOf("Group") !== -1 && allUserBets) {
-          currentBets = currentBets.filter(
-            (bet: Bet) => bet.match.stage === 0
-          );
-        }
-        if (filterMyBets.indexOf("Knockout") !== -1 && allUserBets) {
-          currentBets = currentBets.filter(
-            (bet: Bet) => bet.match.stage > 0
-          );
-        }
-        if (filterMyBets.indexOf("Correct") !== -1 && allUserBets) {
-          currentBets = currentBets.filter(
-            (bet: Bet) => bet.betResult !== undefined && bet.betResult > 0
-          );
-        } else if (filterMyBets.indexOf("Wrong") !== -1 && allUserBets) {
-          currentBets = currentBets.filter(
-            (bet: Bet) => bet.betResult !== undefined && bet.betResult === 0
-          );
-        }
-  
-        const currentDate = new Date();
-        if (filterMyBets.indexOf("Past") !== -1 && allUserBets) {
-          currentBets = currentBets.filter(
-            (bet: Bet) => new Date(bet.match.date) < currentDate
-          );
-        } else if (filterMyBets.indexOf("Active") !== -1 && allUserBets) {
-          currentBets = currentBets.filter(
-            (bet: Bet) => new Date(bet.match.date) > currentDate
-          );
-        }
-        if (filterMyBets.indexOf("All") !== -1) {
-          currentBets = deepcopy(allUserBets);
-        }
-  
-        currentBets.sort(
-          (bet1: Bet, bet2: Bet) =>
-            new Date(bet1.match.date).getTime() - new Date(bet2.match.date).getTime()
-        );
-        setBetsToShow(currentBets);
-      }
-      sortMyBets();  
 
-      if(allUserBets !== null && allUserBets.length !== 0) {
-        allUserBets?.sort(
-          (bet1: Bet, bet2: Bet) =>
-            new Date(bet1.match.date).getTime() - new Date(bet2.match.date).getTime()
-        )
-      } 
-      
-      // setBetsToShow(allUserBets);
+      let currentBets = deepcopy(allUserBets);
+
+      if (filterMyBets.indexOf("Group") !== -1 && allUserBets) {
+        currentBets = currentBets.filter(
+          (bet: Bet) => bet.match.stage === 0
+        );
+      }
+      if (filterMyBets.indexOf("Knockout") !== -1 && allUserBets) {
+        currentBets = currentBets.filter(
+          (bet: Bet) => bet.match.stage > 0
+        );
+      }
+      if (filterMyBets.indexOf("Correct") !== -1 && allUserBets) {
+        currentBets = currentBets.filter(
+          (bet: Bet) => bet.betResult !== undefined && bet.betResult > 0
+        );
+      } else if (filterMyBets.indexOf("Wrong") !== -1 && allUserBets) {
+        currentBets = currentBets.filter(
+          (bet: Bet) => bet.betResult !== undefined && bet.betResult === 0
+        );
+      }
+
+      const currentDate = new Date();
+      if (filterMyBets.indexOf("Past") !== -1 && allUserBets) {
+        currentBets = currentBets.filter(
+          (bet: Bet) => new Date(bet.match.date) < currentDate
+        );
+      } else if (filterMyBets.indexOf("Active") !== -1 && allUserBets) {
+        currentBets = currentBets.filter(
+          (bet: Bet) => new Date(bet.match.date) > currentDate
+        );
+      }
+      if (filterMyBets.indexOf("All") !== -1) {
+        currentBets = deepcopy(allUserBets);
+      }
+
+      currentBets.sort(
+        (bet1: Bet, bet2: Bet) =>
+          new Date(bet1.match.date).getTime() - new Date(bet2.match.date).getTime()
+      );
+      setBetsToShow(currentBets);
     };
     getUserBets();
     console.log(betsToShow)
@@ -139,7 +126,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
     sortMyBets();
   }, [filterMyBets]);
 
-  
+
 
   const correctScores = allUserBets.filter((bet) => bet.betResult === 2);
   const correctResult = allUserBets.filter((bet) => bet.betResult === 1);
@@ -176,10 +163,10 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0
-                    ? Number(
-                      (correctScores.length / totalNumberOfEndBets) * 100
-                    ).toFixed(2)
-                    : 0.0
+                  ? Number(
+                    (correctScores.length / totalNumberOfEndBets) * 100
+                  ).toFixed(2)
+                  : 0.0
                   }%`}
                 styles={buildStyles({
                   pathColor: "green",
@@ -196,10 +183,10 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0
-                    ? Number(
-                      (correctResult.length / totalNumberOfEndBets) * 100
-                    ).toFixed(2)
-                    : 0.0
+                  ? Number(
+                    (correctResult.length / totalNumberOfEndBets) * 100
+                  ).toFixed(2)
+                  : 0.0
                   }%`}
                 styles={buildStyles({
                   pathColor: "darkgreen",
@@ -214,10 +201,10 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
                 maxValue={totalNumberOfEndBets}
                 //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0
-                    ? Number(
-                      (wrongBets.length / totalNumberOfEndBets) * 100
-                    ).toFixed(2)
-                    : 0.0
+                  ? Number(
+                    (wrongBets.length / totalNumberOfEndBets) * 100
+                  ).toFixed(2)
+                  : 0.0
                   }%`}
                 styles={buildStyles({ pathColor: "red", textColor: "#CCCCCC" })}
               />
@@ -225,7 +212,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
           </div>
         </div>
         <div className="bets-main-content">
-          <MyBets allUserBets={betsToShow} setUpdateBet={setUpdateBet} />
+          <MyBets allUserBets={betsToShow} />
         </div>
         <div className="rightBar-yourbets">
           <h1>Points: {userData ? userData[0].totalPoints : "2"}</h1>

@@ -13,11 +13,9 @@ import CountryDict from "./CountryDict";
 import { UserContext } from "../../../App";
 export interface BetCardProps {
   bet: Bet;
-  setUpdateBet: React.Dispatch<React.SetStateAction<number>>
-
 }
 
-const BetCard: React.FC<BetCardProps> = ({ bet, setUpdateBet }) => {
+const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const [baseBet, setBaseBet] = useState<{ homeBet: number; awayBet: number }>({
     homeBet: bet.homeTeamScoreBet,
     awayBet: bet.awayTeamScoreBet,
