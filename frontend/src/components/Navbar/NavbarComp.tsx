@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext} from 'react'
 import "./NavbarComp.scss";
 
 //Bootstrap
@@ -11,7 +11,10 @@ import logo_player from '../LoadingLayout/logo_player_alpha.png';
 import { UserContext } from '../../App';
 import { CgProfile } from 'react-icons/cg';
 
-const NavbarComp = () => {
+export interface NavbarCompProps{
+  
+}
+const NavbarComp: React.FC<NavbarCompProps> = () => {
 
   const isUserLogged = useContext(UserContext).isUserSigned;
   const worldBall = <BiFootball size={28} style={{ color: 'rgb(138, 21, 56)' }} />;

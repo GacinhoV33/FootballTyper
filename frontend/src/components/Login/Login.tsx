@@ -359,7 +359,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
             </span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', margin: '2vh 0' }}>
-            <GoogleLoginButton setAuthMode={setAuthMode} />
+            <GoogleLoginButton setAuthMode={setAuthMode} setUserStatus={setUserStatus}/>
           </div>
           {/* <FacebookLogin /> */}
           <div className="form-group mt-3">

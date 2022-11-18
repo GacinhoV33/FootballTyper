@@ -148,22 +148,9 @@ function App() {
 
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
-        {/* <Footer /> */}
-
       </div >
     </UserContext.Provider>
   );
-  // return (
-  //   <div className='app-body'>
-  //         <NavbarComp />
-  //         <Routes>
-
-  //           <Route path='/GoogleLogin' element={<GoogleLogin/>} />
-  //         </Routes >
-  //         {/* <Footer /> */}
-
-  //       </div >
-  // )
 }
 
 
