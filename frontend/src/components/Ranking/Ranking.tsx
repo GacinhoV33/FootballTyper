@@ -7,8 +7,7 @@ import FilterRanking from './FilterRanking';
 import FilterLeague from './FilterLeague';
 import ListRanking from './ListRanking';
 import { User } from '../../App';
-import deepcopy from 'deepcopy';
-
+  
 export type LeaugeName = {
   leaugeName: string,
   leaugeId: number,

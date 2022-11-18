@@ -11,6 +11,9 @@ import BetModal from '../Matchrow/BetModal';
 import { Bet } from '../YourBets/MyBets/MyBets';
 import styled, { keyframes } from 'styled-components';
 import Alert from 'react-bootstrap/Alert';
+import { BsCheck } from 'react-icons/bs';
+import { ImCross } from 'react-icons/im';
+import { BiCheckDouble } from 'react-icons/bi';
 
 
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
@@ -43,39 +46,49 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
         : null
       }
       <SeedItem style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
+        <div style={{ width: '75%' }}>
           <SeedTeam style={wonTeam === 1 ? styleWonTeam : undefined}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw', justifyContent: 'space-around' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw', justifyContent: 'space-between', width: '100%' }}>
               <div>
-                <CircleFlag countryCode={CountryDict.get(seed.teams[0].name as string) as string} height='30' />
+                <CircleFlag countryCode={CountryDict.get(seed.teams[0].name as string) as string} height='30' style={{ marginRight: '0.5vw' }} />
                 {seed.teams[0]?.name || '-'}
-                <span className={wonTeam === 1 ? 'won-team-score' : undefined}>{seed.groupMatch.homeTeamScore !== -1 ? seed.groupMatch.homeTeamScore : null}</span>
+                <span className={wonTeam === 1 ? 'won-team-score team-text' : 'team-text'}>{seed.groupMatch.homeTeamScore !== -1 ? seed.groupMatch.homeTeamScore : null}</span>
               </div>
-             <div>
-             <span className={isBetExisting ? 'bet-score-knockout' : undefined}> ({betChange !== 0 ? modalValue.homeScore : (isBetExisting ? isBetNew[0].homeTeamScoreBet : null)})</span>
-
-             </div>
+              <div style={{ color: 'white', fontWeight: '300', fontSize: '1.1rem' }}>
+                {betChange !== 0 ? modalValue.homeScore : (isBetExisting ? `(${isBetNew[0].homeTeamScoreBet})` : null)}
+              </div>
             </div>
 
           </SeedTeam>
           <SeedTeam style={wonTeam === 0 ? styleWonTeam : undefined}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw' }}>
-              <CircleFlag countryCode={CountryDict.get(seed.teams[1].name as string) as string} height='30' />
-              {seed.teams[1]?.name || '-'}
-              <span className={wonTeam === 0 ? 'won-team-score' : undefined}>{seed.groupMatch.awayTeamScore !== -1 ? seed.groupMatch.awayTeamScore : null}</span>
-              <span className={isBetExisting ? 'bet-score-knockout' : undefined}>({betChange !== 0 ? modalValue.awayScore : (isBetExisting ? isBetNew[0].awayTeamScoreBet : null)})</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5vw', justifyContent: 'space-between', width: '100%' }}>
+              <div >
+                <CircleFlag countryCode={CountryDict.get(seed.teams[1].name as string) as string} height='30' style={{ marginRight: '0.5vw' }} />
+                {seed.teams[1]?.name || '-'}
+                <span className={wonTeam === 0 ? 'won-team-score team-text' : 'team-text'}>{seed.groupMatch.awayTeamScore !== -1 ? seed.groupMatch.awayTeamScore : null}</span>
+              </div>
+              <div style={{ color: 'white', fontWeight: '300', fontSize: '1.1rem' }}>
+                {betChange !== 0 ? modalValue.awayScore : (isBetExisting ? `(${isBetNew[0].awayTeamScoreBet})` : null)}
+              </div>
 
             </div>
           </SeedTeam>
         </div>
         <div style={{ paddingRight: '1vw' }}>
-          <Button
-            variant={isBetExisting || betChange  !== 0 ? 'warning' : 'primary'}
+          {
+            !seed.groupMatch.isMatchValid ? <Button
+            variant={isBetExisting || betChange !== 0 ? 'warning' : 'primary'}
             onClick={() => handleBet()}
             disabled={!isBetAllowed}
           >
-            {isBetExisting || betChange  !== 0 ? 'Edit' : 'Bet'}
+            {isBetExisting || betChange !== 0 ? 'Edit' : 'Bet'}
           </Button>
+          : (isBetExisting ?  
+            ( isBetNew[0].betResult === 1 ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
+              isBetNew[0].betResult === 2  ?  <BiCheckDouble size={40} style={{ color: 'darkgreen' }}/>
+              : <ImCross size={20} style={{ color: 'red', marginRight: '0.5rem' }} />)
+              ) : null)
+          }
         </div>
       </SeedItem>
       {
