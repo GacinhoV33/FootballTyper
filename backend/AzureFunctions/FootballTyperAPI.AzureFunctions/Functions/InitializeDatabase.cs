@@ -20,7 +20,7 @@ namespace Company.Function
         {
             var result1 = TriggerAfterMatch.Get("api/InitializeTableTeams").GetAwaiter().GetResult();
             var result2 = TriggerAfterMatch.Get("api/InitializeTableMatches").GetAwaiter().GetResult();
-            var result3 = TriggerAfterMatch.Get("api/InitializeTableBets").GetAwaiter().GetResult();
+            //var result3 = TriggerAfterMatch.Get("api/InitializeTableBets").GetAwaiter().GetResult();
 
             return new OkObjectResult(new { Ok = true });
         }

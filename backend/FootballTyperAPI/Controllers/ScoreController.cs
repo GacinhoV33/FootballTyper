@@ -34,11 +34,11 @@ namespace FootballTyperAPI.Controllers
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
             var yesterdayAndToday = new int[] { DateTime.Today.DayOfYear - 1, DateTime.Today.DayOfYear };
             var lastDayBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName) && yesterdayAndToday.Contains(x.Match.Date.DayOfYear));
-            if (!bets.Any())
+            if (!lastDayBets.Any())
             {
-                return NotFound(new { msg = $"No bets in this league: {league}" });
+                //return NotFound(new { msg = $"No bets in this league: {league}" });
+                return Ok(users);
             }
-
             ScoreHelper.CleanUsersData(users);
             ScoreHelper.CalculatePointsForEachUser(lastDayBets, users);
             ScoreHelper.UpdateLastFiveUserBets(lastDayBets, users);
@@ -57,7 +57,11 @@ namespace FootballTyperAPI.Controllers
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
             var groupStageBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName) && x.Match.Stage == Stage.Group);
-
+            if (!groupStageBets.Any())
+            {
+                //return NotFound(new { msg = $"No bets in this league: {league}" });
+                return Ok(users);
+            }
             ScoreHelper.CleanUsersData(users);
             ScoreHelper.CalculatePointsForEachUser(groupStageBets, users);
             ScoreHelper.UpdateLastFiveUserBets(groupStageBets, users);
@@ -73,7 +77,11 @@ namespace FootballTyperAPI.Controllers
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
             var knockoutBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName) && x.Match.Stage > Stage.Group);
-
+            if (!knockoutBets.Any())
+            {
+                //return NotFound(new { msg = $"No bets in this league: {league}" });
+                return Ok(users);
+            }
             ScoreHelper.CleanUsersData(users);
             ScoreHelper.CalculatePointsForEachUser(knockoutBets, users);
             ScoreHelper.UpdateLastFiveUserBets(knockoutBets, users);
@@ -89,7 +97,11 @@ namespace FootballTyperAPI.Controllers
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
 
             var allLeagueMatches = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName));
-
+            if (!allLeagueMatches.Any())
+            {
+                //return NotFound(new { msg = $"No bets in this league: {league}" });
+                return Ok(users);
+            }
             ScoreHelper.CleanUsersData(users);
             ScoreHelper.CalculatePointsForEachUser(allLeagueMatches, users);
             ScoreHelper.UpdateLastFiveUserBets(allLeagueMatches, users);
