@@ -77,10 +77,14 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
       const allUserBets = await (
         await fetch(API_URL + `api/Bets/User/${userName}`)
       ).json();
-      allUserBets?.sort(
-        (bet1: Bet, bet2: Bet) =>
-          new Date(bet1.match.date).getTime() - new Date(bet2.match.date).getTime()
-      );
+      
+      if(allUserBets !== null && allUserBets.length !== 0) {
+        allUserBets?.sort(
+          (bet1: Bet, bet2: Bet) =>
+            new Date(bet1.match.date).getTime() - new Date(bet2.match.date).getTime()
+        )
+      } 
+      
       setBetsToShow(allUserBets);
     };
     getUserBets();
