@@ -88,20 +88,6 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           }
           return Promise.reject(response);
         });
-        // if (response.ok) {
-        //   setUpdateBet(prev => prev + 1);
-        //   return response
-        // } else {
-        //   console.log('api error')
-        // }
-        // .then((response) => {
-        //   if (response.ok) {
-        //     return response;
-        //   }
-        //   return Promise.reject(response);
-        // });
-        // setHomePlaceholder(currentBet.homeBet.toString())
-        // setAwayPlaceholder(currentBet.awayBet.toString())
 
       }
     } catch (e) {

@@ -76,7 +76,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
       setBetsToShow(currentBets);
     };
     getUserBets();
-    console.log(betsToShow)
   }, [filterMyBets]);
 
   useEffect(() => {

@@ -18,6 +18,7 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ReactGA from 'react-ga';
+import { isMobile } from 'react-device-detect';
 
 const TRACKING_ID = "G-31K4T82HLF"; // OUR_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
@@ -45,7 +46,7 @@ const userObjInit: UserLocalStorageData | null = {
   leagues: ['none'],
 }
 
-export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false,  });
+export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false});
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
@@ -133,9 +134,11 @@ function App() {
         <div style={{ height: '8vh' }}></div>
         <Routes>
           <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage' />} />
-          <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
+          {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && !isMobile ?
+            <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
+            : null}
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} /> : <LoadingLayout componentName='My bets' />} /> 
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} /> : <LoadingLayout componentName='My bets' />} />
           <Route
             path='/ranking'
             element={
