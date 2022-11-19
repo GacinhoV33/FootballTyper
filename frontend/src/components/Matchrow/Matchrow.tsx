@@ -50,27 +50,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     const mainColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value
     const secondColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).secondColor.value
     const thirdColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).thirdColor.value
-    // const gradString = `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.1), rgba${secondColor.slice(0, -1)}, 0.1)`;
-    // const gradString = `radial-gradient(
-    //     farthest-side at top left,
-    //     rgba${mainColorHome.slice(0, -1)}, 0.4),
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at bottom left,
-    //     rgba${secondColorHome.slice(0, -1)}, 0.4),
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at top right,
-    //     rgba${mainColorAway.slice(0, -1)}, 0.4), 
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at bottom right,
-    //     rgba${secondColorAway.slice(0, -1)}, 0.4), 
-    //     transparent 
-    //   )`
+   
     const buttonOpacity = groupMatch.isMatchValid ? '0' : '1';
     const alpha = 0.4;
     const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, ${alpha}), rgba${secondColorHome.slice(0, -1)}, ${alpha}), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, ${alpha}), rgba${secondColorAway.slice(0, -1)}, ${alpha}), rgba${thirdColorAway.slice(0, -1)}, ${alpha}))`
@@ -160,7 +140,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
                         {
-                            !groupMatch.isMatchValid ?
+                            new Date(groupMatch.date) > new Date() ?
                                 <Button
                                     onClick={handleOpen}
                                     variant={isBetExisting ? 'warning' : 'primary'}
@@ -168,13 +148,13 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                     disabled={groupMatch.isMatchValid}
                                 >
                                     {isBetExisting ? 'Edit' : 'Bet'}
-                                </Button> :
+                                </Button> : (groupMatch.isMatchValid ?
                                 (
                                     colorIcon === 'lightgreen' ? <BsCheck size={40} style={{ color: colorIcon }} />
                                         : (colorIcon === 'darkgreen' ? <BiCheckDouble size={40} style={{ color: colorIcon }} />
                                             : <ImCross size={30} style={{ color: colorIcon, marginRight: '0.5rem' }} />)
 
-                                )
+                                ) : null)
                         }
                     </div>
                 </div>
