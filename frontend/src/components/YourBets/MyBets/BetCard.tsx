@@ -223,7 +223,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
               >
                 <IoPersonSharp size={20} />
                 {/* {bet.match.referee} */}
-                <span className='bet-card-text'>Szymon Marciniak</span>
+                <span className='bet-card-text'>{bet.match.referee}</span>
               </div>
               <div style={{ gridColumn: "1/4" }}>
                 {bet.betResult !== null ? (
