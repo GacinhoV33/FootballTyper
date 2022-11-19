@@ -13,8 +13,8 @@ export interface MatchCardProps {
 }
 
 function getDayFromDate(date: string) {
-    const daysShortcut = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const daysShortcut = ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const days = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayIndex = new Date(date).getDay();
     return daysShortcut[dayIndex];
 
