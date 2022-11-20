@@ -10,23 +10,24 @@ export interface MatchCardProps {
     awayTeam: string,
     date: string,
     stadium?: string,
+    group?: string,
 }
 
 function getDayFromDate(date: string) {
-    const daysShortcut = ['Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const days = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysShortcut = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayIndex = new Date(date).getDay();
     return daysShortcut[dayIndex];
 
 }
 
-const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date, stadium }) => {
+const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date, stadium, group }) => {
     const [dateExact, time] = date.split('T');
     const day = getDayFromDate(date);
     return (
-        <div style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '2vh'}}>
+        <div style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '2vh' }}>
             <div className='text-date-match'>
-                {stadium} - {day} {time.slice(0, 5)}
+                {stadium} - {day} {time.slice(0, 5)} ({group})
             </div>
             <div className='match-card'>
 

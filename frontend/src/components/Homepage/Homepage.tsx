@@ -124,7 +124,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {matchesToDisplay && matchesToDisplay.length !== 0 && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
                 <div className='match-card-homepage' key={index}>
-                  <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} stadium={match.location}/>
+                  <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} stadium={match.location} group={match.group} />
                   <div className='time-to-start-navbar'>
                     <TimeToStart date={match.date} whiteColor />
                   </div>

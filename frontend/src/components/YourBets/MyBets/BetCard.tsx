@@ -213,20 +213,8 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 <HiBuildingStorefront size={20} />
                 <span className='bet-card-text'>{bet.match.location}</span>
               </div>
-              <div
-                style={{
-                  gridColumn: "1/4",
-                  display: "flex",
-                  flexDirection: "row",
-                  marginBottom: "1.0rem",
-                }}
-              >
-                <IoPersonSharp size={20} />
-                {/* {bet.match.referee} */}
-                <span className='bet-card-text'>{bet.match.referee}</span>
-              </div>
               <div style={{ gridColumn: "1/4" }}>
-                {new Date() > new Date(bet.match.date) ? ( bet.betResult !== null ?
+                {new Date() > new Date(bet.match.date) ? (bet.betResult !== null ?
                   <h4 style={{ textAlign: "center" }}>{points * pointsFactor} points</h4> : null // Style points TODO
                 ) : (
                   <Button

@@ -38,13 +38,13 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
               <img className='png-image' src={logo_player} alt='logogogo' />
             </Nav.Link>
             <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} className='nav-hover-item'>
-              <Nav.Item className='navbar-text'>GroupStage</Nav.Item>
+              <Nav.Item className='navbar-text'>Group</Nav.Item>
             </Nav.Link>
-            { !isMobile ?
+            {!isMobile ?
               <Nav.Link href={isUserLogged ? "/knockout" : './Login'} className='nav-hover-item'>
                 <Nav.Item className='navbar-text'>Knockout</Nav.Item>
-              </Nav.Link> : null  
-          }
+              </Nav.Link> : null
+            }
 
             <Nav.Link href={isUserLogged ? "/yourbets" : './Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Bets</Nav.Item>
