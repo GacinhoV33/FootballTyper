@@ -471,7 +471,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
         </div>
         <div className="form-group mt-3">
 
-          <label>Full Name</label>
+          <label>Display name</label>
           <input
             id="fullName"
             type="text"
@@ -481,7 +481,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           />
         </div>
         <div className="form-group mt-3">
-          <label>User Name</label>
+          <label>Username</label>
           <input
             id="userName"
             type="text"
