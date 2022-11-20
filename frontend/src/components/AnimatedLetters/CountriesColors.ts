@@ -287,7 +287,7 @@ const Germany = {
 }
 countriesColors.set('Germany', JSON.stringify(Germany))
 
-// 17   
+// 32  
 const Spain = {
     mainColor: {
         name: 'red',

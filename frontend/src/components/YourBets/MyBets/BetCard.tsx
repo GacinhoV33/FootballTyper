@@ -21,9 +21,6 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
     awayBet: bet.awayTeamScoreBet,
   });
 
-  // const [homePlaceholder, setHomePlaceholder] = useState<string>(bet.homeTeamScoreBet.toString());
-  // const [awayPlaceholder, setAwayPlaceholder] = useState<string>(bet.awayTeamScoreBet.toString())
-
   const [currentBet, setCurrentBet] = useState<{
     homeBet: number;
     awayBet: number;

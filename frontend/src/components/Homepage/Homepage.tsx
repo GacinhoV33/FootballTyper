@@ -97,7 +97,8 @@ const responsive = {
 };
 
 const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
-  const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
+  // const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
+  const validMatches = allMatches !== null ? allMatches.filter((match) => new Date(match.date) > new Date()) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
   const matchesToDisplay = sortedMatches !== null ? sortedMatches.splice(0, 4) : null;
   const [isAutoPlay, setAutoPlay] = useState<boolean>(true);
@@ -156,12 +157,10 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
               draggable={true}
               showDots={false}
               responsive={responsive}
-              // ssr={true} // means to render carousel on server-side.
               infinite={true}
               autoPlay={isAutoPlay}
               autoPlaySpeed={5000}
               keyBoardControl={true}
-              // customTransition="all .5"
               transitionDuration={1500}
               containerClass="carousel-container"
               removeArrowOnDeviceType={["tablet", "mobile"]}

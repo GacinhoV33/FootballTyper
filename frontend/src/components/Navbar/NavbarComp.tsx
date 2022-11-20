@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import TimeToStartTwo from '../Statistics/TimeToStart';
 import { BiFootball } from 'react-icons/bi';
-import logo_player from '../LoadingLayout/logo_player_alpha.png';
+import logo_player from '../LoadingLayout/images/logo_player_alpha.png';
 import { UserContext } from '../../App';
 import { CgProfile } from 'react-icons/cg';
 import { isMobile } from 'react-device-detect';
@@ -92,12 +92,15 @@ function currentDay() {
   const currentDate = new Date();
   const month = currentDate.getMonth();
   const day = currentDate.getDate();
-  let currentDay = -1
-  if (month === 11) {
-    currentDay = day - 20;
+  let currentDay: string | number = -1
+  if (month === 10) {
+    currentDay = day - 19;
   }
-  else if (month === 12) {
+  else if (month === 11) {
     currentDay = day + 11
+  }
+  else {
+    currentDay = 'mundial is over'
   }
   return currentDay;
 }

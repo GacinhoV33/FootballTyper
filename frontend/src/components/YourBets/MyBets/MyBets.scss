@@ -1,7 +1,6 @@
 .bet-body{
     display: grid;
     grid-template-columns:repeat(3, 1fr);
-    // grid-template-rows: repeat(3, auto);
     gap: 5rem;
     margin: 0 1rem;
 }

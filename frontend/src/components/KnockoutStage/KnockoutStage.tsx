@@ -19,9 +19,7 @@ import { BiCheckDouble } from 'react-icons/bi';
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
-  // const wonTeam = seed.isMatchPlayed as number;
   const wonTeam = seed.groupMatch.homeTeamScore !== -1 ? (seed.groupMatch.homeTeamScore > seed.groupMatch.awayTeamScore ? 1 : 0) : null;
-  // seed.groupMatch;
   const styleWonTeam = { color: 'gold', fontWeight: '500', fontSize: '2vh' };
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);

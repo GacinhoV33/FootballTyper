@@ -140,7 +140,6 @@ const Statistics = () => {
         <Col style={{width: '10rem'}}>
           <Doughnut 
           data={dataPie} 
-          // width={"30%"}
           options={{...optionsPie,  maintainAspectRatio: false }}
           />
         </Col>

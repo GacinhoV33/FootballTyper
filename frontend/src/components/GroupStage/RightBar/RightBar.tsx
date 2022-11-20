@@ -31,9 +31,6 @@ const RightBar: React.FC<RightBarProps> = ({chosenCountries, currentGroup}) => {
               <td><span style={{fontWeight: '500', color: 'chocolate'}}> A </span>{assists}</td>
               <td> <TbRectangleVertical size={20} style={{color:'#EDED22'}} fill={'#FEFE22'}/> {yellowCards}</td>
               <td> <TbRectangleVertical size={20} style={{color:'#ED1111'}} fill={'#FE0000'}/> {redCards}  </td>
-
-              {/* <div style={{fontWeight: '700'}}>{index+1} {playerName}</div>
-              {goals}<BiFootball size={20}/> {assists} {team} */}
             </tr>
         ))}
     </tbody>

@@ -4,8 +4,6 @@ import Button from 'react-bootstrap/Button';
 import deepcopy from 'deepcopy';
 import { isMobile } from 'react-device-detect';
 
-//@ts-ignore
-
 export type BetFilters = 'All' | 'Correct' | 'Wrong' | 'Group' | 'Knockout' | 'Active' | 'Past';
 const filterTypes: BetFilters[] = ['All', 'Correct', 'Wrong', 'Group', 'Knockout', 'Active', 'Past' ]
 export interface FiltersMyBetsProps {

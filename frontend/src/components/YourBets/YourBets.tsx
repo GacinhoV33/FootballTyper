@@ -160,7 +160,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
               <CircularProgressbar
                 value={correctScores.length}
                 maxValue={totalNumberOfEndBets}
-                //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0
                   ? Number(
                     (correctScores.length / totalNumberOfEndBets) * 100
@@ -180,7 +179,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
               <CircularProgressbar
                 value={correctResult.length}
                 maxValue={totalNumberOfEndBets}
-                //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0
                   ? Number(
                     (correctResult.length / totalNumberOfEndBets) * 100
@@ -198,7 +196,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
               <CircularProgressbar
                 value={wrongBets.length}
                 maxValue={totalNumberOfEndBets}
-                //@ts-ignore
                 text={`${totalNumberOfEndBets !== 0
                   ? Number(
                     (wrongBets.length / totalNumberOfEndBets) * 100
