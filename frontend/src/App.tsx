@@ -19,7 +19,6 @@ import { createContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import { isMobile } from 'react-device-detect';
-
 const TRACKING_ID = "G-31K4T82HLF"; // OUR_TRACKING_ID
 ReactGA.initialize(TRACKING_ID);
 

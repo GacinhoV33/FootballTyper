@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import "./NavbarComp.scss";
-
+import ReactGA from 'react-ga';
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
@@ -33,39 +33,39 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
       <div className='navbar-content'>
         <div className='navlinks-body'>
           <Nav className="me-auto">
-            <Nav.Link href='/'>
+            <Nav.Link href='/' onClick={() => ReactGA.event({category: 'Homepage', action: 'Visit'})}>
 
               <img className='png-image' src={logo_player} alt='logogogo' />
             </Nav.Link>
-            <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} className='nav-hover-item'>
+            <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} className='nav-hover-item' onClick={() => ReactGA.event({category: 'User', action: 'Visit HomePage'})}>
               <Nav.Item className='navbar-text'>Group</Nav.Item>
             </Nav.Link>
-            {!isMobile ?
-              <Nav.Link href={isUserLogged ? "/knockout" : './Login'} className='nav-hover-item'>
+            { !isMobile ?
+              <Nav.Link href={isUserLogged ? "/knockout" : './Login'} className='nav-hover-item' onClick={() => ReactGA.event({category: 'User', action: 'Visit Knockout'})}>
                 <Nav.Item className='navbar-text'>Knockout</Nav.Item>
               </Nav.Link> : null
             }
 
-            <Nav.Link href={isUserLogged ? "/yourbets" : './Login'} className='nav-hover-item'>
+            <Nav.Link href={isUserLogged ? "/yourbets" : './Login'} className='nav-hover-item' onClick={() => ReactGA.event({category: 'User', action: 'Visit My Bets'})}>
               <Nav.Item className='navbar-text'>Bets</Nav.Item>
             </Nav.Link>  {/* Think about changing yourbets to mybets*/}
-            <Nav.Link href={isUserLogged ? "/ranking" : '/Login'} className='nav-hover-item'>
+            <Nav.Link href={isUserLogged ? "/ranking" : '/Login'} className='nav-hover-item' onClick={() => ReactGA.event({category: 'User', action: 'Visit Ranking'})}>
               <Nav.Item className='navbar-text'>Ranking</Nav.Item>
             </Nav.Link>
             {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' &&
-              <Nav.Link href={isUserLogged ? "/statistics" : '/Login'} className='nav-hover-item'>
+              <Nav.Link href={isUserLogged ? "/statistics" : '/Login'} className='nav-hover-item' onClick={() => ReactGA.event({category: 'User', action: 'Visit Statistics'})}>
                 <Nav.Item className='navbar-text'>Statistics</Nav.Item>
               </Nav.Link>
             }
-            <Nav.Link href="/rules" className='nav-hover-item'>
+            <Nav.Link href="/rules" className='nav-hover-item' onClick={() => ReactGA.event({category: 'User', action: 'Visit Rules'})}>
               <Nav.Item className='navbar-text'>Rules</Nav.Item>
             </Nav.Link>
             {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' &&
-              <Nav.Link href="/adminpanel" className='nav-hover-item'>
+              <Nav.Link href="/adminpanel" className='nav-hover-item' >
                 <Nav.Item className='navbar-text'>Admin Panel</Nav.Item>
               </Nav.Link>
             }
-            <Nav.Link href='/Login' className='nav-hover-item'>
+            <Nav.Link href='/Login' className='nav-hover-item' onClick={() => ReactGA.event({category: 'User', action: 'Visit Profile'})}>
               <Nav.Item className='navbar-text'>{isUserLogged ? profile() : 'Login'}</Nav.Item>
             </Nav.Link>
           </Nav>
