@@ -154,7 +154,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                         : (colorIcon === 'darkgreen' ? <BiCheckDouble size={40} style={{ color: colorIcon }} />
                                             : <ImCross size={30} style={{ color: colorIcon, marginRight: '0.5rem' }} />)
 
-                                ) : null)
+                                ) : <div style={isMobile ? {width: '7.5vh', height: '5vh'} :{width: '5.5vh', height: '4vh'}}></div>)
                         }
                     </div>
                 </div>
