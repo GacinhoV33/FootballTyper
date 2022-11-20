@@ -14,7 +14,7 @@ namespace FootballTyperAPI.Models
         public string HomeTeam { get; set; }
         public string AwayTeam { get; set; }
         public string Group { get; set; }
-        public string HomeTeamScore { get; set; }
-        public string AwayTeamScore { get; set; }
+        public int? HomeTeamScore { get; set; }
+        public int? AwayTeamScore { get; set; }
     }
 }

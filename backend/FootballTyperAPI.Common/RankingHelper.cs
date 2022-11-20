@@ -37,7 +37,7 @@ namespace FootballTyperAPI.Common
                             if (existingRankingUsersWithSamePoints.Any())
                             {
                                 minPos = existingRankingUsersWithSamePoints.Min(x => x.LeaguePosition[league]);
-                                posToAdd = existingRankingUsersWithSamePoints.Count() - 1;
+                                posToAdd = 1;
                             }
                         }
                     }

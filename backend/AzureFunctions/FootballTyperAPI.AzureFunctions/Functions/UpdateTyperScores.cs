@@ -39,14 +39,14 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: UpdateTyperScores");
 
-            var prevRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null));
+            var prevRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null), 1);
             RankingHelper.UpdateRankStatus(Users.Where(x => x.LeaguesStr != null), prevRanking, prevRanking);
 
             UpdateData(Bets, Matches);
             var betsToReturn = ScoreHelper.CalculatePointsForEachUser(Bets, Users, log);
             ScoreHelper.UpdateLastFiveUserBets(Bets, Users);
 
-            var updatedRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null));
+            var updatedRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null), 1);
             RankingHelper.UpdateRankStatus(Users.Where(x => x.LeaguesStr != null), prevRanking, updatedRanking);
 
             outUsers = Users.ToArray();
