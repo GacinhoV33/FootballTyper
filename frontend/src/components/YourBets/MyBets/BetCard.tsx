@@ -223,11 +223,11 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
               >
                 <IoPersonSharp size={20} />
                 {/* {bet.match.referee} */}
-                <span className='bet-card-text'>Szymon Marciniak</span>
+                <span className='bet-card-text'>{bet.match.referee}</span>
               </div>
               <div style={{ gridColumn: "1/4" }}>
-                {bet.betResult !== null ? (
-                  <h4 style={{ textAlign: "center" }}>{points * pointsFactor} points</h4> // Style points TODO
+                {new Date() > new Date(bet.match.date) ? ( bet.betResult !== null ?
+                  <h4 style={{ textAlign: "center" }}>{points * pointsFactor} points</h4> : null // Style points TODO
                 ) : (
                   <Button
                     style={{ width: "100%" }}
