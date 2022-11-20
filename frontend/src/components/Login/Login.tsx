@@ -149,6 +149,10 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
       setIsValid(false);
       setErrorMsg("Username is too long");
       return false;
+    } else if (userName.indexOf(" ") !== -1) {
+      setIsValid(false);
+      setErrorMsg("The username cannot contain spaces");
+      return false;
     }
     setIsValid(true);
     return true;
@@ -359,7 +363,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
             </span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', margin: '2vh 0' }}>
-            <GoogleLoginButton setAuthMode={setAuthMode} setUserStatus={setUserStatus}/>
+            <GoogleLoginButton setAuthMode={setAuthMode} setUserStatus={setUserStatus} />
           </div>
           {/* <FacebookLogin /> */}
           <div className="form-group mt-3">
@@ -422,8 +426,8 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
               </Modal.Title>
               <Modal.Body>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '5%' }}>
-                  <input 
-                    placeholder={'New name...'} 
+                  <input
+                    placeholder={'New name...'}
                     value={fullNameModal}
                     maxLength={20}
                     ref={modalRef}
