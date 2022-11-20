@@ -130,7 +130,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                         <span style={{ paddingTop: '0', color: textColor, fontSize: '2.5vh', fontWeight: '500' }}>
 
                             {isMobile ?
-                                <span style={{fontSize: '2.2vh'}}>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
+                                <span style={{ fontSize: '2.2vh' }}>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
                                 <span>{groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}</span>
                             }
                         </span>
@@ -214,8 +214,8 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
 export default Matchrow
 
 function getDayFromDate(date: string) {
-    const daysShortcut = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const daysShortcut = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayIndex = new Date(date).getDay();
     return daysShortcut[dayIndex];
 
