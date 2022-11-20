@@ -38,11 +38,12 @@ namespace FootballTyperAPI.AzureFunctions
             var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => x.BettorUserName == playerUsername).Select(y => y.MatchId);
             //foreach (var username in new string[]{"danielgacek97", "User1", "User2"})
             //foreach (var username in new string[]{"gacek.filip12", "User1", "User2"})
-            foreach (var username in new string[]{"User1", "User2"})
+            foreach (var username in new string[] { "User1", "User2" })
+            //foreach (var username in new string[] { "danielgacek97" })
             {
                 if (Matches.Count() > 0)
                 {
-                    foreach (var match in Matches.Where(x => !matchesWithbetsAlreadyMadeByUser.Contains(x.Id)).Take(5))
+                    foreach (var match in Matches.Where(x => !matchesWithbetsAlreadyMadeByUser.Contains(x.Id)).OrderBy(x => x.MatchNumber).Take(5))
                     {
                         var awayTeamScoreBet = Random.Shared.Next(0, 3);
                         var homeTeamScoreBet = Random.Shared.Next(0, 3);
@@ -67,7 +68,7 @@ namespace FootballTyperAPI.AzureFunctions
                     log.LogInformation("No matches in Database");
                 }
             }
-            
+
 
             outBets = betsList.ToArray();
             log.LogInformation($"Ending execution of: BetFiveMatches");

@@ -10,16 +10,32 @@ namespace FootballTyperAPI.Common
         public static string URL = "https://fixturedownload.com/feed/json/fifa-world-cup-2022";
         public static List<Match> GetAllMatches(List<Team> allTeams)
         {
-            var jsonString = new WebClient().DownloadString(URL);
-            var allMatches = JsonSerializer.Deserialize<List<MatchJSON>>(jsonString);
-            return allMatches.Select(t => MapMatch(t, allTeams)).ToList();
+            try
+            {
+                var jsonString = new WebClient().DownloadString(URL);
+                var allMatches = JsonSerializer.Deserialize<List<MatchJSON>>(jsonString);
+                return allMatches.Select(t => MapMatch(t, allTeams)).ToList();
+            }
+            catch (Exception ex)
+            {
+                var nex = ex;
+            }
+            return new List<Match>();
         }
 
         public static List<MatchJSON> GetAllMatchesJSON()
         {
-            var jsonString = new WebClient().DownloadString(URL);
-            var allMatches = JsonSerializer.Deserialize<List<MatchJSON>>(jsonString);
-            return allMatches;
+            try
+            {
+                var jsonString = new WebClient().DownloadString(URL);
+                var allMatches = JsonSerializer.Deserialize<List<MatchJSON>>(jsonString);
+                return allMatches;
+            }
+            catch (Exception ex)
+            {
+                var nex = ex;
+            }
+            return new List<MatchJSON>();
         }
 
         private static Match MapMatch(MatchJSON matchJson, List<Team> allTeams)
@@ -28,8 +44,8 @@ namespace FootballTyperAPI.Common
             {
                 HomeTeam = allTeams.FirstOrDefault(t => t.Name == matchJson.HomeTeam),
                 AwayTeam = allTeams.FirstOrDefault(t => t.Name == matchJson.AwayTeam),
-                HomeTeamScore = matchJson.HomeTeamScore == null ? -1 : int.Parse(matchJson.HomeTeamScore),
-                AwayTeamScore = matchJson.AwayTeamScore == null ? -1 : int.Parse(matchJson.AwayTeamScore),
+                HomeTeamScore = (int)(matchJson.HomeTeamScore == null ? -1 : matchJson.HomeTeamScore),
+                AwayTeamScore = (int)(matchJson.AwayTeamScore == null ? -1 : matchJson.AwayTeamScore),
                 Group = matchJson.Group,
                 Location = matchJson.Location,
                 Date = DateTime.ParseExact(matchJson.DateUtc, "yyyy-MM-dd HH:mm:ssZ", CultureInfo.InvariantCulture),

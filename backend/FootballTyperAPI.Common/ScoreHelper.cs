@@ -17,7 +17,7 @@ namespace FootballTyperAPI.Common
         {
             foreach (var user in Users)
             {
-                var lastFiveBets = Bets.Where(x => x.BettorUserName == user.Username && x.Match.Date <= DateTime.Now)
+                var lastFiveBets = Bets.Where(x => x.BettorUserName == user.Username && x.Match.Date <= DateTime.Now && x.Match.IsMatchValid && x.IsBetProcessed)
                 .OrderByDescending(t => t.Match.Date)
                 .Take(5)
                 .ToList();
@@ -30,7 +30,7 @@ namespace FootballTyperAPI.Common
         {
             foreach (var user in Users)
             {
-                var lastFiveBets = Bets.Where(x => x.BettorUserName == user.Username && x.Match.Date <= DateTime.Now)
+                var lastFiveBets = Bets.Where(x => x.BettorUserName == user.Username && x.Match.Date <= DateTime.Now && x.Match.IsMatchValid && x.IsBetProcessed)
                 .OrderByDescending(t => t.Match.Date)
                 .Take(5)
                 .ToList();
@@ -101,9 +101,9 @@ namespace FootballTyperAPI.Common
             {
                 if (!bet.IsBetProcessed)
                 {
-                    var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
                     if (bet.Match.IsMatchValid)
                     {
+                        var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
                         CalculateResultPointsForUserByBet(bet, user, log);
                     }
                     betsToReturn.Add(bet);
@@ -116,9 +116,9 @@ namespace FootballTyperAPI.Common
         {
             foreach (var bet in Bets)
             {
-                var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
-                if (bet.Match.IsMatchValid)
+                if (bet.Match.IsMatchValid && bet.IsBetProcessed)
                 {
+                    var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
                     CalculateResultPointsForUserByBet(bet, user);
                 }
             }
