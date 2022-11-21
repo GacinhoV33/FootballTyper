@@ -70,7 +70,6 @@ import { Bet } from '../YourBets/MyBets/MyBets';
 export interface HomepageProps {
   allTeams: Team[] | null,
   allMatches: Match[] | null,
-  allUserBets: Bet[] | null,
 }
 
 export interface Stadium {
@@ -99,7 +98,7 @@ const responsive = {
   }
 };
 
-const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches, allUserBets }) => {
+const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
   // const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
   const validMatches = allMatches !== null ? allMatches.filter((match) => new Date(match.date) > new Date()) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
@@ -135,7 +134,6 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches, allUserBets }
                     key={index}
                     stadium={match.location}
                     group={match.group} 
-                    allUserBets={allUserBets}
                     match={match}
                     />
                   <div className='time-to-start-navbar'>
