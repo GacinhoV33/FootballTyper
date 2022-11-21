@@ -18,8 +18,8 @@ namespace Company.Function
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: CleanTableBets");
 
-            var deleteBets = "DELETE FROM Bets";
-            CleanDatabase.ExecuteCommand(deleteBets, log);
+            //var deleteBets = "DELETE FROM Bets";
+            //CleanDatabase.ExecuteCommand(deleteBets, log);
 
             log.LogInformation($"Ending execution of: CleanTableBets");
             log.LogInformation($"-------------------------------------------------------------------------");

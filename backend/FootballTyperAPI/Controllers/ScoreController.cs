@@ -37,7 +37,7 @@ namespace FootballTyperAPI.Controllers
             }
             var bets = _context.Bets.ToList();
             ScoreHelper.UpdateData(bets, _context.Matches.ToList());
-            var yesterdayAndToday = new int[] { DateTime.Today.DayOfYear - 1, DateTime.Today.DayOfYear };
+            var yesterdayAndToday = new int[] { DateTime.Today.DayOfYear - 1};
             var lastDayBets = bets.Where(x => users.Select(y => y.Username).Contains(x.BettorUserName) && yesterdayAndToday.Contains(x.Match.Date.DayOfYear));
             ScoreHelper.CleanUsersData(users);
             if (!lastDayBets.Any())

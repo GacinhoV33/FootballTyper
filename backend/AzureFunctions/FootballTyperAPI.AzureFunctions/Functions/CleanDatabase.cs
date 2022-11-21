@@ -21,14 +21,14 @@ namespace Company.Function
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: CleanDatabase");
 
-            var deleteBets = "DELETE FROM Bets";
-            ExecuteCommand(deleteBets, log);
+            //var deleteBets = "DELETE FROM Bets";
+            //ExecuteCommand(deleteBets, log);
 
-            var deleteMatch = "DELETE FROM Match";
-            ExecuteCommand(deleteMatch, log);
+            //var deleteMatch = "DELETE FROM Match";
+            //ExecuteCommand(deleteMatch, log);
 
-            var deleteTeams = "DELETE FROM Teams";
-            ExecuteCommand(deleteTeams, log);
+            //var deleteTeams = "DELETE FROM Teams";
+            //ExecuteCommand(deleteTeams, log);
 
             log.LogInformation($"Ending execution of: CleanDatabase");
             log.LogInformation($"-------------------------------------------------------------------------");
