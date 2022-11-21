@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './LeftBar.scss';
 import Table from 'react-bootstrap/Table';
 import { BiFootball } from 'react-icons/bi';
@@ -7,31 +7,58 @@ import styled, { keyframes } from "styled-components";
 import countriesColors from '../../AnimatedLetters/CountriesColors';
 export interface LeftBarProps {
     chosenCountries: { homeCountry: string, awayCountry: string },
+}
 
+export type ScoreStatistic = {
+    id: number,
+    name: string,
+    group: string,
+    goals: number,
+    assists: number,
+    yellowCards: number,
+    redCards: number
 }
 
 const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
-    return (
-        <LeftBarAnimation>
-            <h2 style={{ textAlign: 'center', color: '#DDD'}}>Top Scores</h2>
-            <Table>
-                <tbody className='groupstage-player-statistics'>
-                    {dummyPlayerData.map(({ playerName, goals, assists, team, yellowCards, redCards, imgPath }, index) => {
-                        
-                        return(
-                        <tr style={{textAlign: 'center'}} key={index}>
-                            <td style={{fontWeight: '500'}}>{index + 1}</td>
-                            <td style={{textAlign: 'left'}}>{playerName}</td>
-                            <td><BiFootball size={20} style={{color: '#777'}}/>{goals}</td>
-                            <td> <span style={{fontWeight: '500', color: '#CCC'}}>A</span> {assists} </td>
-                            <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
-                            <td><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
-                        </tr>
-                    )})}
-                </tbody>
 
-            </Table>
-        </LeftBarAnimation>
+    const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+    const [stats, setStats] = useState<ScoreStatistic[] | null>(null);
+    useEffect(() => {
+
+        const getStats = async () => {
+            const scoreStats = await (
+                await fetch(API_URL + `/api/Statistics/TopScorers`)
+            ).json();
+            scoreStats.sort((stat1: ScoreStatistic, stat2: ScoreStatistic) => stat2.goals - stat1.goals ? stat2.goals - stat1.goals : stat2.assists - stat1.assists)
+            setStats(scoreStats)
+        }
+        getStats();
+    }, []);
+
+    return (
+        <>
+            <h2 style={{ textAlign: 'center', color: '#DDD', paddingTop: '4rem' }}>Top Scores</h2>
+            <LeftBarAnimation>
+                <Table>
+                    <tbody className='groupstage-player-statistics'>
+                        {stats ? stats.map(({ name, goals, assists, yellowCards, redCards }, index) => {
+
+                            return (
+                                <tr style={{ textAlign: 'center' }} key={index}>
+                                    <td style={{ fontWeight: '500' }}>{index + 1}</td>
+                                    <td style={{ textAlign: 'left' }}>{name}</td>
+                                    <td><BiFootball size={20} style={{ color: '#CCC' }} />{goals}</td>
+                                    <td> <span style={{ fontWeight: '500', color: '#CCC' }}>A</span> {assists} </td>
+                                    <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
+                                    <td><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
+                                </tr>
+                            )
+                        }) : null}
+                    </tbody>
+
+                </Table>
+            </LeftBarAnimation>
+        </>
     )
 }
 export default LeftBar;
@@ -49,13 +76,19 @@ to{
 
 const LeftBarAnimation = styled.div`
     animation-name: ${leftBarAnimation};
+    overflow-y: scroll;
+    height: 75vh;
+    scroll-behavior: smooth;
     animation-duration: 1s;
     display: flex;
     align-items: flex-start !important;
     flex-direction: column;
-    padding-top: 5rem;
+    padding-top: 0.8rem;
     padding-left: 1rem;
     animation-timing-function: ease-in-out;
+    ::-webkit-scrollbar {
+        display: none;
+      }
 `
 
 export interface Player {
