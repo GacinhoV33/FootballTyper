@@ -18,7 +18,6 @@ export interface MatchCardProps {
     date: string,
     stadium?: string,
     group?: string,
-    allUserBets: Bet[] | null,
     match: Match
 }
 
@@ -30,7 +29,7 @@ function getDayFromDate(date: string) {
 
 }
 
-const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date, stadium, group, allUserBets, match }) => {
+const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date, stadium, group, match }) => {
     const [dateExact, time] = date.split('T');
     const day = getDayFromDate(date);
     const userCtx = useContext(UserContext);
@@ -56,10 +55,13 @@ const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date, stadium
             const userName = userCtx.userLocalData
                 ? userCtx.userLocalData.username
                 : "";
-            const allUserBets = await (
-                await fetch(API_URL + `api/Bets/User/${userName}`)
-            ).json();
-            setUserBets(allUserBets);
+            if(userName !== ""){
+                const allUserBets = await (
+                    await fetch(API_URL + `api/Bets/User/${userName}`)
+                ).json();
+                setUserBets(allUserBets);
+            }
+            
         };
         getUserBets();
     }, [betChange]);
@@ -69,7 +71,7 @@ const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date, stadium
             <div className='text-date-match'>
                 <div style={{ gridColumn: '2/10' }}>{stadium} - {day} {time.slice(0, 5)} ({group})</div>
                 <div className='homepage-button-container'>
-                    <Button
+                    {userCtx.isUserSigned ?  <Button
                         variant={isBetExisting ? 'warning' : 'primary'}
                         className='homepage-button-bet'
                         onClick={handleOpen}
@@ -77,7 +79,9 @@ const MatchCard: React.FC<MatchCardProps> = ({ homeTeam, awayTeam, date, stadium
                     >
                         {isBetExisting ? 'Edit' : 'Bet'}
 
-                    </Button>
+                    </Button> :
+                    null}
+                   
                 </div>
 
             </div>

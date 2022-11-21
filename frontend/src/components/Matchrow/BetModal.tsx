@@ -95,7 +95,7 @@ const BetModal: React.FC<BetModalProps> = ({
       }, 3000);
     }
   }
-
+  const currentBet = userBets ? userBets.filter((bet) => bet.matchId === groupMatch.id) : [];
   return (
     <Modal show={showBet} onHide={handleClose} centered>
       <Modal.Title className="modal-header">
@@ -133,6 +133,7 @@ const BetModal: React.FC<BetModalProps> = ({
           className="input-score no-spin"
           maxLength={2}
           type="number"
+          placeholder={currentBet.length !== 0 ? currentBet[0].homeTeamScoreBet.toString() : undefined}
           ref={input1}
           onChange={(e) =>
             setModalValue({
@@ -147,6 +148,7 @@ const BetModal: React.FC<BetModalProps> = ({
           maxLength={2}
           ref={input2}
           type="number"
+          placeholder={currentBet.length !== 0 ? currentBet[0].awayTeamScoreBet.toString() : undefined}
           onChange={(e) =>
             setModalValue({
               homeScore: modalValue.homeScore,
