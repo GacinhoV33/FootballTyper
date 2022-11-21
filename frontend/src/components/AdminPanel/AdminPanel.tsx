@@ -14,13 +14,13 @@ const AdminPanel = () => {
       headers: {
         "x-functions-key":
           "G1uaxlb3uCKf158UEaBePBvi5ict7uEadlZ8yLM0kcC8AzFu_wE0zg==",
-        "userName": user.username
+        userName: user.username,
       },
     };
 
     fetch(apiUrl + path, requestOptions)
       .then((response) => {
-        console.log("response: ", response)
+        console.log("response: ", response);
         if (response.ok) {
           return response.json();
         }
@@ -124,6 +124,10 @@ const AdminPanel = () => {
     sendHttpRequest("api/BetFiveMatches");
   };
 
+  const getTopScorers = () => {
+    sendHttpRequest("api/GetTopScorers");
+  };
+
   return (
     <div>
       <div
@@ -195,18 +199,12 @@ const AdminPanel = () => {
           Initialize table <b>Bets</b>
         </button>
 
-        <button
-          className="btn btn-outline-primary"
-          onClick={betAllMatches}
-        >
+        <button className="btn btn-outline-primary" onClick={betAllMatches}>
           {" "}
           Bet <b>All</b> Matches
         </button>
 
-        <button
-          className="btn btn-outline-primary"
-          onClick={betFiveMatches}
-        >
+        <button className="btn btn-outline-primary" onClick={betFiveMatches}>
           {" "}
           Bet <b>Five</b> Matches
         </button>
@@ -296,22 +294,20 @@ const AdminPanel = () => {
           Play <b>Semifinals</b> stage
         </button>
 
-        <button
-          className="btn btn-outline-primary"
-          onClick={handleInitFinals}
-        >
+        <button className="btn btn-outline-primary" onClick={handleInitFinals}>
           {" "}
           Initialize <b>Finals</b> stage
         </button>
 
-        <button
-          className="btn btn-outline-primary"
-          onClick={handlePlayFinals}
-        >
+        <button className="btn btn-outline-primary" onClick={handlePlayFinals}>
           {" "}
           Play <b>Finals</b> stage
         </button>
 
+        <button className="btn btn-outline-primary" onClick={getTopScorers}>
+          {" "}
+          Get Top Scorers
+        </button>
       </div>
     </div>
   );
