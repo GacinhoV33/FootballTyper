@@ -36,77 +36,77 @@ namespace Company.Function
             var isMorePages = true;
             var pageNumber = 1;
             var totalPages = 0;
-            //while (isMorePages)
-            //{
-            //    var request = new HttpRequestMessage
-            //    {
-            //        Method = HttpMethod.Get,
-            //        RequestUri = new Uri($"https://api-football-v1.p.rapidapi.com/v3/players?league=1&season=2022&page={pageNumber}"),
-            //        Headers =
-            //    {
-            //        { "X-RapidAPI-Key", "956d1c2a6fmsh3413ef9f05469c8p13d759jsn92988776e509" },
-            //        { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
-            //    },
-            //    };
-            //    using (var response = client.Send(request))
-            //    {
-            //        try
-            //        {
+            while (isMorePages)
+            {
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://api-football-v1.p.rapidapi.com/v3/players?league=1&season=2022&page={pageNumber}"),
+                    Headers =
+                {
+                    { "X-RapidAPI-Key", "956d1c2a6fmsh3413ef9f05469c8p13d759jsn92988776e509" },
+                    { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
+                },
+                };
+                using (var response = client.Send(request))
+                {
+                    try
+                    {
 
 
-            //            response.EnsureSuccessStatusCode();
-            //            //var body = await response.Content.ReadAsStringAsync();
-            //            var jsonString = response.Content.ReadAsStringAsync();
-            //            jsonString.Wait();
-            //            Console.WriteLine(jsonString.Result);
-            //            var jsonStringResult = jsonString.Result;
-            //            var topScorersResponse = JsonSerializer.Deserialize<TopScorerResponse>(jsonStringResult);
+                        response.EnsureSuccessStatusCode();
+                        //var body = await response.Content.ReadAsStringAsync();
+                        var jsonString = response.Content.ReadAsStringAsync();
+                        jsonString.Wait();
+                        Console.WriteLine(jsonString.Result);
+                        var jsonStringResult = jsonString.Result;
+                        var topScorersResponse = JsonSerializer.Deserialize<TopScorerResponse>(jsonStringResult);
 
-            //            totalPages = topScorersResponse.paging.total;
-            //            topScorersRapidApi.AddRange(topScorersResponse.response.ToList());
+                        totalPages = topScorersResponse.paging.total;
+                        topScorersRapidApi.AddRange(topScorersResponse.response.ToList());
 
-            //            //response.EnsureSuccessStatusCode();
-            //            //var body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            //            //topScorersRapidApi = JsonSerializer.Deserialize<List<TopScorer>>(body);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            break;
-            //        }
-            //    }
+                        //response.EnsureSuccessStatusCode();
+                        //var body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                        //topScorersRapidApi = JsonSerializer.Deserialize<List<TopScorer>>(body);
+                    }
+                    catch (Exception ex)
+                    {
+                        break;
+                    }
+                }
 
-            //    if(pageNumber > totalPages)
-            //    {
-            //        isMorePages = false;
-            //        break;
-            //    }
-            //    else
-            //    {
-            //        isMorePages = true;
-            //        pageNumber++;
-            //    }
-            //}
+                if (pageNumber > totalPages)
+                {
+                    isMorePages = false;
+                    break;
+                }
+                else
+                {
+                    isMorePages = true;
+                    pageNumber++;
+                }
+            }
 
-            //foreach (var topScorer in topScorersRapidApi)
-            //{
-            //    try
-            //    {
-            //        var topScorerDb = new TopScorerDb()
-            //        {
-            //            Name = topScorer.player.name,
-            //            Goals = topScorer.statistics.First()?.goals?.total ?? 0,
-            //            Assists = topScorer.statistics.First()?.goals?.assists ?? 0,
-            //            RedCards = topScorer.statistics.First()?.cards.red ?? 0,
-            //            YellowCards = topScorer.statistics.First()?.cards.yellow ?? 0,
-            //            Group = MapGroup(topScorer.player.nationality)
-            //        };
-            //        topScorers.Add(topScorerDb);
-            //    }
-            //    catch (Exception ex)
-            //    {
+            foreach (var topScorer in topScorersRapidApi)
+            {
+                try
+                {
+                    var topScorerDb = new TopScorerDb()
+                    {
+                        Name = topScorer.player.name,
+                        Goals = topScorer.statistics.First()?.goals?.total ?? 0,
+                        Assists = topScorer.statistics.First()?.goals?.assists ?? 0,
+                        RedCards = topScorer.statistics.First()?.cards.red ?? 0,
+                        YellowCards = topScorer.statistics.First()?.cards.yellow ?? 0,
+                        Group = MapGroup(topScorer.player.nationality)
+                    };
+                    topScorers.Add(topScorerDb);
+                }
+                catch (Exception ex)
+                {
 
-            //    }
-            //}
+                }
+            }
 
 
             outTopScorer = topScorers.ToArray();

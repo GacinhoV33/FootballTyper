@@ -12,5 +12,7 @@
         public int YellowCards { get; set; }
         public int RedCards { get; set; }
 
+        public string? Team { get; set; }
+
     }
 }

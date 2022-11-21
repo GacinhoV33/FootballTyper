@@ -1,7 +1,6 @@
 ﻿using FootballTyperAPI.Data;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 //using Newtonsoft.Json;
 
 namespace FootballTyperAPI.Controllers
@@ -10,6 +9,12 @@ namespace FootballTyperAPI.Controllers
     [ApiController]
     public class StatisticsController : ControllerBase
     {
+        private class GroupAndOrderedPlayers
+        {
+            public string Group { get; set; }
+            public IEnumerable<TopScorerDb> OrderedPlayersInGroup { get; set; }
+        }
+
         private readonly FootballTyperAPIContext _context;
 
         public StatisticsController(FootballTyperAPIContext context)
@@ -21,20 +26,7 @@ namespace FootballTyperAPI.Controllers
         [HttpGet("TopScorers")]
         public IEnumerable<TopScorerDb> GetFiveTopScorers()
         {
-            var topScorers = _context.TopScorers
-                .GroupBy(x => x.Group)
-                .Select(y => new
-                {
-                    Group = y.Key,
-                    OrderedPlayersInGroup = y.Where(player => player.Group == y.Key)
-                        .OrderByDescending(z => z.Goals)
-                        .ThenByDescending(p => p.Assists)
-                        .ThenByDescending(w => w.YellowCards)
-                        .ThenByDescending(u => u.RedCards)
-                        .Take(5)
-                }).ToList();
-
-            return topScorers.SelectMany(op => op.OrderedPlayersInGroup).ToList();
+            return GetSortedTopScorerDb().ToList();
         }
 
 
@@ -44,7 +36,40 @@ namespace FootballTyperAPI.Controllers
         {
             if (group.Length == 1)
                 group = "Group " + group;
-            return GetFiveTopScorers().Where(x => x.Group == group).ToList();
+            return SortTopScorerDb(GetTopScorerDb().Where(x => x.Group == group)).ToList();
+        }
+
+        private IEnumerable<GroupAndOrderedPlayers> GetGroupAndOrderedPlayers()
+        {
+            return _context.TopScorers
+                .GroupBy(x => x.Group)
+                .Select(y => new GroupAndOrderedPlayers
+                {
+                    Group = y.Key,
+                    OrderedPlayersInGroup = SortTopScorerDb(y.Where(player => player.Group == y.Key)).Take(5)
+                }).ToList();
+        }
+
+        private IEnumerable<TopScorerDb> GetSortedTopScorerDb()
+        {
+            var sortedGroupAndOrderedPlayers = GetGroupAndOrderedPlayers();
+            return SortTopScorerDb(sortedGroupAndOrderedPlayers.SelectMany(op => op.OrderedPlayersInGroup));
+        }
+
+        private IEnumerable<TopScorerDb> GetTopScorerDb()
+        {
+            var sortedGroupAndOrderedPlayers = GetGroupAndOrderedPlayers();
+            return sortedGroupAndOrderedPlayers.SelectMany(op => op.OrderedPlayersInGroup);
+        }
+
+        private static IEnumerable<TopScorerDb> SortTopScorerDb(IEnumerable<TopScorerDb> topScorerDb)
+        {
+            return topScorerDb
+                    .OrderByDescending(z => z.Goals)
+                    .ThenByDescending(p => p.Assists)
+                    .ThenByDescending(w => w.YellowCards)
+                    .ThenByDescending(u => u.RedCards)
+                    .ThenBy(n => n.Name);
         }
     }
 }
