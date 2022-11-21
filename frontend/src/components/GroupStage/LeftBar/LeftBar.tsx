@@ -31,7 +31,6 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
                 await fetch(API_URL + `/api/Statistics/TopScorers`)
             ).json();
             setStats(scoreStats)
-            console.log(scoreStats)
         }
         getStats();
     }, []);
