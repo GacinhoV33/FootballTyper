@@ -13,7 +13,9 @@ namespace FootballTyperAPI.Common
                 var sortedUsers = Users.Where(x => x.LeaguesStr.Contains(league))
                     .OrderByDescending(x => x.TotalPoints)
                     .ThenByDescending(y => y.TotalExactScoreBets)
-                    .ThenByDescending(z => z.TotalCorrectWinnerBets);
+                    .ThenByDescending(z => z.TotalCorrectWinnerBets)
+                    .ThenBy(z => z.FullName)
+                    .ThenBy(z => z.TotalWrongBets);
                 int pos = 1;
                 if (sortedUsers.All(x => x.TotalPoints == 0))
                 {
