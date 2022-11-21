@@ -41,16 +41,16 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
             <LeftBarAnimation>
                 <Table>
                     <tbody className='groupstage-player-statistics'>
-                        {stats ? stats.map(({ name, goals, assists, yellowCards, redCards }, index) => {
+                        {stats ? stats.map(({ name, goals, assists, yellowCards, redCards }: ScoreStatistic, index) => {
 
                             return (
-                                <tr style={{ textAlign: 'center' }} key={index}>
-                                    <td style={{ fontWeight: '500' }}>{index + 1}</td>
-                                    <td style={{ textAlign: 'left' }}>{name}</td>
-                                    <td><BiFootball size={20} style={{ color: '#CCC' }} />{goals}</td>
-                                    <td> <span style={{ fontWeight: '500', color: '#CCC' }}>A</span> {assists} </td>
-                                    <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
-                                    <td><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
+                                <tr style={{ textAlign: 'center'}} key={index}>
+                                    <td style={{ fontWeight: '500', verticalAlign: 'middle'}}>{index + 1}</td>
+                                    <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>{name}</td>
+                                    <td style={{verticalAlign: 'middle'}}> <BiFootball size={20} style={{ color: '#CCC' }} />{goals}</td>
+                                    <td style={{verticalAlign: 'middle'}}> <span style={{ fontWeight: '500', color: 'chocolate'}}>A</span> {assists} </td>
+                                    <td style={{verticalAlign: 'middle'}}> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
+                                    <td style={{verticalAlign: 'middle'}}><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
                                 </tr>
                             )
                         }) : null}

@@ -40,8 +40,8 @@ const RightBar: React.FC<RightBarProps> = ({ chosenCountries, currentGroup }) =>
           <tbody className='right-bar-statistics'>
             {stats ? stats.map(({ name, goals, assists, yellowCards, redCards }: ScoreStatistic, index: number) => (
               <tr style={{ textAlign: 'center' }} key={index}>
-                <td style={{ fontWeight: '500' }}>{index + 1}</td>
-                <td style={{ textAlign: 'left' }}>{name}</td>
+                <td style={{ fontWeight: '500', verticalAlign: 'middle' }}>{index + 1}</td>
+                <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>{name}</td>
                 <td> <BiFootball size={20} /> {goals}</td>
                 <td><span style={{ fontWeight: '500', color: 'chocolate' }}> A </span>{assists}</td>
                 <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
