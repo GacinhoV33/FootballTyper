@@ -128,6 +128,11 @@ const AdminPanel = () => {
     sendHttpRequest("api/GetTopScorers");
   };
 
+  const updateMatchResults = () => {
+    sendHttpRequest("api/UpdateMatchResults");
+  };
+
+
   return (
     <div>
       <div
@@ -307,6 +312,11 @@ const AdminPanel = () => {
         <button className="btn btn-outline-primary" onClick={getTopScorers}>
           {" "}
           Get Top Scorers
+        </button>
+
+        <button className="btn btn-outline-primary" onClick={updateMatchResults}>
+          {" "}
+          Update Match Results
         </button>
       </div>
     </div>

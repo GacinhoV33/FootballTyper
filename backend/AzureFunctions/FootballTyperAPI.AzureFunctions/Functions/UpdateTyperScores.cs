@@ -55,7 +55,7 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Ending execution of: UpdateTyperScores");
             log.LogInformation($"-------------------------------------------------------------------------");
 
-            return new OkObjectResult(new { Ok = true, Bets = betsToReturn });
+            return new OkObjectResult(new { Ok = true});
         }
 
 

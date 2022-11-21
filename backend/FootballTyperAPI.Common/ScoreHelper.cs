@@ -17,7 +17,7 @@ namespace FootballTyperAPI.Common
         {
             foreach (var user in Users)
             {
-                var lastFiveBets = Bets.Where(x => x.BettorUserName == user.Username && x.Match.Date <= DateTime.Now && x.Match.IsMatchValid && x.IsBetProcessed)
+                var lastFiveBets = Bets.Where(x => x.BettorUserName == user.Username && x.Match.IsMatchValid && x.IsBetProcessed && x.Match.Date <= DateTime.Now)
                 .OrderByDescending(t => t.Match.Date)
                 .Take(5)
                 .ToList();
