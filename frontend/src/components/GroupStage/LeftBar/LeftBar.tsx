@@ -17,6 +17,7 @@ export type ScoreStatistic = {
     assists: number,
     yellowCards: number,
     redCards: number
+    team: string | null
 }
 
 const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
@@ -29,8 +30,8 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
             const scoreStats = await (
                 await fetch(API_URL + `/api/Statistics/TopScorers`)
             ).json();
-            scoreStats.sort((stat1: ScoreStatistic, stat2: ScoreStatistic) => stat2.goals - stat1.goals ? stat2.goals - stat1.goals : stat2.assists - stat1.assists)
             setStats(scoreStats)
+            console.log(scoreStats)
         }
         getStats();
     }, []);
@@ -41,16 +42,24 @@ const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
             <LeftBarAnimation>
                 <Table>
                     <tbody className='groupstage-player-statistics'>
-                        {stats ? stats.map(({ name, goals, assists, yellowCards, redCards }: ScoreStatistic, index) => {
-
+                        {stats ? stats.map(({ name, goals, assists, yellowCards, redCards, team }: ScoreStatistic, index) => {
+                            const mainColor = team ? JSON.parse(countriesColors.get(team as string) as string).mainColor.value : '(255, 0, 0)';
+                            const secondColor = team ? JSON.parse(countriesColors.get(team as string) as string).secondColor.value : '(255, 255, 255)'
+                            const gradString = {
+                                backgroundImage: `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.6), rgba${secondColor.slice(0, -1)}, 0.6)`,
+                                textAlign: 'center'
+                            }
                             return (
-                                <tr style={{ textAlign: 'center'}} key={index}>
-                                    <td style={{ fontWeight: '500', verticalAlign: 'middle'}}>{index + 1}</td>
+                                <tr
+                                    //@ts-ignore
+                                    style={team === chosenCountries.homeCountry || team === chosenCountries.awayCountry ? gradString : { textAlign: 'center' }}
+                                    key={index} >
+                                    <td style={{ fontWeight: '500', verticalAlign: 'middle' }}>{index + 1}</td>
                                     <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>{name}</td>
-                                    <td style={{verticalAlign: 'middle'}}> <BiFootball size={20} style={{ color: '#CCC' }} />{goals}</td>
-                                    <td style={{verticalAlign: 'middle'}}> <span style={{ fontWeight: '500', color: 'chocolate'}}>A</span> {assists} </td>
-                                    <td style={{verticalAlign: 'middle'}}> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
-                                    <td style={{verticalAlign: 'middle'}}><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
+                                    <td style={{ verticalAlign: 'middle' }}> <BiFootball size={20} style={{ color: '#CCC' }} />{goals}</td>
+                                    <td style={{ verticalAlign: 'middle' }}> <span style={{ fontWeight: '500', color: '#EEE' }}>A</span> {assists} </td>
+                                    <td style={{ verticalAlign: 'middle' }}> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
+                                    <td style={{ verticalAlign: 'middle' }}><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
                                 </tr>
                             )
                         }) : null}
