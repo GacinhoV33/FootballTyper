@@ -64,10 +64,13 @@ import MatchCard, { MatchCardProps } from './MatchCard';
 import { Match } from '../../App'
 import TimeToStart from '../Statistics/TimeToStart';
 import News from './News';
+import { Bet } from '../YourBets/MyBets/MyBets';
+
 
 export interface HomepageProps {
   allTeams: Team[] | null,
   allMatches: Match[] | null,
+  allUserBets: Bet[] | null,
 }
 
 export interface Stadium {
@@ -96,7 +99,7 @@ const responsive = {
   }
 };
 
-const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
+const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches, allUserBets }) => {
   // const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
   const validMatches = allMatches !== null ? allMatches.filter((match) => new Date(match.date) > new Date()) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
@@ -125,7 +128,16 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {matchesToDisplay && matchesToDisplay.length !== 0 && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
                 <div className='match-card-homepage' key={index}>
-                  <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} stadium={match.location} group={match.group} />
+                  <MatchCard
+                    homeTeam={match.homeTeam.name}
+                    awayTeam={match.awayTeam.name}
+                    date={match.date}
+                    key={index}
+                    stadium={match.location}
+                    group={match.group} 
+                    allUserBets={allUserBets}
+                    match={match}
+                    />
                   <div className='time-to-start-navbar'>
                     <TimeToStart date={match.date} whiteColor />
                   </div>
