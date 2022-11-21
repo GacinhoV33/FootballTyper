@@ -133,7 +133,7 @@ function App() {
         {/* placeholder for Navbar */}
         <div style={{ height: '8vh' }}></div>
         <Routes>
-          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage' />} />
+          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} allUserBets={allUserBets}/> : <LoadingLayout componentName='Homepage' />} />
           {!isMobile ?
             <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
             : null}
