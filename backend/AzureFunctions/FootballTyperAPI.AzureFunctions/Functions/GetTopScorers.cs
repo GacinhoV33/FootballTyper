@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Company.Function
 {
@@ -43,24 +41,19 @@ namespace Company.Function
                     Method = HttpMethod.Get,
                     RequestUri = new Uri($"https://api-football-v1.p.rapidapi.com/v3/players?league=1&season=2022&page={pageNumber}"),
                     Headers =
-                {
-                    { "X-RapidAPI-Key", "956d1c2a6fmsh3413ef9f05469c8p13d759jsn92988776e509" },
-                    { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
-                },
+                        {
+                            { "X-RapidAPI-Key", "956d1c2a6fmsh3413ef9f05469c8p13d759jsn92988776e509" },
+                            { "X-RapidAPI-Host", "api-football-v1.p.rapidapi.com" },
+                        },
                 };
                 using (var response = client.Send(request))
                 {
                     try
                     {
-
-
                         response.EnsureSuccessStatusCode();
-                        //var body = await response.Content.ReadAsStringAsync();
                         var jsonString = response.Content.ReadAsStringAsync();
                         jsonString.Wait();
-                        Console.WriteLine(jsonString.Result);
-                        var jsonStringResult = jsonString.Result;
-                        var topScorersResponse = JsonSerializer.Deserialize<TopScorerResponse>(jsonStringResult);
+                        var topScorersResponse = JsonSerializer.Deserialize<TopScorerResponse>(jsonString.Result);
 
                         totalPages = topScorersResponse.paging.total;
                         topScorersRapidApi.AddRange(topScorersResponse.response.ToList());
@@ -91,16 +84,33 @@ namespace Company.Function
             {
                 try
                 {
-                    var topScorerDb = new TopScorerDb()
+                    var existingTopScorer = TopScorers.FirstOrDefault(x => x.RapidApiId == topScorer.player.id);
+                    if (existingTopScorer != null)
                     {
-                        Name = topScorer.player.name,
-                        Goals = topScorer.statistics.First()?.goals?.total ?? 0,
-                        Assists = topScorer.statistics.First()?.goals?.assists ?? 0,
-                        RedCards = topScorer.statistics.First()?.cards.red ?? 0,
-                        YellowCards = topScorer.statistics.First()?.cards.yellow ?? 0,
-                        Group = MapGroup(topScorer.player.nationality)
-                    };
-                    topScorers.Add(topScorerDb);
+                        existingTopScorer.Name = topScorer.player.name;
+                        existingTopScorer.Goals = topScorer.statistics.First()?.goals?.total ?? 0;
+                        existingTopScorer.Assists = topScorer.statistics.First()?.goals?.assists ?? 0;
+                        existingTopScorer.RedCards = topScorer.statistics.First()?.cards.red ?? 0;
+                        existingTopScorer.YellowCards = topScorer.statistics.First()?.cards.yellow ?? 0;
+                        existingTopScorer.YellowRedCards = topScorer.statistics.First()?.cards.yellowred ?? 0;
+                    }
+                    else
+                    {
+                        var topScorerDb = new TopScorerDb()
+                        {
+                            Name = topScorer.player.name,
+                            Goals = topScorer.statistics.First()?.goals?.total ?? 0,
+                            Assists = topScorer.statistics.First()?.goals?.assists ?? 0,
+                            RedCards = topScorer.statistics.First()?.cards.red ?? 0,
+                            YellowCards = topScorer.statistics.First()?.cards.yellow ?? 0,
+                            YellowRedCards = topScorer.statistics.First()?.cards.yellowred ?? 0,
+                            Group = MapGroup(topScorer.player.nationality),
+                            Team = topScorer.player.nationality,
+                            RapidApiId = topScorer.player.id
+                        };
+                        topScorers.Add(topScorerDb);
+                    }
+
                 }
                 catch (Exception ex)
                 {
