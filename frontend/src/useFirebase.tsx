@@ -3,7 +3,7 @@
 import React, { useContext } from 'react'
 import { getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
-import { UserContext } from './App';
+import { UserContext, UserStatus } from './App';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAw3O-R4E5uB82wl8_3qhUtRzmNoOQ-Fb4",
@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 
-function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) {
+function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>, setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>) {
   const googleProvider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
   const userCtx = useContext(UserContext)
@@ -66,6 +66,17 @@ function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>) 
             // userCtx.isUserSigned
             localStorage.setItem("userToken", data.userToken);
             setAuthMode('profile');
+            // setUserStatus()
+            const userStatus: UserStatus = {
+              userLocalData: {
+                username: "",
+                email: "",
+                fullname: "",
+                id: 0,
+              },
+              isUserSigned: true,
+            };
+            setUserStatus(userStatus);
           });
 
       }).catch((error) => {

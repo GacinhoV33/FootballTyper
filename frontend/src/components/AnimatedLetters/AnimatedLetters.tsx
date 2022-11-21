@@ -3,7 +3,6 @@ import './AnimatedLetters.scss';
 import Loader from 'react-loaders'
 
 export interface AnimatedLettersProps{
-    // letterClass: any,
     strToDisplay: string,
     idx: number,
 }

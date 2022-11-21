@@ -54,15 +54,13 @@ builder.Services.AddAzureClients(clientBuilder =>
 var app = builder.Build();
 app.UseCors();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
+//Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-app.UseSwagger();
-app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -93,26 +91,26 @@ void SetupDatabase(WebApplication app)
 
     using (var db = service.CreateScope().ServiceProvider.GetService<FootballTyperAPIContext>())
     {
-        isCleanAndInitDbNeeded = db.Database.GetPendingMigrations().Any();
+        //isCleanAndInitDbNeeded = db.Database.GetPendingMigrations().Any();
         db.Database.Migrate();
     }
 
-    if (isCleanAndInitDbNeeded)
-    {
-        using (var scope = app.Services.CreateScope())
-        {
-            var services = scope.ServiceProvider;
-            try
-            {
-                var context = services.GetRequiredService<FootballTyperAPIContext>();
-                DbInitializer.CleanDb(context);
-                DbInitializer.Initialize(context);
-            }
-            catch (Exception ex)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred creating the DB.");
-            }
-        }
-    }
+    //if (isCleanAndInitDbNeeded)
+    //{
+    //    using (var scope = app.Services.CreateScope())
+    //    {
+    //        var services = scope.ServiceProvider;
+    //        try
+    //        {
+    //            var context = services.GetRequiredService<FootballTyperAPIContext>();
+    //            DbInitializer.CleanDb(context);
+    //            DbInitializer.Initialize(context);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            var logger = services.GetRequiredService<ILogger<Program>>();
+    //            logger.LogError(ex, "An error occurred creating the DB.");
+    //        }
+    //    }
+    //}
 }

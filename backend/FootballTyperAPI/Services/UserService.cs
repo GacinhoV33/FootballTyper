@@ -103,6 +103,9 @@ public class UserService : IUserService
         user.PasswordHash = BCrypt.HashPassword(model.Password);
 
         user.LeaguesStr = "[\"main\"]";
+        user.PositionStr = "{\"main\":1}";
+        user.RankStatus = "{\"main\":0}";
+
         // save user
         _context.TyperUser.Add(user);
         _context.SaveChanges();
@@ -118,6 +121,8 @@ public class UserService : IUserService
             user.Username = model.Email.Split("@").First();
             user.PasswordHash = "$2a$11$k4t7IrJ2ffsFNK2Sh0/nveZbPPI1/oYgnls.0O9LHcy0hIDt03Ya2";
             user.LeaguesStr = "[\"main\"]";
+            user.PositionStr = "{\"main\":1}";
+            user.RankStatus = "{\"main\":0}";
 
             _context.TyperUser.Add(user);
             _context.SaveChanges();

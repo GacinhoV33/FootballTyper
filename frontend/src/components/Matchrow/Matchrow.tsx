@@ -50,27 +50,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     const mainColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value
     const secondColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).secondColor.value
     const thirdColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).thirdColor.value
-    // const gradString = `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.1), rgba${secondColor.slice(0, -1)}, 0.1)`;
-    // const gradString = `radial-gradient(
-    //     farthest-side at top left,
-    //     rgba${mainColorHome.slice(0, -1)}, 0.4),
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at bottom left,
-    //     rgba${secondColorHome.slice(0, -1)}, 0.4),
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at top right,
-    //     rgba${mainColorAway.slice(0, -1)}, 0.4), 
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at bottom right,
-    //     rgba${secondColorAway.slice(0, -1)}, 0.4), 
-    //     transparent 
-    //   )`
+   
     const buttonOpacity = groupMatch.isMatchValid ? '0' : '1';
     const alpha = 0.4;
     const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, ${alpha}), rgba${secondColorHome.slice(0, -1)}, ${alpha}), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, ${alpha}), rgba${secondColorAway.slice(0, -1)}, ${alpha}), rgba${thirdColorAway.slice(0, -1)}, ${alpha}))`
@@ -130,7 +110,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                         <span style={{ paddingTop: '0', color: textColor, fontSize: '2.5vh', fontWeight: '500' }}>
 
                             {isMobile ?
-                                <span style={{fontSize: '2.2vh'}}>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
+                                <span style={{ fontSize: '2.2vh' }}>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
                                 <span>{groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}</span>
                             }
                         </span>
@@ -160,21 +140,21 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
                         {
-                            !groupMatch.isMatchValid ?
+                            new Date(groupMatch.date) > new Date() ?
                                 <Button
                                     onClick={handleOpen}
                                     variant={isBetExisting ? 'warning' : 'primary'}
-                                    style={isMobile ? { width: '7.5vh', opacity: buttonOpacity, height: '5vh' } : { width: '5.5vh', opacity: buttonOpacity, minWidth: '2.5rem', height: '4vh' }}
+                                    style={isMobile ? { width: '7.5vh', opacity: buttonOpacity, height: '5vh' } : { width: '5.5vh', opacity: buttonOpacity, minWidth: '3.5rem', minHeight: '3.5vh', height: '4vh' }}
                                     disabled={groupMatch.isMatchValid}
                                 >
                                     {isBetExisting ? 'Edit' : 'Bet'}
-                                </Button> :
+                                </Button> : (groupMatch.isMatchValid ?
                                 (
                                     colorIcon === 'lightgreen' ? <BsCheck size={40} style={{ color: colorIcon }} />
                                         : (colorIcon === 'darkgreen' ? <BiCheckDouble size={40} style={{ color: colorIcon }} />
                                             : <ImCross size={30} style={{ color: colorIcon, marginRight: '0.5rem' }} />)
 
-                                )
+                                ) : <div style={isMobile ? {width: '7.5vh', height: '5vh'} :{width: '5.5vh', height: '4vh'}}></div>)
                         }
                     </div>
                 </div>
@@ -214,8 +194,8 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
 export default Matchrow
 
 function getDayFromDate(date: string) {
-    const daysShortcut = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const daysShortcut = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayIndex = new Date(date).getDay();
     return daysShortcut[dayIndex];
 

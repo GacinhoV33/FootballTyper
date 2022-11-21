@@ -14,6 +14,7 @@ namespace FootballTyperAPI.Data
         public DbSet<Match> Matches { get; set; } = default!;
         public DbSet<Team> Teams { get; set; } = default!;
         public DbSet<Bet> Bets { get; set; } = default!;
+        public DbSet<TyperUser> TyperUser { get; set; }
 
         public DbSet<TopScorerDb> TopScorers { get; set; } = default!;
 
@@ -53,10 +54,5 @@ namespace FootballTyperAPI.Data
         {
             return await Bets.Include("Match").Include("Match.HomeTeam").Include("Match.AwayTeam").ToListAsync();
         }
-
-        public DbSet<FootballTyperAPI.Models.TyperUser> TyperUser { get; set; }
-
-        //public DbSet<FootballTyperAPI.Models.RapidApi.TopScorer> TopScorer { get; set; }
-
     }
 }

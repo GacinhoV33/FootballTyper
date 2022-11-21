@@ -62,7 +62,7 @@ import "react-multi-carousel/lib/styles.css";
 import StadiumCard from './StadiumCard';
 import MatchCard, { MatchCardProps } from './MatchCard';
 import { Match } from '../../App'
-import TimeToStartTwo from '../Statistics/TimeToStart';
+import TimeToStart from '../Statistics/TimeToStart';
 import News from './News';
 
 export interface HomepageProps {
@@ -97,7 +97,8 @@ const responsive = {
 };
 
 const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
-  const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
+  // const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
+  const validMatches = allMatches !== null ? allMatches.filter((match) => new Date(match.date) > new Date()) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
   const matchesToDisplay = sortedMatches !== null ? sortedMatches.splice(0, 4) : null;
   const [isAutoPlay, setAutoPlay] = useState<boolean>(true);
@@ -124,9 +125,9 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {matchesToDisplay && matchesToDisplay.length !== 0 && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
                 <div className='match-card-homepage' key={index}>
-                  <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} stadium={match.location}/>
+                  <MatchCard homeTeam={match.homeTeam.name} awayTeam={match.awayTeam.name} date={match.date} key={index} stadium={match.location} group={match.group} />
                   <div className='time-to-start-navbar'>
-                    <TimeToStartTwo date={match.date} whiteColor />
+                    <TimeToStart date={match.date} whiteColor />
                   </div>
                 </div>
               ))
@@ -156,12 +157,10 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
               draggable={true}
               showDots={false}
               responsive={responsive}
-              // ssr={true} // means to render carousel on server-side.
               infinite={true}
               autoPlay={isAutoPlay}
               autoPlaySpeed={5000}
               keyBoardControl={true}
-              // customTransition="all .5"
               transitionDuration={1500}
               containerClass="carousel-container"
               removeArrowOnDeviceType={["tablet", "mobile"]}

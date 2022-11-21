@@ -4,8 +4,6 @@ import Button from 'react-bootstrap/Button';
 import deepcopy from 'deepcopy';
 import { isMobile } from 'react-device-detect';
 
-//@ts-ignore
-
 export type BetFilters = 'All' | 'Correct' | 'Wrong' | 'Group' | 'Knockout' | 'Active' | 'Past';
 const filterTypes: BetFilters[] = ['All', 'Correct', 'Wrong', 'Group', 'Knockout', 'Active', 'Past' ]
 export interface FiltersMyBetsProps {
@@ -121,10 +119,8 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({ activeFilters, setActiveF
           active={activeFilters.indexOf(filterName) !== -1}
           key={filterName}
           onClick={() => handleFilterChange(filterName)}
-          // className='filter-button'
           size={isMobile ? 'sm' : 'lg'}
-          className='filter-button-cus'
-          // className={activeFilters.indexOf(filterName) !== -1 ? 'filter-active filter-button' : 'filter-button'}
+          className={activeFilters.indexOf(filterName) !== -1 ? 'filter-button-cus rank-filter-act ' : 'filter-button-cus'}
         >
           {filterName}
         </Button>

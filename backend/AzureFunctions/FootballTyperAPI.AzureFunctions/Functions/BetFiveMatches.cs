@@ -36,32 +36,39 @@ namespace FootballTyperAPI.AzureFunctions
             var betsList = new List<BetDbSave>();
             UpdateData(Matches, Teams);
             var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => x.BettorUserName == playerUsername).Select(y => y.MatchId);
-            if (Matches.Count() > 0)
+            //foreach (var username in new string[]{"danielgacek97", "User1", "User2"})
+            //foreach (var username in new string[]{"gacek.filip12", "User1", "User2"})
+            foreach (var username in new string[] { "User1", "User2" })
+            //foreach (var username in new string[] { "danielgacek97" })
             {
-                foreach (var match in Matches.Where(x => !matchesWithbetsAlreadyMadeByUser.Contains(x.Id)).Take(5))
+                if (Matches.Count() > 0)
                 {
-                    var awayTeamScoreBet = Random.Shared.Next(0, 3);
-                    var homeTeamScoreBet = Random.Shared.Next(0, 3);
-                    var newBet = new BetDbSave()
+                    foreach (var match in Matches.Where(x => !matchesWithbetsAlreadyMadeByUser.Contains(x.Id)).OrderBy(x => x.MatchNumber).Take(5))
                     {
-                        AwayTeamScoreBet = awayTeamScoreBet,
-                        HomeTeamScoreBet = homeTeamScoreBet,
-                        AwayTeamWin = awayTeamScoreBet > homeTeamScoreBet,
-                        BetDate = DateTime.Now,
-                        BettorUserName = playerUsername,
-                        HomeAwayDrawn = homeTeamScoreBet == awayTeamScoreBet,
-                        HomeTeamWin = homeTeamScoreBet > awayTeamScoreBet,
-                        MatchId = match.Id,
-                        PointsFactor = 1
-                    };
-                    betsList.Add(newBet);
-                    log.LogInformation($"ID of bet: {newBet.Id}. Bet: [{match.AwayTeam.Name}] {newBet.AwayTeamScoreBet} - {newBet.HomeTeamScoreBet} [{match.HomeTeam.Name}]");
+                        var awayTeamScoreBet = Random.Shared.Next(0, 3);
+                        var homeTeamScoreBet = Random.Shared.Next(0, 3);
+                        var newBet = new BetDbSave()
+                        {
+                            AwayTeamScoreBet = awayTeamScoreBet,
+                            HomeTeamScoreBet = homeTeamScoreBet,
+                            AwayTeamWin = awayTeamScoreBet > homeTeamScoreBet,
+                            BetDate = DateTime.Now,
+                            BettorUserName = username, //playerUsername,
+                            HomeAwayDrawn = homeTeamScoreBet == awayTeamScoreBet,
+                            HomeTeamWin = homeTeamScoreBet > awayTeamScoreBet,
+                            MatchId = match.Id,
+                            PointsFactor = 1
+                        };
+                        betsList.Add(newBet);
+                        log.LogInformation($"ID of bet: {newBet.Id}. Bet: [{match.AwayTeam.Name}] {newBet.AwayTeamScoreBet} - {newBet.HomeTeamScoreBet} [{match.HomeTeam.Name}]");
+                    }
+                }
+                else
+                {
+                    log.LogInformation("No matches in Database");
                 }
             }
-            else
-            {
-                log.LogInformation("No matches in Database");
-            }
+
 
             outBets = betsList.ToArray();
             log.LogInformation($"Ending execution of: BetFiveMatches");

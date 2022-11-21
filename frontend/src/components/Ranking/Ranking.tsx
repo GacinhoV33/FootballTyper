@@ -4,11 +4,10 @@ import './Ranking.scss';
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FilterRanking from './FilterRanking';
-import FilterLeauge from './FilterLeague';
+import FilterLeague from './FilterLeague';
 import ListRanking from './ListRanking';
 import { User } from '../../App';
-import deepcopy from 'deepcopy';
-
+  
 export type LeaugeName = {
   leaugeName: string,
   leaugeId: number,
@@ -82,14 +81,15 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
       const groupStageClown: User[] = await (await fetch(API_URL + `api/Score/Groupstage/clownLeague`)).json();
       const knockoutClown: User[] = await (await fetch(API_URL + `api/Score/Knockout/clownLeague`)).json();
       const generalClown: User[] = await (await fetch(API_URL + `api/Score/All/clownLeague`)).json();
-      lastDayMain.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-      groupStageMain.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-      knockoutMain.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-      generalMain.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-      lastDayClown.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-      groupStageClown.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-      knockoutClown.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
-      generalClown.sort((user1, user2) => user2.totalPoints - user1.totalPoints ? user2.totalPoints - user1.totalPoints : user2.totalExactScoreBets - user1.totalExactScoreBets);
+      lastDayMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      groupStageMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      knockoutMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      generalMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      lastDayClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      groupStageClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      knockoutClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      generalClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      
       setLastDayMain(lastDayMain);
       setGroupStageMain(groupStageMain);
       setKnockoutMain(knockoutMain);
@@ -107,7 +107,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <FilterRanking activeFilter={filter} setActiveFilter={setFilter} />
-          <FilterLeauge currentFilter={leagueFilter} setCurrentFilter={setLeagueFilter} />
+          <FilterLeague currentFilter={leagueFilter} setCurrentFilter={setLeagueFilter} />
         </div>
       </div>
 

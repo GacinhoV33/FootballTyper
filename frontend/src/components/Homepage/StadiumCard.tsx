@@ -4,6 +4,7 @@ import Image from 'react-bootstrap/Image';
 import { FaCity } from 'react-icons/fa';
 import { BsPeopleFill, BsFillCalendarCheckFill } from 'react-icons/bs';
 import { RiBuilding3Fill } from 'react-icons/ri'
+import { isMobile } from 'react-device-detect';
 export interface StadiumCardProps {
   photo: string[],
   stadiumName: string,
@@ -51,20 +52,22 @@ const StadiumCard: React.FC<StadiumCardProps> = ({ photo, describtion, stadiumSi
         <div className='info'>
           <div className='row'>
             <div className='stadium-text-city'>
-              <FaCity size={'1.5vw'} />
+              <FaCity className='stadium-icon' />
+
               {stadiumLocation}
             </div>
             <div className='stadium-text-size'>
-              <BsPeopleFill size={'1.5vw'} />{stadiumSize}
+              <BsPeopleFill className='stadium-icon' />
+              {stadiumSize}
             </div>
           </div>
           <div className='row'>
             <div className='opened'>
-              <BsFillCalendarCheckFill size={'1.5vw'} style={{marginRight: '0.5vw'}}/>
+              <BsFillCalendarCheckFill className='stadium-icon' style={{marginRight: '0.5vw'}}/>
               {opened}
             </div>
             <div className='architect'>
-              <RiBuilding3Fill size={'1.5vw'} style={{marginRight: '0.5vw'}}/>
+              <RiBuilding3Fill className='stadium-icon' style={{marginRight: '0.5vw'}}/>
               {architect}
             </div>
           </div>

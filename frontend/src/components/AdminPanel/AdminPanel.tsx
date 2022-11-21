@@ -20,6 +20,7 @@ const AdminPanel = () => {
 
     fetch(apiUrl + path, requestOptions)
       .then((response) => {
+        console.log("response: ", response)
         if (response.ok) {
           return response.json();
         }

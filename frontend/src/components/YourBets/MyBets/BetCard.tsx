@@ -20,6 +20,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
     homeBet: bet.homeTeamScoreBet,
     awayBet: bet.awayTeamScoreBet,
   });
+
   const [currentBet, setCurrentBet] = useState<{
     homeBet: number;
     awayBet: number;
@@ -46,13 +47,13 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
   const points = bet.betResult === 0 ? 0 : (bet.betResult === 1 ? 2 : 4);
-  const pointsFactor = bet.match.stage === 0 ? 1 : 
-  (bet.match.stage === 1 ? 1.5 : 
-    (bet.match.stage === 2 ? 2.0 : 
-      (bet.match.stage === 3 ? 2.5 : 
-        (bet.match.stage === 4 && bet.match.id == 63 ? 3 : 2.5))))
-      
-  function handleSave() {
+  const pointsFactor = bet.match.stage === 0 ? 1 :
+    (bet.match.stage === 1 ? 1.5 :
+      (bet.match.stage === 2 ? 2.0 :
+        (bet.match.stage === 3 ? 2.5 :
+          (bet.match.stage === 4 && bet.match.id == 63 ? 3 : 2.5))))
+
+  async function handleSave() {
     try {
       if (
         currentBet.homeBet < 100 &&
@@ -75,16 +76,16 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           }),
         };
 
-        fetch(
+        const response = await fetch(
           API_URL + `api/Bets/${bet.id}`,
           putRequestOptions
-        )
-          .then((response) => {
-            if (response.ok) {
-              return response;
-            }
-            return Promise.reject(response);
-          });
+        ).then((response) => {
+          if (response.ok) {
+            return response;
+          }
+          return Promise.reject(response);
+        });
+
       }
     } catch (e) {
       console.log(e);
@@ -209,26 +210,14 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 <HiBuildingStorefront size={20} />
                 <span className='bet-card-text'>{bet.match.location}</span>
               </div>
-              <div
-                style={{
-                  gridColumn: "1/4",
-                  display: "flex",
-                  flexDirection: "row",
-                  marginBottom: "1.0rem",
-                }}
-              >
-                <IoPersonSharp size={20} />
-                {/* {bet.match.referee} */}
-                <span className='bet-card-text'>Szymon Marciniak</span>
-              </div>
               <div style={{ gridColumn: "1/4" }}>
-                {bet.betResult !== null ? (
-                  <h4 style={{ textAlign: "center" }}>{points * pointsFactor} points</h4> // Style points TODO
+                {new Date() > new Date(bet.match.date) ? (bet.betResult !== null ?
+                  <h4 style={{ textAlign: "center" }}>{points * pointsFactor} points</h4> : null // Style points TODO
                 ) : (
                   <Button
                     style={{ width: "100%" }}
                     disabled={betDisabled || !afterDeadline}
-                    onClick={handleSave}
+                    onClick={async () => handleSave()}
                     variant={
                       betDisabled || !afterDeadline ? "success" : "primary"
                     }
