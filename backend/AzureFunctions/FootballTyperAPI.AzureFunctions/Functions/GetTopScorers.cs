@@ -134,7 +134,7 @@ namespace Company.Function
 
                 { "England", "Group B"},
                 { "Iran", "Group B"},
-                { "United States", "Group B"},
+                { "USA", "Group B"},
                 { "Wales", "Group B"},
 
                 { "Argentina", "Group C"},
