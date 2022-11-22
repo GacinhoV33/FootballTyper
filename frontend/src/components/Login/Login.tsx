@@ -8,6 +8,7 @@ import GoogleLoginButton from './GoogleLoginButton'
 import FacebookLogin from "./FacebookLogin";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import {useNavigate} from "react-router-dom";
 export interface LoginProps {
   setUserStatus: React.Dispatch<React.SetStateAction<UserStatus>>;
 }
@@ -29,6 +30,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
   const [fullNameModal, setFullNameModal] = useState<string>('');
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
   const modalRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user") as string)
     : "";
@@ -339,6 +341,7 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           });
         });
     }
+    navigate('/')
   }
 
   if (authMode === "signin") {
@@ -365,7 +368,6 @@ const Login: React.FC<LoginProps> = ({ setUserStatus }) => {
           <div style={{ display: 'flex', justifyContent: 'center', margin: '2vh 0' }}>
             <GoogleLoginButton setAuthMode={setAuthMode} setUserStatus={setUserStatus} />
           </div>
-          {/* <FacebookLogin /> */}
           <div className="form-group mt-3">
             <label>Username or email</label>
             <input
