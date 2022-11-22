@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.Models", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.AzureFunctions", "..\AzureFunctions\FootballTyperAPI.AzureFunctions\FootballTyperAPI.AzureFunctions.csproj", "{278726A7-A521-4021-96EE-FE5FF69479BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballTyperAPI.Common", "..\FootballTyperAPI.Common\FootballTyperAPI.Common.csproj", "{E01D5E4C-7267-4413-B5BF-726A7F76413D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.Common", "..\FootballTyperAPI.Common\FootballTyperAPI.Common.csproj", "{E01D5E4C-7267-4413-B5BF-726A7F76413D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

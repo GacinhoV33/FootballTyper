@@ -33,6 +33,7 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: UpdateMatchResults");
+            bool hasDataChanged = false;
 
             UpdateData(Matches, Teams);
 
@@ -50,6 +51,7 @@ namespace FootballTyperAPI.AzureFunctions
                     match.AwayTeamScore = updatedMatch.AwayTeamScore;
                     log.LogInformation($"ID of match played: {match.Id}. " +
                         $"Result: [{match.HomeTeam.Name}] {updatedMatch.HomeTeamScore} - {updatedMatch.AwayTeamScore} [{match.AwayTeam.Name}]");
+                    hasDataChanged = true;
                 }
             }
 
@@ -59,6 +61,10 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Ending execution of: UpdateMatchResults");
             log.LogInformation($"-------------------------------------------------------------------------");
 
+            if (!hasDataChanged)
+            {
+                return new NotFoundObjectResult(new { Ok = true });
+            }
             return new OkObjectResult(new { Ok = true });
         }
 

@@ -39,7 +39,7 @@ namespace FootballTyperAPI.Common
             }
         }
 
-        public static IEnumerable<Match> CalculatePointsForEachTeam(IEnumerable<Match> Matches, ILogger log)
+        public static IEnumerable<Match> CalculatePointsForEachTeam(IEnumerable<Match> Matches, ILogger log, bool hasDataChanded = false)
         {
             var matchesToReturn = new List<Match>();
             foreach (var match in Matches)
@@ -48,6 +48,7 @@ namespace FootballTyperAPI.Common
                 {
                     CalculateResultPointsForTeamByMatch(match, log);
                     matchesToReturn.Add(match);
+                    hasDataChanded = true;
                 }
             }
             return matchesToReturn;
@@ -94,7 +95,7 @@ namespace FootballTyperAPI.Common
             match.MatchProcessedDate = DateTime.Now;
         }
 
-        public static IEnumerable<Bet> CalculatePointsForEachUser(IEnumerable<Bet> Bets, IEnumerable<TyperUser> Users, ILogger log)
+        public static IEnumerable<Bet> CalculatePointsForEachUser(IEnumerable<Bet> Bets, IEnumerable<TyperUser> Users, ILogger log, bool hasDataChanged = false)
         {
             var betsToReturn = new List<Bet>();
             foreach (var bet in Bets)
@@ -105,6 +106,7 @@ namespace FootballTyperAPI.Common
                     {
                         var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
                         CalculateResultPointsForUserByBet(bet, user, log);
+                        hasDataChanged = true;
                     }
                     betsToReturn.Add(bet);
                 }

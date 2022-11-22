@@ -33,9 +33,10 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: UpdateScoreAfterMatch");
+            bool hasDataChanged = false;
 
             UpdateData(Matches, Teams);
-            var matchesToReturn = ScoreHelper.CalculatePointsForEachTeam(Matches, log);
+            var matchesToReturn = ScoreHelper.CalculatePointsForEachTeam(Matches, log, hasDataChanged);
 
             outTeams = Teams.ToArray();
             outMatches = Matches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();
@@ -43,7 +44,11 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Ending execution of: UpdateScoreAfterMatch");
             log.LogInformation($"-------------------------------------------------------------------------");
 
-            return new OkObjectResult(new { Ok = true, Matches = matchesToReturn });
+            if (!hasDataChanged)
+            {
+                return new NotFoundObjectResult(new { Ok = true });
+            }
+            return new OkObjectResult(new { Ok = true});
         }
 
         public static void UpdateData(IEnumerable<Match> Matches, IEnumerable<Team> Teams)
