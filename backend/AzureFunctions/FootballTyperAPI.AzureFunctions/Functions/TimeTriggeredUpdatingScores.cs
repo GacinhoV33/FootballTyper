@@ -17,11 +17,11 @@ namespace FootballTyperAPI.AzureFunctions.Functions
 
             var updateMatchResult = HttpRequestHelper.Get("api/UpdateMatchResults");
             log.LogInformation(updateMatchResult.ToString());
-            if (updateMatchResult.IsSuccessStatusCode || true)
+            if (updateMatchResult.IsSuccessStatusCode)
             {
                 var updateScoreAfterMatchResult = HttpRequestHelper.Get("api/UpdateScoreAfterMatch");
                 log.LogInformation(updateScoreAfterMatchResult.ToString());
-                if (updateScoreAfterMatchResult.IsSuccessStatusCode || true)
+                if (updateScoreAfterMatchResult.IsSuccessStatusCode)
                 {
                     var updateTyperScoresResult = HttpRequestHelper.Get("api/UpdateTyperScores");
                     log.LogInformation(updateTyperScoresResult.ToString());

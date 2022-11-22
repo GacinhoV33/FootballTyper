@@ -21,7 +21,7 @@ namespace FootballTyperAPI.Controllers
             IUserService userService, IMapper mapper)
         {
             _context = context;
-            _userService = userService; 
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -122,7 +122,7 @@ namespace FootballTyperAPI.Controllers
                 var typerUsersApiEmpty = MapTyperUserApiToTyperUser(users);
                 var rankingListEmpty = RankingHelper.CreateRanking(typerUsersApiEmpty, startPos: 1);
                 //return NotFound(new { msg = $"No bets in this league: {league}" });
-                foreach(var user in users)
+                foreach (var user in users)
                 {
                     user.PositionDict = rankingListEmpty.First(x => x.User.Id == user.Id).LeaguePosition;
                 }
@@ -142,7 +142,7 @@ namespace FootballTyperAPI.Controllers
         private IEnumerable<TyperUser> MapTyperUserApiToTyperUser(IEnumerable<TyperUserApi> users)
         {
             var typerUsers = new List<TyperUser>();
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 var newTyperUser = new TyperUser();
                 newTyperUser.RankStatus = JsonSerializer.Serialize(user.RankStatusDict);
@@ -182,5 +182,13 @@ namespace FootballTyperAPI.Controllers
             return Ok(users);
         }
 
+
+        // GET: api/Score/LastUpdate
+        [HttpGet("LastUpdate")]
+        public IActionResult GetLastUpdateDate()
+        {
+            var lastUpdateDate = _context.Bets.Max(x => x.BetProcessedDate);
+            return Ok(lastUpdateDate);
+        }
     }
 }
