@@ -30,4 +30,4 @@ export interface FilterRankingProps {
 }
 
 const filterTypes: RankingFilters[] = ['general', 'lastDay', 'groupStage', 'knockoutStage']
-const filterNames: string[] = ['General', 'Last Day', 'Group', 'Knockout']
+const filterNames: string[] = ['General', 'Today', 'Group', 'Knockout']

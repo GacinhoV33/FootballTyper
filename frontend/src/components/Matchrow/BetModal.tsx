@@ -7,6 +7,8 @@ import "./BetModal.scss";
 import { Bet } from "../YourBets/MyBets/MyBets";
 import CountryDict from "../YourBets/MyBets/CountryDict";
 import { isMobile } from "react-device-detect";
+import Alert from 'react-bootstrap/Alert';
+import styled, { keyframes } from "styled-components";
 export interface BetModalProps {
   showBet: boolean;
   handleClose: () => void;
@@ -38,7 +40,7 @@ const BetModal: React.FC<BetModalProps> = ({
   const input1 = useRef<HTMLInputElement | null>(null);
   const input2 = useRef<HTMLInputElement | null>(null);
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
-
+  const [showAlert, setShowAlert] = useState<boolean>(false);
   function handleSubmit() {
     if (input1.current?.value !== '' && input2.current?.value !== '') {
       if (userBets) {
@@ -89,10 +91,18 @@ const BetModal: React.FC<BetModalProps> = ({
         });
       }
       handleClose();
+      setShowAlert(false)
       setAlert(true);
       setTimeout(() => {
         setAlert(false);
+        
       }, 3000);
+    } else{
+      setShowAlert(true)
+      setTimeout(() => {
+        setShowAlert(false);
+        
+      }, 5000);
     }
   }
   const currentBet = userBets ? userBets.filter((bet) => bet.matchId === groupMatch.id) : [];
@@ -167,9 +177,42 @@ const BetModal: React.FC<BetModalProps> = ({
         <Button style={{ width: "8rem" }} size="sm" onClick={handleSubmit}>
           Submit
         </Button>
+
+        {showAlert ?   <AlertAnimation >
+                    <Alert variant='danger'>
+                        <Alert.Heading>Error!</Alert.Heading>
+                        Fill All Inputs
+                    </Alert>
+                </AlertAnimation> : null}
       </div>
     </Modal>
   );
 };
 
 export default BetModal;
+
+const alertAnimation = keyframes`
+from{
+    opacity: 1;
+    transform: translateY(-10px);
+}
+to{
+    opacity: 0.0;
+    transform: translateY(0px);
+}
+`
+const AlertAnimation = isMobile ? styled.div`
+animation-name: ${alertAnimation};
+animation-duration: 5s;
+width: 70%;
+height: 7vh;
+position: fixed;
+top: 10vh;
+` : styled.div`
+animation-name: ${alertAnimation};
+animation-duration: 5s;
+width: 15%;
+height: 8vh;
+position: fixed;
+top: 9vh;
+`
