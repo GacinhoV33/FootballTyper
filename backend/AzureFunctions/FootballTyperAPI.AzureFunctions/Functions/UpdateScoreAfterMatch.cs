@@ -36,7 +36,7 @@ namespace FootballTyperAPI.AzureFunctions
             bool hasDataChanged = false;
 
             UpdateData(Matches, Teams);
-            var matchesToReturn = ScoreHelper.CalculatePointsForEachTeam(Matches, log, hasDataChanged);
+            var matchesToReturn = ScoreHelper.CalculatePointsForEachTeam(Matches, log, ref hasDataChanged);
 
             outTeams = Teams.ToArray();
             outMatches = Matches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();
