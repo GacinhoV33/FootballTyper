@@ -1,5 +1,4 @@
 using FootballTyperAPI.Common;
-using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,12 +37,13 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: UpdateTyperScores");
+            bool hasDataChanged = false;
 
             var prevRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null), 1);
             RankingHelper.UpdateRankStatus(Users.Where(x => x.LeaguesStr != null), prevRanking, prevRanking);
 
             UpdateData(Bets, Matches);
-            var betsToReturn = ScoreHelper.CalculatePointsForEachUser(Bets, Users, log);
+            var betsToReturn = ScoreHelper.CalculatePointsForEachUser(Bets, Users, log, hasDataChanged);
             ScoreHelper.UpdateLastFiveUserBets(Bets, Users);
 
             var updatedRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null), 1);
@@ -55,7 +55,11 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Ending execution of: UpdateTyperScores");
             log.LogInformation($"-------------------------------------------------------------------------");
 
-            return new OkObjectResult(new { Ok = true});
+            if (!hasDataChanged)
+            {
+                return new NotFoundObjectResult(new { Ok = true });
+            }
+            return new OkObjectResult(new { Ok = true });
         }
 
 

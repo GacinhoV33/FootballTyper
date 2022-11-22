@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Company.Function
 {
@@ -26,8 +27,13 @@ namespace Company.Function
                 ConnectionStringSetting = "SqlConnectionString")] out TopScorerDb[] outTopScorer,
             ILogger log)
         {
+            log.LogInformation($"-------------------------------------------------------------------------");
+            log.LogInformation($"Execution date: {DateTime.Now}");
+            log.LogInformation($"Starting execution of: GetTopScorers");
+            bool hasDataChanged = false;
+
             var topScorersRapidApi = new List<TopScorer>();
-            var topScorers = new List<TopScorerDb>();
+            var topScorers = TopScorers.ToList();
 
             var client = new HttpClient();
 
@@ -57,6 +63,7 @@ namespace Company.Function
 
                         totalPages = topScorersResponse.paging.total;
                         topScorersRapidApi.AddRange(topScorersResponse.response.ToList());
+                        Task.Delay(500).Wait();
 
                         //response.EnsureSuccessStatusCode();
                         //var body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
@@ -64,7 +71,8 @@ namespace Company.Function
                     }
                     catch (Exception ex)
                     {
-                        break;
+                        //break;
+                        var nex = ex;
                     }
                 }
 
@@ -84,7 +92,11 @@ namespace Company.Function
             {
                 try
                 {
-                    var existingTopScorer = TopScorers.FirstOrDefault(x => x.RapidApiId == topScorer.player.id);
+                    if (topScorer.statistics.First()?.goals?.total != null && topScorer.statistics.First()?.goals?.total != 0)
+                    {
+                        var hello = 1;
+                    }
+                    var existingTopScorer = topScorers.FirstOrDefault(x => x.RapidApiId == topScorer.player.id);
                     if (existingTopScorer != null)
                     {
                         existingTopScorer.Name = topScorer.player.name;
@@ -93,6 +105,7 @@ namespace Company.Function
                         existingTopScorer.RedCards = topScorer.statistics.First()?.cards.red ?? 0;
                         existingTopScorer.YellowCards = topScorer.statistics.First()?.cards.yellow ?? 0;
                         existingTopScorer.YellowRedCards = topScorer.statistics.First()?.cards.yellowred ?? 0;
+                        hasDataChanged = true;
                     }
                     else
                     {
@@ -109,18 +122,25 @@ namespace Company.Function
                             RapidApiId = topScorer.player.id
                         };
                         topScorers.Add(topScorerDb);
+                        hasDataChanged = true;
                     }
 
                 }
                 catch (Exception ex)
                 {
-
+                    var nex = ex;
                 }
             }
 
-
             outTopScorer = topScorers.ToArray();
 
+            log.LogInformation($"Ending execution of: GetTopScorers");
+            log.LogInformation($"-------------------------------------------------------------------------");
+
+            if (!hasDataChanged)
+            {
+                return new NotFoundObjectResult(new { Ok = true });
+            }
             return new OkObjectResult(new { Ok = true });
         }
 
@@ -165,7 +185,7 @@ namespace Company.Function
                 { "Portugal", "Group H"},
                 { "Ghana", "Group H"},
                 { "Uruguay", "Group H"},
-                { "South Korea", "Group H"},
+                { "Korea Republic", "Group H"},
 
             };
 
