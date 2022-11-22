@@ -16,7 +16,7 @@ namespace FootballTyperAPI.AzureFunctions
 
         [FunctionName("UpdateTyperScores")]
         public static IActionResult Run(
-                [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UpdateTyperScores")] HttpRequest req,
+                [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "UpdateTyperScores")] HttpRequest req,
                 [Sql("SELECT * FROM [dbo].[Bets]",
                     CommandType = System.Data.CommandType.Text,
                     ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets,

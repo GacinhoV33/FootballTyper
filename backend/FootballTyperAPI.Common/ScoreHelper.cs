@@ -105,10 +105,17 @@ namespace FootballTyperAPI.Common
                     if (bet.Match.IsMatchValid)
                     {
                         var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
-                        CalculateResultPointsForUserByBet(bet, user, log);
-                        hasDataChanged = true;
+                        if(user != null)
+                        {
+                            CalculateResultPointsForUserByBet(bet, user, log);
+                            hasDataChanged = true;
+                            betsToReturn.Add(bet);
+                        }
+                        else
+                        {
+                            log.LogError($"User not found for bet ID: {bet.Id}. BettorUserName: {bet.BettorUserName}");
+                        }
                     }
-                    betsToReturn.Add(bet);
                 }
             }
             return betsToReturn;
@@ -121,7 +128,14 @@ namespace FootballTyperAPI.Common
                 if (bet.Match.IsMatchValid && bet.IsBetProcessed)
                 {
                     var user = Users.FirstOrDefault(x => x.Username == bet.BettorUserName);
-                    CalculateResultPointsForUserByBet(bet, user);
+                    if (user != null)
+                    {
+                        CalculateResultPointsForUserByBet(bet, user);
+                    }
+                    else
+                    {
+                        Console.WriteLine("User not found for bet ID: {bet.Id}. BettorUserName: {bet.BettorUserName}");
+                    }
                 }
             }
         }
