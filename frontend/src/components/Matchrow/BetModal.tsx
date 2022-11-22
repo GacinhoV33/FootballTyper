@@ -181,7 +181,7 @@ const BetModal: React.FC<BetModalProps> = ({
         {showAlert ?   <AlertAnimation >
                     <Alert variant='danger'>
                         <Alert.Heading>Error!</Alert.Heading>
-                        Fill All Inputs
+                        Fill the scores of both teams
                     </Alert>
                 </AlertAnimation> : null}
       </div>
