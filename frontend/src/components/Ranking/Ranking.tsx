@@ -32,7 +32,8 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   const [groupStageClown, setGroupStageClown] = useState<User[]>([]);
   const [knockoutClown, setKnockoutClown] = useState<User[]>([]);
   const [generalClown, setGeneralClown] = useState<User[]>([]);
-  
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
   useEffect(() => {
     if(leagueFilter === 'main'){
       switch(filter){
@@ -71,7 +72,6 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
 
       const lastDayMain: User[] = await (await fetch(API_URL+ `api/Score/LastDay/main`)).json();
       const groupStageMain: User[] = await (await fetch(API_URL + `api/Score/Groupstage/main`)).json();
@@ -102,6 +102,8 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
     }
     fetchData();
   }, [])
+
+  
   return (
     <div className='ranking-main-body'>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -110,7 +112,7 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
           <FilterLeague currentFilter={leagueFilter} setCurrentFilter={setLeagueFilter} />
         </div>
       </div>
-
+     
       <div className='list-ranking'>
         <ListRanking allUsers={usersToDisplay} league={leagueFilter} filter={filter}/>
       </div>

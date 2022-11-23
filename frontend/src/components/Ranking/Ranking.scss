@@ -6,7 +6,15 @@
 
 .list-ranking {
     display: flex;
-    width: 75%
+    width: 75%;
+  
+}
+
+.last-update-score{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
+
 }
 
 @media (max-width: 900px){

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './ListRanking.scss';
 import Avatar from '@mui/material/Avatar';
 import { User } from '../../App';
@@ -16,6 +16,7 @@ import { MdOutlineHorizontalRule } from 'react-icons/md';
 import avatar1 from './avatar1.jpg';
 import avatar2 from './avatar2.png';
 import { RankingFilters } from './Ranking';
+import { isMobile } from 'react-device-detect';
 
 export interface ListRankingProps {
     league: string,
@@ -25,8 +26,24 @@ export interface ListRankingProps {
 
 const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) => {
     const userCtx = useContext(UserContext);
+    const [update, setUpdate] = useState<null | Date>(null);
+    const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
+    useEffect(() => {
+        const getUpdate = async () => {
+            const lastUpdate = await (await fetch(API_URL + `api/Score/LastUpdate`)).json();
+            setUpdate(new Date(lastUpdate));
+        }
+        getUpdate()
+    }, [])
     return (
         <div className='ranking-table'>
+            {update ?
+                <div className='last-update-score'>
+                    Last score update - {update.toDateString()} {(update.toTimeString()).slice(0, -37)}
+                </div>
+                : null
+            }
             <Table striped>
                 <thead className='table-main'>
                     <tr>
@@ -78,7 +95,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
                             }
                             placement='top-start'
                         >
-                            <th style={{ textAlign: 'center' }}>
+                            <th style={isMobile ? { textAlign: 'center', minWidth: '25vw' } : { textAlign: 'center' }}>
                                 Form
                             </th>
                         </OverlayTrigger>
@@ -105,10 +122,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
                                 <td> {positionDict[leagueName] === 1 ? <FaCrown style={{ color: 'orange', alignItems: 'center', height: '2.2vh', width: '2.2vh', padding: '0 0 !important' }} /> : null}</td>
 
                                 <td>
-
-
                                     <Avatar style={{ height: '4vh', width: '4vh', float: 'left', marginRight: '0.9vw' }} src={imgLink ? imgLink : undefined} alt={username} />
-
                                     <span style={userCtx.userLocalData?.username === username ? { fontWeight: '700', fontSize: '2.5vh' } : { fontSize: '2.5vh' }}>{fullName}</span>
                                 </td>
 
@@ -122,11 +136,11 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
                                             lastFiveBets?.split(',').map(Number).map((userBet, index) => {
                                                 switch (userBet) {
                                                     case 0:
-                                                        return <ImCross style={{ color: 'red', margin: '0 0.5vw', width: '1.25vw', height: '1.25vw' }} key={index} />
+                                                        return <ImCross style={isMobile ? { color: 'red', margin: '0 0.5vw', width: '2.25vw', height: '2.25vw' } : { color: 'red', margin: '0 0.5vw', width: '1.25vw', height: '1.25vw' }} key={index} />
                                                     case 1:
-                                                        return <BsCheck style={{ color: 'lightgreen', width: '2.25vw', height: '2.25vw' }} key={index} />
+                                                        return <BsCheck style={isMobile ? { color: 'lightgreen', width: '4vw', height: '4vw' } : { color: 'lightgreen', width: '2.25vw', height: '2.25vw' }} key={index} />
                                                     case 2:
-                                                        return <BiCheckDouble style={{ color: 'green', width: '2.25vw', height: '2.25vw' }} key={index} />
+                                                        return <BiCheckDouble style={isMobile ? { color: 'green', width: '4vw', height: '4vw' } : { color: 'green', width: '2.25vw', height: '2.25vw' }} key={index} />
                                                 }
                                             })
                                             : null
