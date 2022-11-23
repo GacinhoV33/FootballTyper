@@ -18,7 +18,7 @@ namespace Company.Function
     {
         [FunctionName("GetTopScorers")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "GetTopScorers")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "GetTopScorers")] HttpRequest req,
             [Sql("SELECT * FROM [dbo].[TopScorers]",
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] IEnumerable<TopScorerDb> TopScorers,

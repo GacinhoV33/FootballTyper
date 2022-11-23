@@ -15,7 +15,7 @@ namespace FootballTyperAPI.AzureFunctions
     {
         [FunctionName("UpdateScoreAfterMatch")]
         public static IActionResult Run(
-                [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UpdateScoreAfterMatch")] HttpRequest req,
+                [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "UpdateScoreAfterMatch")] HttpRequest req,
                 [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL AND IsMatchProcessed != 1",
                     CommandType = System.Data.CommandType.Text,
                     ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
@@ -36,7 +36,7 @@ namespace FootballTyperAPI.AzureFunctions
             bool hasDataChanged = false;
 
             UpdateData(Matches, Teams);
-            var matchesToReturn = ScoreHelper.CalculatePointsForEachTeam(Matches, log, hasDataChanged);
+            var matchesToReturn = ScoreHelper.CalculatePointsForEachTeam(Matches, log, ref hasDataChanged);
 
             outTeams = Teams.ToArray();
             outMatches = Matches.Select(x => Mappers.MapMatchDbSave(x)).ToArray();

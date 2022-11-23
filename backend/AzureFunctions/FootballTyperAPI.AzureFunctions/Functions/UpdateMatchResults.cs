@@ -15,7 +15,7 @@ namespace FootballTyperAPI.AzureFunctions
     {
         [FunctionName("UpdateMatchResults")]
         public static IActionResult Run(
-                [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UpdateMatchResults")] HttpRequest req,
+                [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "UpdateMatchResults")] HttpRequest req,
                 [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL AND IsMatchProcessed != 1",
                     CommandType = System.Data.CommandType.Text,
                     ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,

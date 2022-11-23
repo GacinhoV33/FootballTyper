@@ -16,7 +16,7 @@ namespace FootballTyperAPI.AzureFunctions
 
         [FunctionName("UpdateTyperScores")]
         public static IActionResult Run(
-                [HttpTrigger(AuthorizationLevel.Function, "get", Route = "UpdateTyperScores")] HttpRequest req,
+                [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "UpdateTyperScores")] HttpRequest req,
                 [Sql("SELECT * FROM [dbo].[Bets]",
                     CommandType = System.Data.CommandType.Text,
                     ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Bet> Bets,
@@ -43,11 +43,18 @@ namespace FootballTyperAPI.AzureFunctions
             RankingHelper.UpdateRankStatus(Users.Where(x => x.LeaguesStr != null), prevRanking, prevRanking);
 
             UpdateData(Bets, Matches);
-            var betsToReturn = ScoreHelper.CalculatePointsForEachUser(Bets, Users, log, hasDataChanged);
-            ScoreHelper.UpdateLastFiveUserBets(Bets, Users);
+            var betsToReturn = ScoreHelper.CalculatePointsForEachUser(Bets, Users, log, ref hasDataChanged);
+            if (hasDataChanged)
+            {
+                ScoreHelper.UpdateLastFiveUserBets(Bets, Users);
 
-            var updatedRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null), 1);
-            RankingHelper.UpdateRankStatus(Users.Where(x => x.LeaguesStr != null), prevRanking, updatedRanking);
+                var updatedRanking = RankingHelper.CreateRanking(Users.Where(x => x.LeaguesStr != null), 1);
+                RankingHelper.UpdateRankStatus(Users.Where(x => x.LeaguesStr != null), prevRanking, updatedRanking);
+            }
+            else
+            {
+                log.LogInformation($"No new bets processed. No new user points. Data has not been changed.");
+            }
 
             outUsers = Users.ToArray();
             outBets = Bets.Select(x => Mappers.MapBet(x)).ToArray();

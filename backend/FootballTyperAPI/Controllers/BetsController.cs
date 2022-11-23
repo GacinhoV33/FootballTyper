@@ -70,6 +70,11 @@ namespace FootballTyperAPI.Controllers
                 }
             }
 
+            if (_context.TyperUser.FirstOrDefault(x => x.Username == bet.BettorUserName) == null)
+            {
+                return BadRequest(new { msg = $"Cannot add a bet. No player with BettorUserName: {bet.BettorUserName}" });
+            }
+
             _mapper.Map(betModel, bet);
             _context.Entry(bet).State = EntityState.Modified;
 
@@ -106,6 +111,11 @@ namespace FootballTyperAPI.Controllers
                 {
                     return BadRequest(new { msg = "Cannot add a bet after a match has been played" });
                 }
+            }
+
+            if (_context.TyperUser.FirstOrDefault(x => x.Username == bet.BettorUserName) == null)
+            {
+                return BadRequest(new { msg = $"Cannot add a bet. No player with BettorUserName: {bet.BettorUserName}" });
             }
             await _context.SaveChangesAsync();
 
