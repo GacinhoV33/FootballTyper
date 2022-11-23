@@ -67,10 +67,10 @@ function useFirebase(setAuthMode: React.Dispatch<React.SetStateAction<string>>, 
             setAuthMode('profile');
             const userStatus: UserStatus = {
               userLocalData: {
-                username: "",
-                email: "",
-                fullname: "",
-                id: 0,
+                username: data.user.username,
+                email: data.user.email,
+                id: data.user.id ,
+                fullname: data.user.fullName,
               },
               isUserSigned: true,
             };
