@@ -12,9 +12,9 @@
     min-width: 250px;
 }
 
-.text-date-match{
-    text-align: center; 
-    font-size: 2.7vh; 
+.text-date-match {
+    text-align: center;
+    font-size: 2.7vh;
     color: #EEE;
     display: grid;
     grid-template-columns: repeat(12, fr);
@@ -31,14 +31,15 @@
     .match-card {
         width: 90vw;
     }
-    .team{
+
+    .team {
         font-size: 1.6vh;
     }
 
-    .text-date-match{
-        font-size: 1.5vh; 
+    .text-date-match {
+        font-size: 1.5vh;
     }
-    
+
 }
 
 .right-team {
@@ -71,19 +72,21 @@
 .flag-matchcard {
     width: 2.25vw;
     height: 2.25vw;
-    min-height: 35px;
-    min-width: 35px;
+    min-height: 30px;
+    min-width: 30px;
 }
 
-.homepage-button-container{
+.homepage-button-container {
     grid-column: 12/13;
     padding-right: 1.5vw;
-    .homepage-button-bet{
+
+    .homepage-button-bet {
         width: 4vw;
         height: 3.8vh;
+        min-height: 30px;
         margin-left: 1vw;
         // align-items: flex-end;
-        text-align: middle;
+        
     }
 }
 
@@ -92,12 +95,13 @@
     .flag-matchcard {
         margin: 0 2vw;
     }
-    .homepage-button-container{
-        .homepage-button-bet{
+
+    .homepage-button-container {
+        .homepage-button-bet {
             font-size: 1.5vh;
             height: 3.8vh;
             width: 11vw;
         }
     }
-    
+
 }

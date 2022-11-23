@@ -99,7 +99,6 @@ const responsive = {
 };
 
 const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
-  // const validMatches = allMatches !== null ? allMatches.filter((match) => !match.isMatchValid) : null;
   const validMatches = allMatches !== null ? allMatches.filter((match) => new Date(match.date) > new Date()) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
   const matchesToDisplay = sortedMatches !== null ? sortedMatches.splice(0, 4) : null;
