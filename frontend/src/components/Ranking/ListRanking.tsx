@@ -40,7 +40,7 @@ const ListRanking: React.FC<ListRankingProps> = ({ allUsers, league, filter }) =
         <div className='ranking-table'>
             {update ?
                 <div className='last-update-score'>
-                    Last score update - {update.toDateString()} {(update.toTimeString()).slice(0, -37)}
+                    LAST UPDATE - {update.toLocaleString()}
                 </div>
                 : null
             }
