@@ -1,0 +1,25 @@
+    
+.dropdown-rank-button{
+    width: 10vw;
+}
+
+.dropdown-rank-menu{
+    width: 100%;
+    padding: 0 2.5%;
+    :last-child{
+        margin-bottom: 1vh;
+    }
+}
+
+.dropdown-rank-item{
+    width: 90%;
+    
+    border-bottom: 1px solid #555;
+}
+
+@media (max-width: 900px){
+    
+    .dropdown-rank-button{
+        width: 20vw;
+    }
+}

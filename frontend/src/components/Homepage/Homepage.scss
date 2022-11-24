@@ -1,44 +1,105 @@
-.homepage-main{
-    // background-color: #34568B;
-    background-image: url('./background.jfif');
-    height: 160vh;
+.homepage-main {
+    background-image: url('./images/background.jfif');
+    height: 150vh;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(10, 10fr);
-    grid-template-rows: repeat(10, 10fr) ;
+    grid-template-rows: repeat(10, 10fr);
     padding-top: 1rem;
     padding-left: 2vw;
-    .flags{
+
+    .flags {
         grid-column: 1/11;
         grid-row: 1/2;
         flex-direction: row;
         width: 100%;
         justify-content: center;
-        .flag{
-            padding: 0 0.5%;
+
+        .flag {
+            padding: 0 0.5vh;
             width: 3%;
             min-width: 40px;
+            max-height: 5vh;
         }
     }
-    
-    .content-body{
-        grid-column: 1/9;
+
+    .content-body {
+        grid-column: 1/11;
         grid-row: 2/3;
         justify-content: center;
         display: flex;
         flex-direction: column;
-        .welcome-text{
+
+        .welcome-text {
+            gap: 1vw;
             font-weight: 800;
-            font-size: 2.2vw;
+            font-size: 3.75vh;
+            color: #EEE;
+            display: flex;
+            justify-content: center;
+            margin: 2vh 0;
+            align-items: center;
         }
+        @media (max-width: 900px){
+            .welcome-text{
+                font-size: 1.5vh;
+            }
+        }
+
+        .ball-text {
+            font-size: 5vh;
+            color: #DDD;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .match-card-homepage{
+            display: flex;
+            align-items: center; 
+        }
+        @media (max-width: 900px){
+            .time-to-start-navbar{
+                display: none;
+            }
+
+            .ball-video{
+                display: none;
+            }
+
+        }
+        
+        .soon-matches{
+            color: #EEE; 
+            text-align: center;
+        }
+        @media (min-width: 900px){
+            .soon-matches{
+                display: none;
+            }
+        }
+        .current-matches {
+            display: flex;
+            flex-direction: row;
+            width: 60%;
+            justify-content: center;
+
+           
+        }
+
+        .iframe-styling {
+            width: 30vw;
+            height: 35vh;
+        }
+       
+       
     }
-
-   
-
 }
 
-.current-matches{
-    display: flex;
-    flex-direction: row;
-    width: 70%;
+@media (max-width: 900px){
+    .homepage-main{
+        height: 145vh;
+    }
+    
 }

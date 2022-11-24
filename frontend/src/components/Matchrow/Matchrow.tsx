@@ -8,12 +8,14 @@ import styled, { keyframes } from "styled-components";
 import { Bet } from '../YourBets/MyBets/MyBets';
 import { Match } from '../../App';
 import CountryDict from '../YourBets/MyBets/CountryDict';
+import CountryDictShortcuts from '../YourBets/CountryDictShortcuts';
 import countriesColors from '../AnimatedLetters/CountriesColors';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import { BsCheck, BsCheckCircle } from 'react-icons/bs';
 import { ImCross } from 'react-icons/im';
 import { BiCheckDouble } from 'react-icons/bi';
+import { isMobile } from 'react-device-detect';
 export interface MatchrowProps {
     groupMatch: Match,
     chosenCountries: { homeCountry: string, awayCountry: string },
@@ -48,27 +50,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     const mainColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).mainColor.value
     const secondColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).secondColor.value
     const thirdColorAway = JSON.parse(countriesColors.get(groupMatch.awayTeam.name as string) as string).thirdColor.value
-    // const gradString = `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.1), rgba${secondColor.slice(0, -1)}, 0.1)`;
-    // const gradString = `radial-gradient(
-    //     farthest-side at top left,
-    //     rgba${mainColorHome.slice(0, -1)}, 0.4),
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at bottom left,
-    //     rgba${secondColorHome.slice(0, -1)}, 0.4),
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at top right,
-    //     rgba${mainColorAway.slice(0, -1)}, 0.4), 
-    //     transparent
-    //   ),
-    //   radial-gradient(
-    //     farthest-corner at bottom right,
-    //     rgba${secondColorAway.slice(0, -1)}, 0.4), 
-    //     transparent 
-    //   )`
+   
     const buttonOpacity = groupMatch.isMatchValid ? '0' : '1';
     const alpha = 0.4;
     const gradString = `linear-gradient(to right, rgba${mainColorHome.slice(0, -1)}, ${alpha}), rgba${secondColorHome.slice(0, -1)}, ${alpha}), rgba${thirdColorHome.slice(0, -1)}, 0.2), rgba${mainColorAway.slice(0, -1)}, ${alpha}), rgba${secondColorAway.slice(0, -1)}, ${alpha}), rgba${thirdColorAway.slice(0, -1)}, ${alpha}))`
@@ -94,23 +76,13 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
     return (
         <>
             <div className='match-body' onClick={() => setChosenCountries({ homeCountry: groupMatch.homeTeam.name, awayCountry: groupMatch.awayTeam.name })}>
-                <div style={{
-                    height: '4.5rem',
-                    width: '98%',
-                    border: '2px solid #CCCCCC',
-                    borderRadius: '5px',
-                    boxShadow: '#222342',
-                    padding: '0.75rem',
-                    margin: '0.5rem',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    minWidth: '540px',
-                    backgroundImage: gradString,
-                }}>
+                <div
+                    className='match-content'
+                    style={{
+                        backgroundImage: gradString,
+                    }}>
                     <div style={{ flex: '1' }}>
-                        <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} height='40px' />
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.homeTeam.name) as string} className='flag-matchrow' />
                     </div>
                     <div style={{ flex: '1', textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
                         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -121,27 +93,33 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                         This is your {groupMatch.homeTeam.name} bet.
                                     </Tooltip>
                                 }>
-                                {isBetExisting ? <p style={{ margin: '0px !important', color: textColor }}> ({isBetNew[0]?.homeTeamScoreBet})</p> : <p></p>}
+                                {isBetExisting ? <p style={{ padding: '0 0.3vw', color: textColor }}> ({isBetNew[0]?.homeTeamScoreBet})</p> : <p></p>}
                             </OverlayTrigger>
                             {
                                 groupMatch.homeTeamScore === -1 ?
-                                    <h3 style={{ color: textColor }}>?</h3> :
-                                    <h3 style={{ color: textColor }}>{groupMatch.homeTeamScore}</h3>
+                                    <span style={{ color: textColor, fontSize: '3.5vh' }}>?</span> :
+                                    <span style={{ color: textColor, fontSize: '3.5vh' }}>{groupMatch.homeTeamScore}</span>
                             }
                         </div>
 
                     </div>
                     <div style={{ flex: '6', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-                        <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '11px',  color: textColor }}>
+                        <p style={{ marginLeft: '0', marginBottom: '0 ', fontSize: '1.1vh', color: textColor }}>
                             {date} {day} {hour.slice(0, 5)}
                         </p>
-                        <h4 style={{ paddingTop: '0',  color: textColor }}>
-                            {groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}
-                        </h4>
+                        <span style={{ paddingTop: '0', color: textColor, fontSize: '2.5vh', fontWeight: '500' }}>
+
+                            {isMobile ?
+                                <span style={{ fontSize: '2.2vh' }}>{CountryDictShortcuts.get(groupMatch.homeTeam.name)} - {CountryDictShortcuts.get(groupMatch.awayTeam.name)} </span> :
+                                <span>{groupMatch.homeTeam.name} - {groupMatch.awayTeam.name}</span>
+                            }
+                        </span>
                     </div>
                     <div style={{ flex: '1' }}>
                         <div style={{ display: 'flex' }}>
-                            {groupMatch.awayTeamScore === -1 ? <h3 style={{ color: textColor}}>?</h3> : <h3 style={{ color: textColor}}>{groupMatch.awayTeamScore}</h3>}
+                            {groupMatch.awayTeamScore === -1
+                                ? <span style={{ color: textColor, fontSize: '3.5vh' }}>?</span>
+                                : <span style={{ color: textColor, fontSize: '3.5vh' }}>{groupMatch.awayTeamScore}</span>}
                             <OverlayTrigger
                                 placement='top'
                                 overlay={
@@ -149,7 +127,7 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                                         This is your {groupMatch.awayTeam.name} bet.
                                     </Tooltip>
                                 }>
-                                {isBetExisting ? <p style={{ margin: '0px !important', color: textColor}}>({isBetNew[0]?.awayTeamScoreBet})</p> : <p></p>}
+                                {isBetExisting ? <p style={{ padding: '0 0.3vw', color: textColor }}>({isBetNew[0]?.awayTeamScoreBet})</p> : <p></p>}
                             </OverlayTrigger>
 
                         </div>
@@ -157,29 +135,30 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
                     </div>
 
                     <div style={{ flex: '1', display: 'flex', justifyContent: 'right' }}>
-                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} height='40px' style={{ boxShadow: '8px rgba(10, 5, 10, 0.8)' }} />
+                        <CircleFlag countryCode={CountryDict.get(groupMatch.awayTeam.name) as string} className='flag-matchrow' />
                     </div>
 
                     <div style={{ flexGrow: '1', textAlign: 'right' }}>
                         {
-                            !groupMatch.isMatchValid ?
+                            new Date(groupMatch.date) > new Date() ?
                                 <Button
                                     onClick={handleOpen}
                                     variant={isBetExisting ? 'warning' : 'primary'}
-                                    style={{ width: '3.5rem', opacity: buttonOpacity }}
+                                    style={isMobile ? { width: '7.5vh', opacity: buttonOpacity, height: '5vh'} : { width: '5.5vh', opacity: buttonOpacity, minWidth: '3.5rem', minHeight: '30px', height: '4vh' }}
                                     disabled={groupMatch.isMatchValid}
                                 >
                                     {isBetExisting ? 'Edit' : 'Bet'}
-                                </Button> :
+                                </Button> : (groupMatch.isMatchValid ?
                                 (
                                     colorIcon === 'lightgreen' ? <BsCheck size={40} style={{ color: colorIcon }} />
                                         : (colorIcon === 'darkgreen' ? <BiCheckDouble size={40} style={{ color: colorIcon }} />
                                             : <ImCross size={30} style={{ color: colorIcon, marginRight: '0.5rem' }} />)
 
-                                )
+                                ) : <div style={isMobile ? {width: '7.5vh', height: '5vh'} :{width: '5.5vh', height: '4vh'}}></div>)
                         }
                     </div>
                 </div>
+
             </div>
             {showBet && <BetModal
                 showBet={showBet}
@@ -216,8 +195,8 @@ const Matchrow: React.FC<MatchrowProps> = ({ groupMatch, chosenCountries, setCho
 export default Matchrow
 
 function getDayFromDate(date: string) {
-    const daysShortcut = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const daysShortcut = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayIndex = new Date(date).getDay();
     return daysShortcut[dayIndex];
 
@@ -235,7 +214,15 @@ to{
     transform: translateY(0px);
 }
 `
-const AlertAnimation = styled.div`
+const AlertAnimation = isMobile ? styled.div`
+animation-name: ${alertAnimation};
+animation-duration: 5s;
+width: 70%;
+height: 7vh;
+position: fixed;
+bottom: 5%;
+right: 15%;
+` : styled.div`
 animation-name: ${alertAnimation};
 animation-duration: 5s;
 width: 15%;

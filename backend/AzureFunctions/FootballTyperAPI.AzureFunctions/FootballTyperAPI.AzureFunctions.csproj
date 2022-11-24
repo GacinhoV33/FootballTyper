@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FootballTyperAPI.Common\FootballTyperAPI.Common.csproj" />
     <ProjectReference Include="..\..\FootballTyperAPI.Models\FootballTyperAPI.Models.csproj" />
     <ProjectReference Include="..\..\FootballTyperAPI\FootballTyperAPI.csproj" />
   </ItemGroup>

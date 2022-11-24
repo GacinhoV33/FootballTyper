@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.Models", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.AzureFunctions", "..\AzureFunctions\FootballTyperAPI.AzureFunctions\FootballTyperAPI.AzureFunctions.csproj", "{278726A7-A521-4021-96EE-FE5FF69479BE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootballTyperAPI.Common", "..\FootballTyperAPI.Common\FootballTyperAPI.Common.csproj", "{E01D5E4C-7267-4413-B5BF-726A7F76413D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{278726A7-A521-4021-96EE-FE5FF69479BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{278726A7-A521-4021-96EE-FE5FF69479BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{278726A7-A521-4021-96EE-FE5FF69479BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E01D5E4C-7267-4413-B5BF-726A7F76413D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E01D5E4C-7267-4413-B5BF-726A7F76413D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E01D5E4C-7267-4413-B5BF-726A7F76413D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E01D5E4C-7267-4413-B5BF-726A7F76413D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,8 +16,12 @@ import { Bet } from './components/YourBets/MyBets/MyBets';
 // Helpers & structures
 // From Libraries
 import { createContext, useEffect, useState } from 'react';
-import {  Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ReactGA from 'react-ga';
+import { isMobile } from 'react-device-detect';
 
+const TRACKING_ID = "G-31K4T82HLF"; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
 
 export type UserLocalStorageData = {
   username: string,
@@ -25,11 +29,11 @@ export type UserLocalStorageData = {
   fullname: string,
   id: number,
   imgLink?: string,
-  leauges?: string[],
+  leagues?: string[],
 }
 // This component contains whole logic, all main components and it's the manager of whole application
 export type UserStatus = {
-  userLocalData: UserLocalStorageData ,
+  userLocalData: UserLocalStorageData,
   isUserSigned: boolean,
 }
 
@@ -39,10 +43,10 @@ const userObjInit: UserLocalStorageData | null = {
   fullname: 'no-fullname',
   id: 0,
   imgLink: 'none',
-  leauges: ['none'],
+  leagues: ['none'],
 }
 
-export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
+export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false});
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
@@ -52,20 +56,16 @@ function App() {
   const [allUserBets, setAllUserBets] = useState<Bet[] | null>(null);
   const [allUsers, setAllUsers] = useState<User[] | null>([]);
   const [userStatus, setUserStatus] = useState<UserStatus>({
-    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string)  : userObjInit,
-    isUserSigned: localStorage.getItem('user') !== ''&& localStorage.getItem('user') !== null ? true : false
+    userLocalData: localStorage.getItem('user') !== '' ? JSON.parse(localStorage.getItem('user') as string) : userObjInit,
+    isUserSigned: localStorage.getItem('user') !== '' && localStorage.getItem('user') !== null ? true : false
   })
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
   useEffect(() => {
     const fetchData = async () => {
 
-      // const GroupMatches = await (await fetch('https://football-typer-api.azurewebsites.net/api/Matches/Group')).json();
-      // // const /api/Teams
-      // const data = await (await fetch('https://football-typer-api.azurewebsites.net/api/Teams')).json();
-      // const allBets = await (await fetch('https://football-typer-api.azurewebsites.net/api/Bets')).json();
-
-
-      const allMatches = await (await fetch('api/Matches')).json(); 
-      const data = await (await fetch('api/Teams')).json();
+      const allMatches = await (await fetch(API_URL + 'api/Matches')).json();
+      const data = await (await fetch(API_URL + 'api/Teams')).json();
       const requestAllUsersOptions = {
         method: 'GET',
         headers: {
@@ -74,10 +74,10 @@ function App() {
         }
       };
 
-      const allUsers = await( await fetch('api/TyperUsers', requestAllUsersOptions)).json();
+      const allUsers = await (await fetch(API_URL + 'api/TyperUsers', requestAllUsersOptions)).json();
       const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : '';
-      if(userName){
-        const allUserBets = await (await fetch(`api/Bets/User/${userName.username}`)).json(); 
+      if (userName) {
+        const allUserBets = await (await fetch(API_URL + `api/Bets/User/${userName.username}`)).json();
         setAllUserBets(allUserBets);
       }
       setAllMatches(allMatches);
@@ -90,31 +90,36 @@ function App() {
 
   }, []);
 
+  // Ga setup
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, [])
+
   const rankingReturn = () => {
-    if(allUsers && userStatus.isUserSigned && Array.isArray(allUsers)){
-      return  <Ranking allUsers={allUsers}/>
+    if (allUsers && userStatus.isUserSigned && Array.isArray(allUsers)) {
+      return <Ranking allUsers={allUsers} />
     }
-    else if(allUsers && !userStatus.isUserSigned){
-      return <h1>State when user not logged but want to see ranking</h1>
+    else if (allUsers && !userStatus.isUserSigned) {
+      return <Login setUserStatus={setUserStatus} />
     }
-    else{
-      return <LoadingLayout componentName='Ranking'/>
+    else {
+      return <LoadingLayout componentName='Ranking' />
     }
   }
 
   const groupStageReturn = () => {
-    if(!userStatus.isUserSigned){
-      return(
+    if (!userStatus.isUserSigned) {
+      return (
         <Login setUserStatus={setUserStatus} />
       )
     }
-    else if(dataTeams){
-      return(
+    else if (dataTeams) {
+      return (
         <GroupStage groupMatches={dataGroupMatches} dataTeams={dataTeams} />
       )
-  }
-    else{
-      return(
+    }
+    else {
+      return (
         <LoadingLayout componentName='Group Stage' />
       )
     }
@@ -122,31 +127,35 @@ function App() {
 
   return (
     <UserContext.Provider value={userStatus}>
-      <AuthVerify setUserStatus={setUserStatus}/>
+      <AuthVerify setUserStatus={setUserStatus} />
       <div className='app-body'>
         <NavbarComp />
+        {/* placeholder for Navbar */}
+        <div style={{ height: '8vh' }}></div>
         <Routes>
-          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage'/>}/>
-          <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage /> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches}/> : <LoadingLayout componentName='Homepage' />} />
+          {!isMobile ?
+            <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
+            : null}
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers}/> : <LoadingLayout componentName='My bets' />} />   {/* receive empty array from backend TODO*/}
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} /> : <LoadingLayout componentName='My bets' />} />
           <Route
             path='/ranking'
             element={
               rankingReturn()
             }
           />
-          <Route path='/statistics' element={<Statistics />} />
+          {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/statistics' element={<Statistics />} />}
           <Route path='/rules' element={<Rules />} />
-          <Route path='/adminpanel' element={<AdminPanel />} />
+          {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/adminpanel' element={<AdminPanel />} />}
+
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
-        {/* <Footer /> */}
-
       </div >
     </UserContext.Provider>
   );
 }
+
 
 function convertMatchesToGroupFormat(data: any) {
   const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
@@ -194,14 +203,13 @@ export interface Match {
   matchNumber: number,
   roundNumber: number,
   isMatchValid: boolean,
-  stage: number
+  stage: number,
 }
 
 
 export interface User {
   username: string,
-  // email: string, TODO?
-  imgLink: string, //TODO?  
+  imgLink: string,
   totalPoints: number,
   totalExactScoreBets: number,
   totalCorrectWinnerBets: number,
@@ -209,7 +217,9 @@ export interface User {
   leagues: string[],
   id: number,
   lastFiveBets: string,
-  rankStatusDict?: object
+  rankStatusDict?: object,
+  positionDict?: any,
+  fullName: string,
 }
 
 export default App;

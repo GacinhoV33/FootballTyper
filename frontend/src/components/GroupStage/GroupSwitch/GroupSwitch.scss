@@ -1,6 +1,20 @@
-.switch-box{
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+.pag-groupstage{
+    .paginationItemStyle{
+        margin-left: 5px;
+        .page-link {
+            color: rgb(138, 21, 56);
+        }
+        .page-item {
+            background-color: #CCC;
+        }
+    }
+
+    .active{
+        .page-link{
+            color: #CCC;
+            background-color: rgb(138, 21, 56);
+            border: 2px solid rgba(138, 21, 56);
+        }
+
+    }
 }

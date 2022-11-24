@@ -5,12 +5,15 @@
     align-items: center;
     padding: 0 2rem;
     text-align: center;
+    left: 0.75vw;
     @media (max-width: 1500px) {
         display: none;
     }
 }
 
 .rightBar-yourbets{
+    position: fixed;
+    right: 2vw;
     grid-column: 11/13;
     align-items: flex-start;
     padding: 0 2.5rem;
@@ -36,7 +39,21 @@
 .my-bets-main{
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     flex-direction: column;
-    background-image: url('../Homepage/background.jfif');
+    background-image: url('../Homepage/images/background.jfif');
     min-height: 92vh;
+}
+
+@media (max-width: 900px){
+    .my-bets-main{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .bets-main-content{
+        grid-column: 1/12;
+    }
 }

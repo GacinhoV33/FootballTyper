@@ -15,7 +15,10 @@ public interface IUserService
     TyperUser GetById(int id);
     TyperUserApi GetByUsername(string username);
     void Register(RegisterRequest model);
-    void Update(int id, UpdateRequest model);
+    GoogleLoginResponse GoogleLogin(GoogleLoginRequest model);
+    void UpdatePassword(int id, UpdateRequest model);
+    void UpdateImgLink(int id, UpdateImgLinkRequest model);
+    void UpdateFullName(int id, UpdateFullNameRequest model);
     void Delete(int id);
 }
 
@@ -100,24 +103,65 @@ public class UserService : IUserService
         user.PasswordHash = BCrypt.HashPassword(model.Password);
 
         user.LeaguesStr = "[\"main\"]";
+        user.PositionStr = "{\"main\":100}";
+        user.RankStatus = "{\"main\":0}";
+
         // save user
         _context.TyperUser.Add(user);
         _context.SaveChanges();
     }
 
-    public void Update(int id, UpdateRequest model)
+    public GoogleLoginResponse GoogleLogin(GoogleLoginRequest model)
+    {
+        var user = _context.TyperUser.Where(x => x.Email == model.Email).FirstOrDefault();
+        if (user == null)
+        {
+            user = _mapper.Map<TyperUser>(model);
+
+            user.Username = model.Email.Split("@").First();
+            user.PasswordHash = "$2a$11$k4t7IrJ2ffsFNK2Sh0/nveZbPPI1/oYgnls.0O9LHcy0hIDt03Ya2";
+            user.LeaguesStr = "[\"main\"]";
+            user.PositionStr = "{\"main\":100}";
+            user.RankStatus = "{\"main\":0}";
+
+            _context.TyperUser.Add(user);
+            _context.SaveChanges();
+        }
+
+        return new GoogleLoginResponse { user = user, userToken = _jwtUtils.GenerateToken(user) };
+    }
+
+    public void UpdatePassword(int id, UpdateRequest model)
     {
         var user = getUser(id);
 
-        // validate
         if (model.Username != user.Username && _context.TyperUser.Any(x => x.Username == model.Username))
             throw new AppException("Username '" + model.Username + "' is already taken");
 
-        // hash password if it was entered
         if (!string.IsNullOrEmpty(model.Password))
             user.PasswordHash = BCrypt.HashPassword(model.Password);
 
-        // copy model to user and save
+        _mapper.Map(model, user);
+        _context.TyperUser.Update(user);
+        _context.SaveChanges();
+    }
+
+    public void UpdateImgLink(int id, UpdateImgLinkRequest model)
+    {
+        var user = getUser(id);
+
+        if (model.Username != user.Username && _context.TyperUser.Any(x => x.Username == model.Username))
+            throw new AppException("There is no user: '" + model.Username);
+
+        _mapper.Map(model, user);
+        _context.TyperUser.Update(user);
+        _context.SaveChanges();
+    }
+
+    public void UpdateFullName(int id, UpdateFullNameRequest model)
+    {
+        var user = getUser(id);
+
         _mapper.Map(model, user);
         _context.TyperUser.Update(user);
         _context.SaveChanges();
@@ -129,8 +173,6 @@ public class UserService : IUserService
         _context.TyperUser.Remove(user);
         _context.SaveChanges();
     }
-
-    // helper methods
 
     private TyperUser getUser(int id)
     {

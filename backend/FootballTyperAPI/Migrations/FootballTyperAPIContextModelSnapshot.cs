@@ -177,6 +177,48 @@ namespace FootballTyperAPI.Migrations
                     b.ToTable("Teams", (string)null);
                 });
 
+            modelBuilder.Entity("FootballTyperAPI.Models.TopScorerDb", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Assists")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Goals")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Group")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RapidApiId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RedCards")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Team")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("YellowCards")
+                        .HasColumnType("int");
+
+                    b.Property<int>("YellowRedCards")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TopScorers", (string)null);
+                });
+
             modelBuilder.Entity("FootballTyperAPI.Models.TyperUser", b =>
                 {
                     b.Property<int>("Id")

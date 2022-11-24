@@ -1,9 +1,16 @@
 .group-stage{
     display: flex;
     flex-direction: row;
-    background-image: url('../Homepage/background.jfif');
+    background-image: url('../Homepage/images/background.jfif');
     height: 92vh;
 }
+
+@media (max-width: 1400px){
+    .group-stage{
+        height: 110vh;
+    }
+}
+
 
 .group-stage-center{
     flex-direction: column;
@@ -23,4 +30,22 @@
 .group-stage-right{
     flex-grow: 1;
     gap: 2%;   
+}
+
+@media (max-width: 900px){
+    .group-stage-left{
+        display: none;
+    }
+    .group-stage-right{
+        display: none;
+    }
+
+    .group-stage{
+        height: 130vh;
+    }
+
+    .group-stage-center{
+        width: 100%;
+        flex-grow: 300;
+    }
 }

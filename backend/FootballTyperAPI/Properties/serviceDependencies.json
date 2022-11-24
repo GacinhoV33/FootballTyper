@@ -3,6 +3,14 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:FootballTyperAPIContext"
+    },
+    "apis1": {
+      "type": "apis"
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "ConnectionStrings:FootballTyperStorageAccout",
+      "dynamicId": null
     }
   }
 }

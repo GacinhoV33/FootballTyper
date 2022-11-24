@@ -5,6 +5,17 @@
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/football-typer-server/databases/football-typer-database",
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:FootballTyperAPIContext"
+    },
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/FootballTyperAPI/apis/FootballTyperAPI",
+      "type": "apis.azure"
+    },
+    "storage1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/footballtypersa",
+      "type": "storage.azure",
+      "connectionId": "ConnectionStrings:FootballTyperStorageAccout",
+      "dynamicId": null
     }
   }
 }

@@ -4,6 +4,7 @@ using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,8 +26,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000", "https://football-typer-api.azurewebsites.net",
-                "https://footballtyperapi.azure-api.net", "https://football-typer-frontend.azurewebsites.net")
+            policy.WithOrigins("http://localhost:3000",
+                "https://typer2022.azurewebsites.net",
+                "https://football-typer-frontend.azurewebsites.net")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
@@ -42,19 +44,23 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSet
 // configure DI for application services
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddAzureClients(clientBuilder =>
+{
+    clientBuilder.AddBlobServiceClient(builder.Configuration["ConnectionStrings:FootballTyperStorageAccout:blob"], preferMsi: true);
+    clientBuilder.AddQueueServiceClient(builder.Configuration["ConnectionStrings:FootballTyperStorageAccout:queue"], preferMsi: true);
+});
 
 var app = builder.Build();
 app.UseCors();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
+//Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-app.UseSwagger();
-app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -85,26 +91,26 @@ void SetupDatabase(WebApplication app)
 
     using (var db = service.CreateScope().ServiceProvider.GetService<FootballTyperAPIContext>())
     {
-        isCleanAndInitDbNeeded = db.Database.GetPendingMigrations().Any();
+        //isCleanAndInitDbNeeded = db.Database.GetPendingMigrations().Any();
         db.Database.Migrate();
     }
 
-    if (isCleanAndInitDbNeeded)
-    {
-        using (var scope = app.Services.CreateScope())
-        {
-            var services = scope.ServiceProvider;
-            try
-            {
-                var context = services.GetRequiredService<FootballTyperAPIContext>();
-                DbInitializer.CleanDb(context);
-                DbInitializer.Initialize(context);
-            }
-            catch (Exception ex)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "An error occurred creating the DB.");
-            }
-        }
-    }
+    //if (isCleanAndInitDbNeeded)
+    //{
+    //    using (var scope = app.Services.CreateScope())
+    //    {
+    //        var services = scope.ServiceProvider;
+    //        try
+    //        {
+    //            var context = services.GetRequiredService<FootballTyperAPIContext>();
+    //            DbInitializer.CleanDb(context);
+    //            DbInitializer.Initialize(context);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            var logger = services.GetRequiredService<ILogger<Program>>();
+    //            logger.LogError(ex, "An error occurred creating the DB.");
+    //        }
+    //    }
+    //}
 }

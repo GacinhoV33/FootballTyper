@@ -29,7 +29,7 @@ const MyBets: React.FC<MyBetsProps> = ({ allUserBets }) => {
   return (
     <div className='bet-body'>
       {allUserBets.map((bet, index) => (
-        <BetCard bet={bet} key={index} />
+        <BetCard bet={bet} key={index}/>
       ))}
     </div>
   )

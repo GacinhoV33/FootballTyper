@@ -2,11 +2,10 @@ import React from 'react';
 import './FiltersMyBets.scss';
 import Button from 'react-bootstrap/Button';
 import deepcopy from 'deepcopy';
+import { isMobile } from 'react-device-detect';
 
-//@ts-ignore
-
-export type BetFilters = 'All' | 'Correct' | 'Wrong' | 'GroupStage' | 'KnockoutStage' | 'Active' | 'Past';
-const filterTypes: BetFilters[] = ['All', 'Correct', 'Wrong', 'GroupStage', 'KnockoutStage', 'Active', 'Past' ]
+export type BetFilters = 'All' | 'Correct' | 'Wrong' | 'Group' | 'Knockout' | 'Active' | 'Past';
+const filterTypes: BetFilters[] = ['All', 'Correct', 'Wrong', 'Group', 'Knockout', 'Active', 'Past' ]
 export interface FiltersMyBetsProps {
   activeFilters: BetFilters[],
   setActiveFilters: React.Dispatch<React.SetStateAction<BetFilters[]>>,
@@ -24,8 +23,8 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({ activeFilters, setActiveF
     else {
       const correctIdx = newFilters.indexOf('Correct');
       const wrongIdx = newFilters.indexOf('Wrong')
-      const groupstageIdx = newFilters.indexOf('GroupStage')
-      const knockoutIdx = newFilters.indexOf('KnockoutStage')
+      const groupstageIdx = newFilters.indexOf('Group')
+      const knockoutIdx = newFilters.indexOf('Knockout')
       const activeIdx = newFilters.indexOf('Active')
       const pastIdx = newFilters.indexOf('Past')
       const allIdx = newFilters.indexOf('All')
@@ -87,7 +86,7 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({ activeFilters, setActiveF
         newFilters.push(filter);
         setActiveFilters(newFilters);
       }
-      else if (filter === 'KnockoutStage') {
+      else if (filter === 'Knockout') {
         if (groupstageIdx !== -1) {
           newFilters.splice(groupstageIdx, 1);
         }
@@ -97,7 +96,7 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({ activeFilters, setActiveF
         newFilters.push(filter);
         setActiveFilters(newFilters);
       }
-      else if (filter === 'GroupStage') {
+      else if (filter === 'Group') {
         if (knockoutIdx !== -1) {
           newFilters.splice(knockoutIdx, 1);
         }
@@ -120,8 +119,8 @@ const FiltersMyBets: React.FC<FiltersMyBetsProps> = ({ activeFilters, setActiveF
           active={activeFilters.indexOf(filterName) !== -1}
           key={filterName}
           onClick={() => handleFilterChange(filterName)}
-          style={{ margin: '0.5rem', borderRadius: '2rem', width: '10rem' }}
-          className={activeFilters.indexOf(filterName) !== -1 ? 'filter-active' : undefined}
+          size={isMobile ? 'sm' : 'lg'}
+          className={activeFilters.indexOf(filterName) !== -1 ? 'filter-button-cus rank-filter-act ' : 'filter-button-cus'}
         >
           {filterName}
         </Button>

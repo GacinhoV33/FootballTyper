@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './LeftBar.scss';
 import Table from 'react-bootstrap/Table';
 import { BiFootball } from 'react-icons/bi';
@@ -7,32 +7,66 @@ import styled, { keyframes } from "styled-components";
 import countriesColors from '../../AnimatedLetters/CountriesColors';
 export interface LeftBarProps {
     chosenCountries: { homeCountry: string, awayCountry: string },
+}
 
+export type ScoreStatistic = {
+    id: number,
+    name: string,
+    group: string,
+    goals: number,
+    assists: number,
+    yellowCards: number,
+    redCards: number
+    team: string | null
 }
 
 const LeftBar: React.FC<LeftBarProps> = ({ chosenCountries }) => {
-    return (
-        <LeftBarAnimation>
-            <h2 style={{ textAlign: 'center' }}>Top Scores</h2>
-            <Table>
-                <tbody>
-                    {dummyPlayerData.map(({ playerName, goals, assists, team, yellowCards, redCards, imgPath }, index) => {
-                        
-                        const gradString = `linear-gradient(to right, rgba(255, 10, 10, 0.7), yellow)`;
-                        return(
-                        <tr style={{textAlign: 'center', backgroundImage: gradString}} key={index}>
-                            <td style={{fontWeight: '500'}}>{index + 1}</td>
-                            <td style={{textAlign: 'left'}}>{playerName}</td>
-                            <td><BiFootball size={20} />{goals}</td>
-                            <td> <span style={{fontWeight: '500', color: 'chocolate'}}>A</span> {assists} </td>
-                            <td> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
-                            <td><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
-                        </tr>
-                    )})}
-                </tbody>
 
-            </Table>
-        </LeftBarAnimation>
+    const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+    const [stats, setStats] = useState<ScoreStatistic[] | null>(null);
+    useEffect(() => {
+
+        const getStats = async () => {
+            const scoreStats = await (
+                await fetch(API_URL + `/api/Statistics/TopScorers`)
+            ).json();
+            setStats(scoreStats)
+        }
+        getStats();
+    }, []);
+
+    return (
+        <>
+            <h2 style={{ textAlign: 'center', color: '#DDD', paddingTop: '4rem' }}>Top Scores</h2>
+            <LeftBarAnimation>
+                <Table>
+                    <tbody className='groupstage-player-statistics'>
+                        {stats ? stats.map(({ name, goals, assists, yellowCards, redCards, team }: ScoreStatistic, index) => {
+                            const mainColor = team ? JSON.parse(countriesColors.get(team as string) as string).mainColor.value : '(255, 0, 0)';
+                            const secondColor = team ? JSON.parse(countriesColors.get(team as string) as string).secondColor.value : '(255, 255, 255)'
+                            const gradString = {
+                                backgroundImage: `linear-gradient(to right, rgba${mainColor.slice(0, -1)}, 0.6), rgba${secondColor.slice(0, -1)}, 0.6)`,
+                                textAlign: 'center'
+                            }
+                            return (
+                                <tr
+                                    //@ts-ignore
+                                    style={team === chosenCountries.homeCountry || team === chosenCountries.awayCountry ? gradString : { textAlign: 'center' }}
+                                    key={index} >
+                                    <td style={{ fontWeight: '500', verticalAlign: 'middle' }}>{index + 1}</td>
+                                    <td style={{ textAlign: 'left', verticalAlign: 'middle' }}>{name}</td>
+                                    <td style={{ verticalAlign: 'middle' }}> <BiFootball size={20} style={{ color: '#CCC' }} />{goals}</td>
+                                    <td style={{ verticalAlign: 'middle' }}> <span style={{ fontWeight: '500', color: '#EEE' }}>A</span> {assists} </td>
+                                    <td style={{ verticalAlign: 'middle' }}> <TbRectangleVertical size={20} style={{ color: '#EDED22' }} fill={'#FEFE22'} /> {yellowCards}</td>
+                                    <td style={{ verticalAlign: 'middle' }}><TbRectangleVertical size={20} style={{ color: '#ED1111' }} fill={'#FE0000'} /> {redCards} </td>
+                                </tr>
+                            )
+                        }) : null}
+                    </tbody>
+
+                </Table>
+            </LeftBarAnimation>
+        </>
     )
 }
 export default LeftBar;
@@ -50,13 +84,19 @@ to{
 
 const LeftBarAnimation = styled.div`
     animation-name: ${leftBarAnimation};
+    overflow-y: scroll;
+    height: 75vh;
+    scroll-behavior: smooth;
     animation-duration: 1s;
     display: flex;
     align-items: flex-start !important;
     flex-direction: column;
-    padding-top: 5rem;
+    padding-top: 0.8rem;
     padding-left: 1rem;
     animation-timing-function: ease-in-out;
+    ::-webkit-scrollbar {
+        display: none;
+      }
 `
 
 export interface Player {
@@ -72,17 +112,17 @@ export interface Player {
 export const dummyPlayerData: Player[] = [
     {
         playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
+        goals: 0,
+        assists: 0,
         team: 'Portugal',
-        yellowCards: 2,
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },
     {
         playerName: 'Leo Messi',
-        goals: 2,
-        assists: 3,
+        goals: 0,
+        assists: 0,
         team: 'Argentina',
         yellowCards: 0,
         redCards: 0,
@@ -91,36 +131,36 @@ export const dummyPlayerData: Player[] = [
     {
         playerName: 'Neymar Jr',
         goals: 0,
-        assists: 1,
+        assists: 0,
         team: 'Brasil',
-        yellowCards: 1,
-        redCards: 1,
-        imgPath: 'noPath'
-    },
-    {
-        playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
-        team: 'Portugal',
-        yellowCards: 2,
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },
     {
-        playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
-        team: 'Portugal',
-        yellowCards: 2,
+        playerName: 'Robert Lewandowski',
+        goals: 0,
+        assists: 0,
+        team: 'Poland',
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },
     {
-        playerName: 'Cristiano Ronaldo',
-        goals: 5,
-        assists: 1,
-        team: 'Portugal',
-        yellowCards: 2,
+        playerName: 'Karim Benzema',
+        goals: 0,
+        assists: 0,
+        team: 'France',
+        yellowCards: 0,
+        redCards: 0,
+        imgPath: 'noPath'
+    },
+    {
+        playerName: 'Kylian Mbappe',
+        goals: 0,
+        assists: 0,
+        team: 'France',
+        yellowCards: 0,
         redCards: 0,
         imgPath: 'noPath'
     },

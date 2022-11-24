@@ -1,5 +1,20 @@
-.filter-box{
+.filter-box {
     display: flex;
     flex-direction: row;
     position: sticky;
+}
+
+.filter-button {
+    width: 10vw;
+    margin: 0.5rem;
+    border-radius: 2rem;
+}
+
+@media (max-width: 900px){
+    .filter-button{
+        width: 17vw;
+        margin: 1vw;
+        border-radius: 2vw;
+        font-size: 2.5vw;
+    }
 }

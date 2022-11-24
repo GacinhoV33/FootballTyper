@@ -45,6 +45,14 @@ namespace FootballTyperAPI.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("googleLogin")]
+        public IActionResult GoogleLogin(GoogleLoginRequest model)
+        {
+            var response = _userService.GoogleLogin(model);
+            return Ok(response);
+        }
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -63,10 +71,27 @@ namespace FootballTyperAPI.Controllers
 
 
         //[AllowAnonymous]
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateRequest model)
+        [HttpPut("Password/{id}")]
+        public IActionResult UpdatePassword(int id, UpdateRequest model)
         {
-            _userService.Update(id, model);
+            _userService.UpdatePassword(id, model);
+            return Ok(new { message = "User updated successfully" });
+        }
+
+
+        //[AllowAnonymous]
+        [HttpPut("ImgLink/{id}")]
+        public IActionResult UpdateImgLink(int id, [FromBody] UpdateImgLinkRequest model)
+        {
+            _userService.UpdateImgLink(id, model);
+            return Ok(new { message = "User updated successfully" });
+        }
+
+        //[AllowAnonymous]
+        [HttpPut("FullName/{id}")]
+        public IActionResult UpdateFullName(int id, [FromBody] UpdateFullNameRequest model)
+        {
+            _userService.UpdateFullName(id, model);
             return Ok(new { message = "User updated successfully" });
         }
 
@@ -78,96 +103,5 @@ namespace FootballTyperAPI.Controllers
             _userService.Delete(id);
             return Ok(new { message = "User deleted successfully" });
         }
-
-        //private readonly FootballTyperAPIContext _context;
-
-        //public TyperUsersController(FootballTyperAPIContext context)
-        //{
-        //    _context = context;
-        //}
-
-        //// GET: api/TyperUsers
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<TyperUser>>> GetTyperUser()
-        //{
-        //    return await _context.TyperUser.ToListAsync();
-        //}
-
-        //// GET: api/TyperUsers/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<TyperUser>> GetTyperUser(int id)
-        //{
-        //    var typerUser = await _context.TyperUser.FindAsync(id);
-
-        //    if (typerUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return typerUser;
-        //}
-
-        //// PUT: api/TyperUsers/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutTyperUser(int id, TyperUser typerUser)
-        //{
-        //    if (id != typerUser.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(typerUser).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!TyperUserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/TyperUsers
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<TyperUser>> PostTyperUser(TyperUser typerUser)
-        //{
-        //    _context.TyperUser.Add(typerUser);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetTyperUser", new { id = typerUser.Id }, typerUser);
-        //}
-
-        //// DELETE: api/TyperUsers/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteTyperUser(int id)
-        //{
-        //    var typerUser = await _context.TyperUser.FindAsync(id);
-        //    if (typerUser == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.TyperUser.Remove(typerUser);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool TyperUserExists(int id)
-        //{
-        //    return _context.TyperUser.Any(e => e.Id == id);
-        //}
     }
 }

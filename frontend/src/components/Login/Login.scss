@@ -9,12 +9,18 @@
 }
 
 .Auth-form {
-  width: 420px;
+  width: 25vw;
   box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
   padding-top: 30px;
   padding-bottom: 20px;
   border-radius: 8px;
   background-color: white;
+}
+
+@media (max-width: 900px){
+  .Auth-form{
+    width: 80vw;
+  }
 }
 
 .Auth-form-content {
@@ -41,10 +47,8 @@ label {
 }
 
 .wc-logo {
-  background-image: url('./wc2022_wp2.jfif');
-  // // background-repeat: no-repeat;
+  background-image: url('../Homepage/images/background.jfif');
   background-attachment: fixed;
   background-size: cover;
-  // background-size: 34% 34%;
   background-size: 100% 100%;
 }

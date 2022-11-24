@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from 'react-bootstrap/esm/Button';
+import { isMobile } from 'react-device-detect';
 import './FilterRanking.scss';
 import { RankingFilters } from './Ranking';
 
@@ -13,7 +14,7 @@ const FilterRanking: React.FC<FilterRankingProps> = ({ activeFilter, setActiveFi
     return (
         <div className='filter-box'>
             {filterTypes.map((filterName, index) => (
-                <Button size='lg' active={activeFilter === filterName} key={filterName} onClick={() => handleFiltrChange(filterName)} style={{width: '10vw', margin: '0.5rem', borderRadius: '2rem' }}>
+                <Button active={activeFilter === filterName} key={filterName} onClick={() => handleFiltrChange(filterName)} className='filter-button'>
                     {filterNames[index]}
                 </Button>
             ))}
@@ -29,4 +30,4 @@ export interface FilterRankingProps {
 }
 
 const filterTypes: RankingFilters[] = ['general', 'lastDay', 'groupStage', 'knockoutStage']
-const filterNames: string[] = ['General', 'Last Day', 'Groupstage', 'Knockout']
+const filterNames: string[] = ['General', 'Today', 'Group', 'Knockout']
