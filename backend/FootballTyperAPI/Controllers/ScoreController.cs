@@ -187,7 +187,7 @@ namespace FootballTyperAPI.Controllers
         [HttpGet("LastUpdate")]
         public IActionResult GetLastUpdateDate()
         {
-            var lastUpdateDate = _context.Bets.Max(x => x.BetProcessedDate);
+            var lastUpdateDate = _context.Bets.Max(x => x.BetProcessedDate).AddHours(1);
             return Ok(lastUpdateDate);
         }
     }
