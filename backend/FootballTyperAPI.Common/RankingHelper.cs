@@ -12,9 +12,9 @@ namespace FootballTyperAPI.Common
             {
                 var sortedUsers = Users.Where(x => x.LeaguesStr.Contains(league))
                     .OrderByDescending(x => x.TotalPoints)
+                    .ThenBy(z => z.FullName)
                     .ThenByDescending(y => y.TotalExactScoreBets)
                     .ThenByDescending(z => z.TotalCorrectWinnerBets)
-                    .ThenBy(z => z.FullName)
                     .ThenBy(z => z.TotalWrongBets);
                 int pos = 1;
                 if (sortedUsers.All(x => x.TotalPoints == 0))
@@ -26,9 +26,9 @@ namespace FootballTyperAPI.Common
                     int posToAdd = 1;
                     int? minPos = null;
                     var userWithSamePoints = Users.Where(x => x.TotalPoints == user.TotalPoints
-                        && x != user
-                        && x.TotalCorrectWinnerBets == user.TotalCorrectWinnerBets
-                        && x.TotalExactScoreBets == user.TotalExactScoreBets)
+                        && x != user)
+                        //&& x.TotalCorrectWinnerBets == user.TotalCorrectWinnerBets
+                        //&& x.TotalExactScoreBets == user.TotalExactScoreBets)
                         .ToList();
                     if (userWithSamePoints.Any())
                     {
