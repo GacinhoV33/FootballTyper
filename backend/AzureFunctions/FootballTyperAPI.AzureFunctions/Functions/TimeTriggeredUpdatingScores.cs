@@ -8,7 +8,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
     public static class TimeTriggeredUpdatingScores
     {
         [FunctionName("TimeTriggeredUpdatingScores")]
-        public static void Run([TimerTrigger("0 0,30 13,14,15,16,17,18,19,20,21,22,23,0 * * *")] TimerInfo myTimer, ILogger log)
+        public static void Run([TimerTrigger("0 0,15,30,45 10,13,14,15,16,17,18,19,20,21,22,23,0 * * *")] TimerInfo myTimer, ILogger log)
         //public static void Run([TimerTrigger("0 32 * * * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
@@ -28,8 +28,11 @@ namespace FootballTyperAPI.AzureFunctions.Functions
                 }
             }
 
-            if (DateTime.Now >= DateTime.Now.ChangeTime(hours: 22, minutes: 20)
+            if ((DateTime.Now >= DateTime.Now.ChangeTime(hours: 22, minutes: 20)
                             && DateTime.Now <= DateTime.Now.ChangeTime(hours: 22, minutes: 45))
+                ||
+                (DateTime.Now >= DateTime.Now.ChangeTime(hours: 10, minutes: 20)
+                    && DateTime.Now <= DateTime.Now.ChangeTime(hours: 10, minutes: 45)))
             {
                 var getTopScorersResult = HttpRequestHelper.Get("api/GetTopScorers");
                 log.LogInformation(getTopScorersResult.ToString());
