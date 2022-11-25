@@ -71,7 +71,11 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
 
       currentBets.sort(
         (bet1: Bet, bet2: Bet) =>
-          bet1.betResult - bet2.betResult ? bet1.betResult - bet2.betResult : new Date(bet1.betDate).getTime() - new Date(bet2.betDate).getTime()
+          bet1.betResult - bet2.betResult
+      );
+      currentBets.sort(
+        (bet1: Bet, bet2: Bet) =>
+          new Date(bet2.betDate).getTime() - new Date(bet1.betDate).getTime()
       );
       setBetsToShow(currentBets);
     };
@@ -116,12 +120,8 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
         currentBets = deepcopy(allUserBets);
       }
 
-      currentBets.sort(
-        (bet1, bet2) =>
-          bet2.betResult - bet1.betResult
-      );
 
-      currentBets.sort()
+      console.log(currentBets)
       setBetsToShow(currentBets);
     }
     sortMyBets();
