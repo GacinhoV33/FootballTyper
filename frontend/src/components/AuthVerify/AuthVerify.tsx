@@ -34,7 +34,7 @@ const AuthVerify: React.FC<AuthVerifyProps> = ({setUserStatus}) => {
                   }
                   setUserStatus(userStatus)
             } else {
-                localStorage.setItem("tokenExpirationDate", addMinutes(30).toString())
+                localStorage.setItem("tokenExpirationDate", addMinutes(360).toString())
             }
         }
         else {

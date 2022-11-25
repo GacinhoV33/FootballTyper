@@ -26,7 +26,12 @@ namespace FootballTyperAPI.Controllers
         [HttpGet("TopScorers")]
         public IEnumerable<TopScorerDb> GetFiveTopScorers()
         {
-            return GetSortedTopScorerDb().ToList();
+            var topScorersWithValues = GetTopScorerDb().Where(x => x.Goals != 0 || x.Assists != 0 || x.YellowCards != 0 || x.RedCards != 0);
+            if(topScorersWithValues.Count() < 5)
+            {
+                return SortTopScorerDb(GetTopScorerDb()).Take(5);
+            }
+            return SortTopScorerDb(topScorersWithValues).ToList();
         }
 
 

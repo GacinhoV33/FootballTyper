@@ -5,12 +5,13 @@ import Card from "react-bootstrap/Card";
 import { CircleFlag } from "react-circle-flags";
 import Button from "react-bootstrap/Button";
 import { HiBuildingStorefront } from "react-icons/hi2";
-import { IoPersonSharp } from "react-icons/io5";
 import { AiFillClockCircle } from "react-icons/ai";
 import { BsFillCalendarDateFill } from "react-icons/bs";
 import styled, { keyframes } from "styled-components";
 import CountryDict from "./CountryDict";
 import { UserContext } from "../../../App";
+import CountryDictShortcuts from '../CountryDictShortcuts';
+
 export interface BetCardProps {
   bet: Bet;
 }
@@ -107,10 +108,14 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
             justifyContent: "center",
           }}
         >
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", alignItems: 'center' }}>
+            <div className="shortName">
+              {CountryDictShortcuts.get(bet.match.homeTeam.name as string)}
+            </div>
             <CircleFlag
               countryCode={CountryDict.get(bet.match.homeTeam.name) as string}
               className='flag-my-bets'
+
             />
           </div>
           <span className="score-text">
@@ -122,6 +127,9 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
             className='flag-my-bets'
 
           />
+          <div className="shortName">
+            {CountryDictShortcuts.get(bet.match.awayTeam.name as string)}
+          </div>
         </Card.Header>
         <Card.Body className="bet-card-body">
           <Card.Text>
