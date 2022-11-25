@@ -41,8 +41,9 @@ const BetModal: React.FC<BetModalProps> = ({
   const input2 = useRef<HTMLInputElement | null>(null);
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertText, setAlertText] = useState<string>('Fill the scores of both teams')
   function handleSubmit() {
-    if (input1.current?.value !== '' && input2.current?.value !== '') {
+    if (input1.current?.value !== '' && input2.current?.value !== '' && Number(input1.current?.value) >= 0 && Number(input2.current?.value) >= 0) {
       if (userBets) {
         betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
       }
@@ -95,14 +96,25 @@ const BetModal: React.FC<BetModalProps> = ({
       setAlert(true);
       setTimeout(() => {
         setAlert(false);
-        
+
       }, 3000);
-    } else{
-      setShowAlert(true)
-      setTimeout(() => {
-        setShowAlert(false);
-        
-      }, 5000);
+
+    } else {
+      if (Number(input1.current?.value) < 0 && Number(input2.current?.value) < 0) {
+        setAlertText('Cannot submit negative score')
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false);
+
+        }, 5000);
+      } else {
+        setAlertText('Fill the scores of both teams')
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false);
+
+        }, 5000);
+      }
     }
   }
   const currentBet = userBets ? userBets.filter((bet) => bet.matchId === groupMatch.id) : [];
@@ -143,6 +155,8 @@ const BetModal: React.FC<BetModalProps> = ({
           className="input-score no-spin"
           maxLength={2}
           type="number"
+          min="0"
+          max="30"
           placeholder={currentBet.length !== 0 ? currentBet[0].homeTeamScoreBet.toString() : undefined}
           ref={input1}
           onChange={(e) =>
@@ -156,6 +170,8 @@ const BetModal: React.FC<BetModalProps> = ({
         <input
           className="input-score no-spin"
           maxLength={2}
+          min="0"
+          max="30"
           ref={input2}
           type="number"
           placeholder={currentBet.length !== 0 ? currentBet[0].awayTeamScoreBet.toString() : undefined}
@@ -178,12 +194,13 @@ const BetModal: React.FC<BetModalProps> = ({
           Submit
         </Button>
 
-        {showAlert ?   <AlertAnimation >
-                    <Alert variant='danger'>
-                        <Alert.Heading>Error!</Alert.Heading>
-                        Fill the scores of both teams
-                    </Alert>
-                </AlertAnimation> : null}
+        {showAlert ? <AlertAnimation >
+          <Alert variant='danger'>
+            <Alert.Heading>Error!</Alert.Heading>
+            {/* { Fill the scores of both teams} */}
+            {alertText}
+          </Alert>
+        </AlertAnimation> : null}
       </div>
     </Modal>
   );
