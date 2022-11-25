@@ -58,7 +58,7 @@ namespace FootballTyperAPI.Controllers
                 user.PositionDict = rankingList.First(x => x.User.Id == user.Id).LeaguePosition;
             }
             ScoreHelper.UpdateLastFiveUserBets(lastDayBets, users);
-            return Ok(users.OrderBy(x => x.FullName));
+            return Ok(users.Where(x => x.LastFiveBets != "").OrderBy(x => x.FullName));
         }
 
 
@@ -99,7 +99,7 @@ namespace FootballTyperAPI.Controllers
                 user.PositionDict = rankingList.First(x => x.User.Id == user.Id).LeaguePosition;
             }
             ScoreHelper.UpdateLastFiveUserBets(groupStageBets, users);
-            return Ok(users.OrderBy(x => x.FullName));
+            return Ok(users.Where(x => x.LastFiveBets != "").OrderBy(x => x.FullName));
         }
 
         // GET: api/Score/Knockout/main
@@ -136,7 +136,7 @@ namespace FootballTyperAPI.Controllers
                 user.PositionDict = rankingList.First(x => x.User.Id == user.Id).LeaguePosition;
             }
             ScoreHelper.UpdateLastFiveUserBets(knockoutBets, users);
-            return Ok(users.OrderBy(x => x.FullName));
+            return Ok(users.Where(x => x.LastFiveBets != "").OrderBy(x => x.FullName));
         }
 
         private IEnumerable<TyperUser> MapTyperUserApiToTyperUser(IEnumerable<TyperUserApi> users)
@@ -179,7 +179,7 @@ namespace FootballTyperAPI.Controllers
             }
             ScoreHelper.CalculatePointsForEachUser(allLeagueBets, users);
             ScoreHelper.UpdateLastFiveUserBets(allLeagueBets, users);
-            return Ok(users.OrderBy(x => x.FullName));
+            return Ok(users.Where(x => x.LastFiveBets != "").OrderBy(x => x.FullName));
         }
 
 
