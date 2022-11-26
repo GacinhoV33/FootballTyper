@@ -1,4 +1,4 @@
-
+//@ts-nocheck
 import React, { useContext, useEffect, useState } from 'react'
 import './KnockoutStage.scss';
 import { CircleFlag } from 'react-circle-flags';
@@ -16,7 +16,12 @@ import { ImCross } from 'react-icons/im';
 import { BiCheckDouble } from 'react-icons/bi';
 
 
+// export interface IRenderSeedPropsExt extends IRenderSeedProps{
+//   hookToUpdate: 
+// }
+
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
+
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
   const wonTeam = seed.groupMatch.homeTeamScore !== -1 ? (seed.groupMatch.homeTeamScore > seed.groupMatch.awayTeamScore ? 1 : 0) : null;
@@ -27,9 +32,24 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
   const [modalValue, setModalValue] = useState<{ homeScore: string, awayScore: string }>({ homeScore: '', awayScore: '' });
 
   const isBetAllowed = (!seed.isMatchPlayed) && seed.teams[0].name !== '' && seed.teams[1].name !== ''; //TODO set time
-
-  const isBetNew = seed.userBets !== null && seed.userBets.length > 0 ? seed.userBets.filter((bet: Bet) => bet.matchId === seed.groupMatch.id) : null;
+  const [userBets, setUserBets] = useState<Bet[] | null>(seed.userBets);
+  const isBetNew = userBets !== null && userBets.length > 0 ? userBets.filter((bet: Bet) => bet.matchId === seed.groupMatch.id) : null;
   const [isBetExisting, setIsBetExisting] = useState<boolean>(isBetNew !== null && isBetNew.length !== 0 && isBetNew[0].homeTeamScoreBet !== undefined);
+  const userCtx = useContext(UserContext);
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
+  useEffect(() => {
+    const getUserBets = async () => {
+      const userName = userCtx.userLocalData
+        ? userCtx.userLocalData.username
+        : "";
+      const allUserBets = await (
+        await fetch(API_URL + `api/Bets/User/${userName}`)
+      ).json();
+      setUserBets(allUserBets);
+    };
+    getUserBets();
+  }, []);
 
   function handleClose() {
     setShowModal(false);
@@ -66,6 +86,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
                 <span className={wonTeam === 0 ? 'won-team-score team-text' : 'team-text'}>{seed.groupMatch.awayTeamScore !== -1 ? seed.groupMatch.awayTeamScore : null}</span>
               </div>
               <div style={{ color: 'white', fontWeight: '300', fontSize: '1.1rem' }}>
+                
                 {betChange !== 0 ? modalValue.awayScore : (isBetExisting ? `(${isBetNew[0].awayTeamScoreBet})` : null)}
               </div>
 
@@ -98,7 +119,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
           groupMatch={seed.groupMatch}
           setAlert={setShowAlert}
           setBetChange={setBetChange}
-          userBets={seed.userBets}
+          userBets={userBets}
         />
           : null
       }
