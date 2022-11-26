@@ -62,7 +62,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
         );
       } else if (filterMyBets.indexOf("Active") !== -1 && allUserBets) {
         currentBets = currentBets.filter(
-          (bet: Bet) => new Date(bet.match.date) > currentDate
+          (bet: Bet) => bet.betResult === null
         );
       }
       if (filterMyBets.indexOf("All") !== -1) {
