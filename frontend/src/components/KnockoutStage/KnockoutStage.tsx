@@ -49,7 +49,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
       setUserBets(allUserBets);
     };
     getUserBets();
-  }, []);
+  }, [betChange]);
 
   function handleClose() {
     setShowModal(false);
