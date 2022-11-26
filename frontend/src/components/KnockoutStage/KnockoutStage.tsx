@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { useContext, useEffect, useState } from 'react'
 import './KnockoutStage.scss';
 import { CircleFlag } from 'react-circle-flags';
@@ -73,7 +72,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
                 <span className={wonTeam === 1 ? 'won-team-score team-text' : 'team-text'}>{seed.groupMatch.homeTeamScore !== -1 ? seed.groupMatch.homeTeamScore : null}</span>
               </div>
               <div style={{ color: 'white', fontWeight: '300', fontSize: '1.1rem' }}>
-                {betChange !== 0 ? modalValue.homeScore : (isBetExisting ? `(${isBetNew[0].homeTeamScoreBet})` : null)}
+                {betChange !== 0 ? modalValue.homeScore : (isBetExisting ? `(${isBetNew !== null ? isBetNew[0].homeTeamScoreBet : null})` : null)}
               </div>
             </div>
 
@@ -87,7 +86,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
               </div>
               <div style={{ color: 'white', fontWeight: '300', fontSize: '1.1rem' }}>
                 
-                {betChange !== 0 ? modalValue.awayScore : (isBetExisting ? `(${isBetNew[0].awayTeamScoreBet})` : null)}
+                {betChange !== 0 ? modalValue.awayScore : (isBetExisting && isBetNew !== null ? `(${isBetNew[0].awayTeamScoreBet})` : null)}
               </div>
 
             </div>
@@ -102,7 +101,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
           >
             {isBetExisting || betChange !== 0 ? 'Edit' : 'Bet'}
           </Button>
-          : (isBetExisting ?  
+          : (isBetExisting && isBetNew ?  
             ( isBetNew[0].betResult === 1 ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
               isBetNew[0].betResult === 2  ?  <BiCheckDouble size={40} style={{ color: 'darkgreen' }}/>
               : <ImCross size={20} style={{ color: 'red', marginRight: '0.5rem' }} />)
