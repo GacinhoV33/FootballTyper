@@ -23,7 +23,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
             try
             {
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                var fileName = $"BETS_{DateTime.Now.ToString("dd_M_yyyy__hh_mm_ss")}.xlsx";
+                var fileName = $"BETS_{DateTime.Now.ToString("dd_M_yyyy__hh_mm")}.xlsx";
                 var file = new FileInfo(Path.Combine(Path.GetTempPath(), fileName));
                 using (var package = new ExcelPackage(file))
                 {
