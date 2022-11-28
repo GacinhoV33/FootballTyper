@@ -23,7 +23,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
             try
             {
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                var fileName = $"BETS_{DateTime.Now.ToString("dd_M_yyyy__hh_mm")}.xlsx";
+                var fileName = $"BETS_{DateTime.Now.ToString("dd_M_yyyy__HH_mm")}.xlsx";
                 var file = new FileInfo(Path.Combine(Path.GetTempPath(), fileName));
                 using (var package = new ExcelPackage(file))
                 {
@@ -83,7 +83,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
                     "LEFT JOIN [Teams] ta ON ta.Id = m.AwayTeamId " +
                     "LEFT JOIN [Teams] th ON th.Id = m.HomeTeamId " +
                     "LEFT JOIN [TyperUser] u ON u.Username = b.BettorUserName " +
-                    "WHERE m.Date <= GetDate() " +
+                    "WHERE m.Date <= dateadd (hour, 1, GetDate()) " +
                     "ORDER BY MatchDate DESC, BetDate DESC";
 
                 SqlCommand oCmd = new SqlCommand(queryString, conn);

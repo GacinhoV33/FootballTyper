@@ -38,7 +38,7 @@ const ArchiveList = () => {
         {betFilesList
           ? betFilesList?.map((file, idx) => {
               return (
-                <li key={idx}>
+                <li key={idx} className="al-li-margin">
                   {file.name}
                   <a
                     href={file.url}
