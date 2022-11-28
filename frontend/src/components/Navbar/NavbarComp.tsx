@@ -68,6 +68,9 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
             <Nav.Link href='/Login' className='nav-hover-item'>
               <Nav.Item className='navbar-text'>{isUserLogged ? profile() : 'Login'}</Nav.Item>
             </Nav.Link>
+            <Nav.Link href="/archive" className='nav-hover-item'>
+              <Nav.Item className='navbar-text'>Archive</Nav.Item>
+            </Nav.Link>
           </Nav>
         </div>
         {new Date('2022-11-20T17:00:00') > new Date() ?

@@ -13,8 +13,8 @@ namespace FootballTyperAPI.AzureFunctions.Functions
     public class SaveDataToExcel
     {
         [FunctionName("SaveDataToExcel")]
-        //public void Run([TimerTrigger("*/10 * * * * *")] TimerInfo myTimer, ILogger log)
-        public void Run([TimerTrigger("0 0 0,12 * * *")] TimerInfo myTimer, ILogger log)
+        //public void Run([TimerTrigger("0 * * * * *")] TimerInfo myTimer, ILogger log)
+        public void Run([TimerTrigger("0 0 10 * * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
@@ -24,11 +24,11 @@ namespace FootballTyperAPI.AzureFunctions.Functions
             {
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 var fileName = $"BETS_{DateTime.Now.ToString("dd_M_yyyy__hh_mm_ss")}.xlsx";
-                var file = new FileInfo(fileName);
+                var file = new FileInfo(Path.Combine(Path.GetTempPath(), fileName));
                 using (var package = new ExcelPackage(file))
                 {
                     var rows = GetDateFromQuery();
-                    var ws = package.Workbook.Worksheets.Add("Main");
+                    var ws = package.Workbook.Worksheets.Add("Bets");
                     var range = ws.Cells["A1"].LoadFromCollection(rows, true);
                     range.AutoFitColumns();
                     package.Save();
@@ -37,6 +37,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
                     var blobConnectionString = Environment.GetEnvironmentVariable("FootballTyperStorageAccout");
                     var containerClient = new BlobContainerClient(blobConnectionString, containerName);
                     BlobClient blobClient = containerClient.GetBlobClient(fileName);
+
                     using (var stream = package.File.OpenRead())
                     {
                         var result = blobClient.Upload(stream, true);
@@ -107,7 +108,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
                             MatchId = (int)oReader["MatchId"],
                             FullName = ConvertFromDBVal<string>(oReader["FullName"]),
                             BetDate = ((DateTime)oReader["BetDate"]).ToString("dd-M-yyyy HH:mm:ss"),
-                            BetResult = (int)oReader["BetResult"]
+                            BetResult = ConvertFromDBVal<int>(oReader["BetResult"])
                         });
                     }
                     conn.Close();

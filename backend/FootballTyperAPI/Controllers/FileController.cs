@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using FootballTyperAPI.Data;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace FootballTyperAPI.Controllers
             _context = context;
         }
 
-        // POST api/<FileController>
+        // POST api/File
         [HttpPost]
         public ActionResult Post([FromForm] FileModel fileModel)
         {
@@ -53,6 +54,26 @@ namespace FootballTyperAPI.Controllers
             }
         }
 
+        // GET api/File/BetsExcel
+        [HttpGet("BetsExcel")]
+        public ActionResult GetBetsExcel()
+        {
+            try
+            {
+                var betExcelFileList = GetBetExcelFilesList("bets-data-copy").Select(x => new
+                {
+                    Name = x.Name,
+                    URL = "https://footballtypersa.blob.core.windows.net/bets-data-copy/" + x.Name,
+                    DateCreated = x.Properties.CreatedOn
+                });
+                return Ok(betExcelFileList);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
         private Bitmap CalcDimAndResizeImage(Image img)
         {
             var maxDim = img.Height > img.Width ? img.Height : img.Width;
@@ -80,6 +101,15 @@ namespace FootballTyperAPI.Controllers
                 containerName);
             BlobClient blobClient = containerClient.GetBlobClient(fileModel.FileName.Split("/").LastOrDefault());
             blobClient.Upload(img, true);
+        }
+
+        private List<BlobItem> GetBetExcelFilesList(string containerName)
+        {
+            var containerClient = new BlobContainerClient(
+                _config.GetConnectionString("FootballTyperStorageAccout"),
+                containerName);
+            var blobs = containerClient.GetBlobs().ToList();
+            return blobs;
         }
 
         private Bitmap ResizeImg(Image image, int width, int height)

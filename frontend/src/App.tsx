@@ -10,6 +10,7 @@ import Statistics from './components/Statistics/Statistics';
 import Rules from './components/Rules/Rules';
 import Login from './components/Login/Login';
 import AdminPanel from './components/AdminPanel/AdminPanel';
+import ArchiveList from './components/ArchiveList/ArchiveList';
 import LoadingLayout from './components/LoadingLayout/LoadingLayout';
 import AuthVerify from './components/AuthVerify/AuthVerify';
 import { Bet } from './components/YourBets/MyBets/MyBets';
@@ -148,6 +149,7 @@ function App() {
           {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/statistics' element={<Statistics />} />}
           <Route path='/rules' element={<Rules />} />
           {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/adminpanel' element={<AdminPanel />} />}
+          <Route path='/archive' element={userStatus.isUserSigned ? <ArchiveList/> : <Login setUserStatus={setUserStatus} />} />
 
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >
