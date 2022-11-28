@@ -83,7 +83,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
                     "LEFT JOIN [Teams] ta ON ta.Id = m.AwayTeamId " +
                     "LEFT JOIN [Teams] th ON th.Id = m.HomeTeamId " +
                     "LEFT JOIN [TyperUser] u ON u.Username = b.BettorUserName " +
-                    "WHERE m.Date <= dateadd (hour, 1, GetDate()) " +
+                    "WHERE m.Date <= dateadd(hour, 1, GetDate()) " +
                     "ORDER BY MatchDate DESC, BetDate DESC";
 
                 SqlCommand oCmd = new SqlCommand(queryString, conn);
