@@ -14,7 +14,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
     {
         [FunctionName("SaveDataToExcel")]
         //public void Run([TimerTrigger("0 * * * * *")] TimerInfo myTimer, ILogger log)
-        public void Run([TimerTrigger("0 1 11,14,17,20 * * *")] TimerInfo myTimer, ILogger log)
+        public void Run([TimerTrigger("0 1 16,20 * * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
