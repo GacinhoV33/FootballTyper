@@ -32,21 +32,20 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: BetFiveMatches");
-            var playerUsername = req.Headers.Where(x => x.Key == "userName").First().Value.ToString();
+            //var playerUsername = req.Headers.Where(x => x.Key == "userName").First().Value.ToString();
+            var playersUsernames = new string[] { "danielgacek97", "gacek.filip12" };
             var betsList = new List<BetDbSave>();
             UpdateData(Matches, Teams);
-            var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => x.BettorUserName == playerUsername).Select(y => y.MatchId);
-            //foreach (var username in new string[]{"danielgacek97", "User1", "User2"})
-            //foreach (var username in new string[]{"gacek.filip12", "User1", "User2"})
-            //foreach (var username in new string[] { "User1", "User2" })
-                foreach (var username in new string[] { "danielgacek97", "gacek.filip12" })
-                {
+            var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => playersUsernames.Contains(x.BettorUserName)).Select(y => y.MatchId);
+
+            foreach (var username in playersUsernames)
+            {
                 if (Matches.Count() > 0)
                 {
                     foreach (var match in Matches.Where(x => !matchesWithbetsAlreadyMadeByUser.Contains(x.Id)).OrderBy(x => x.MatchNumber).Take(5))
                     {
-                        var awayTeamScoreBet = Random.Shared.Next(0, 2);
-                        var homeTeamScoreBet = Random.Shared.Next(3, 5);
+                        var awayTeamScoreBet = Random.Shared.Next(0, 3);
+                        var homeTeamScoreBet = Random.Shared.Next(0, 3);
                         var newBet = new BetDbSave()
                         {
                             AwayTeamScoreBet = awayTeamScoreBet,
@@ -68,7 +67,6 @@ namespace FootballTyperAPI.AzureFunctions
                     log.LogInformation("No matches in Database");
                 }
             }
-
 
             outBets = betsList.ToArray();
             log.LogInformation($"Ending execution of: BetFiveMatches");
