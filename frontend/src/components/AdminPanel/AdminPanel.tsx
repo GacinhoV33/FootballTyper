@@ -132,6 +132,10 @@ const AdminPanel = () => {
     sendHttpRequest("api/UpdateMatchResults");
   };
 
+  const prepareKnockoutStage = () => {
+    sendHttpRequest("api/PrepareKnockoutStage");
+  };
+
 
   return (
     <div>
@@ -250,7 +254,25 @@ const AdminPanel = () => {
           {" "}
           Reset <b>User</b> scores
         </button>
+     
+        <button className="btn btn-outline-primary" onClick={getTopScorers}>
+          {" "}
+          Get Top Scorers
+        </button>
 
+        <button className="btn btn-outline-primary" onClick={updateMatchResults}>
+          {" "}
+          Update Match Results
+        </button>
+      </div>
+
+
+
+      <div
+        className="btn-group btn-matrix"
+        role="group"
+        aria-label="Four Column Button Matrix"
+      >
         <button
           className="btn btn-outline-primary"
           onClick={handleInitEightfinals}
@@ -309,14 +331,9 @@ const AdminPanel = () => {
           Play <b>Finals</b> stage
         </button>
 
-        <button className="btn btn-outline-primary" onClick={getTopScorers}>
+        <button className="btn btn-outline-primary" onClick={prepareKnockoutStage}>
           {" "}
-          Get Top Scorers
-        </button>
-
-        <button className="btn btn-outline-primary" onClick={updateMatchResults}>
-          {" "}
-          Update Match Results
+          Prepare Knockout Stage
         </button>
       </div>
     </div>

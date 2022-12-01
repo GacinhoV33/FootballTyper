@@ -61,6 +61,7 @@ function App() {
     isUserSigned: localStorage.getItem('user') !== '' && localStorage.getItem('user') !== null ? true : false
   })
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const maxBetsNbr = allMatches ? allMatches.filter((match) => match.awayTeam !== null).length : 64;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -139,7 +140,7 @@ function App() {
             <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
             : null}
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} /> : <LoadingLayout componentName='My bets' />} />
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} maxBets={maxBetsNbr}/> : <LoadingLayout componentName='My bets' />} />
           <Route
             path='/ranking'
             element={

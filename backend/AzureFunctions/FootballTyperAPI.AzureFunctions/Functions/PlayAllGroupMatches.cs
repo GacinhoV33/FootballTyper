@@ -27,21 +27,21 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: PlayAllGroupMatches");
 
-            //if (Matches.Count() > 0)
-            //{
-            //    var notPlayedMatches = Matches.Where(x => x.AwayTeamScore < 0);
-            //    foreach (var match in notPlayedMatches)
-            //    {
-            //        match.AwayTeamScore = Random.Shared.Next(0, 3);
-            //        match.HomeTeamScore = Random.Shared.Next(0, 3);
-            //        match.Date = DateTime.Now;
-            //        log.LogInformation($"ID of match played: {match.Id}. Result: [{match.AwayTeamId}] {match.AwayTeamScore} - {match.HomeTeamScore} [{match.HomeTeamId}]");
-            //    }
-            //}
-            //else
-            //{
-            //    log.LogInformation("No matches in Database");
-            //}
+            if (Matches.Count() > 0)
+            {
+                var notPlayedMatches = Matches.Where(x => x.AwayTeamScore < 0);
+                foreach (var match in notPlayedMatches)
+                {
+                    match.AwayTeamScore = Random.Shared.Next(0, 3);
+                    match.HomeTeamScore = Random.Shared.Next(0, 3);
+                    match.Date = DateTime.Now;
+                    log.LogInformation($"ID of match played: {match.Id}. Result: [{match.AwayTeamId}] {match.AwayTeamScore} - {match.HomeTeamScore} [{match.HomeTeamId}]");
+                }
+            }
+            else
+            {
+                log.LogInformation("No matches in Database");
+            }
 
             outMatches = Matches.ToArray();
             log.LogInformation($"Ending execution of: PlayAllGroupMatches");

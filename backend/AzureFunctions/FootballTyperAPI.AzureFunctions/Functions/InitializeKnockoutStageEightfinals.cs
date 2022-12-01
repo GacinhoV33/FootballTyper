@@ -55,16 +55,15 @@ namespace Company.Function
 
         private static void FillEightfinalMatches(IEnumerable<Match> KnockoutMatches, Dictionary<string, List<TeamAndPosition>> teamAndPositionDict)
         {
-            int it = 0;
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "A", 1, "B", 2);
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "C", 1, "D", 2);
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "E", 1, "F", 2);
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "G", 1, "H", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 49, "A", 1, "B", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 50, "C", 1, "D", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 53, "E", 1, "F", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 54, "G", 1, "H", 2);
 
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "B", 1, "A", 2);
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "D", 1, "C", 2);
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "F", 1, "E", 2);
-            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, it++, "H", 1, "G", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 51, "B", 1, "A", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 52, "D", 1, "C", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 55, "F", 1, "E", 2);
+            FillEightfinalMatch(teamAndPositionDict, KnockoutMatches, 56, "H", 1, "G", 2);
         }
 
         private static Dictionary<string, List<TeamAndPosition>> CreateTeamAndPositionDict(IEnumerable<Team> Teams)
@@ -88,9 +87,9 @@ namespace Company.Function
         }
 
         private static void FillEightfinalMatch(Dictionary<string, List<TeamAndPosition>> teamAndPositionDict,
-            IEnumerable<Match> knockoutMatches, int it, string firstGroup, int firstPosition, string secondGroup, int secondPosition)
+            IEnumerable<Match> knockoutMatches, int matchNumber, string firstGroup, int firstPosition, string secondGroup, int secondPosition)
         {
-            var match = knockoutMatches.Skip(it).First();
+            var match = knockoutMatches.Where(x => x.MatchNumber == matchNumber).First();
             match.HomeTeamId = teamAndPositionDict[firstGroup].Where(x => x.Position == firstPosition).Select(y => y.Team.Id).First();
             match.AwayTeamId = teamAndPositionDict[secondGroup].Where(x => x.Position == secondPosition).Select(y => y.Team.Id).First();
         }

@@ -12,8 +12,9 @@ import { User, UserContext } from "../../App";
 export interface YourBetsProps {
   allUserBets: Bet[];
   allUsers: User[] | null;
+  maxBets: number;
 }
-const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
+const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) => {
   const userCtx = useContext(UserContext);
   const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>(['All']);
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allUserBets);
@@ -120,8 +121,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
         currentBets = deepcopy(allUserBets);
       }
 
-
-      console.log(currentBets)
       setBetsToShow(currentBets);
     }
     sortMyBets();
@@ -149,9 +148,9 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers }) => {
             <div className="circular-bar-sizing">
               <h6 style={{ color: "#CCCCCC" }}>All Bets</h6>
               <CircularProgressbar
-                value={11}
-                maxValue={48}
-                text={`${allUserBets.length}/48`}
+                value={allUserBets.length}
+                maxValue={maxBets}
+                text={`${allUserBets.length}/${maxBets}`}
                 styles={buildStyles({ textColor: "#CCCCCC" })}
               />
             </div>

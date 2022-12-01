@@ -32,7 +32,9 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: BetAllMatches");
-            var playerUsername = req.Headers.Where(x => x.Key == "userName").First().Value.ToString();
+            //var playerUsername = req.Headers.Where(x => x.Key == "userName").First().Value.ToString();
+            var playerUsername = "danielgacek97";
+            //var playerUsername = "gacek.filip12";
             var betsList = new List<BetDbSave>();
             UpdateData(Matches, Teams);
             var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => x.BettorUserName == playerUsername).Select(y => y.MatchId);
