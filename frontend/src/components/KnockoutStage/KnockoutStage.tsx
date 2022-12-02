@@ -238,11 +238,11 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           seeds: seedsOneEight,
         },
         {
-          title: 'Quarter Final',
+          title: 'Quarterfinals',
           seeds: seedsQuarter,
         },
         {
-          title: 'Semi Final',
+          title: 'Semifinals',
           seeds: seedsSemi,
         },
         {

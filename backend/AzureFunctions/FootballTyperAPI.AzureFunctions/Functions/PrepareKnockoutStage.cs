@@ -26,8 +26,8 @@ namespace FootballTyperAPI.AzureFunctions.Functions
             var result3 = HttpRequestHelper.Get("api/PlayAllGroupMatches");
             var result4 = HttpRequestHelper.Get("api/UpdateScoreAfterMatch");
             var result5 = HttpRequestHelper.Get("api/UpdateTyperScores");
-            
-            var result6 = HttpRequestHelper.Get("api/InitializeKnockoutStageEightfinals");
+
+            //var result6 = HttpRequestHelper.Get("api/InitializeKnockoutStageEightfinals");
             //var result7 = HttpRequestHelper.Get("api/BetFiveMatches");
             //var result7_2 = HttpRequestHelper.Get("api/BetFiveMatches");
             //var result8 = HttpRequestHelper.Get("api/PlayKnockoutStageEightfinals");

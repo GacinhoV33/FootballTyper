@@ -15,7 +15,7 @@ namespace FootballTyperAPI.AzureFunctions
         [FunctionName("PlayAllGroupMatches")]
         public static IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "PlayAllGroupMatches")] HttpRequest req,
-            [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL",
+            [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL AND RoundNumber <= 3",
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] IEnumerable<MatchDbSave> Matches,
             [Sql("[dbo].[Match]",

@@ -40,7 +40,7 @@ namespace FootballTyperAPI.AzureFunctions
             var updatedMatches = MatchHelper.GetAllMatches(Teams.ToList()).Where(x => x.AwayTeamScore != -1 && x.HomeTeamScore != -1);
             foreach (var updatedMatch in updatedMatches)
             {
-                var match = Matches.FirstOrDefault(x => x.AwayTeam.Name == updatedMatch.AwayTeam.Name
+                var match = Matches.Where(y => y.AwayTeam != null && y.HomeTeam != null).FirstOrDefault(x => x.AwayTeam.Name == updatedMatch.AwayTeam.Name
                     && x.HomeTeam.Name == updatedMatch.HomeTeam.Name
                     && x.MatchNumber == updatedMatch.MatchNumber
                 );
@@ -73,9 +73,9 @@ namespace FootballTyperAPI.AzureFunctions
                     knockoutMatch.AwayTeamId = updatedKnockoutMatch.AwayTeam.Id;
                     knockoutMatch.Location = updatedKnockoutMatch.Location;
                     log.LogInformation($"ID of knockout match setup: {knockoutMatch.Id}. " +
-                        $"Result: [{knockoutMatch.HomeTeam.Name}] {updatedKnockoutMatch.HomeTeamScore}" +
+                        $"Result: [{updatedKnockoutMatch.HomeTeam.Name}] {updatedKnockoutMatch.HomeTeamScore}" +
                         $" - " +
-                        $"{updatedKnockoutMatch.AwayTeamScore} [{knockoutMatch.AwayTeam.Name}]");
+                        $"{updatedKnockoutMatch.AwayTeamScore} [{updatedKnockoutMatch.AwayTeam.Name}]");
                     //hasDataChanged = true;
                 }
 
@@ -93,9 +93,9 @@ namespace FootballTyperAPI.AzureFunctions
                     knockoutMatchToUpdateScore.IsMatchProcessed = true;
                     knockoutMatchToUpdateScore.MatchProcessedDate = DateTime.Now;
                     log.LogInformation($"ID of knockout match played: {knockoutMatchToUpdateScore.Id}. " +
-                        $"Result: [{knockoutMatchToUpdateScore.HomeTeam.Name}] {updatedKnockoutMatch.HomeTeamScore}" +
+                        $"Result: [{updatedKnockoutMatch.HomeTeam.Name}] {updatedKnockoutMatch.HomeTeamScore}" +
                         $" - " +
-                        $"{updatedKnockoutMatch.AwayTeamScore} [{knockoutMatchToUpdateScore.AwayTeam.Name}]");
+                        $"{updatedKnockoutMatch.AwayTeamScore} [{updatedKnockoutMatch.AwayTeam.Name}]");
                     hasDataChanged = true;
                 }
             }

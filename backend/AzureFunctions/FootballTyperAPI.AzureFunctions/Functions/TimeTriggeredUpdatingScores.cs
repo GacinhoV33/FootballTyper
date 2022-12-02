@@ -9,7 +9,7 @@ namespace FootballTyperAPI.AzureFunctions.Functions
     {
         [FunctionName("TimeTriggeredUpdatingScores")]
         public static void Run([TimerTrigger("0 0,15,30,45 10,13,14,15,16,17,18,19,20,21,22,23,0 * * *")] TimerInfo myTimer, ILogger log)
-        //public static void Run([TimerTrigger("0 32 * * * *")] TimerInfo myTimer, ILogger log)
+        //public static void Run([TimerTrigger("*/15 * * * * *")] TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
