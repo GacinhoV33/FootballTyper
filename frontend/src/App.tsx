@@ -47,7 +47,7 @@ const userObjInit: UserLocalStorageData | null = {
   leagues: ['none'],
 }
 
-export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false});
+export const UserContext = createContext<UserStatus>({ userLocalData: userObjInit, isUserSigned: false });
 
 function App() {
   const [dataGroupMatches, setdataGroupMatches] = useState<any | null>(null);
@@ -135,12 +135,10 @@ function App() {
         {/* placeholder for Navbar */}
         <div style={{ height: '8vh' }}></div>
         <Routes>
-          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches}/> : <LoadingLayout componentName='Homepage' />} />
-          {!isMobile ?
-            <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
-            : null}
+          <Route path='/' element={allMatches && allTeams ? <Homepage allTeams={allTeams} allMatches={allMatches} /> : <LoadingLayout componentName='Homepage' />} />
+          <Route path='/knockout' element={userStatus.isUserSigned ? <KnockoutStage allMatches={allMatches} /> : <Login setUserStatus={setUserStatus} />} />
           <Route path='/groupstage' element={groupStageReturn()} />
-          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} maxBets={maxBetsNbr}/> : <LoadingLayout componentName='My bets' />} />
+          <Route path='/yourbets' element={allUserBets !== null ? <YourBets allUserBets={allUserBets} allUsers={allUsers} maxBets={maxBetsNbr} /> : <LoadingLayout componentName='My bets' />} />
           <Route
             path='/ranking'
             element={
@@ -150,7 +148,7 @@ function App() {
           {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/statistics' element={<Statistics />} />}
           <Route path='/rules' element={<Rules />} />
           {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/adminpanel' element={<AdminPanel />} />}
-          <Route path='/archive' element={userStatus.isUserSigned ? <ArchiveList/> : <Login setUserStatus={setUserStatus} />} />
+          <Route path='/archive' element={userStatus.isUserSigned ? <ArchiveList /> : <Login setUserStatus={setUserStatus} />} />
 
           <Route path='/Login' element={<Login setUserStatus={setUserStatus} />} />
         </Routes >

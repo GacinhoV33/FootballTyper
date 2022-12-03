@@ -11,7 +11,6 @@ import logo_player from '../LoadingLayout/images/logo_player_alpha.png';
 import { UserContext } from '../../App';
 import { CgProfile } from 'react-icons/cg';
 import { isMobile } from 'react-device-detect';
-
 export interface NavbarCompProps {
 
 }
@@ -40,11 +39,9 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
             <Nav.Link href={isUserLogged ? "/groupstage" : './Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Group</Nav.Item>
             </Nav.Link>
-            {!isMobile ?
               <Nav.Link href={isUserLogged ? "/knockout" : './Login'} className='nav-hover-item'>
-                <Nav.Item className='navbar-text'>Knockout</Nav.Item>
-              </Nav.Link> : null
-            }
+                <Nav.Item className='navbar-text'>Knockout </Nav.Item>
+              </Nav.Link>
 
             <Nav.Link href={isUserLogged ? "/yourbets" : './Login'} className='nav-hover-item'>
               <Nav.Item className='navbar-text'>Bets</Nav.Item>

@@ -15,9 +15,6 @@ import { ImCross } from 'react-icons/im';
 import { BiCheckDouble } from 'react-icons/bi';
 import { isMobile } from 'react-device-detect';
 import Matchrow from '../Matchrow/Matchrow';
-// export interface IRenderSeedPropsExt extends IRenderSeedProps{
-//   hookToUpdate: 
-// }
 
 const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProps) => {
 
@@ -160,7 +157,7 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({ rounds }) => 
   // const [thirdPlaceMatch, setThirdPlaceMatch] = useState<Match[]>();
   const userCtx = useContext(UserContext);
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
-  const [chosenCountries, setChosenCountries] = useState<{homeCountry: string, awayCountry: string}>({homeCountry: '', awayCountry: 'string'})
+  const [chosenCountries, setChosenCountries] = useState<{ homeCountry: string, awayCountry: string }>({ homeCountry: '', awayCountry: '' })
   const [betChange, setBetchange] = useState<number>(0);
   const [userBets, setUserBets] = useState<Bet[]>([]);
   useEffect(() => {
@@ -177,12 +174,33 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({ rounds }) => 
   }, [betChange]);
 
 
-  // Todo check data between displaying -> especially whether Team is updated -> Make it in Matchrow
   return (
-    <div>
-      {rounds ? rounds[0].seeds.map(({groupMatch}, index) => (
+    <div style={{ width: '100%' }}>
+      <div style={{ fontSize: '2vh', color: '#EEE', textAlign: 'center' }}> 1/8 </div>
+      {rounds ? rounds[0].seeds.map(({ groupMatch }, index) => (
         <div className='phone-knockout-body' key={index}>
-            <Matchrow groupMatch={groupMatch} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries} setBetChange={setBetchange} userBets={userBets}/>
+          <Matchrow groupMatch={groupMatch} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries} setBetChange={setBetchange} userBets={userBets} />
+        </div>
+      )) : null}
+
+      <div style={{ fontSize: '2vh', color: '#EEE', textAlign: 'center' }}> Quaterfinals </div>
+      {rounds ? rounds[1].seeds.map(({ groupMatch }, index) => (
+        <div className='phone-knockout-body' key={index}>
+          {groupMatch.awayTeam && groupMatch.homeTeam ? <Matchrow groupMatch={groupMatch} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries} setBetChange={setBetchange} userBets={userBets} /> : null}
+        </div>
+      )) : null}
+
+      <div style={{ fontSize: '2vh', color: '#EEE', textAlign: 'center' }}> Semifinals </div>
+      {rounds ? rounds[2].seeds.map(({ groupMatch }, index) => (
+        <div className='phone-knockout-body' key={index}>
+          {groupMatch.awayTeam && groupMatch.homeTeam ? <Matchrow groupMatch={groupMatch} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries} setBetChange={setBetchange} userBets={userBets} /> : null}
+        </div>
+      )) : null}
+
+      <div style={{ fontSize: '2vh', color: '#EEE', textAlign: 'center' }}> Finals </div>
+      {rounds ? rounds[3].seeds.map(({ groupMatch }, index) => (
+        <div className='phone-knockout-body' key={index}>
+          {groupMatch.awayTeam && groupMatch.homeTeam ? <Matchrow groupMatch={groupMatch} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries} setBetChange={setBetchange} userBets={userBets} /> : null}
         </div>
       )) : null}
     </div>
@@ -208,7 +226,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     getUserBets();
   }, []);
   function createData() {
-    const oneEightOrderDict: any = {49 : 1, 50 : 2, 53 : 3, 54 : 4, 51 : 5, 52 : 6, 55 : 7, 56 : 8}
+    const oneEightOrderDict: any = { 49: 1, 50: 2, 53: 3, 54: 4, 51: 5, 52: 6, 55: 7, 56: 8 }
     const oneEightMatches = allMatches?.filter((match) => match.stage === 1).sort((a, b) => oneEightOrderDict[a.matchNumber] - oneEightOrderDict[b.matchNumber]);
     const seedsOneEight = oneEightMatches !== null && oneEightMatches !== undefined ? oneEightMatches.map((match) => {
       return (
@@ -224,7 +242,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     }
     ) : null;
 
-    const quarterOrderDict: any = {58 : 1, 57 : 2, 60 : 3, 59 : 4}
+    const quarterOrderDict: any = { 58: 1, 57: 2, 60: 3, 59: 4 }
     const quarterMatches = allMatches?.filter((match) => match.stage === 2).sort((a, b) => quarterOrderDict[a.matchNumber] - quarterOrderDict[b.matchNumber]);
     const seedsQuarter = quarterMatches !== null && quarterMatches !== undefined ? quarterMatches.map((match) => {
       return (
@@ -240,7 +258,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     }
     ) : null;
 
-    const semiOrderDict: any = {61 : 1, 62 : 2}
+    const semiOrderDict: any = { 61: 1, 62: 2 }
     const semiMatches = allMatches?.filter((match) => match.stage === 3).sort((a, b) => a.matchNumber - b.matchNumber);
     const seedsSemi = semiMatches !== null && semiMatches !== undefined ? semiMatches.map((match) => {
       return (
@@ -297,7 +315,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
   const rounds = createData();
   return (
     <>
-      {isMobile ?
+      {!isMobile ?
         (<div className='knockout-main'>
           {
             rounds !== undefined && rounds !== null
@@ -305,12 +323,13 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
                 rounds={rounds}
                 renderSeedComponent={CustomSeed}
                 roundClassName={'round-styles'}
-
               />
               : null
           }
         </div>) :
-        <MobilePhoneKnockout rounds={rounds} />
+        <div className='mobile-knockout'>
+          <MobilePhoneKnockout rounds={rounds} />
+        </div>
       }
     </>
   )
