@@ -21,7 +21,7 @@ export type RankingProps = {
 
 const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
 
-  const [filter, setFilter] = useState<RankingFilters>('lastDay');
+  const [filter, setFilter] = useState<RankingFilters>('knockoutStage');
   const [leagueFilter, setLeagueFilter] = useState<string>('main');
   const [usersToDisplay, setUsersToDisplay] = useState<User[]>(allUsers);
   const [lastDayMain, setLastDayMain] = useState<User[]>([]);

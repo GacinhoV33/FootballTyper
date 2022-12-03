@@ -102,8 +102,8 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
             {isBetExisting || betChange !== 0 ? 'Edit' : 'Bet'}
           </Button>
           : (isBetExisting && isBetNew ?  
-            ( isBetNew[0].betResult === 1 ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
-              isBetNew[0].betResult === 2  ?  <BiCheckDouble size={40} style={{ color: 'darkgreen' }}/>
+            ( isBetNew[0].betResult === 1 && new Date(isBetNew[0].match.date) > new Date() ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
+              isBetNew[0].betResult === 2 && new Date(isBetNew[0].match.date) > new Date() ?  <BiCheckDouble size={40} style={{ color: 'darkgreen' }}/>
               : <ImCross size={20} style={{ color: 'red', marginRight: '0.5rem' }} />)
               ) : null)
           }
