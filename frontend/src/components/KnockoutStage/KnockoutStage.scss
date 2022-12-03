@@ -22,8 +22,24 @@
 }
 
 .round-styles{
-    color: white !important;
+    color: white;
     font-size: 4vh;
     text-align: center;
     
+}
+
+
+.phone-knockout-body{
+    margin: 2vh auto;
+    width: 91%;
+
+}
+
+.mobile-knockout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../Homepage/images/background.jfif');
+    width: 100%;   
 }
