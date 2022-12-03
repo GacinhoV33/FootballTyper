@@ -13,8 +13,8 @@ import Alert from 'react-bootstrap/Alert';
 import { BsCheck } from 'react-icons/bs';
 import { ImCross } from 'react-icons/im';
 import { BiCheckDouble } from 'react-icons/bi';
-
-
+import { isMobile } from 'react-device-detect';
+import Matchrow from '../Matchrow/Matchrow';
 // export interface IRenderSeedPropsExt extends IRenderSeedProps{
 //   hookToUpdate: 
 // }
@@ -85,7 +85,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
                 <span className={wonTeam === 0 ? 'won-team-score team-text' : 'team-text'}>{seed.groupMatch.awayTeamScore !== -1 ? seed.groupMatch.awayTeamScore : null}</span>
               </div>
               <div style={{ color: 'white', fontWeight: '300', fontSize: '1.1rem' }}>
-                
+
                 {betChange !== 0 ? modalValue.awayScore : (isBetExisting && isBetNew !== null ? `(${isBetNew[0].awayTeamScoreBet})` : null)}
               </div>
 
@@ -95,17 +95,17 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
         <div style={{ paddingRight: '1vw' }}>
           {
             !seed.groupMatch.isMatchValid ? <Button
-            variant={isBetExisting || betChange !== 0 ? 'warning' : 'primary'}
-            onClick={() => handleBet()}
-            disabled={!isBetAllowed}
-          >
-            {isBetExisting || betChange !== 0 ? 'Edit' : 'Bet'}
-          </Button>
-          : (isBetExisting && isBetNew ?  
-            ( isBetNew[0].betResult === 1 ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
-              isBetNew[0].betResult === 2  ?  <BiCheckDouble size={40} style={{ color: 'darkgreen' }}/>
-              : <ImCross size={20} style={{ color: 'red', marginRight: '0.5rem' }} />)
-              ) : null)
+              variant={isBetExisting || betChange !== 0 ? 'warning' : 'primary'}
+              onClick={() => handleBet()}
+              disabled={!isBetAllowed}
+            >
+              {isBetExisting || betChange !== 0 ? 'Edit' : 'Bet'}
+            </Button>
+              : (isBetExisting && isBetNew ?
+                (isBetNew[0].betResult === 1 ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
+                  isBetNew[0].betResult === 2 ? <BiCheckDouble size={40} style={{ color: 'darkgreen' }} />
+                    : <ImCross size={20} style={{ color: 'red', marginRight: '0.5rem' }} />)
+                ) : null)
           }
         </div>
       </SeedItem>
@@ -149,6 +149,46 @@ export interface KnockoutStageProps {
   allMatches: Match[] | null,
 
 }
+export interface MobilePhoneKnockoutProps {
+  rounds: IRoundProps[] | undefined,
+}
+const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({ rounds }) => {
+  // const [oneEightMatches, setOneEightMatches] = useState<Match[]>([]);
+  // const [quaterFinalMatches, setQuaterFinalMatches] = useState<Match[]>([]);
+  // const [semiFinalMatches, setSemiFinalMatches] = useState<Match[]>([]);
+  // const [finalMatch, setFinalMatch] = useState<Match[]>([]);
+  // const [thirdPlaceMatch, setThirdPlaceMatch] = useState<Match[]>();
+  const userCtx = useContext(UserContext);
+  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const [chosenCountries, setChosenCountries] = useState<{homeCountry: string, awayCountry: string}>({homeCountry: '', awayCountry: 'string'})
+  const [betChange, setBetchange] = useState<number>(0);
+  const [userBets, setUserBets] = useState<Bet[]>([]);
+  useEffect(() => {
+    const getUserBets = async () => {
+      const userName = userCtx.userLocalData
+        ? userCtx.userLocalData.username
+        : "";
+      const allUserBets = await (
+        await fetch(API_URL + `api/Bets/User/${userName}`)
+      ).json();
+      setUserBets(allUserBets);
+    };
+    getUserBets();
+  }, [betChange]);
+
+
+  // Todo check data between displaying -> especially whether Team is updated -> Make it in Matchrow
+  return (
+    <div>
+      {rounds ? rounds[0].seeds.map(({groupMatch}, index) => (
+        <div className='phone-knockout-body' key={index}>
+            <Matchrow groupMatch={groupMatch} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries} setBetChange={setBetchange} userBets={userBets}/>
+        </div>
+      )) : null}
+    </div>
+  )
+}
+
 
 const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
   const [userBets, setUserBets] = useState<Bet[] | null>(null);
@@ -253,18 +293,23 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
 
   const rounds = createData();
   return (
-    <div className='knockout-main'>
-      {
-        rounds !== undefined && rounds !== null
-          ? <Bracket
-            rounds={rounds}
-            renderSeedComponent={CustomSeed}
-            roundClassName={'round-styles'}
+    <>
+      {isMobile ?
+        (<div className='knockout-main'>
+          {
+            rounds !== undefined && rounds !== null
+              ? <Bracket
+                rounds={rounds}
+                renderSeedComponent={CustomSeed}
+                roundClassName={'round-styles'}
 
-          />
-          : null
+              />
+              : null
+          }
+        </div>) :
+        <MobilePhoneKnockout rounds={rounds} />
       }
-    </div>
+    </>
   )
 }
 
