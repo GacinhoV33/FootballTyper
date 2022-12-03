@@ -92,10 +92,6 @@ namespace Company.Function
             {
                 try
                 {
-                    if (topScorer.statistics.First()?.goals?.total != null && topScorer.statistics.First()?.goals?.total != 0)
-                    {
-                        var hello = 1;
-                    }
                     var existingTopScorer = topScorers.FirstOrDefault(x => x.RapidApiId == topScorer.player.id);
                     if (existingTopScorer != null)
                     {
@@ -106,9 +102,22 @@ namespace Company.Function
                         existingTopScorer.YellowCards = topScorer.statistics.First()?.cards.yellow ?? 0;
                         existingTopScorer.YellowRedCards = topScorer.statistics.First()?.cards.yellowred ?? 0;
                         hasDataChanged = true;
+                        if ((topScorer.statistics.First()?.goals?.total ?? 0) != existingTopScorer.Goals ||
+                            (topScorer.statistics.First()?.goals?.assists ?? 0) != existingTopScorer.Assists ||
+                            (topScorer.statistics.First()?.cards?.red ?? 0) != existingTopScorer.RedCards ||
+                            (topScorer.statistics.First()?.cards?.yellow ?? 0) != existingTopScorer.YellowCards ||
+                            (topScorer.statistics.First()?.cards?.yellowred ?? 0) != existingTopScorer.YellowRedCards
+                            )
+                        {
+                            log.LogInformation($"Updated player: {topScorer.player.name}. RapidApiId: {topScorer.player.id}. " +
+                                $"Goals: {existingTopScorer.Goals}. Assits: {existingTopScorer.Assists}. " +
+                                $"YellowCards: {existingTopScorer.YellowCards}. RedCards: {existingTopScorer.RedCards}. " +
+                                $"YellowRedCards: {existingTopScorer.YellowRedCards}.");
+                        }
                     }
                     else
                     {
+                        log.LogInformation($"New player: {topScorer.player.name}. RapidApiId: {topScorer.player.id}");
                         var topScorerDb = new TopScorerDb()
                         {
                             Name = topScorer.player.name,
@@ -121,6 +130,10 @@ namespace Company.Function
                             Team = topScorer.player.nationality,
                             RapidApiId = topScorer.player.id
                         };
+                        log.LogInformation($"Added player: {topScorer.player.name}. RapidApiId: {topScorer.player.id}. " +
+                                $"Goals: {topScorerDb.Goals}. Assits: {topScorerDb.Assists}. " +
+                                $"YellowCards: {topScorerDb.YellowCards}. RedCards: {topScorerDb.RedCards}. " +
+                                $"YellowRedCards: {topScorerDb.YellowRedCards}.");
                         topScorers.Add(topScorerDb);
                         hasDataChanged = true;
                     }

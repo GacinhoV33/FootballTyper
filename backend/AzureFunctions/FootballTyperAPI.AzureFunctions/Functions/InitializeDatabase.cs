@@ -1,4 +1,5 @@
 using FootballTyperAPI.AzureFunctions;
+using FootballTyperAPI.Common;
 using FootballTyperAPI.Helpers;
 using FootballTyperAPI.Models;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +19,9 @@ namespace Company.Function
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "InitializeDatabase")] HttpRequest req,
             ILogger log)
         {
-            //var result1 = TriggerAfterMatch.Get("api/InitializeTableTeams").GetAwaiter().GetResult();
-            //var result2 = TriggerAfterMatch.Get("api/InitializeTableMatches").GetAwaiter().GetResult();
-            //var result3 = TriggerAfterMatch.Get("api/InitializeTableBets").GetAwaiter().GetResult();
+            var result1 = HttpRequestHelper.Get("api/InitializeTableTeams");
+            var result2 = HttpRequestHelper.Get("api/InitializeTableMatches");
+            //var result3 = HttpRequestHelper.Get("api/InitializeTableBets");
 
             return new OkObjectResult(new { Ok = true });
         }

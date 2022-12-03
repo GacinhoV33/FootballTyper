@@ -16,7 +16,7 @@ namespace FootballTyperAPI.AzureFunctions
         [FunctionName("UpdateMatchResults")]
         public static IActionResult Run(
                 [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "UpdateMatchResults")] HttpRequest req,
-                [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL AND IsMatchProcessed != 1",
+                [Sql("SELECT * FROM [dbo].[Match] WHERE IsMatchProcessed != 1",
                     CommandType = System.Data.CommandType.Text,
                     ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
                 [Sql("SELECT * FROM [dbo].[Teams]",
@@ -40,7 +40,7 @@ namespace FootballTyperAPI.AzureFunctions
             var updatedMatches = MatchHelper.GetAllMatches(Teams.ToList()).Where(x => x.AwayTeamScore != -1 && x.HomeTeamScore != -1);
             foreach (var updatedMatch in updatedMatches)
             {
-                var match = Matches.FirstOrDefault(x => x.AwayTeam.Name == updatedMatch.AwayTeam.Name
+                var match = Matches.Where(y => y.AwayTeam != null && y.HomeTeam != null).FirstOrDefault(x => x.AwayTeam.Name == updatedMatch.AwayTeam.Name
                     && x.HomeTeam.Name == updatedMatch.HomeTeam.Name
                     && x.MatchNumber == updatedMatch.MatchNumber
                 );
@@ -51,6 +51,51 @@ namespace FootballTyperAPI.AzureFunctions
                     match.AwayTeamScore = updatedMatch.AwayTeamScore;
                     log.LogInformation($"ID of match played: {match.Id}. " +
                         $"Result: [{match.HomeTeam.Name}] {updatedMatch.HomeTeamScore} - {updatedMatch.AwayTeamScore} [{match.AwayTeam.Name}]");
+                    hasDataChanged = true;
+                }
+            }
+
+            var updatedKnockoutMatches = MatchHelper.GetAllMatches(Teams.ToList())
+                .Where(x => x.RoundNumber == 4 && x.HomeTeam != null && x.AwayTeam != null);
+
+            foreach (var updatedKnockoutMatch in updatedKnockoutMatches)
+            {
+                var knockoutMatch = Matches.FirstOrDefault(x => x.RoundNumber == 4
+                && updatedKnockoutMatch.RoundNumber == 4
+                && x.MatchNumber == updatedKnockoutMatch.MatchNumber
+                && x.AwayTeamId == null
+                && x.HomeTeamId == null
+                );
+
+                if (knockoutMatch != null)
+                {
+                    knockoutMatch.HomeTeamId = updatedKnockoutMatch.HomeTeam.Id;
+                    knockoutMatch.AwayTeamId = updatedKnockoutMatch.AwayTeam.Id;
+                    knockoutMatch.Location = updatedKnockoutMatch.Location;
+                    log.LogInformation($"ID of knockout match setup: {knockoutMatch.Id}. " +
+                        $"Result: [{updatedKnockoutMatch.HomeTeam.Name}] {updatedKnockoutMatch.HomeTeamScore}" +
+                        $" - " +
+                        $"{updatedKnockoutMatch.AwayTeamScore} [{updatedKnockoutMatch.AwayTeam.Name}]");
+                    //hasDataChanged = true;
+                }
+
+                var knockoutMatchToUpdateScore = Matches.FirstOrDefault(x => x.RoundNumber == 4
+                && updatedKnockoutMatch.RoundNumber == 4
+                && x.MatchNumber == updatedKnockoutMatch.MatchNumber
+                && x.AwayTeamId != null
+                && x.HomeTeamId != null
+                );
+
+                if (knockoutMatchToUpdateScore != null && updatedKnockoutMatch.HomeTeamScore != -1 && updatedKnockoutMatch.AwayTeamScore != -1)
+                {
+                    knockoutMatchToUpdateScore.HomeTeamScore = updatedKnockoutMatch.HomeTeamScore;
+                    knockoutMatchToUpdateScore.AwayTeamScore = updatedKnockoutMatch.AwayTeamScore;
+                    knockoutMatchToUpdateScore.IsMatchProcessed = true;
+                    knockoutMatchToUpdateScore.MatchProcessedDate = DateTime.Now;
+                    log.LogInformation($"ID of knockout match played: {knockoutMatchToUpdateScore.Id}. " +
+                        $"Result: [{updatedKnockoutMatch.HomeTeam.Name}] {updatedKnockoutMatch.HomeTeamScore}" +
+                        $" - " +
+                        $"{updatedKnockoutMatch.AwayTeamScore} [{updatedKnockoutMatch.AwayTeam.Name}]");
                     hasDataChanged = true;
                 }
             }
@@ -76,6 +121,5 @@ namespace FootballTyperAPI.AzureFunctions
                 match.AwayTeam = Teams.FirstOrDefault(x => x.Id == match.AwayTeamId);
             }
         }
-
     }
 }

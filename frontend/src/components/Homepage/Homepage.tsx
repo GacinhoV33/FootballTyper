@@ -134,6 +134,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
                     stadium={match.location}
                     group={match.group} 
                     match={match}
+                    roundNumber={match.roundNumber}
                     />
                   <div className='time-to-start-navbar'>
                     <TimeToStart date={match.date} whiteColor />

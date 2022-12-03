@@ -21,7 +21,7 @@ namespace FootballTyperAPI.AzureFunctions
             [Sql("SELECT * FROM [dbo].[Teams]",
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Team> Teams,
-            [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL",
+            [Sql("SELECT * FROM [dbo].[Match] WHERE HomeTeamId IS NOT NULL AND MatchNumber > 48", //Only knockout stage
                 CommandType = System.Data.CommandType.Text,
                 ConnectionStringSetting = "SqlConnectionString")] IEnumerable<Match> Matches,
             [Sql("[dbo].[Bets]",
@@ -32,14 +32,13 @@ namespace FootballTyperAPI.AzureFunctions
             log.LogInformation($"-------------------------------------------------------------------------");
             log.LogInformation($"Execution date: {DateTime.Now}");
             log.LogInformation($"Starting execution of: BetFiveMatches");
-            var playerUsername = req.Headers.Where(x => x.Key == "userName").First().Value.ToString();
+            //var playerUsername = req.Headers.Where(x => x.Key == "userName").First().Value.ToString();
+            var playersUsernames = new string[] { "danielgacek97", "gacek.filip12" };
             var betsList = new List<BetDbSave>();
             UpdateData(Matches, Teams);
-            var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => x.BettorUserName == playerUsername).Select(y => y.MatchId);
-            //foreach (var username in new string[]{"danielgacek97", "User1", "User2"})
-            //foreach (var username in new string[]{"gacek.filip12", "User1", "User2"})
-            foreach (var username in new string[] { "User1", "User2" })
-            //foreach (var username in new string[] { "danielgacek97" })
+            var matchesWithbetsAlreadyMadeByUser = Bets.Where(x => playersUsernames.Contains(x.BettorUserName)).Select(y => y.MatchId);
+
+            foreach (var username in playersUsernames)
             {
                 if (Matches.Count() > 0)
                 {
@@ -68,7 +67,6 @@ namespace FootballTyperAPI.AzureFunctions
                     log.LogInformation("No matches in Database");
                 }
             }
-
 
             outBets = betsList.ToArray();
             log.LogInformation($"Ending execution of: BetFiveMatches");

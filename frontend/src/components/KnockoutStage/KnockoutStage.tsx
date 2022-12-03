@@ -48,7 +48,7 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
       setUserBets(allUserBets);
     };
     getUserBets();
-  }, []);
+  }, [betChange]);
 
   function handleClose() {
     setShowModal(false);
@@ -208,7 +208,8 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     getUserBets();
   }, []);
   function createData() {
-    const oneEightMatches = allMatches?.filter((match) => match.stage === 1);
+    const oneEightOrderDict: any = {49 : 1, 50 : 2, 53 : 3, 54 : 4, 51 : 5, 52 : 6, 55 : 7, 56 : 8}
+    const oneEightMatches = allMatches?.filter((match) => match.stage === 1).sort((a, b) => oneEightOrderDict[a.matchNumber] - oneEightOrderDict[b.matchNumber]);
     const seedsOneEight = oneEightMatches !== null && oneEightMatches !== undefined ? oneEightMatches.map((match) => {
       return (
         {
@@ -223,7 +224,8 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     }
     ) : null;
 
-    const quarterMatches = allMatches?.filter((match) => match.stage === 2);
+    const quarterOrderDict: any = {58 : 1, 57 : 2, 60 : 3, 59 : 4}
+    const quarterMatches = allMatches?.filter((match) => match.stage === 2).sort((a, b) => quarterOrderDict[a.matchNumber] - quarterOrderDict[b.matchNumber]);
     const seedsQuarter = quarterMatches !== null && quarterMatches !== undefined ? quarterMatches.map((match) => {
       return (
         {
@@ -238,7 +240,8 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     }
     ) : null;
 
-    const semiMatches = allMatches?.filter((match) => match.stage === 3);
+    const semiOrderDict: any = {61 : 1, 62 : 2}
+    const semiMatches = allMatches?.filter((match) => match.stage === 3).sort((a, b) => a.matchNumber - b.matchNumber);
     const seedsSemi = semiMatches !== null && semiMatches !== undefined ? semiMatches.map((match) => {
       return (
         {
@@ -275,11 +278,11 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           seeds: seedsOneEight,
         },
         {
-          title: 'Quarter Final',
+          title: 'Quarterfinals',
           seeds: seedsQuarter,
         },
         {
-          title: 'Semi Final',
+          title: 'Semifinals',
           seeds: seedsSemi,
         },
         {

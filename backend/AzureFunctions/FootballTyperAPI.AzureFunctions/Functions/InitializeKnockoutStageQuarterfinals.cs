@@ -50,7 +50,7 @@ namespace Company.Function
             FillQuarterfinalMatch(eightfinalMatches, quarterfinalMatches, 57, 53, 54);
             FillQuarterfinalMatch(eightfinalMatches, quarterfinalMatches, 58, 49, 50);
             FillQuarterfinalMatch(eightfinalMatches, quarterfinalMatches, 59, 55, 56);
-            FillQuarterfinalMatch(eightfinalMatches, quarterfinalMatches, 60, 52, 51);
+            FillQuarterfinalMatch(eightfinalMatches, quarterfinalMatches, 60, 51, 52);
         }
 
         private static void FillQuarterfinalMatch(IEnumerable<Match> eightfinalMatches, IEnumerable<Match> quarterfinalMatches,
