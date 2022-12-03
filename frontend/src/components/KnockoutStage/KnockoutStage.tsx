@@ -92,17 +92,19 @@ const CustomSeed = ({ seed, breakpoint, roundIndex, seedIndex }: IRenderSeedProp
         <div style={{ paddingRight: '1vw' }}>
           {
             !seed.groupMatch.isMatchValid ? <Button
-            variant={isBetExisting || betChange !== 0 ? 'warning' : 'primary'}
-            onClick={() => handleBet()}
-            disabled={!isBetAllowed}
-          >
-            {isBetExisting || betChange !== 0 ? 'Edit' : 'Bet'}
-          </Button>
-          : (isBetExisting && isBetNew ?  
-            ( isBetNew[0].betResult === 1 && new Date(isBetNew[0].match.date) > new Date() ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
-              isBetNew[0].betResult === 2 && new Date(isBetNew[0].match.date) > new Date() ?  <BiCheckDouble size={40} style={{ color: 'darkgreen' }}/>
-              : <ImCross size={20} style={{ color: 'red', marginRight: '0.5rem' }} />)
-              ) : null)
+              variant={isBetExisting || betChange !== 0 ? 'warning' : 'primary'}
+              onClick={() => handleBet()}
+              disabled={!isBetAllowed}
+            >
+              {isBetExisting || betChange !== 0 ? 'Edit' : 'Bet'}
+            </Button>
+              : (isBetExisting && isBetNew ?
+                (isBetNew[0].betResult === 1 && new Date(isBetNew[0].match.date) > new Date() ? <BsCheck size={40} style={{ color: 'lightgreen' }} /> : (
+                  isBetNew[0].betResult === 2 && new Date(isBetNew[0].match.date) > new Date() ? <BiCheckDouble size={40} style={{ color: 'darkgreen' }} />
+                    : ( isBetNew[0].betResult === 0 ? 
+                      <ImCross size={20} style={{ color: 'red', marginRight: '0.5rem' }} /> : null
+                    ))
+                ) : null)
           }
         </div>
       </SeedItem>
@@ -176,7 +178,7 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({ rounds }) => 
 
   return (
     <div style={{ width: '100%' }}>
-      <div style={{ fontSize: '2vh', color: '#EEE', textAlign: 'center' }}> 1/8 </div>
+      <div style={{ fontSize: '2vh', color: '#EEE', textAlign: 'center', marginTop: '2vh' }}> 1/8 </div>
       {rounds ? rounds[0].seeds.map(({ groupMatch }, index) => (
         <div className='phone-knockout-body' key={index}>
           <Matchrow groupMatch={groupMatch} chosenCountries={chosenCountries} setChosenCountries={setChosenCountries} setBetChange={setBetchange} userBets={userBets} />
