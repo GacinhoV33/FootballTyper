@@ -19,13 +19,13 @@ namespace FootballTyperAPI.AzureFunctions.Functions
             log.LogInformation(updateMatchResult.ToString());
             if (updateMatchResult.IsSuccessStatusCode)
             {
-                var updateScoreAfterMatchResult = HttpRequestHelper.Get("api/UpdateScoreAfterMatch");
-                log.LogInformation(updateScoreAfterMatchResult.ToString());
-                if (updateScoreAfterMatchResult.IsSuccessStatusCode)
-                {
+                //var updateScoreAfterMatchResult = HttpRequestHelper.Get("api/UpdateScoreAfterMatch");
+                //log.LogInformation(updateScoreAfterMatchResult.ToString());
+                //if (updateScoreAfterMatchResult.IsSuccessStatusCode)
+                //{
                     var updateTyperScoresResult = HttpRequestHelper.Get("api/UpdateTyperScores");
                     log.LogInformation(updateTyperScoresResult.ToString());
-                }
+                //}
             }
 
             if ((DateTime.Now >= DateTime.Now.ChangeTime(hours: 22, minutes: 20)
