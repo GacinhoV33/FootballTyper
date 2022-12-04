@@ -7,6 +7,7 @@ import FilterRanking from './FilterRanking';
 import FilterLeague from './FilterLeague';
 import ListRanking from './ListRanking';
 import { User } from '../../App';
+import LoadingLayout from '../LoadingLayout/LoadingLayout';
   
 export type LeaugeName = {
   leaugeName: string,
@@ -16,14 +17,13 @@ export type LeaugeName = {
 export type RankingFilters = 'general' | 'lastDay' | 'groupStage' | 'knockoutStage';
 
 export type RankingProps = {
-  allUsers: User[],
 }
 
-const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
+const Ranking: React.FC<RankingProps> = ({}) => {
 
   const [filter, setFilter] = useState<RankingFilters>('knockoutStage');
   const [leagueFilter, setLeagueFilter] = useState<string>('main');
-  const [usersToDisplay, setUsersToDisplay] = useState<User[]>(allUsers);
+  const [usersToDisplay, setUsersToDisplay] = useState<User[]>([]);
   const [lastDayMain, setLastDayMain] = useState<User[]>([]);
   const [groupStageMain, setGroupStageMain] = useState<User[]>([]);
   const [knockoutMain, setKnockoutMain] = useState<User[]>([]);
@@ -33,6 +33,40 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   const [knockoutClown, setKnockoutClown] = useState<User[]>([]);
   const [generalClown, setGeneralClown] = useState<User[]>([]);
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+      const lastDayMainData: User[] = await (await fetch(API_URL+ `api/Score/LastDay/main`)).json();
+      const groupStageMainData: User[] = await (await fetch(API_URL + `api/Score/Groupstage/main`)).json();
+      const knockoutMainData: User[] = await (await fetch(API_URL + `api/Score/Knockout/main`)).json();
+      const generalMainData: User[] = await (await fetch(API_URL + `api/Score/All/main`)).json();
+      const lastDayClownData: User[] = await (await fetch(API_URL+ `api/Score/LastDay/clownLeague`)).json();
+      const groupStageClownData: User[] = await (await fetch(API_URL + `api/Score/Groupstage/clownLeague`)).json();
+      const knockoutClownData: User[] = await (await fetch(API_URL + `api/Score/Knockout/clownLeague`)).json();
+      const generalClownData: User[] = await (await fetch(API_URL + `api/Score/All/clownLeague`)).json();
+      lastDayMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      groupStageMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      knockoutMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      generalMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      lastDayClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      groupStageClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      knockoutClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      generalClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
+      setGeneralMain(generalMainData);
+      setLastDayMain(lastDayMainData);
+      setGroupStageMain(groupStageMainData);
+      setKnockoutMain(knockoutMainData);
+      setLastDayClown(lastDayClownData);
+      setGroupStageClown(groupStageClownData);
+      setKnockoutClown(knockoutClownData);
+      setGeneralClown(generalClownData);
+      setFilter('general');    
+    }
+    fetchData();
+  }, [])
+
 
   useEffect(() => {
     if(leagueFilter === 'main'){
@@ -70,38 +104,6 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
   }
     , [filter, leagueFilter])
 
-  useEffect(() => {
-    const fetchData = async () => {
-
-      const lastDayMain: User[] = await (await fetch(API_URL+ `api/Score/LastDay/main`)).json();
-      const groupStageMain: User[] = await (await fetch(API_URL + `api/Score/Groupstage/main`)).json();
-      const knockoutMain: User[] = await (await fetch(API_URL + `api/Score/Knockout/main`)).json();
-      const generalMain: User[] = await (await fetch(API_URL + `api/Score/All/main`)).json();
-      const lastDayClown: User[] = await (await fetch(API_URL+ `api/Score/LastDay/clownLeague`)).json();
-      const groupStageClown: User[] = await (await fetch(API_URL + `api/Score/Groupstage/clownLeague`)).json();
-      const knockoutClown: User[] = await (await fetch(API_URL + `api/Score/Knockout/clownLeague`)).json();
-      const generalClown: User[] = await (await fetch(API_URL + `api/Score/All/clownLeague`)).json();
-      lastDayMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
-      groupStageMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
-      knockoutMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
-      generalMain.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
-      lastDayClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
-      groupStageClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
-      knockoutClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
-      generalClown.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
-      
-      setLastDayMain(lastDayMain);
-      setGroupStageMain(groupStageMain);
-      setKnockoutMain(knockoutMain);
-      setGeneralMain(generalMain);
-      setLastDayClown(lastDayClown);
-      setGroupStageClown(groupStageClown);
-      setKnockoutClown(knockoutClown);
-      setGeneralClown(generalClown);
-      setFilter('general');
-    }
-    fetchData();
-  }, [])
 
   
   return (
@@ -112,10 +114,12 @@ const Ranking: React.FC<RankingProps> = ({ allUsers }) => {
           <FilterLeague currentFilter={leagueFilter} setCurrentFilter={setLeagueFilter} />
         </div>
       </div>
-     
-      <div className='list-ranking'>
+     {  usersToDisplay.length === 0 && filter !== 'lastDay' ? 
+       <LoadingLayout componentName='Ranking'/> :
+       <div className='list-ranking'>
         <ListRanking allUsers={usersToDisplay} league={leagueFilter} filter={filter}/>
-      </div>
+      </div> 
+      }
     </div>
 
 
