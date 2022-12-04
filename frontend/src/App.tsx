@@ -97,18 +97,6 @@ function App() {
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, [])
 
-  const rankingReturn = () => {
-    if (allUsers && userStatus.isUserSigned && Array.isArray(allUsers)) {
-      return <Ranking allUsers={allUsers} />
-    }
-    else if (allUsers && !userStatus.isUserSigned) {
-      return <Login setUserStatus={setUserStatus} />
-    }
-    else {
-      return <LoadingLayout componentName='Ranking' />
-    }
-  }
-
   const groupStageReturn = () => {
     if (!userStatus.isUserSigned) {
       return (
@@ -142,7 +130,7 @@ function App() {
           <Route
             path='/ranking'
             element={
-              rankingReturn()
+              <Ranking/>
             }
           />
           {process.env.REACT_APP_IS_IT_PRODUCTION_VERSION !== 'true' && <Route path='/statistics' element={<Statistics />} />}
