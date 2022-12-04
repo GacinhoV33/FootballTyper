@@ -504,19 +504,19 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
       const rounds: IRoundProps[] = [
         {
           title: "1/8",
-          seeds: seedsOneEight,
+          seeds: seedsOneEight.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
         },
         {
           title: "Quarterfinals",
-          seeds: seedsQuarter,
+          seeds: seedsQuarter.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
         },
         {
           title: "Semifinals",
-          seeds: seedsSemi,
+          seeds: seedsSemi.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
         },
         {
           title: "Final",
-          seeds: seedsFinal,
+          seeds: seedsFinal.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
         },
       ];
       return rounds;
