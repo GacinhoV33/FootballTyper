@@ -62,6 +62,13 @@ function App() {
   })
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
   const maxBetsNbr = allMatches ? allMatches.filter((match) => match.awayTeam !== null).length : 64;
+  const requestBetsOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +86,7 @@ function App() {
       const allUsers = await (await fetch(API_URL + 'api/TyperUsers', requestAllUsersOptions)).json();
       const userName = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : '';
       if (userName) {
-        const allUserBets = await (await fetch(API_URL + `api/Bets/User/${userName.username}`)).json();
+        const allUserBets = await (await fetch(API_URL + `api/Bets/User/${userName.username}`, requestBetsOptions)).json();
         setAllUserBets(allUserBets);
       }
       setAllMatches(allMatches);

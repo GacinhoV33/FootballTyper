@@ -66,13 +66,21 @@ const CustomSeed = ({
       ? process.env.REACT_APP_API_URL_PROD
       : process.env.REACT_APP_API_URL_LOCAL;
 
+  const requestBetsOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  };
+
   useEffect(() => {
     const getUserBets = async () => {
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
       const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`)
+        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
       ).json();
       setUserBets(allUserBets);
     };
@@ -280,13 +288,22 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({
   }>({ homeCountry: "", awayCountry: "" });
   const [betChange, setBetchange] = useState<number>(0);
   const [userBets, setUserBets] = useState<Bet[]>([]);
+
+  const requestBetsOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  };
+
   useEffect(() => {
     const getUserBets = async () => {
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
       const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`)
+        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
       ).json();
       setUserBets(allUserBets);
     };
@@ -307,17 +324,19 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({
         1/8{" "}
       </div>
       {rounds
-        ? rounds[0].seeds.map(({ groupMatch }, index) => (
-            <div className="phone-knockout-body" key={index}>
-              <Matchrow
-                groupMatch={groupMatch}
-                chosenCountries={chosenCountries}
-                setChosenCountries={setChosenCountries}
-                setBetChange={setBetchange}
-                userBets={userBets}
-              />
-            </div>
-          ))
+        ? rounds[0].seeds
+            .sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date))
+            .map(({ groupMatch }, index) => (
+              <div className="phone-knockout-body" key={index}>
+                <Matchrow
+                  groupMatch={groupMatch}
+                  chosenCountries={chosenCountries}
+                  setChosenCountries={setChosenCountries}
+                  setBetChange={setBetchange}
+                  userBets={userBets}
+                />
+              </div>
+            ))
         : null}
 
       <div style={{ fontSize: "2vh", color: "#EEE", textAlign: "center" }}>
@@ -325,19 +344,21 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({
         Quaterfinals{" "}
       </div>
       {rounds
-        ? rounds[1].seeds.map(({ groupMatch }, index) => (
-            <div className="phone-knockout-body" key={index}>
-              {groupMatch.awayTeam && groupMatch.homeTeam ? (
-                <Matchrow
-                  groupMatch={groupMatch}
-                  chosenCountries={chosenCountries}
-                  setChosenCountries={setChosenCountries}
-                  setBetChange={setBetchange}
-                  userBets={userBets}
-                />
-              ) : null}
-            </div>
-          ))
+        ? rounds[1].seeds
+            .sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date))
+            .map(({ groupMatch }, index) => (
+              <div className="phone-knockout-body" key={index}>
+                {groupMatch.awayTeam && groupMatch.homeTeam ? (
+                  <Matchrow
+                    groupMatch={groupMatch}
+                    chosenCountries={chosenCountries}
+                    setChosenCountries={setChosenCountries}
+                    setBetChange={setBetchange}
+                    userBets={userBets}
+                  />
+                ) : null}
+              </div>
+            ))
         : null}
 
       <div style={{ fontSize: "2vh", color: "#EEE", textAlign: "center" }}>
@@ -345,19 +366,21 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({
         Semifinals{" "}
       </div>
       {rounds
-        ? rounds[2].seeds.map(({ groupMatch }, index) => (
-            <div className="phone-knockout-body" key={index}>
-              {groupMatch.awayTeam && groupMatch.homeTeam ? (
-                <Matchrow
-                  groupMatch={groupMatch}
-                  chosenCountries={chosenCountries}
-                  setChosenCountries={setChosenCountries}
-                  setBetChange={setBetchange}
-                  userBets={userBets}
-                />
-              ) : null}
-            </div>
-          ))
+        ? rounds[2].seeds
+            .sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date))
+            .map(({ groupMatch }, index) => (
+              <div className="phone-knockout-body" key={index}>
+                {groupMatch.awayTeam && groupMatch.homeTeam ? (
+                  <Matchrow
+                    groupMatch={groupMatch}
+                    chosenCountries={chosenCountries}
+                    setChosenCountries={setChosenCountries}
+                    setBetChange={setBetchange}
+                    userBets={userBets}
+                  />
+                ) : null}
+              </div>
+            ))
         : null}
 
       <div style={{ fontSize: "2vh", color: "#EEE", textAlign: "center" }}>
@@ -365,19 +388,21 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({
         Finals{" "}
       </div>
       {rounds
-        ? rounds[3].seeds.map(({ groupMatch }, index) => (
-            <div className="phone-knockout-body" key={index}>
-              {groupMatch.awayTeam && groupMatch.homeTeam ? (
-                <Matchrow
-                  groupMatch={groupMatch}
-                  chosenCountries={chosenCountries}
-                  setChosenCountries={setChosenCountries}
-                  setBetChange={setBetchange}
-                  userBets={userBets}
-                />
-              ) : null}
-            </div>
-          ))
+        ? rounds[3].seeds
+            .sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date))
+            .map(({ groupMatch }, index) => (
+              <div className="phone-knockout-body" key={index}>
+                {groupMatch.awayTeam && groupMatch.homeTeam ? (
+                  <Matchrow
+                    groupMatch={groupMatch}
+                    chosenCountries={chosenCountries}
+                    setChosenCountries={setChosenCountries}
+                    setBetChange={setBetchange}
+                    userBets={userBets}
+                  />
+                ) : null}
+              </div>
+            ))
         : null}
     </div>
   );
@@ -390,14 +415,20 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
     process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === "true"
       ? process.env.REACT_APP_API_URL_PROD
       : process.env.REACT_APP_API_URL_LOCAL;
-
+  const requestBetsOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  };
   useEffect(() => {
     const getUserBets = async () => {
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
       const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`)
+        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
       ).json();
       setUserBets(allUserBets);
     };
@@ -437,7 +468,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           })
         : null;
 
-    const quarterOrderDict: any = { 58: 1, 57: 2, 60: 3, 59: 4 };
+    const quarterOrderDict: any = { 58: 2, 57: 1, 60: 4, 59: 3 };
     const quarterMatches = allMatches
       ?.filter((match) => match.stage === 2)
       .sort(
@@ -504,19 +535,19 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
       const rounds: IRoundProps[] = [
         {
           title: "1/8",
-          seeds: seedsOneEight.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
+          seeds: seedsOneEight,
         },
         {
           title: "Quarterfinals",
-          seeds: seedsQuarter.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
+          seeds: seedsQuarter,
         },
         {
           title: "Semifinals",
-          seeds: seedsSemi.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
+          seeds: seedsSemi,
         },
         {
           title: "Final",
-          seeds: seedsFinal.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
+          seeds: seedsFinal,
         },
       ];
       return rounds;

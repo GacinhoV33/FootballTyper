@@ -43,6 +43,8 @@ namespace FootballTyperAPI.AzureFunctions
                 var match = Matches.Where(y => y.AwayTeam != null && y.HomeTeam != null).FirstOrDefault(x => x.AwayTeam.Name == updatedMatch.AwayTeam.Name
                     && x.HomeTeam.Name == updatedMatch.HomeTeam.Name
                     && x.MatchNumber == updatedMatch.MatchNumber
+                    && x.RoundNumber < 4
+                    && updatedMatch.RoundNumber < 4
                 );
 
                 if (match != null)
@@ -56,12 +58,12 @@ namespace FootballTyperAPI.AzureFunctions
             }
 
             var updatedKnockoutMatches = MatchHelper.GetAllMatches(Teams.ToList())
-                .Where(x => x.RoundNumber == 4 && x.HomeTeam != null && x.AwayTeam != null);
+                .Where(x => x.RoundNumber >= 4 && x.HomeTeam != null && x.AwayTeam != null);
 
             foreach (var updatedKnockoutMatch in updatedKnockoutMatches)
             {
-                var knockoutMatch = Matches.FirstOrDefault(x => x.RoundNumber == 4
-                && updatedKnockoutMatch.RoundNumber == 4
+                var knockoutMatch = Matches.FirstOrDefault(x => x.RoundNumber >= 4
+                && updatedKnockoutMatch.RoundNumber >= 4
                 && x.MatchNumber == updatedKnockoutMatch.MatchNumber
                 && x.AwayTeamId == null
                 && x.HomeTeamId == null
@@ -79,8 +81,8 @@ namespace FootballTyperAPI.AzureFunctions
                     //hasDataChanged = true;
                 }
 
-                var knockoutMatchToUpdateScore = Matches.FirstOrDefault(x => x.RoundNumber == 4
-                && updatedKnockoutMatch.RoundNumber == 4
+                var knockoutMatchToUpdateScore = Matches.FirstOrDefault(x => x.RoundNumber >= 4
+                && updatedKnockoutMatch.RoundNumber >= 4
                 && x.MatchNumber == updatedKnockoutMatch.MatchNumber
                 && x.AwayTeamId != null
                 && x.HomeTeamId != null

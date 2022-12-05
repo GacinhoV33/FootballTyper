@@ -22,7 +22,13 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
     (user) => user.id === userCtx.userLocalData.id
   );
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
-
+  const requestBetsOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  };
 
   useEffect(() => {
     const getUserBets = async () => {
@@ -31,7 +37,7 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
         : "";
 
       const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`)
+        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
       ).json();
 
       let currentBets = deepcopy(allUserBets);
