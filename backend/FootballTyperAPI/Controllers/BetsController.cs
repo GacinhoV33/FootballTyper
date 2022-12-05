@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FootballTyperAPI.Authorization;
 using FootballTyperAPI.Common;
 using FootballTyperAPI.Data;
 using FootballTyperAPI.Models;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FootballTyperAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BetsController : ControllerBase
@@ -110,6 +112,14 @@ namespace FootballTyperAPI.Controllers
             var bet = new Bet();
             _context.Bets.Add(_mapper.Map(betModel, bet));
             bet.Match = (await _context.GetAllMatches()).FirstOrDefault(x => x.Id == bet.MatchId) ?? new Match();
+            var sameMatchBetForUser = (await _context.GetAllBets())
+                .FirstOrDefault(x => x.BettorUserName == betModel.BettorUserName 
+                && x.MatchId == betModel.MatchId);
+            if (sameMatchBetForUser != null)
+            {
+                return BadRequest(new { msg = "Cannot add a bet for the same match" });
+            }
+
             if (bet.Match != null)
             {
                 if (bet.Match.Date <= DateTime.Now)

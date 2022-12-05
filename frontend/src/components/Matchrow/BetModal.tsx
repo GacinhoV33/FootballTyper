@@ -7,7 +7,7 @@ import "./BetModal.scss";
 import { Bet } from "../YourBets/MyBets/MyBets";
 import CountryDict from "../YourBets/MyBets/CountryDict";
 import { isMobile } from "react-device-detect";
-import Alert from 'react-bootstrap/Alert';
+import Alert from "react-bootstrap/Alert";
 import styled, { keyframes } from "styled-components";
 export interface BetModalProps {
   showBet: boolean;
@@ -39,18 +39,31 @@ const BetModal: React.FC<BetModalProps> = ({
   let betId: Bet[] = [];
   const input1 = useRef<HTMLInputElement | null>(null);
   const input2 = useRef<HTMLInputElement | null>(null);
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL =
+    process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === "true"
+      ? process.env.REACT_APP_API_URL_PROD
+      : process.env.REACT_APP_API_URL_LOCAL;
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertText, setAlertText] = useState<string>('Fill the scores of both teams')
+  const [alertText, setAlertText] = useState<string>(
+    "Fill the scores of both teams"
+  );
   function handleSubmit() {
-    if (input1.current?.value !== '' && input2.current?.value !== '' && Number(input1.current?.value) >= 0 && Number(input2.current?.value) >= 0) {
+    if (
+      input1.current?.value !== "" &&
+      input2.current?.value !== "" &&
+      Number(input1.current?.value) >= 0 &&
+      Number(input2.current?.value) >= 0
+    ) {
       if (userBets) {
         betId = userBets.filter((bet) => bet.matchId === groupMatch.id);
       }
       if (betId.length > 0 && userBets) {
         const putRequestOptions = {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
           body: JSON.stringify({
             id: betId[0].id,
             homeTeamScoreBet: Number(modalValue.homeScore),
@@ -58,18 +71,20 @@ const BetModal: React.FC<BetModalProps> = ({
             betDate: new Date(),
           }),
         };
-        fetch(
-          API_URL + `api/Bets/${betId[0].id}`,
-          putRequestOptions
-        ).then((response) => {
-          if (response.ok) {
-            setBetChange((prev) => prev + 1);
+        fetch(API_URL + `api/Bets/${betId[0].id}`, putRequestOptions).then(
+          (response) => {
+            if (response.ok) {
+              setBetChange((prev) => prev + 1);
+            }
           }
-        });
+        );
       } else {
         const postRequestOptions = {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`
+          },
           body: JSON.stringify({
             homeTeamScoreBet: modalValue.homeScore,
             awayTeamScoreBet: modalValue.awayScore,
@@ -79,10 +94,7 @@ const BetModal: React.FC<BetModalProps> = ({
           }),
         };
 
-        fetch(
-          API_URL + "api/Bets",
-          postRequestOptions
-        ).then((response) => {
+        fetch(API_URL + "api/Bets", postRequestOptions).then((response) => {
           if (response.ok) {
             setBetChange((prev) => prev + 1);
             return response.json();
@@ -92,32 +104,33 @@ const BetModal: React.FC<BetModalProps> = ({
         });
       }
       handleClose();
-      setShowAlert(false)
+      setShowAlert(false);
       setAlert(true);
       setTimeout(() => {
         setAlert(false);
-
       }, 3000);
-
     } else {
-      if (Number(input1.current?.value) < 0 && Number(input2.current?.value) < 0) {
-        setAlertText('Cannot submit negative score')
-        setShowAlert(true)
+      if (
+        Number(input1.current?.value) < 0 &&
+        Number(input2.current?.value) < 0
+      ) {
+        setAlertText("Cannot submit negative score");
+        setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
-
         }, 5000);
       } else {
-        setAlertText('Fill the scores of both teams')
-        setShowAlert(true)
+        setAlertText("Fill the scores of both teams");
+        setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
-
         }, 5000);
       }
     }
   }
-  const currentBet = userBets ? userBets.filter((bet) => bet.matchId === groupMatch.id) : [];
+  const currentBet = userBets
+    ? userBets.filter((bet) => bet.matchId === groupMatch.id)
+    : [];
   return (
     <Modal show={showBet} onHide={handleClose} centered>
       <Modal.Title className="modal-header">
@@ -126,22 +139,18 @@ const BetModal: React.FC<BetModalProps> = ({
           countryCode={CountryDict.get(groupMatch.homeTeam.name) as string}
           style={{ marginRight: "1.5rem" }}
         />
-        {isMobile ?
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div>
-              {groupMatch.homeTeam.name}
-            </div>
-            <div>
-              vs
-            </div>
-            <div>
-              {groupMatch.awayTeam.name}
-            </div>
+        {isMobile ? (
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div>{groupMatch.homeTeam.name}</div>
+            <div>vs</div>
+            <div>{groupMatch.awayTeam.name}</div>
           </div>
-          : <h4 className="modal-title">
+        ) : (
+          <h4 className="modal-title">
             {" "}
             {groupMatch.homeTeam.name} vs {groupMatch.awayTeam.name}
-          </h4>}
+          </h4>
+        )}
 
         <CircleFlag
           height="45"
@@ -157,7 +166,11 @@ const BetModal: React.FC<BetModalProps> = ({
           type="number"
           min="0"
           max="30"
-          placeholder={currentBet.length !== 0 ? currentBet[0].homeTeamScoreBet.toString() : undefined}
+          placeholder={
+            currentBet.length !== 0
+              ? currentBet[0].homeTeamScoreBet.toString()
+              : undefined
+          }
           ref={input1}
           onChange={(e) =>
             setModalValue({
@@ -174,7 +187,11 @@ const BetModal: React.FC<BetModalProps> = ({
           max="30"
           ref={input2}
           type="number"
-          placeholder={currentBet.length !== 0 ? currentBet[0].awayTeamScoreBet.toString() : undefined}
+          placeholder={
+            currentBet.length !== 0
+              ? currentBet[0].awayTeamScoreBet.toString()
+              : undefined
+          }
           onChange={(e) =>
             setModalValue({
               homeScore: modalValue.homeScore,
@@ -194,13 +211,15 @@ const BetModal: React.FC<BetModalProps> = ({
           Submit
         </Button>
 
-        {showAlert ? <AlertAnimation >
-          <Alert variant='danger'>
-            <Alert.Heading>Error!</Alert.Heading>
-            {/* { Fill the scores of both teams} */}
-            {alertText}
-          </Alert>
-        </AlertAnimation> : null}
+        {showAlert ? (
+          <AlertAnimation>
+            <Alert variant="danger">
+              <Alert.Heading>Error!</Alert.Heading>
+              {/* { Fill the scores of both teams} */}
+              {alertText}
+            </Alert>
+          </AlertAnimation>
+        ) : null}
       </div>
     </Modal>
   );
@@ -217,19 +236,21 @@ to{
     opacity: 0.0;
     transform: translateY(0px);
 }
-`
-const AlertAnimation = isMobile ? styled.div`
-animation-name: ${alertAnimation};
-animation-duration: 5s;
-width: 70%;
-height: 7vh;
-position: fixed;
-top: 10vh;
-` : styled.div`
-animation-name: ${alertAnimation};
-animation-duration: 5s;
-width: 15%;
-height: 8vh;
-position: fixed;
-top: 9vh;
-`
+`;
+const AlertAnimation = isMobile
+  ? styled.div`
+      animation-name: ${alertAnimation};
+      animation-duration: 5s;
+      width: 70%;
+      height: 7vh;
+      position: fixed;
+      top: 10vh;
+    `
+  : styled.div`
+      animation-name: ${alertAnimation};
+      animation-duration: 5s;
+      width: 15%;
+      height: 8vh;
+      position: fixed;
+      top: 9vh;
+    `;

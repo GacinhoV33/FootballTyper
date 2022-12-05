@@ -23,6 +23,14 @@ const GroupStageMatches = ({
   const userCtx = useContext(UserContext);
   const [userBets, setUserBets] = useState<Bet[] | null>(null);
   const [betChange, setBetChange] = useState<number>(0);
+  const requestBetsOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+    }
+  };
+
   const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
   useEffect(() => {
     const getUserBets = async () => {
@@ -30,7 +38,7 @@ const GroupStageMatches = ({
         ? userCtx.userLocalData.username
         : "";
       const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`)
+        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
       ).json();
       setUserBets(allUserBets);
     };

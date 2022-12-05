@@ -72,6 +72,13 @@ const MatchCard: React.FC<MatchCardProps> = ({
 
   const roundToStageDict: any = { 4: "1/8", 5: "1/4", 6: "1/2", 7: "Final" };
   const stage = roundNumber >= 4 ? roundToStageDict[roundNumber] : group;
+  const requestBetsOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('userToken')}`
+    }
+  };
 
   function handleClose() {
     setShowBet(false);
@@ -88,7 +95,7 @@ const MatchCard: React.FC<MatchCardProps> = ({
         : "";
       if (userName !== "") {
         const allUserBets = await (
-          await fetch(API_URL + `api/Bets/User/${userName}`)
+          await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
         ).json();
         setUserBets(allUserBets);
       }

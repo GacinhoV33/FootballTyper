@@ -10,7 +10,7 @@ import { BsFillCalendarDateFill } from "react-icons/bs";
 import styled, { keyframes } from "styled-components";
 import CountryDict from "./CountryDict";
 import { UserContext } from "../../../App";
-import CountryDictShortcuts from '../CountryDictShortcuts';
+import CountryDictShortcuts from "../CountryDictShortcuts";
 
 export interface BetCardProps {
   bet: Bet;
@@ -31,8 +31,8 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
       ? bet.betResult === 1
         ? `2px 1px 10px lightgreen`
         : bet.betResult === 2
-          ? "2px 1px 10px darkgreen"
-          : `2px 1px 10px red`
+        ? "2px 1px 10px darkgreen"
+        : `2px 1px 10px red`
       : undefined;
 
   const isAfterTime = new Date(bet.match.date) < new Date();
@@ -45,14 +45,24 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
     ? bet.match.date.split("T")
     : ["1999-20-11", "00:00"];
   const userName = useContext(UserContext).userLocalData?.username;
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL =
+    process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === "true"
+      ? process.env.REACT_APP_API_URL_PROD
+      : process.env.REACT_APP_API_URL_LOCAL;
 
-  const points = bet.betResult === 0 ? 0 : (bet.betResult === 1 ? 2 : 4);
-  const pointsFactor = bet.match.stage === 0 ? 1 :
-    (bet.match.stage === 1 ? 1.5 :
-      (bet.match.stage === 2 ? 2.0 :
-        (bet.match.stage === 3 ? 2.5 :
-          (bet.match.stage === 4 && bet.match.id == 63 ? 3 : 2.5))))
+  const points = bet.betResult === 0 ? 0 : bet.betResult === 1 ? 2 : 4;
+  const pointsFactor =
+    bet.match.stage === 0
+      ? 1
+      : bet.match.stage === 1
+      ? 1.5
+      : bet.match.stage === 2
+      ? 2.0
+      : bet.match.stage === 3
+      ? 2.5
+      : bet.match.stage === 4 && bet.match.id == 63
+      ? 3
+      : 2.5;
 
   async function handleSave() {
     try {
@@ -67,7 +77,10 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
         });
         const putRequestOptions = {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
           body: JSON.stringify({
             id: bet.id,
             homeTeamScoreBet: currentBet.homeBet,
@@ -86,7 +99,6 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           }
           return Promise.reject(response);
         });
-
       }
     } catch (e) {
       console.log(e);
@@ -108,14 +120,13 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
             justifyContent: "center",
           }}
         >
-          <div style={{ display: "flex", alignItems: 'center' }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <div className="shortName">
               {CountryDictShortcuts.get(bet.match.homeTeam.name as string)}
             </div>
             <CircleFlag
               countryCode={CountryDict.get(bet.match.homeTeam.name) as string}
-              className='flag-my-bets'
-
+              className="flag-my-bets"
             />
           </div>
           <span className="score-text">
@@ -124,8 +135,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           </span>
           <CircleFlag
             countryCode={CountryDict.get(bet.match.awayTeam.name) as string}
-            className='flag-my-bets'
-
+            className="flag-my-bets"
           />
           <div className="shortName">
             {CountryDictShortcuts.get(bet.match.awayTeam.name as string)}
@@ -188,11 +198,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 }}
               >
                 <BsFillCalendarDateFill size={20} />
-                <span
-                  className='bet-card-text'
-                >
-                  {date}
-                </span>
+                <span className="bet-card-text">{date}</span>
               </div>
               <div
                 style={{
@@ -202,11 +208,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 }}
               >
                 <AiFillClockCircle size={20} />
-                <span
-                  className='bet-card-text'
-                >
-                  {hour.slice(0, 5)}
-                </span>
+                <span className="bet-card-text">{hour.slice(0, 5)}</span>
               </div>
               <div
                 style={{
@@ -216,11 +218,15 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 }}
               >
                 <HiBuildingStorefront size={20} />
-                <span className='bet-card-text'>{bet.match.location}</span>
+                <span className="bet-card-text">{bet.match.location}</span>
               </div>
               <div style={{ gridColumn: "1/4" }}>
-                {new Date() > new Date(bet.match.date) ? (bet.betResult !== null ?
-                  <h4 style={{ textAlign: "center" }}>{points * pointsFactor} points</h4> : null // Style points TODO
+                {new Date() > new Date(bet.match.date) ? (
+                  bet.betResult !== null ? (
+                    <h4 style={{ textAlign: "center" }}>
+                      {points * pointsFactor} points
+                    </h4>
+                  ) : null // Style points TODO
                 ) : (
                   <Button
                     style={{ width: "100%" }}
@@ -235,9 +241,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
                 )}
               </div>
               <div style={{ gridColumn: "1/4" }}>
-                <div style={{ height: '3vh' }}>
-
-                </div>
+                <div style={{ height: "3vh" }}></div>
               </div>
             </div>
           </Card.Text>
