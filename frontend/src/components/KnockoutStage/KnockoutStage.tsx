@@ -95,7 +95,7 @@ const CustomSeed = ({
     setShowModal(true);
   }
   return (
-    <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 14, width: "20vw" }}>
+    <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 14, width: "19.5vw" }}>
       {seed.groupMatch.matchNumber === 64 ? (
         <img
           src={trofeum}
@@ -531,6 +531,23 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           })
         : null;
 
+        const thirdFinal = allMatches?.filter((match) => match.matchNumber === 63);
+    const seedsThirdFinal =
+      thirdFinal !== null && thirdFinal !== undefined
+        ? thirdFinal.map((match) => {
+            return {
+              id: match.id,
+              date: match.date,
+              teams: [
+                { name: match.homeTeam ? match.homeTeam.name : "" },
+                { name: match.awayTeam ? match.awayTeam.name : "" },
+              ],
+              isMatchPlayed: match.isMatchValid,
+              groupMatch: match,
+              userBets: userBets,
+            };
+          })
+        : null;
     if (seedsOneEight && seedsQuarter && seedsSemi && seedsFinal) {
       const rounds: IRoundProps[] = [
         {
@@ -548,6 +565,11 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
         {
           title: "Final",
           seeds: seedsFinal,
+        },
+        {
+          title: "3rd place",
+          //@ts-ignore
+          seeds: seedsThirdFinal,
         },
       ];
       return rounds;
