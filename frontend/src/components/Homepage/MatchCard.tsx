@@ -125,6 +125,7 @@ const MatchCard: React.FC<MatchCardProps> = ({
               onClick={handleOpen}
             >
               {isBetExisting ? "Edit" : "Bet"}
+              {/*  */}
             </Button>
           ) : null}
         </div>
