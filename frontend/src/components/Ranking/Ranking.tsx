@@ -14,14 +14,14 @@ export type LeaugeName = {
   leaugeId: number,
   leaugeUsers: User[],
 }
-export type RankingFilters = 'general' | 'lastDay' | 'groupStage' | 'knockoutStage';
+export type RankingFilters = 'general' | 'lastDay' | 'groupStage' | 'knockoutStage' | 'none';
 
 export type RankingProps = {
 }
 
 const Ranking: React.FC<RankingProps> = ({}) => {
 
-  const [filter, setFilter] = useState<RankingFilters>('knockoutStage');
+  const [filter, setFilter] = useState<RankingFilters>('none');
   const [leagueFilter, setLeagueFilter] = useState<string>('main');
   const [usersToDisplay, setUsersToDisplay] = useState<User[]>([]);
   const [lastDayMain, setLastDayMain] = useState<User[]>([]);
@@ -37,11 +37,14 @@ const Ranking: React.FC<RankingProps> = ({}) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const generalMainData: User[] = await (await fetch(API_URL + `api/Score/All/main`)).json();
+      generalMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
+      setGeneralMain(generalMainData);
+      setFilter('general');    
 
       const lastDayMainData: User[] = await (await fetch(API_URL+ `api/Score/LastDay/main`)).json();
       const groupStageMainData: User[] = await (await fetch(API_URL + `api/Score/Groupstage/main`)).json();
       const knockoutMainData: User[] = await (await fetch(API_URL + `api/Score/Knockout/main`)).json();
-      const generalMainData: User[] = await (await fetch(API_URL + `api/Score/All/main`)).json();
       const lastDayClownData: User[] = await (await fetch(API_URL+ `api/Score/LastDay/clownLeague`)).json();
       const groupStageClownData: User[] = await (await fetch(API_URL + `api/Score/Groupstage/clownLeague`)).json();
       const knockoutClownData: User[] = await (await fetch(API_URL + `api/Score/Knockout/clownLeague`)).json();
@@ -49,12 +52,10 @@ const Ranking: React.FC<RankingProps> = ({}) => {
       lastDayMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
       groupStageMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
       knockoutMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
-      generalMainData.sort((user1, user2) => user1.positionDict.main - user2.positionDict.main);
       lastDayClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
       groupStageClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
       knockoutClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
       generalClownData.sort((user1, user2) => user1.positionDict.clownLeague - user2.positionDict.clownLeague);
-      setGeneralMain(generalMainData);
       setLastDayMain(lastDayMainData);
       setGroupStageMain(groupStageMainData);
       setKnockoutMain(knockoutMainData);
@@ -62,7 +63,6 @@ const Ranking: React.FC<RankingProps> = ({}) => {
       setGroupStageClown(groupStageClownData);
       setKnockoutClown(knockoutClownData);
       setGeneralClown(generalClownData);
-      setFilter('general');    
     }
     fetchData();
   }, [])
