@@ -124,8 +124,10 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
 
           <div className='current-matches'>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {matchesToDisplay && matchesToDisplay.length !== 0 && matchesToDisplay[0].homeTeam !== null ? matchesToDisplay.map((match, index) => (
-                <div className='match-card-homepage' key={index}>
+              {matchesToDisplay && matchesToDisplay.length !== 0  ? matchesToDisplay.map((match, index) => (
+                
+                  match.homeTeam !== null  && match.awayTeam !== null ? 
+                  <div className='match-card-homepage' key={index}>
                   <MatchCard
                     homeTeam={match.homeTeam.name}
                     awayTeam={match.awayTeam.name}
@@ -140,6 +142,9 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
                     <TimeToStart date={match.date} whiteColor />
                   </div>
                 </div>
+                : null 
+                
+                
               ))
                 :
                 null}
