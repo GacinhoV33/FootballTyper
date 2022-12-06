@@ -60,7 +60,7 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
       ? 2.0
       : bet.match.stage === 3
       ? 2.5
-      : bet.match.stage === 4 && bet.match.id == 63
+      : bet.match.stage === 4 && bet.match.id == 64
       ? 3
       : 2.5;
 
