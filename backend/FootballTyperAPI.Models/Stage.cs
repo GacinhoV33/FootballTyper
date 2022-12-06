@@ -13,5 +13,6 @@ namespace FootballTyperAPI.Models
         Quarterfinal = 2,
         Semifinal = 3,
         Final = 4,
+        ThirdPlace = 5,
     }
 }

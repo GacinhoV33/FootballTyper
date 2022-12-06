@@ -300,7 +300,7 @@ namespace FootballTyperAPI.Common
                     score = TyperScores.QuarterfinalExactScore;
                 }
             }
-            else if (stage == Stage.Semifinal)
+            else if (stage == Stage.Semifinal || stage == Stage.ThirdPlace)
             {
                 if (matchOutcome == ScoreEnum.CorrectOutcome)
                 {
