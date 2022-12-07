@@ -33,7 +33,7 @@ const CustomSeed = ({
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
   const wonTeam =
-    seed.groupMatch.homeTeamScore !== -1
+    seed.groupMatch.homeTeamScore !== -1 && seed.groupMatch.homeTeamScore !== seed.groupMatch.awayTeamScore
       ? seed.groupMatch.homeTeamScore > seed.groupMatch.awayTeamScore
         ? 1
         : 0
