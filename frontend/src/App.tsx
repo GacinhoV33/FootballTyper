@@ -101,16 +101,15 @@ function App() {
       const allUsers = await (
         await fetch(API_URL + "api/TyperUsers", requestAllUsersOptions)
       ).json();
-      const userName = localStorage.getItem("user")
+      const user = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user") as string)
         : "";
-      if (userName) {
+      if (user) {
         const allUserBetsRequest = fetch(
-          API_URL + `api/Bets/User/${userName}`,
+          API_URL + `api/Bets/User/${user.username}`,
           requestBetsOptions
         );
         const allUserBets = await requestHandler(allUserBetsRequest);
-
         setAllUserBets(allUserBets);
       }
       setAllMatches(allMatches);

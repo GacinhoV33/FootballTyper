@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Linq;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace FootballTyperAPI.Controllers
@@ -65,7 +66,7 @@ namespace FootballTyperAPI.Controllers
                     Name = x.Name,
                     URL = "https://footballtypersa.blob.core.windows.net/bets-data-copy/" + x.Name,
                     DateCreated = x.Properties.CreatedOn
-                });
+                }).OrderByDescending(y => y.DateCreated);
                 return Ok(betExcelFileList);
             }
             catch
