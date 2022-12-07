@@ -11,6 +11,7 @@ import styled, { keyframes } from "styled-components";
 import CountryDict from "./CountryDict";
 import { UserContext } from "../../../App";
 import CountryDictShortcuts from "../CountryDictShortcuts";
+import { requestHandler } from "../../../utils";
 
 export interface BetCardProps {
   bet: Bet;
@@ -90,15 +91,16 @@ const BetCard: React.FC<BetCardProps> = ({ bet }) => {
           }),
         };
 
-        const response = await fetch(
-          API_URL + `api/Bets/${bet.id}`,
-          putRequestOptions
-        ).then((response) => {
-          if (response.ok) {
-            return response;
-          }
-          return Promise.reject(response);
-        });
+        requestHandler(
+          fetch(API_URL + `api/Bets/${bet.id}`, putRequestOptions).then(
+            (response) => {
+              if (response.ok) {
+                return response;
+              }
+              return Promise.reject(response);
+            }
+          )
+        );
       }
     } catch (e) {
       console.log(e);
