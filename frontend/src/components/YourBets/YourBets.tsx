@@ -8,20 +8,28 @@ import deepcopy from "deepcopy";
 import MyBets from "./MyBets/MyBets";
 import FiltersMyBets, { BetFilters } from "./Filters/FiltersMyBets";
 import { User, UserContext } from "../../App";
+import { requestHandler } from "../../utils";
 
 export interface YourBetsProps {
   allUserBets: Bet[];
   allUsers: User[] | null;
   maxBets: number;
 }
-const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) => {
+const YourBets: React.FC<YourBetsProps> = ({
+  allUserBets,
+  allUsers,
+  maxBets,
+}) => {
   const userCtx = useContext(UserContext);
-  const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>(['All']);
+  const [filterMyBets, setFilterMyBets] = useState<BetFilters[]>(["All"]);
   const [betsToShow, setBetsToShow] = useState<Bet[]>(allUserBets);
   const userData = allUsers?.filter(
     (user) => user.id === userCtx.userLocalData.id
   );
-  const API_URL = process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === 'true' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_LOCAL;
+  const API_URL =
+    process.env.REACT_APP_IS_IT_PRODUCTION_VERSION === "true"
+      ? process.env.REACT_APP_API_URL_PROD
+      : process.env.REACT_APP_API_URL_LOCAL;
   const requestBetsOptions = {
     method: "GET",
     headers: {
@@ -36,21 +44,19 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
         ? userCtx.userLocalData.username
         : "";
 
-      const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
-      ).json();
+      const allUserBetsRequest = fetch(
+        API_URL + `api/Bets/User/${userName}`,
+        requestBetsOptions
+      );
+      const allUserBets = await requestHandler(allUserBetsRequest);
 
       let currentBets = deepcopy(allUserBets);
 
       if (filterMyBets.indexOf("Group") !== -1 && allUserBets) {
-        currentBets = currentBets.filter(
-          (bet: Bet) => bet.match.stage === 0
-        );
+        currentBets = currentBets.filter((bet: Bet) => bet.match.stage === 0);
       }
       if (filterMyBets.indexOf("Knockout") !== -1 && allUserBets) {
-        currentBets = currentBets.filter(
-          (bet: Bet) => bet.match.stage > 0
-        );
+        currentBets = currentBets.filter((bet: Bet) => bet.match.stage > 0);
       }
       if (filterMyBets.indexOf("Correct") !== -1 && allUserBets) {
         currentBets = currentBets.filter(
@@ -68,17 +74,14 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
           (bet: Bet) => new Date(bet.match.date) < currentDate
         );
       } else if (filterMyBets.indexOf("Active") !== -1 && allUserBets) {
-        currentBets = currentBets.filter(
-          (bet: Bet) => bet.betResult === null
-        );
+        currentBets = currentBets.filter((bet: Bet) => bet.betResult === null);
       }
       if (filterMyBets.indexOf("All") !== -1) {
         currentBets = deepcopy(allUserBets);
       }
 
       currentBets.sort(
-        (bet1: Bet, bet2: Bet) =>
-          bet1.betResult - bet2.betResult
+        (bet1: Bet, bet2: Bet) => bet1.betResult - bet2.betResult
       );
       currentBets.sort(
         (bet1: Bet, bet2: Bet) =>
@@ -94,14 +97,10 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
       let currentBets = deepcopy(allUserBets);
 
       if (filterMyBets.indexOf("Group") !== -1 && allUserBets) {
-        currentBets = currentBets.filter(
-          (bet) => bet.match.stage === 0
-        );
+        currentBets = currentBets.filter((bet) => bet.match.stage === 0);
       }
       if (filterMyBets.indexOf("Knockout") !== -1 && allUserBets) {
-        currentBets = currentBets.filter(
-          (bet) => bet.match.stage > 0
-        );
+        currentBets = currentBets.filter((bet) => bet.match.stage > 0);
       }
       if (filterMyBets.indexOf("Correct") !== -1 && allUserBets) {
         currentBets = currentBets.filter(
@@ -131,8 +130,6 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
     }
     sortMyBets();
   }, [filterMyBets]);
-
-
 
   const correctScores = allUserBets.filter((bet) => bet.betResult === 2);
   const correctResult = allUserBets.filter((bet) => bet.betResult === 1);
@@ -167,12 +164,13 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
               <CircularProgressbar
                 value={correctScores.length}
                 maxValue={totalNumberOfEndBets}
-                text={`${totalNumberOfEndBets !== 0
-                  ? Number(
-                    (correctScores.length / totalNumberOfEndBets) * 100
-                  ).toFixed(2)
-                  : 0.0
-                  }%`}
+                text={`${
+                  totalNumberOfEndBets !== 0
+                    ? Number(
+                        (correctScores.length / totalNumberOfEndBets) * 100
+                      ).toFixed(2)
+                    : 0.0
+                }%`}
                 styles={buildStyles({
                   pathColor: "green",
                   textColor: "#CCCCCC",
@@ -186,12 +184,13 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
               <CircularProgressbar
                 value={correctResult.length}
                 maxValue={totalNumberOfEndBets}
-                text={`${totalNumberOfEndBets !== 0
-                  ? Number(
-                    (correctResult.length / totalNumberOfEndBets) * 100
-                  ).toFixed(2)
-                  : 0.0
-                  }%`}
+                text={`${
+                  totalNumberOfEndBets !== 0
+                    ? Number(
+                        (correctResult.length / totalNumberOfEndBets) * 100
+                      ).toFixed(2)
+                    : 0.0
+                }%`}
                 styles={buildStyles({
                   pathColor: "darkgreen",
                   textColor: "#CCCCCC",
@@ -203,12 +202,13 @@ const YourBets: React.FC<YourBetsProps> = ({ allUserBets, allUsers, maxBets }) =
               <CircularProgressbar
                 value={wrongBets.length}
                 maxValue={totalNumberOfEndBets}
-                text={`${totalNumberOfEndBets !== 0
-                  ? Number(
-                    (wrongBets.length / totalNumberOfEndBets) * 100
-                  ).toFixed(2)
-                  : 0.0
-                  }%`}
+                text={`${
+                  totalNumberOfEndBets !== 0
+                    ? Number(
+                        (wrongBets.length / totalNumberOfEndBets) * 100
+                      ).toFixed(2)
+                    : 0.0
+                }%`}
                 styles={buildStyles({ pathColor: "red", textColor: "#CCCCCC" })}
               />
             </div>

@@ -9,6 +9,8 @@ import CountryDict from "../YourBets/MyBets/CountryDict";
 import { isMobile } from "react-device-detect";
 import Alert from "react-bootstrap/Alert";
 import styled, { keyframes } from "styled-components";
+import { requestHandler } from "../../utils";
+
 export interface BetModalProps {
   showBet: boolean;
   handleClose: () => void;
@@ -71,19 +73,20 @@ const BetModal: React.FC<BetModalProps> = ({
             betDate: new Date(),
           }),
         };
-        fetch(API_URL + `api/Bets/${betId[0].id}`, putRequestOptions).then(
-          (response) => {
-            if (response.ok) {
-              setBetChange((prev) => prev + 1);
-            }
+
+        requestHandler(
+          fetch(API_URL + `api/Bets/${betId[0].id}`, putRequestOptions)
+        ).then((response) => {
+          if (response.ok) {
+            setBetChange((prev) => prev + 1);
           }
-        );
+        });
       } else {
         const postRequestOptions = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
           },
           body: JSON.stringify({
             homeTeamScoreBet: modalValue.homeScore,
@@ -94,14 +97,16 @@ const BetModal: React.FC<BetModalProps> = ({
           }),
         };
 
-        fetch(API_URL + "api/Bets", postRequestOptions).then((response) => {
-          if (response.ok) {
-            setBetChange((prev) => prev + 1);
-            return response.json();
-          }
+        requestHandler(fetch(API_URL + "api/Bets", postRequestOptions)).then(
+          (response) => {
+            if (response.ok) {
+              setBetChange((prev) => prev + 1);
+              return response.json();
+            }
 
-          return Promise.reject(response);
-        });
+            return Promise.reject(response);
+          }
+        );
       }
       handleClose();
       setShowAlert(false);

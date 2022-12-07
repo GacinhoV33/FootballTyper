@@ -22,6 +22,7 @@ import { ImCross } from "react-icons/im";
 import { BiCheckDouble } from "react-icons/bi";
 import { isMobile } from "react-device-detect";
 import Matchrow from "../Matchrow/Matchrow";
+import { requestHandler } from "../../utils";
 
 const CustomSeed = ({
   seed,
@@ -79,11 +80,16 @@ const CustomSeed = ({
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
-      const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
-      ).json();
+
+      const allUserBetsRequest = fetch(
+        API_URL + `api/Bets/User/${userName}`,
+        requestBetsOptions
+      );
+      const allUserBets = await requestHandler(allUserBetsRequest);
+
       setUserBets(allUserBets);
     };
+
     getUserBets();
   }, [betChange]);
 
@@ -95,7 +101,10 @@ const CustomSeed = ({
     setShowModal(true);
   }
   return (
-    <Seed mobileBreakpoint={breakpoint} style={{ fontSize: 14, width: "19.5vw" }}>
+    <Seed
+      mobileBreakpoint={breakpoint}
+      style={{ fontSize: 14, width: "19.5vw" }}
+    >
       {seed.groupMatch.matchNumber === 64 ? (
         <img
           src={trofeum}
@@ -302,9 +311,12 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
-      const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
-      ).json();
+
+      const allUserBetsRequest = fetch(
+        API_URL + `api/Bets/User/${userName}`,
+        requestBetsOptions
+      );
+      const allUserBets = await requestHandler(allUserBetsRequest);
       setUserBets(allUserBets);
     };
     getUserBets();
@@ -427,9 +439,12 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
       const userName = userCtx.userLocalData
         ? userCtx.userLocalData.username
         : "";
-      const allUserBets = await (
-        await fetch(API_URL + `api/Bets/User/${userName}`, requestBetsOptions)
-      ).json();
+
+      const allUserBetsRequest = fetch(
+        API_URL + `api/Bets/User/${userName}`,
+        requestBetsOptions
+      );
+      const allUserBets = await requestHandler(allUserBetsRequest);
       setUserBets(allUserBets);
     };
     getUserBets();
@@ -531,7 +546,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
           })
         : null;
 
-        const thirdFinal = allMatches?.filter((match) => match.matchNumber === 63);
+    const thirdFinal = allMatches?.filter((match) => match.matchNumber === 63);
     const seedsThirdFinal =
       thirdFinal !== null && thirdFinal !== undefined
         ? thirdFinal.map((match) => {
