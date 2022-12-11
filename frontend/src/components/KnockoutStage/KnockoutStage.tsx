@@ -33,7 +33,8 @@ const CustomSeed = ({
   // breakpoint passed to Bracket component
   // to check if mobile view is triggered or not
   const wonTeam =
-    seed.groupMatch.homeTeamScore !== -1 && seed.groupMatch.homeTeamScore !== seed.groupMatch.awayTeamScore
+    seed.groupMatch.homeTeamScore !== -1 &&
+    seed.groupMatch.homeTeamScore !== seed.groupMatch.awayTeamScore
       ? seed.groupMatch.homeTeamScore > seed.groupMatch.awayTeamScore
         ? 1
         : 0
@@ -397,10 +398,32 @@ const MobilePhoneKnockout: React.FC<MobilePhoneKnockoutProps> = ({
 
       <div style={{ fontSize: "2vh", color: "#EEE", textAlign: "center" }}>
         {" "}
-        Finals{" "}
+        Final{" "}
       </div>
       {rounds
         ? rounds[3].seeds
+            .sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date))
+            .map(({ groupMatch }, index) => (
+              <div className="phone-knockout-body" key={index}>
+                {groupMatch.awayTeam && groupMatch.homeTeam ? (
+                  <Matchrow
+                    groupMatch={groupMatch}
+                    chosenCountries={chosenCountries}
+                    setChosenCountries={setChosenCountries}
+                    setBetChange={setBetchange}
+                    userBets={userBets}
+                  />
+                ) : null}
+              </div>
+            ))
+        : null}
+
+      <div style={{ fontSize: "2vh", color: "#EEE", textAlign: "center" }}>
+        {" "}
+        3rd place{" "}
+      </div>
+      {rounds
+        ? rounds[4].seeds
             .sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date))
             .map(({ groupMatch }, index) => (
               <div className="phone-knockout-body" key={index}>
@@ -563,7 +586,7 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
             };
           })
         : null;
-    if (seedsOneEight && seedsQuarter && seedsSemi && seedsFinal) {
+    if (seedsOneEight && seedsQuarter && seedsSemi && seedsFinal && seedsThirdFinal) {
       const rounds: IRoundProps[] = [
         {
           title: "1/8",
@@ -583,7 +606,6 @@ const KnockoutStage: React.FC<KnockoutStageProps> = ({ allMatches }) => {
         },
         {
           title: "3rd place",
-          //@ts-ignore
           seeds: seedsThirdFinal,
         },
       ];
