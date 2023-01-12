@@ -71,7 +71,7 @@ const MatchCard: React.FC<MatchCardProps> = ({
   const [showAlert, setAlert] = useState<boolean>(false);
 
   const roundToStageDict: any = { 4: "1/8", 5: "1/4", 6: "1/2", 7: "Final" };
-  const stage = roundNumber >= 4 ? roundToStageDict[roundNumber] : group;
+  const stage = roundNumber >= 4 ? (match.matchNumber == 63 ? "3rd place" : roundToStageDict[roundNumber]) : group;
   const requestBetsOptions = {
     method: 'GET',
     headers: {
