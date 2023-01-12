@@ -98,6 +98,8 @@ const responsive = {
   }
 };
 
+const winners: string[] = ['Daniel Bajorek', 'Michał Maksymowicz', 'Kuba Jarowski']
+
 const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
   const validMatches = allMatches !== null ? allMatches.filter((match) => new Date(match.date) > new Date()) : null;
   const sortedMatches = validMatches !== null ? validMatches.sort((match1, match2) => new Date(match1.date).getTime() - new Date(match2.date).getTime()) : null
@@ -123,8 +125,14 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
 
           <div className='current-matches'>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {matchesToDisplay && matchesToDisplay.length !== 0  ? matchesToDisplay.map((match, index) => (
+          <h1 style={{color: '#EEE', textAlign: 'center'}}>Winners</h1>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+              {winners.map((winner, index) => (
+                <div style={{fontSize: '2.25vw', color: '#EEE', margin: '2vh'}}>
+                  {index+1}. {winner}
+                </div>
+              ))}
+              {/* {matchesToDisplay && matchesToDisplay.length !== 0  ? matchesToDisplay.map((match, index) => (
                 
                   match.homeTeam !== null  && match.awayTeam !== null ? 
                   <div className='match-card-homepage' key={index}>
@@ -147,10 +155,10 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
                 
               ))
                 :
-                null}
+                null} */}
             </div>
           </div>
-          <div className='ball-video'>
+          {/* <div className='ball-video'>
             <span className='ball-text'>Good Luck & Enjoy </span>
             <Iframe
               url="https://www.youtube.com/embed/pRpeEdMmmQ0"
@@ -158,7 +166,7 @@ const Homepage: React.FC<HomepageProps> = ({ allTeams, allMatches }) => {
               position="relative"
 
             />
-          </div>
+          </div> */}
         </div>
 
 

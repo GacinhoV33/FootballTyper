@@ -77,7 +77,7 @@ const NavbarComp: React.FC<NavbarCompProps> = () => {
 
           </div> :
           <div className='time-to-start-navbar day-of-mundial-text'>
-            Day {currentDay().toString()}
+            {currentDay().toString()}
           </div>
         }
 
@@ -100,7 +100,7 @@ function currentDay() {
     currentDay = day + 11
   }
   else {
-    currentDay = 'mundial is over'
+    currentDay = ''
   }
   return currentDay;
 }

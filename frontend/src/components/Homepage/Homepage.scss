@@ -81,9 +81,9 @@
         }
         .current-matches {
             display: flex;
-            flex-direction: row;
-            width: 60%;
-            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            justify-content: flex-start;
 
            
         }
