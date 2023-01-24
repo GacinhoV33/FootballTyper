@@ -48,7 +48,7 @@ const Rules = () => {
           setCurrentSection(paginationTitles[index])
         }}>
         {paginationTitles[index]}
-      </Pagination.Item>,
+      </Pagination.Item>
     );
   }
 
